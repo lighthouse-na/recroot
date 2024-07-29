@@ -8,17 +8,14 @@ from .models import (
     MinimumRequirement,
     ApplicationRequirementAnswer,
 )
-from .forms import ApplicationForm
-from django.utils.html import format_html
-from django.urls import path, reverse
-from django.shortcuts import redirect, render
+from .forms import ApplicationForm, VacancyForm
 
 
 class MinimumRequirementsInline(TabularInline):
     model = MinimumRequirement
     # form = MinimumRequirementsForm
     extra = 1
-    # tab = True
+    tab = True
 
 
 class ApplicationRequirementAnswerInline(TabularInline):
@@ -29,12 +26,12 @@ class ApplicationRequirementAnswerInline(TabularInline):
 
 @admin.register(Vacancy)
 class VacancyAdmin(ModelAdmin):
+    form = VacancyForm
     list_display = [
         "title",
         "town",
         "deadline",
         "is_public",
-        "apply_button",
     ]
     list_filter = [
         "title",
@@ -43,44 +40,6 @@ class VacancyAdmin(ModelAdmin):
         "is_public",
     ]
     inlines = [MinimumRequirementsInline]
-
-    def apply_button(self, obj):
-        url = reverse("admin:vacancy_apply", args=[obj.id])
-        return format_html('<a class="button" href="{}">Apply</a>', url)
-
-    apply_button.short_description = "Apply"
-
-    apply_button.allow_tags = True
-
-    def get_urls(self):
-
-        urls = super().get_urls()
-
-        custom_urls = [
-            path(
-                "vacancy/<int:vacancy_id>/apply/",
-                self.admin_site.admin_view(self.apply_view),
-                name="vacancy_apply",
-            ),
-        ]
-
-        return custom_urls + urls
-
-    def apply_view(self, request, vacancy_id):
-        vacancy = Vacancy.objects.get(id=vacancy_id)
-
-        if request.method == "POST":
-            form = ApplicationForm(request.POST)
-
-            if form.is_valid():
-                application = form.save(commit=False)
-                application.vacancy = vacancy
-                application.save()
-                return redirect(reverse("admin:recruitment_vacancy_changelist"))
-        else:
-            form = ApplicationForm()
-
-        return render(request, "admin/apply.html", {"form": form, "vacancy": vacancy})
 
 
 @admin.register(Application)

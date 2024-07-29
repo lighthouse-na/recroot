@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "apps.accounts",
     "apps.organisation",
     "apps.recruitment",
+    "apps.pages",
     "tinymce",
 ]
 
@@ -152,3 +153,4 @@ TINYMCE_DEFAULT_CONFIG = {
     "a11ycheck ltr rtl | showcomments addcomment code",
     "custom_undo_redo_levels": 10,
 }
+TINYMCE_SPELLCHECKER = True

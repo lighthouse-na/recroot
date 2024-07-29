@@ -6,15 +6,37 @@ from django.contrib.auth.models import User
 from datetime import date
 from django.core.exceptions import ValidationError
 from phonenumber_field.modelfields import PhoneNumberField
+from django_extensions.db.fields import AutoSlugField
+from django.core.validators import FileExtensionValidator, MaxValueValidator
 
 
 class Vacancy(models.Model):
-    title = models.CharField(max_length=255)
-    functions_responsibilities = HTMLField()
-    town = models.ForeignKey(Town, on_delete=models.PROTECT)
-    remarks = HTMLField(blank=True)
-    deadline = models.DateTimeField()
+    advert = models.FileField(
+        upload_to="adverts",
+        validators=[
+            FileExtensionValidator(allowed_extensions=["pdf"]),
+            MaxValueValidator(limit_value=10 * 1024 * 1024),
+        ],
+        blank=True,
+        help_text="Please upload a PDF file, maximum size 10MB.",
+    )
+    title = models.CharField(
+        max_length=255, help_text="Enter the title of the vacancy."
+    )
+    functions_responsibilities = HTMLField(
+        help_text="Enter the functions and responsibilities of the vacancy."
+    )
+    town = models.ForeignKey(
+        Town,
+        on_delete=models.PROTECT,
+        help_text="Select the town where the vacancy is located.",
+    )
+    remarks = HTMLField(
+        blank=True, help_text="Enter any additional remarks about the vacancy."
+    )
+    deadline = models.DateTimeField(help_text="Enter the deadline for the vacancy.")
     is_public = models.BooleanField(default=False)
+    slug = AutoSlugField(unique=True, populate_from=["title", "id"])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -30,7 +52,7 @@ class Vacancy(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("vacancy_detail", kwargs={"pk": self.pk})
+        return reverse("vacancy_detail", args=[self.slug])
 
 
 class MinimumRequirement(models.Model):
@@ -47,16 +69,15 @@ class Application(models.Model):
         ACCEPTED = "accepted"
         REJECTED = "rejected"
 
-    user = models.ForeignKey(User, on_delete=models.PROTECT, blank=True)
     vacancy = models.ForeignKey(Vacancy, on_delete=models.PROTECT)
     status = models.CharField(
         max_length=20, choices=STATUS.choices, default=STATUS.SUBMITTED
     )
     submitted_at = models.DateTimeField(auto_now_add=True)
-    first_name = models.CharField(max_length=255)
-    middle_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    email = models.EmailField()
+    first_name = models.CharField(max_length=255, help_text="Enter your first name")
+    middle_name = models.CharField(max_length=255, help_text="Enter your middle name")
+    last_name = models.CharField(max_length=255, help_text="Enter your last name")
+    email = models.EmailField(help_text="Enter your email address")
     primary_contact = PhoneNumberField(
         region="NA",
         help_text="Enter a valid Namibian phone number",
@@ -66,7 +87,15 @@ class Application(models.Model):
         blank=True,
         help_text="Enter a valid Namibian phone number",
     )
-    date_of_birth = models.DateField()
+    date_of_birth = models.DateField(help_text="Enter your data if birth")
+    cv = models.FileField(
+        upload_to="cv/",
+        validators=[
+            FileExtensionValidator(allowed_extensions=["pdf", "docx"]),
+            MaxValueValidator(limit_value=10 * 1024 * 1024),
+        ],
+        help_text="Please upload a PDF/DOCX file, maximum size 10MB.",
+    )
 
     class Meta:
         permissions = [
