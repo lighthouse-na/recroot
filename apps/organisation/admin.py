@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Town, Region
 from unfold.admin import ModelAdmin, TabularInline
+
+from .models import Region, Town
 
 
 # admin.site.register(Town)

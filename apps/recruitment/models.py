@@ -1,16 +1,37 @@
+import uuid
+from datetime import date, timedelta
+
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator, MaxValueValidator
 from django.db import models
 from django.urls import reverse
-from tinymce.models import HTMLField
-from apps.organisation.models import Town
-from django.contrib.auth.models import User
-from datetime import date
-from django.core.exceptions import ValidationError
-from phonenumber_field.modelfields import PhoneNumberField
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from django_extensions.db.fields import AutoSlugField
-from django.core.validators import FileExtensionValidator, MaxValueValidator
+from phonenumber_field.modelfields import PhoneNumberField
+from tinymce.models import HTMLField
+
+from apps.organisation.models import Town
+
+
+class VacancyType(models.Model):
+    class VACANCY_TYPE(models.TextChoices):
+        INTERNSHIP = "internship"
+        PERMANENT = "permanent"
+        PART_TIME = "part_time"
+        CONTRACT = "contract"
+        GRADUATE = "graduate"
+        VOLUNTEER = "volunteer"
+
+    type = models.CharField(max_length=50, choices=VACANCY_TYPE.choices, unique=True)
+
+    def __str__(self):
+        return self.type
 
 
 class Vacancy(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     advert = models.FileField(
         upload_to="adverts",
         validators=[
@@ -23,13 +44,15 @@ class Vacancy(models.Model):
     title = models.CharField(
         max_length=255, help_text="Enter the title of the vacancy."
     )
+    vacancy_type = models.ForeignKey(VacancyType, on_delete=models.SET_NULL, null=True)
+    pay_grade = models.CharField(max_length=3, blank=True)
     functions_responsibilities = HTMLField(
-        help_text="Enter the functions and responsibilities of the vacancy."
+        verbose_name="Functions and Responsibilities",
+        help_text="Enter the functions and responsibilities of the vacancy.",
     )
-    town = models.ForeignKey(
+    town = models.ManyToManyField(
         Town,
-        on_delete=models.PROTECT,
-        help_text="Select the town where the vacancy is located.",
+        help_text="Select the town(s) where the vacancy is located.",
     )
     remarks = HTMLField(
         blank=True, help_text="Enter any additional remarks about the vacancy."
@@ -69,6 +92,7 @@ class Application(models.Model):
         ACCEPTED = "accepted"
         REJECTED = "rejected"
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     vacancy = models.ForeignKey(Vacancy, on_delete=models.PROTECT)
     status = models.CharField(
         max_length=20, choices=STATUS.choices, default=STATUS.SUBMITTED
@@ -99,8 +123,9 @@ class Application(models.Model):
 
     class Meta:
         permissions = [
-            ("can_change_vacancy", "Can change vacancy"),
-            ("can_delete_vacancy", "Can delete vacancy"),
+            ("can_view_application", "Can view application"),
+            ("can_change_application", "Can change application"),
+            ("can_delete_application", "Can delete application"),
         ]
 
     def __str__(self):
@@ -131,3 +156,71 @@ class ApplicationRequirementAnswer(models.Model):
 
     def __str__(self):
         return f"{self.application} - {self.requirement}"
+
+
+class Interview(models.Model):
+    class STATUS(models.TextChoices):
+        SCHEDULED = "scheduled"
+        DONE = "done"
+        CANCELED = "canceled"
+        WAITING = "Waiting"
+        REJECTED = "rejected"
+        ACCEPTED = "accepted"
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    application = models.ForeignKey(Application, on_delete=models.CASCADE)
+    schedule_datetime = models.DateTimeField(
+        help_text=_(
+            "Please select a date and time at least one day in the future, excluding weekends."
+        )
+    )
+    status = models.CharField(
+        max_length=20, choices=STATUS.choices, default=STATUS.SCHEDULED
+    )
+    description = models.TextField(
+        blank=True,
+        help_text=_(
+            "What do you want the interviewee to know before attending the interview?"
+        ),
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        permissions = [
+            ("can_add_interview", "Can add interview"),
+            ("can_change_interview", "Can change interview"),
+            ("can_view_interview", "Can view interview"),
+            ("can_delete_interview", "Can delete interview"),
+        ]
+
+    def __str__(self):
+        return self.application
+
+    def clean(self):
+        if self.schedule_datetime <= timezone.now():
+            raise ValidationError("Scheduled datetime cannot be in the past.")
+
+        if self.schedule_datetime.date() == timezone.now().date():
+            raise ValidationError("Scheduled datetime cannot be on the same day.")
+
+        if self.schedule_datetime.weekday() >= 5:  # 5 = Saturday, 6 = Sunday
+            raise ValidationError("Scheduled datetime cannot be on weekends.")
+
+        # Additional check to ensure the scheduled datetime is at least one day in the future
+
+        if self.schedule_datetime.date() - timezone.now().date() < timedelta(days=1):
+            raise ValidationError(
+                "Scheduled datetime must be at least one day in the future."
+            )
+
+
+class Subscriber(models.Model):
+    email = models.EmailField(unique=True)
+    vacancy_types = models.ManyToManyField(VacancyType, related_name="subscribers")
+    subscribed = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    unsubscribed_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.email

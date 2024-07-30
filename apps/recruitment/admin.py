@@ -1,14 +1,14 @@
 from django.contrib import admin
 from import_export.admin import ExportActionModelAdmin
 from unfold.admin import ModelAdmin, TabularInline
-from unfold.contrib.import_export.forms import ExportForm, SelectableFieldsExportForm
-from .models import (
-    Application,
-    Vacancy,
-    MinimumRequirement,
-    ApplicationRequirementAnswer,
-)
-from .forms import ApplicationForm, VacancyForm
+from unfold.contrib.import_export.forms import (ExportForm,
+                                                SelectableFieldsExportForm)
+
+from .forms import ApplicationForm, InterviewForm, VacancyForm
+from .models import (Application, ApplicationRequirementAnswer, Interview,
+                     MinimumRequirement, Vacancy, VacancyType)
+
+admin.site.register(VacancyType)
 
 
 class MinimumRequirementsInline(TabularInline):
@@ -29,7 +29,6 @@ class VacancyAdmin(ModelAdmin):
     form = VacancyForm
     list_display = [
         "title",
-        "town",
         "deadline",
         "is_public",
     ]
@@ -62,3 +61,10 @@ class ApplicationAdmin(ModelAdmin):
         "email",
     )
     inlines = [ApplicationRequirementAnswerInline]
+
+
+@admin.register(Interview)
+class InterviewAdmin(ModelAdmin):
+    form = InterviewForm
+    list_display = ["application", "status", "schedule_datetime"]
+    list_filter = ["application", "status", "schedule_datetime"]

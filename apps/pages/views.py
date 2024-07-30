@@ -1,7 +1,9 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView
-from apps.recruitment import models
 from datetime import datetime
+
+from django.shortcuts import render
+from django.views.generic import DetailView, ListView
+
+from apps.recruitment import models
 
 
 class VacancyListView(ListView):

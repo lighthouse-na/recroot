@@ -14,6 +14,7 @@ django-guardian = "*"
 django-import-export = "*"
 crispy-tailwind = "*"
 django-tinymce = "*"
+isort = "*"
 
 [dev-packages]
 
