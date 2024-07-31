@@ -31,11 +31,11 @@ class VacancyAdmin(ModelAdmin):
     list_display = [
         "title",
         "deadline",
+        "vacancy_type",
         "is_public",
     ]
     list_filter = [
         "title",
-        "town",
         "deadline",
         "is_public",
     ]

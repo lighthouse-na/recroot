@@ -28,7 +28,7 @@ class VacancyType(models.Model):
     type = models.CharField(max_length=50, choices=VACANCY_TYPE.choices, unique=True)
 
     def __str__(self):
-        return self.type
+        return self.type.upper()
 
 
 class Vacancy(models.Model):
@@ -122,7 +122,7 @@ class Application(models.Model):
         ]
 
     def __str__(self):
-        return self.vacancy
+        return self.vacancy.title
 
     def clean(self):
         if self.date_of_birth:
@@ -195,7 +195,7 @@ class Interview(models.Model):
         ]
 
     def __str__(self):
-        return self.application
+        return self.application.vacancy.title
 
     def clean(self):
         if self.schedule_datetime <= timezone.now():
