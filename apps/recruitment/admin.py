@@ -3,14 +3,17 @@ from django.utils import timezone
 from django.utils.html import format_html
 from import_export.admin import ExportActionModelAdmin
 from unfold.admin import ModelAdmin, TabularInline
-from unfold.contrib.import_export.forms import (ExportForm,
-                                                SelectableFieldsExportForm)
+from unfold.contrib.import_export.forms import ExportForm, SelectableFieldsExportForm
 
-from .forms import (ApplicationForm, ApplicationReviewForm, InterviewForm,
-                    MinimumRequirementsAddForm, MinimumRequirementsAnswerForm,
-                    VacancyForm)
-from .models import (Application, Interview, MinimumRequirement, Vacancy,
-                     VacancyType)
+from .forms import (
+    ApplicationForm,
+    ApplicationReviewForm,
+    InterviewForm,
+    MinimumRequirementsAddForm,
+    MinimumRequirementsAnswerForm,
+    VacancyForm,
+)
+from .models import Application, Interview, MinimumRequirement, Vacancy, VacancyType
 
 admin.site.register(VacancyType)
 

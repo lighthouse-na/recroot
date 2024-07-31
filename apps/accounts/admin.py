@@ -8,7 +8,6 @@ admin.site.unregister(User)
 admin.site.unregister(Group)
 
 
-
 @admin.register(User)
 class UserAdmin(BaseUserAdmin, ModelAdmin):
     pass

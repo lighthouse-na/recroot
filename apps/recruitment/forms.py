@@ -10,8 +10,14 @@ from unfold.widgets import UnfoldAdminSelectWidget
 
 from apps.organisation.models import Town
 
-from .models import (Application, Interview, MinimumRequirement, Subscriber,
-                     Vacancy, VacancyType)
+from .models import (
+    Application,
+    Interview,
+    MinimumRequirement,
+    Subscriber,
+    Vacancy,
+    VacancyType,
+)
 
 
 class MinimumRequirementsAddForm(forms.ModelForm):
@@ -41,9 +47,9 @@ class VacancyForm(forms.ModelForm):
 class ApplicationReviewForm(forms.ModelForm):
     class Meta:
         model = Application
-        fields = [
-            "status"
-        ]
+        fields = ["status"]
+
+
 class ApplicationForm(forms.ModelForm):
     class Meta:
         model = Application
