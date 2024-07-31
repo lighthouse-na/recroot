@@ -1,9 +1,10 @@
 import os
 from pathlib import Path
-from whitenoise.storage import CompressedManifestStaticFilesStorage
+
 from django.templatetags.static import static
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
+from whitenoise.storage import CompressedManifestStaticFilesStorage
 
 from config.env import BASE_DIR, env
 

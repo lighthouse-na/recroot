@@ -1,17 +1,16 @@
 from django.contrib import admin
+from django.utils import timezone
+from django.utils.html import format_html
 from import_export.admin import ExportActionModelAdmin
 from unfold.admin import ModelAdmin, TabularInline
-from unfold.contrib.import_export.forms import ExportForm, SelectableFieldsExportForm
-from django.utils.html import format_html
-from .forms import (
-    ApplicationForm,
-    InterviewForm,
-    MinimumRequirementsAddForm,
-    MinimumRequirementsAnswerForm,
-    VacancyForm,
-    ApplicationReviewForm,
-)
-from .models import Application, Interview, MinimumRequirement, Vacancy, VacancyType
+from unfold.contrib.import_export.forms import (ExportForm,
+                                                SelectableFieldsExportForm)
+
+from .forms import (ApplicationForm, ApplicationReviewForm, InterviewForm,
+                    MinimumRequirementsAddForm, MinimumRequirementsAnswerForm,
+                    VacancyForm)
+from .models import (Application, Interview, MinimumRequirement, Vacancy,
+                     VacancyType)
 
 admin.site.register(VacancyType)
 
@@ -45,6 +44,11 @@ class VacancyAdmin(ModelAdmin):
         "is_public",
     ]
     inlines = [MinimumRequirementsAddInline]
+
+    def has_change_permission(self, request, obj=None):
+        if obj is not None and obj.deadline > timezone.now():
+            return False
+        return super().has_change_permission(request, obj)
 
 
 @admin.register(Application)
