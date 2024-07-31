@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-
+from whitenoise.storage import CompressedManifestStaticFilesStorage
 from django.templatetags.static import static
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -43,6 +43,7 @@ INSTALLED_APPS = (
         "django.contrib.contenttypes",
         "django.contrib.sessions",
         "django.contrib.messages",
+        "whitenoise.runserver_nostatic",
         "django.contrib.staticfiles",
         # "django.contrib.sites",
     ]
@@ -52,6 +53,7 @@ INSTALLED_APPS = (
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # whitenoise
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -119,6 +121,8 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+MEDIA_URL = "media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -131,6 +135,15 @@ AUTHENTICATION_BACKENDS = (
     "guardian.backends.ObjectPermissionBackend",
 )
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 from .third_party.allauth import *
 from .third_party.crispy_forms import *

@@ -16,6 +16,8 @@ crispy-tailwind = "*"
 django-tinymce = "*"
 isort = "*"
 django-widget-tweaks = "*"
+pillow = "*"
+whitenoise = "*"
 
 [dev-packages]
 

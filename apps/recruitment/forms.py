@@ -38,6 +38,12 @@ class VacancyForm(forms.ModelForm):
         exclude = ["slug", "created_at", "updated_at"]
 
 
+class ApplicationReviewForm(forms.ModelForm):
+    class Meta:
+        model = Application
+        fields = [
+            "status"
+        ]
 class ApplicationForm(forms.ModelForm):
     class Meta:
         model = Application
