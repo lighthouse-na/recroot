@@ -15,6 +15,7 @@ django-import-export = "*"
 crispy-tailwind = "*"
 django-tinymce = "*"
 isort = "*"
+django-widget-tweaks = "*"
 
 [dev-packages]
 

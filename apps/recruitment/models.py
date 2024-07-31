@@ -13,6 +13,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tinymce.models import HTMLField
 
 from apps.organisation.models import Town
+from apps.utils.validators import FileValidator
 
 
 class VacancyType(models.Model):
@@ -78,14 +79,6 @@ class Vacancy(models.Model):
         return reverse("vacancy_detail", args=[self.slug])
 
 
-class MinimumRequirement(models.Model):
-    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)
-    title = models.CharField(max_length=255, verbose_name="Requirement")
-
-    def __str__(self):
-        return self.title
-
-
 class Application(models.Model):
     class STATUS(models.TextChoices):
         SUBMITTED = "submitted"
@@ -116,7 +109,7 @@ class Application(models.Model):
         upload_to="cv/",
         validators=[
             FileExtensionValidator(allowed_extensions=["pdf", "docx"]),
-            MaxValueValidator(limit_value=10 * 1024 * 1024),
+            FileValidator(max_size=10 * 1024 * 1024),
         ],
         help_text="Please upload a PDF/DOCX file, maximum size 10MB.",
     )
@@ -149,13 +142,20 @@ class Application(models.Model):
         return reverse("application_detail", kwargs={"pk": self.pk})
 
 
-class ApplicationRequirementAnswer(models.Model):
-    application = models.ForeignKey(Application, on_delete=models.CASCADE)
-    requirement = models.ForeignKey(MinimumRequirement, on_delete=models.CASCADE)
+class MinimumRequirement(models.Model):
+    vacancy = models.ForeignKey(
+        Vacancy, on_delete=models.CASCADE, related_name="requirements"
+    )
+    title = models.CharField(max_length=255, verbose_name="Requirement")
+    application = models.ForeignKey(
+        Application, null=True, blank=True, on_delete=models.SET_NULL
+    )
     answer = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.application} - {self.requirement}"
+        return self.title
 
 
 class Interview(models.Model):

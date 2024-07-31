@@ -4,22 +4,23 @@ from unfold.admin import ModelAdmin, TabularInline
 from unfold.contrib.import_export.forms import (ExportForm,
                                                 SelectableFieldsExportForm)
 
-from .forms import ApplicationForm, InterviewForm, VacancyForm
-from .models import (Application, ApplicationRequirementAnswer, Interview,
-                     MinimumRequirement, Vacancy, VacancyType)
+from .forms import (ApplicationForm, InterviewForm, MinimumRequirementsAddForm,
+                    MinimumRequirementsAnswerForm, VacancyForm)
+from .models import (Application, Interview, MinimumRequirement, Vacancy,
+                     VacancyType)
 
 admin.site.register(VacancyType)
 
 
-class MinimumRequirementsInline(TabularInline):
+class MinimumRequirementsAddInline(TabularInline):
     model = MinimumRequirement
-    # form = MinimumRequirementsForm
+    form = MinimumRequirementsAddForm
     extra = 1
     tab = True
 
-
-class ApplicationRequirementAnswerInline(TabularInline):
-    model = ApplicationRequirementAnswer
+class MinimumRequirementsAnswerInline(TabularInline):
+    model = MinimumRequirement
+    form = MinimumRequirementsAnswerForm
     extra = 1
     tab = True
 
@@ -38,7 +39,7 @@ class VacancyAdmin(ModelAdmin):
         "deadline",
         "is_public",
     ]
-    inlines = [MinimumRequirementsInline]
+    inlines = [MinimumRequirementsAddInline]
 
 
 @admin.register(Application)
@@ -60,7 +61,7 @@ class ApplicationAdmin(ModelAdmin):
         "last_name",
         "email",
     )
-    inlines = [ApplicationRequirementAnswerInline]
+    inlines = [MinimumRequirementsAnswerInline]
 
 
 @admin.register(Interview)

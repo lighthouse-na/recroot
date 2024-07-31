@@ -2,22 +2,36 @@ from datetime import date, timedelta
 
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.forms import modelformset_factory
+from django.forms.models import inlineformset_factory
 from django.utils import timezone
 from tinymce.widgets import TinyMCE
 from unfold.widgets import UnfoldAdminSelectWidget
 
-from .models import (Application, ApplicationRequirementAnswer, Interview,
-                     Subscriber, Vacancy, VacancyType)
+from apps.organisation.models import Town
+
+from .models import (Application, Interview, MinimumRequirement, Subscriber,
+                     Vacancy, VacancyType)
+
+
+class MinimumRequirementsAddForm(forms.ModelForm):
+    class Meta:
+        model = MinimumRequirement
+        fields = ["title"]
+
+
+class MinimumRequirementsAnswerForm(forms.ModelForm):
+    class Meta:
+        model = MinimumRequirement
+        fields = ["answer"]
 
 
 class VacancyForm(forms.ModelForm):
     functions_responsibilities = forms.CharField(
         label="Functions and Responsibilities", widget=TinyMCE
     )
-    remarks = forms.CharField(
-        label="Remarks", widget=TinyMCE
-    )
-    town = forms.MultipleChoiceField(widget=FilteredSelectMultiple("Towns", False))
+    remarks = forms.CharField(label="Remarks", widget=TinyMCE)
+    # town = forms.ModelChoiceField(queryset=Town.objects.all(),widget=UnfoldAdminSelectWidget)
 
     class Meta:
         model = Vacancy
@@ -28,7 +42,6 @@ class ApplicationForm(forms.ModelForm):
     class Meta:
         model = Application
         fields = (
-            "vacancy",
             "first_name",
             "middle_name",
             "last_name",

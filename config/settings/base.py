@@ -1,9 +1,11 @@
 import os
 from pathlib import Path
-from config.env import BASE_DIR, env
-from django.utils.translation import gettext_lazy as _
+
 from django.templatetags.static import static
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
+
+from config.env import BASE_DIR, env
 
 ADMINS = [("Sakaria Ndadi", "sakariandadi@gmail.com")]
 
@@ -29,6 +31,7 @@ THIRD_PARTY_APPS = [
     "crispy_tailwind",
     "guardian",
     "tinymce",
+    "widget_tweaks",
 ]
 INSTALLED_APPS = (
     [
@@ -130,6 +133,6 @@ AUTHENTICATION_BACKENDS = (
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 from .third_party.allauth import *
-from .third_party.unfold import *
 from .third_party.crispy_forms import *
 from .third_party.tinymce import *
+from .third_party.unfold import *

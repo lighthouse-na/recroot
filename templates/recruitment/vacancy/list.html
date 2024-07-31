@@ -1,7 +1,28 @@
 {% extends 'base.html' %}
 {% block title %}Vacancies{% endblock title %}
 {% block content %}
+
 {% for vacancy in vacancies %}
-    <a href="{% url 'vacancy:vacancy_detail' vacancy.slug %}">{{vacancy.title}}</a>
+
+<div class="p-4">
+    <div
+        class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div class="flex flex-col items-center pb-10 pt-10">
+            <a href="{% url 'pages:vacancy_detail' vacancy.slug %}">
+                <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{vacancy.title}}
+                    ({% for town in vacancy.town.all %}
+                    {{ town }}
+                    {% endfor %})
+                </h5>
+            </a>
+            <span class="text-sm text-gray-500 dark:text-gray-400">{{ vacancy.deadline }}</span>
+            <div class="flex mt-4 md:mt-6">
+                <a href="{% url 'pages:vacancy_detail' vacancy.slug %}"
+                    class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">View</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endfor %}
 {% endblock content %}
