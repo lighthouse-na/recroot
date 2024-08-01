@@ -18,6 +18,7 @@ isort = "*"
 django-widget-tweaks = "*"
 pillow = "*"
 whitenoise = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 

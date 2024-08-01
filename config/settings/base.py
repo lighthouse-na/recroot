@@ -1,10 +1,5 @@
 import os
-from pathlib import Path
-
-from django.templatetags.static import static
-from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
-from whitenoise.storage import CompressedManifestStaticFilesStorage
 
 from config.env import BASE_DIR, env
 
@@ -33,6 +28,7 @@ THIRD_PARTY_APPS = [
     "guardian",
     "tinymce",
     "widget_tweaks",
+    "debug_toolbar",
 ]
 INSTALLED_APPS = (
     [
@@ -61,7 +57,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "allauth.account.middleware.AccountMiddleware",
+    "allauth.account.middleware.AccountMiddleware", # allauth
+    "debug_toolbar.middleware.DebugToolbarMiddleware", # debug toolbar
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -145,6 +142,10 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 
 from .third_party.allauth import *
 from .third_party.crispy_forms import *
