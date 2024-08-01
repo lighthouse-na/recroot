@@ -11,6 +11,7 @@ from unfold.widgets import UnfoldAdminSelectWidget
 from apps.organisation.models import Town
 
 from .models import (
+    ApplicantResponse,
     Application,
     Interview,
     MinimumRequirement,
@@ -23,7 +24,7 @@ from .models import (
 class MinimumRequirementsAddForm(forms.ModelForm):
     class Meta:
         model = MinimumRequirement
-        fields = ["title"]
+        fields = ["title", "question_type"]
 
 
 class MinimumRequirementsAnswerForm(forms.ModelForm):
@@ -103,3 +104,9 @@ class InterviewForm(forms.ModelForm):
             )
 
         return schedule_datetime
+
+
+class ApplicantResponseForm(forms.ModelForm):
+    class Meta:
+        model = ApplicantResponse
+        fields = ["requirement", "answer"]

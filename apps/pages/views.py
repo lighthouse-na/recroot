@@ -1,10 +1,18 @@
 from datetime import datetime
+from typing import Any
 
+from django.http import HttpRequest, HttpResponseRedirect
+from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import DetailView, ListView, TemplateView
+from django.views.generic import CreateView, DetailView, ListView, View
+from django.views.generic.base import TemplateResponseMixin
 
 from apps.recruitment import models
-from apps.recruitment.forms import ApplicationForm, MinimumRequirementsAnswerForm
+from apps.recruitment.forms import (
+    ApplicantResponseForm,
+    ApplicationForm,
+    MinimumRequirementsAnswerForm,
+)
 
 
 class VacancyListView(ListView):
@@ -60,93 +68,26 @@ class VacancyDetailView(DetailView):
     context_object_name = "vacancy"
 
 
-def vacancy_detail_create(request, slug):
-    template_name = "recruitment/vacancy/detail.html"
+def application_create(request, slug):
+    template_name = "recruitment/vacancy/create.html"
     vacancy = get_object_or_404(models.Vacancy, slug=slug)
     requirements = vacancy.requirements.all()
 
     if request.method == "POST":
-        application_form = ApplicationForm(request.POST, request.FILES)
+        form = ApplicationForm(request.POST, request.FILES)
 
-        if application_form.is_valid():
-            application = application_form.save(commit=False)
+        if form.is_valid():
+            application = form.save(commit=False)
             application.vacancy = vacancy
             application.save()
+            return redirect("vacancy_list")
 
-            for requirement in requirements:
-                requirement_form = MinimumRequirementsAnswerForm(
-                    request.POST, instance=requirement
-                )
-                if requirement_form.is_valid():
-                    req = requirement_form.save(commit=False)
-                    req.application = application
-                    req.save()
-
-            return redirect("pages:vacancy_list")
     else:
-        application_form = ApplicationForm()
-        requirements_forms = [
-            MinimumRequirementsAnswerForm(instance=requirement)
-            for requirement in requirements
-        ]
+        form = ApplicationForm()
 
     context = {
         "vacancy": vacancy,
-        "application_form": application_form,
-        "requirements_forms": zip(requirements, requirements_forms),
+        "requirements": requirements,
+        "form": form,
     }
     return render(request, template_name, context)
-
-
-class VacancyDetailCreateView(TemplateView):
-
-    template_name = "recruitment/vacancy/detail.html"
-
-    def get_context_data(self, **kwargs):
-
-        context = super().get_context_data(**kwargs)
-
-        self.vacancy = get_object_or_404(models.Vacancy, slug=self.kwargs["slug"])
-
-        self.requirements = self.vacancy.requirements.all()
-
-        context["vacancy"] = self.vacancy
-
-        context["application_form"] = ApplicationForm()
-
-        context["requirements_forms"] = [
-            MinimumRequirementsAnswerForm(instance=requirement)
-            for requirement in self.requirements
-        ]
-
-        return context
-
-    def post(self, request, *args, **kwargs):
-
-        application_form = ApplicationForm(request.POST, request.FILES)
-
-        if application_form.is_valid():
-
-            application = application_form.save(commit=False)
-
-            application.vacancy = self.vacancy
-
-            application.save()
-
-            for requirement in self.requirements:
-
-                requirement_form = MinimumRequirementsAnswerForm(
-                    request.POST, instance=requirement
-                )
-
-                if requirement_form.is_valid():
-
-                    req = requirement_form.save(commit=False)
-
-                    req.application = application
-
-                    req.save()
-
-            return redirect("pages:vacancy_list")
-
-        return self.render_to_response(self.get_context_data())

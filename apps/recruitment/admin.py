@@ -13,7 +13,14 @@ from .forms import (
     MinimumRequirementsAnswerForm,
     VacancyForm,
 )
-from .models import Application, Interview, MinimumRequirement, Vacancy, VacancyType
+from .models import (
+    ApplicantResponse,
+    Application,
+    Interview,
+    MinimumRequirement,
+    Vacancy,
+    VacancyType,
+)
 
 admin.site.register(VacancyType)
 
@@ -25,11 +32,26 @@ class MinimumRequirementsAddInline(TabularInline):
     tab = True
 
 
-class MinimumRequirementsAnswerInline(TabularInline):
-    model = MinimumRequirement
-    form = MinimumRequirementsAnswerForm
-    extra = 1
+class ApplicantResponseInline(TabularInline):
+    model = ApplicantResponse
+    readonly_fields = ["requirement", "answer"]
     tab = True
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if self.parent_model == Application and hasattr(self, "parent_obj"):
+            qs = qs.filter(application=self.parent_obj)
+        return qs
+
+    def get_formset(self, request, obj=None, **kwargs):
+        self.parent_obj = obj
+        return super().get_formset(request, obj, **kwargs)
 
 
 @admin.register(Vacancy)
@@ -46,6 +68,7 @@ class VacancyAdmin(ModelAdmin):
         "deadline",
         "is_public",
     ]
+    filter_horizontal = ["town"]
     inlines = [MinimumRequirementsAddInline]
 
     def has_change_permission(self, request, obj=None):
@@ -72,12 +95,14 @@ class ApplicationAdmin(ModelAdmin):
         "first_name",
         "last_name",
         "email",
+        "vacancy",
         "status",
     ]
     list_filter = (
         "first_name",
         "last_name",
         "email",
+        "vacancy",
     )
     search_fields = (
         "first_name",
@@ -85,7 +110,8 @@ class ApplicationAdmin(ModelAdmin):
         "email",
     )
 
-    # inlines = [MinimumRequirementsAnswerInline]
+    inlines = [ApplicantResponseInline]
+
     def has_add_permission(self, request):
         return False
 

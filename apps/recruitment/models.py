@@ -143,19 +143,29 @@ class Application(models.Model):
 
 
 class MinimumRequirement(models.Model):
+    class QuestionType(models.TextChoices):
+        TEXT = "text"
+        BOOL = "bool"
+
     vacancy = models.ForeignKey(
         Vacancy, on_delete=models.CASCADE, related_name="requirements"
     )
     title = models.CharField(max_length=255, verbose_name="Requirement")
-    application = models.ForeignKey(
-        Application, null=True, blank=True, on_delete=models.SET_NULL
+    question_type = models.CharField(
+        max_length=50, choices=QuestionType.choices, default=QuestionType.BOOL
     )
-    answer = models.BooleanField(default=False)
+    answer = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
+
+
+class ApplicantResponse(models.Model):
+    application = models.ForeignKey(Application, on_delete=models.CASCADE)
+    requirement = models.ForeignKey(MinimumRequirement, on_delete=models.CASCADE)
+    answer = models.CharField(max_length=255, blank=True, null=True)
 
 
 class Interview(models.Model):
