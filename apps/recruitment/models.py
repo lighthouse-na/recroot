@@ -65,11 +65,6 @@ class Vacancy(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        permissions = [
-            ("can_add_vacancy", "Can add vacancy"),
-            ("can_change_vacancy", "Can change vacancy"),
-            ("can_delete_vacancy", "Can delete vacancy"),
-        ]
         verbose_name_plural = "Vacancies"
 
     def __str__(self):
@@ -86,7 +81,9 @@ class Application(models.Model):
         REJECTED = "rejected"
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    vacancy = models.ForeignKey(Vacancy, on_delete=models.PROTECT)
+    vacancy = models.ForeignKey(
+        Vacancy, on_delete=models.PROTECT, related_name="applications"
+    )
     status = models.CharField(
         max_length=20, choices=STATUS.choices, default=STATUS.SUBMITTED
     )
@@ -113,13 +110,6 @@ class Application(models.Model):
         ],
         help_text="Please upload a PDF/DOCX file, maximum size 10MB.",
     )
-
-    class Meta:
-        permissions = [
-            ("can_view_application", "Can view application"),
-            ("can_change_application", "Can change application"),
-            ("can_delete_application", "Can delete application"),
-        ]
 
     def __str__(self):
         return self.vacancy.title
@@ -195,14 +185,6 @@ class Interview(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        permissions = [
-            ("can_add_interview", "Can add interview"),
-            ("can_change_interview", "Can change interview"),
-            ("can_view_interview", "Can view interview"),
-            ("can_delete_interview", "Can delete interview"),
-        ]
 
     def __str__(self):
         return self.application.vacancy.title

@@ -31,80 +31,101 @@ UNFOLD = {
     #         },
     #     },
     # },
-    "SIDEBAR": {
-        "show_search": True,
-        "show_all_applications": False,
-        "navigation": [
-            {
-                # "title": _("Navigation"),
-                # "separator": True,  # Top border
-                "items": [
-                    {
-                        "title": _("Dashboard"),
-                        "icon": "dashboard",
-                        "link": reverse_lazy("admin:index"),
-                        "permission": lambda request: request.user.is_superuser,
-                    },
-                ],
-            },
-            {
-                "title": _("Authentication"),
-                "separator": True,
-                "collapsible": True,
-                "items": [
-                    {
-                        "title": _("Users"),
-                        "icon": "people",
-                        "link": reverse_lazy("admin:auth_user_changelist"),
-                    },
-                    {
-                        "title": _("Emails"),
-                        "icon": "email",
-                        "link": reverse_lazy("admin:account_emailaddress_changelist"),
-                    },
-                    {
-                        "title": _("Groups"),
-                        "icon": "groups",
-                        "link": reverse_lazy("admin:auth_group_changelist"),
-                    },
-                ],
-            },
-            {
-                "title": _("Organisation"),
-                # "separator": True,
-                "collapsible": True,
-                "items": [
-                    {
-                        "title": _("Region"),
-                        "icon": "location_on",
-                        "link": reverse_lazy("admin:organisation_region_changelist"),
-                    },
-                ],
-            },
-            {
-                "title": _("Recruitment"),
-                # "separator": True,
-                "collapsible": True,
-                "items": [
-                    {
-                        "title": _("Applications"),
-                        "icon": "stacks",
-                        "link": reverse_lazy(
-                            "admin:recruitment_application_changelist"
-                        ),
-                    },
-                    {
-                        "title": _("Interviews"),
-                        "icon": "event",
-                        "link": reverse_lazy("admin:recruitment_interview_changelist"),
-                    },
-                    {
-                        "title": _("Vacancies"),
-                        "icon": "people",
-                        "link": reverse_lazy("admin:recruitment_vacancy_changelist"),
-                    },
-                ],
-            },
-        ],
-    },
+    # "SIDEBAR": {
+    #     "show_search": True,
+    #     "show_all_applications": False,
+    #     "navigation": [
+    #         {
+    #             # "title": _("Navigation"),
+    #             # "separator": True,  # Top border
+    #             "items": [
+    #                 {
+    #                     "title": _("Dashboard"),
+    #                     "icon": "dashboard",
+    #                     "link": reverse_lazy("admin:index"),
+    #                     "permission": lambda request: request.user.is_superuser,
+    #                 },
+    #             ],
+    #         },
+    #         {
+    #             "title": _("Authentication"),
+    #             "separator": True,
+    #             "collapsible": True,
+    #             "items": [
+    #                 {
+    #                     "title": _("Users"),
+    #                     "icon": "people",
+    #                     "link": reverse_lazy("admin:auth_user_changelist"),
+    #                     "permission": lambda request: request.user.has_perm(
+    #                         "auth.view_user"
+    #                     ),
+    #                 },
+    #                 {
+    #                     "title": _("Emails"),
+    #                     "icon": "email",
+    #                     "link": reverse_lazy("admin:account_emailaddress_changelist"),
+    #                     "permission": lambda request: request.user.has_perm(
+    #                         "account.view_emailaddress"
+    #                     ),
+    #                 },
+    #                 {
+    #                     "title": _("Groups"),
+    #                     "icon": "groups",
+    #                     "link": reverse_lazy("admin:auth_group_changelist"),
+    #                     "permission": lambda request: request.user.has_perm(
+    #                         "auth.view_group"
+    #                     ),
+    #                 },
+    #             ],
+    #         },
+    #         {
+    #             "title": _("Organisation"),
+    #             # "separator": True,
+    #             "collapsible": True,
+    #             "items": [
+    #                 {
+    #                     "title": _("Region"),
+    #                     "icon": "location_on",
+    #                     "link": reverse_lazy("admin:organisation_region_changelist"),
+    #                     "permission": lambda request: request.user.has_perm(
+    #                         "view_region"
+    #                     ),
+    #                 },
+    #             ],
+    #         },
+    #         {
+    #             "title": _("Recruitment"),
+    #             # "separator": True,
+    #             "collapsible": True,
+    #             "items": [
+    #                 {
+    #                     "title": _("Applications"),
+    #                     "icon": "stacks",
+    #                     "link": reverse_lazy(
+    #                         "admin:recruitment_application_changelist"
+    #                     ),
+    #                     "permission": lambda request: request.user.has_perm(
+    #                         "view_application"
+    #                     ),
+    #                 },
+    #                 {
+    #                     "title": _("Interviews"),
+    #                     "icon": "event",
+    #                     "link": reverse_lazy("admin:recruitment_interview_changelist"),
+    #                     "permission": lambda request: request.user.has_perm(
+    #                         "view_interview"
+    #                     ),
+    #                 },
+    #                 {
+    #                     "title": _("Vacancies"),
+    #                     "icon": "people",
+    #                     "link": reverse_lazy("admin:recruitment_vacancy_changelist"),
+    #                     "permission": lambda request: request.user.has_perm(
+    #                         "view_vacancy"
+    #                     ),
+    #                 },
+    #             ],
+    #         },
+    #     ],
+    # },
 }

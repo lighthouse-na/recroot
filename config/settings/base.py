@@ -1,4 +1,5 @@
 import os
+
 from django.utils.translation import gettext_lazy as _
 
 from config.env import BASE_DIR, env
@@ -57,8 +58,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "allauth.account.middleware.AccountMiddleware", # allauth
-    "debug_toolbar.middleware.DebugToolbarMiddleware", # debug toolbar
+    "allauth.account.middleware.AccountMiddleware",  # allauth
+    "debug_toolbar.middleware.DebugToolbarMiddleware",  # debug toolbar
 ]
 
 ROOT_URLCONF = "config.urls"

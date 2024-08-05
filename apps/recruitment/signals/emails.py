@@ -2,7 +2,7 @@ from django.core.mail import send_mail
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from .models import Subscriber, Vacancy
+from ..models import Subscriber, Vacancy
 
 email = "recruitment@email.com"
 

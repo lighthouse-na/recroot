@@ -1,4 +1,5 @@
 from django.contrib import admin
+from guardian.admin import GuardedModelAdmin
 from unfold.admin import ModelAdmin, TabularInline
 
 from .models import Region, Town
@@ -12,5 +13,5 @@ class TownInline(TabularInline):
 
 
 @admin.register(Region)
-class RegionAdmin(ModelAdmin):
+class RegionAdmin(ModelAdmin, GuardedModelAdmin):
     inlines = [TownInline]

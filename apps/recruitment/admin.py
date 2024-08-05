@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.utils import timezone
 from django.utils.html import format_html
+from guardian.admin import GuardedModelAdmin
+from guardian.shortcuts import get_objects_for_user
 from import_export.admin import ExportActionModelAdmin
 from unfold.admin import ModelAdmin, TabularInline
 from unfold.contrib.import_export.forms import ExportForm, SelectableFieldsExportForm
@@ -22,7 +24,10 @@ from .models import (
     VacancyType,
 )
 
-admin.site.register(VacancyType)
+# **********************************************************************************************
+#                                       VACANCY
+# **********************************************************************************************
+admin.site.register(VacancyType, ModelAdmin)
 
 
 class MinimumRequirementsAddInline(TabularInline):
@@ -32,6 +37,76 @@ class MinimumRequirementsAddInline(TabularInline):
     tab = True
 
 
+@admin.register(Vacancy)
+class VacancyAdmin(ModelAdmin, GuardedModelAdmin):
+    form = VacancyForm
+    list_display = [
+        "title",
+        "deadline",
+        "vacancy_type",
+        "is_public",
+    ]
+    list_filter = [
+        "title",
+        "deadline",
+        "is_public",
+    ]
+    filter_horizontal = ["town"]
+    inlines = [MinimumRequirementsAddInline]
+
+    def get_model_objects(self, request, action=None, klass=None):
+        opts = self.opts
+        actions = [action] if action else ["view"]
+        klass = klass if klass else opts.model
+        model_name = klass._meta.model_name
+        return get_objects_for_user(
+            user=request.user,
+            perms=[f"{perm}_{model_name}" for perm in actions],
+            klass=klass,
+            any_perm=True,
+        )
+
+    def has_permission(self, request, obj, action):
+        opts = self.opts
+        code_name = f"{action}_{opts.model_name}"
+        if obj:
+            return request.user.has_perm(f"{opts.app_label}.{code_name}", obj)
+        else:
+            return self.get_model_objects(request).exists()
+
+    def has_view_permission(self, request, obj=None):
+        return self.has_permission(request, obj, "view")
+
+    def has_change_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return super().has_change_permission(request, obj)
+        elif obj is not None and obj.deadline > timezone.now():
+            return False
+        else:
+            return self.has_permission(request, obj, "change")
+
+    def has_delete_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return super().has_delete_permission(request, obj)
+        else:
+            return self.has_permission(request, obj, "delete")
+
+    def has_module_permission(self, request):
+        if super().has_module_permission(request):
+            return True
+        return self.get_model_objects(request).exists()
+
+    def get_queryset(self, request):
+        if request.user.is_superuser:
+            return super().get_queryset(request)
+        else:
+            data = self.get_model_objects(request)
+            return data
+
+
+# **********************************************************************************************
+#                                       APPLICATION
+# **********************************************************************************************
 class ApplicantResponseInline(TabularInline):
     model = ApplicantResponse
     readonly_fields = ["requirement", "answer"]
@@ -53,32 +128,13 @@ class ApplicantResponseInline(TabularInline):
         self.parent_obj = obj
         return super().get_formset(request, obj, **kwargs)
 
-
-@admin.register(Vacancy)
-class VacancyAdmin(ModelAdmin):
-    form = VacancyForm
-    list_display = [
-        "title",
-        "deadline",
-        "vacancy_type",
-        "is_public",
-    ]
-    list_filter = [
-        "title",
-        "deadline",
-        "is_public",
-    ]
-    filter_horizontal = ["town"]
-    inlines = [MinimumRequirementsAddInline]
-
-    def has_change_permission(self, request, obj=None):
-        if obj is not None and obj.deadline > timezone.now():
+    def has_module_permission(self, request):
+        if super().has_module_permission(request):
             return False
-        return super().has_change_permission(request, obj)
 
 
 @admin.register(Application)
-class ApplicationAdmin(ModelAdmin):
+class ApplicationAdmin(ModelAdmin, GuardedModelAdmin):
     model = Application
     readonly_fields = [
         "first_name",
@@ -112,13 +168,52 @@ class ApplicationAdmin(ModelAdmin):
 
     inlines = [ApplicantResponseInline]
 
+    def get_model_objects(self, request, action=None, klass=None):
+        opts = self.opts
+        actions = [action] if action else ["view"]
+        klass = klass if klass else opts.model
+        model_name = klass._meta.model_name
+        return get_objects_for_user(
+            user=request.user,
+            perms=[f"{perm}_{model_name}" for perm in actions],
+            klass=klass,
+            any_perm=True,
+        )
+
+    def has_permission(self, request, obj, action):
+        opts = self.opts
+        code_name = f"{action}_{opts.model_name}"
+        if obj:
+            return request.user.has_perm(f"{opts.app_label}.{code_name}", obj)
+        else:
+            return self.get_model_objects(request).exists()
+
+    def has_view_permission(self, request, obj=None):
+        return self.has_permission(request, obj, "view")
+
     def has_add_permission(self, request):
         return False
 
     def has_change_permission(self, request, obj=None):
-        if obj is not None and obj.status != "submitted":
-            return False
-        return super().has_change_permission(request, obj)
+        if request.user.is_superuser:
+            return super().has_change_permission(request, obj)
+        else:
+            self.has_permission(request, obj, "change")
+            if obj is not None and obj.status != "submitted":
+                return False
+            return True
+
+    def has_module_permission(self, request):
+        if super().has_module_permission(request):
+            return True
+        return self.get_model_objects(request).exists()
+
+    def get_queryset(self, request):
+        if request.user.is_superuser:
+            return super().get_queryset(request)
+        else:
+            data = self.get_model_objects(request)
+            return data
 
     def view_cv(self, obj):
         if obj.cv:
@@ -128,8 +223,11 @@ class ApplicationAdmin(ModelAdmin):
     view_cv.short_description = "CV"
 
 
+# **********************************************************************************************
+#                                       INTERVIEW
+# **********************************************************************************************
 @admin.register(Interview)
-class InterviewAdmin(ModelAdmin):
+class InterviewAdmin(ModelAdmin, GuardedModelAdmin):
     form = InterviewForm
     list_display = ["application", "status", "schedule_datetime"]
     list_filter = ["application", "status", "schedule_datetime"]
