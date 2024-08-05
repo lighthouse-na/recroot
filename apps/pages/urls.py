@@ -11,5 +11,5 @@ urlpatterns = [
         views.VacancyDetailView.as_view(),
         name="vacancy_detail",
     ),
-    path("<slug>/apply", views.application_create, name="apply"),
+    path("<slug>/apply", views.ApplicationCreateView.as_view(), name="apply"),
 ]
