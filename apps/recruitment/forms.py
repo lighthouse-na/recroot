@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from django import forms
 from django.utils import timezone
+from phonenumber_field.formfields import PhoneNumberField
 from tinymce.widgets import TinyMCE
 from unfold.widgets import UnfoldAdminSelectWidget
 
@@ -53,6 +54,10 @@ class ApplicationReviewForm(forms.ModelForm):
 
 
 class ApplicationForm(forms.ModelForm):
+    primary_contact = PhoneNumberField(region="NA")
+    secondary_contact = PhoneNumberField(region="NA", required=False)
+    date_of_birth = forms.DateField(widget=forms.DateInput)
+
     class Meta:
         model = Application
         fields = (

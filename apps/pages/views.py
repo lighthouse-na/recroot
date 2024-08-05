@@ -6,13 +6,13 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
 
-from apps.recruitment.models import Vacancy, Application, Subscriber
 from apps.recruitment.forms import (
     ApplicantResponseForm,
     ApplicationForm,
     MinimumRequirementsAnswerForm,
     SubscriberForm,
 )
+from apps.recruitment.models import Application, Subscriber, Vacancy
 
 
 class VacancyListView(ListView):
@@ -81,6 +81,12 @@ class ApplicationCreateView(CreateView):
         application.vacancy = vacancy
         application.save()
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        slug = self.kwargs.get("slug")
+        context["vacancy"] = get_object_or_404(Vacancy, slug=slug)
+        return context
 
 
 class SubscribeCreateView(CreateView):

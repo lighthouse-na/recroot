@@ -115,7 +115,9 @@ class Application(models.Model):
     )
     submitted_at = models.DateTimeField(auto_now_add=True)
     first_name = models.CharField(max_length=255, help_text="Enter your first name")
-    middle_name = models.CharField(max_length=255, help_text="Enter your middle name")
+    middle_name = models.CharField(
+        max_length=255, blank=True, null=True, help_text="Enter your middle name"
+    )
     last_name = models.CharField(max_length=255, help_text="Enter your last name")
     email = models.EmailField(help_text="Enter your email address")
     primary_contact = PhoneNumberField(
