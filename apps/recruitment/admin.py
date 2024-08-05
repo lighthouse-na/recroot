@@ -5,7 +5,7 @@ from guardian.admin import GuardedModelAdmin
 from guardian.shortcuts import get_objects_for_user
 from import_export.admin import ExportActionModelAdmin
 from unfold.admin import ModelAdmin, TabularInline
-from unfold.contrib.import_export.forms import ExportForm, SelectableFieldsExportForm
+from unfold.contrib.import_export.forms import SelectableFieldsExportForm
 
 from .forms import (
     ApplicationForm,
@@ -134,8 +134,9 @@ class ApplicantResponseInline(TabularInline):
 
 
 @admin.register(Application)
-class ApplicationAdmin(ModelAdmin, GuardedModelAdmin):
+class ApplicationAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
     model = Application
+    export_form_class = SelectableFieldsExportForm
     readonly_fields = [
         "first_name",
         "middle_name",
@@ -145,6 +146,8 @@ class ApplicationAdmin(ModelAdmin, GuardedModelAdmin):
         "secondary_contact",
         "date_of_birth",
         "cv",
+        "reviewed_by",
+        "reviewed_at",
     ]
     form = ApplicationReviewForm
     list_display = [
@@ -220,6 +223,14 @@ class ApplicationAdmin(ModelAdmin, GuardedModelAdmin):
             return format_html('<a href="{}" target="_blank">View CV</a>', obj.cv.url)
         return "No CV uploaded"
 
+    def save_model(self, request, obj, form, change):
+
+        if obj.status in [Application.STATUS.ACCEPTED, Application.STATUS.REJECTED]:
+            obj.reviewed_at = timezone.now()
+            obj.reviewed_by = request.user
+
+        super().save_model(request, obj, form, change)
+
     view_cv.short_description = "CV"
 
 
@@ -227,7 +238,52 @@ class ApplicationAdmin(ModelAdmin, GuardedModelAdmin):
 #                                       INTERVIEW
 # **********************************************************************************************
 @admin.register(Interview)
-class InterviewAdmin(ModelAdmin, GuardedModelAdmin):
+class InterviewAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
     form = InterviewForm
+    export_form_class = SelectableFieldsExportForm
     list_display = ["application", "status", "schedule_datetime"]
     list_filter = ["application", "status", "schedule_datetime"]
+
+    def get_model_objects(self, request, action=None, klass=None):
+        opts = self.opts
+        actions = [action] if action else ["view"]
+        klass = klass if klass else opts.model
+        model_name = klass._meta.model_name
+        return get_objects_for_user(
+            user=request.user,
+            perms=[f"{perm}_{model_name}" for perm in actions],
+            klass=klass,
+            any_perm=True,
+        )
+
+    def has_permission(self, request, obj, action):
+        opts = self.opts
+        code_name = f"{action}_{opts.model_name}"
+        if obj:
+            return request.user.has_perm(f"{opts.app_label}.{code_name}", obj)
+        else:
+            return self.get_model_objects(request).exists()
+
+    def has_view_permission(self, request, obj=None):
+        return self.has_permission(request, obj, "view")
+
+    def has_change_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return super().has_change_permission(request, obj)
+        else:
+            self.has_permission(request, obj, "change")
+            if obj is not None and obj.status != "submitted":
+                return False
+            return True
+
+    def has_module_permission(self, request):
+        if super().has_module_permission(request):
+            return True
+        return self.get_model_objects(request).exists()
+
+    def get_queryset(self, request):
+        if request.user.is_superuser:
+            return super().get_queryset(request)
+        else:
+            data = self.get_model_objects(request)
+            return data

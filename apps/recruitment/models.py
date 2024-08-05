@@ -16,6 +16,9 @@ from apps.organisation.models import Town
 from apps.utils.validators import FileValidator
 
 
+# **********************************************************************************************
+#                                       VACANCY
+# **********************************************************************************************
 class VacancyType(models.Model):
     class VACANCY_TYPE(models.TextChoices):
         INTERNSHIP = "internship"
@@ -74,6 +77,29 @@ class Vacancy(models.Model):
         return reverse("vacancy_detail", args=[self.slug])
 
 
+class MinimumRequirement(models.Model):
+    class QuestionType(models.TextChoices):
+        TEXT = "text"
+        BOOL = "bool"
+
+    vacancy = models.ForeignKey(
+        Vacancy, on_delete=models.CASCADE, related_name="requirements"
+    )
+    title = models.CharField(max_length=255, verbose_name="Requirement")
+    question_type = models.CharField(
+        max_length=50, choices=QuestionType.choices, default=QuestionType.BOOL
+    )
+    answer = models.CharField(max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+
+# **********************************************************************************************
+#                                       APPLICATION
+# **********************************************************************************************
 class Application(models.Model):
     class STATUS(models.TextChoices):
         SUBMITTED = "submitted"
@@ -110,6 +136,11 @@ class Application(models.Model):
         ],
         help_text="Please upload a PDF/DOCX file, maximum size 10MB.",
     )
+    reviewed_by = models.ForeignKey(
+        User, on_delete=models.PROTECT, blank=True, null=True
+    )
+    reviewed_at = models.DateTimeField(blank=True, null=True)
+    review_comments = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.vacancy.title
@@ -132,32 +163,15 @@ class Application(models.Model):
         return reverse("application_detail", kwargs={"pk": self.pk})
 
 
-class MinimumRequirement(models.Model):
-    class QuestionType(models.TextChoices):
-        TEXT = "text"
-        BOOL = "bool"
-
-    vacancy = models.ForeignKey(
-        Vacancy, on_delete=models.CASCADE, related_name="requirements"
-    )
-    title = models.CharField(max_length=255, verbose_name="Requirement")
-    question_type = models.CharField(
-        max_length=50, choices=QuestionType.choices, default=QuestionType.BOOL
-    )
-    answer = models.CharField(max_length=255, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.title
-
-
 class ApplicantResponse(models.Model):
     application = models.ForeignKey(Application, on_delete=models.CASCADE)
     requirement = models.ForeignKey(MinimumRequirement, on_delete=models.CASCADE)
     answer = models.CharField(max_length=255, blank=True, null=True)
 
 
+# **********************************************************************************************
+#                                       INTERVIEW
+# **********************************************************************************************
 class Interview(models.Model):
     class STATUS(models.TextChoices):
         SCHEDULED = "scheduled"
@@ -207,6 +221,9 @@ class Interview(models.Model):
             )
 
 
+# **********************************************************************************************
+#                                       SUBSCRIBER
+# **********************************************************************************************
 class Subscriber(models.Model):
     email = models.EmailField(unique=True)
     vacancy_types = models.ManyToManyField(VacancyType, related_name="subscribers")

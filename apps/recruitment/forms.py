@@ -1,14 +1,9 @@
-from datetime import date, timedelta
+from datetime import timedelta
 
 from django import forms
-from django.contrib.admin.widgets import FilteredSelectMultiple
-from django.forms import modelformset_factory
-from django.forms.models import inlineformset_factory
 from django.utils import timezone
 from tinymce.widgets import TinyMCE
 from unfold.widgets import UnfoldAdminSelectWidget
-
-from apps.organisation.models import Town
 
 from .models import (
     ApplicantResponse,
@@ -19,6 +14,10 @@ from .models import (
     Vacancy,
     VacancyType,
 )
+
+# **********************************************************************************************
+#                                       VACANCY
+# **********************************************************************************************
 
 
 class MinimumRequirementsAddForm(forms.ModelForm):
@@ -38,17 +37,19 @@ class VacancyForm(forms.ModelForm):
         label="Functions and Responsibilities", widget=TinyMCE
     )
     remarks = forms.CharField(label="Remarks", widget=TinyMCE)
-    # town = forms.ModelChoiceField(queryset=Town.objects.all(),widget=UnfoldAdminSelectWidget)
 
     class Meta:
         model = Vacancy
         exclude = ["slug", "created_at", "updated_at"]
 
 
+# **********************************************************************************************
+#                                       APPLICATION
+# **********************************************************************************************
 class ApplicationReviewForm(forms.ModelForm):
     class Meta:
         model = Application
-        fields = ["status"]
+        fields = ["status", "review_comments"]
 
 
 class ApplicationForm(forms.ModelForm):
@@ -66,16 +67,15 @@ class ApplicationForm(forms.ModelForm):
         )
 
 
-class SubscriberForm(forms.ModelForm):
-    vacancy_types = forms.ModelMultipleChoiceField(
-        queryset=VacancyType.objects.all(), widget=forms.CheckboxSelectMultiple
-    )
-
+class ApplicantResponseForm(forms.ModelForm):
     class Meta:
-        model = Subscriber
-        fields = ("email", "vacancy_types")
+        model = ApplicantResponse
+        fields = ["requirement", "answer"]
 
 
+# **********************************************************************************************
+#                                       INTERVIEW
+# **********************************************************************************************
 class InterviewForm(forms.ModelForm):
     application = forms.ModelChoiceField(
         queryset=Application.objects.filter(status=Application.STATUS.ACCEPTED),
@@ -106,7 +106,14 @@ class InterviewForm(forms.ModelForm):
         return schedule_datetime
 
 
-class ApplicantResponseForm(forms.ModelForm):
+# **********************************************************************************************
+#                                       SUBSCRIBER
+# **********************************************************************************************
+class SubscriberForm(forms.ModelForm):
+    vacancy_types = forms.ModelMultipleChoiceField(
+        queryset=VacancyType.objects.all(), widget=forms.CheckboxSelectMultiple
+    )
+
     class Meta:
-        model = ApplicantResponse
-        fields = ["requirement", "answer"]
+        model = Subscriber
+        fields = ("email", "vacancy_types")

@@ -2,7 +2,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from guardian.shortcuts import assign_perm, get_groups_with_perms, get_users_with_perms
 
-from ..models import Application, Vacancy
+from ..models import Application
 
 
 @receiver(post_save, sender=Application)

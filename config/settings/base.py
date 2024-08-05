@@ -30,6 +30,7 @@ THIRD_PARTY_APPS = [
     "tinymce",
     "widget_tweaks",
     "debug_toolbar",
+    "import_export",
 ]
 INSTALLED_APPS = (
     [
