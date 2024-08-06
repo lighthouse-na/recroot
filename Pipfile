@@ -19,6 +19,7 @@ django-widget-tweaks = "*"
 pillow = "*"
 whitenoise = "*"
 django-debug-toolbar = "*"
+django-cleanup = "*"
 
 [dev-packages]
 

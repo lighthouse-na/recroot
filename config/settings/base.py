@@ -31,6 +31,7 @@ THIRD_PARTY_APPS = [
     "widget_tweaks",
     "debug_toolbar",
     "import_export",
+    "django_cleanup.apps.CleanupConfig",
 ]
 INSTALLED_APPS = (
     [
