@@ -12,4 +12,9 @@ urlpatterns = [
         name="vacancy_detail",
     ),
     path("<slug>/apply", views.ApplicationCreateView.as_view(), name="apply"),
+    path(
+        "<str:pk>/invitation",
+        views.InterviewResponseView.as_view(),
+        name="interview_invitation",
+    ),
 ]

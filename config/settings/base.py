@@ -149,6 +149,8 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
+ANONYMOUS_USER_NAME = None  # guardian
+
 from .third_party.allauth import *
 from .third_party.crispy_forms import *
 from .third_party.tinymce import *

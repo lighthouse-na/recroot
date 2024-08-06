@@ -201,6 +201,9 @@ class Interview(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    response = models.CharField(max_length=255, blank=True, null=True)
+    response_deadline = models.DateTimeField(blank=True, null=True)
+    response_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.application.vacancy.title} - {self.application.first_name} {self.application.last_name}"

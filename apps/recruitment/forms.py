@@ -114,6 +114,15 @@ class InterviewForm(forms.ModelForm):
         return schedule_datetime
 
 
+class InterviewInvitationResponseForm(forms.ModelForm):
+    STATUS_CHOICES = (("accepted", "Accept"), ("rejected", "Reject"))
+    status = forms.ChoiceField(choices=STATUS_CHOICES)
+
+    class Meta:
+        model = Interview
+        fields = ("status", "response")
+
+
 # **********************************************************************************************
 #                                       SUBSCRIBER
 # **********************************************************************************************

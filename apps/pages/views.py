@@ -1,18 +1,21 @@
 from datetime import datetime
 from typing import Any
 
+from django.contrib import messages
 from django.http.response import HttpResponse as HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, ListView
+from django.utils import timezone
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from apps.recruitment.forms import (
     ApplicantResponseForm,
     ApplicationForm,
+    InterviewInvitationResponseForm,
     MinimumRequirementsAnswerForm,
     SubscriberForm,
 )
-from apps.recruitment.models import Application, Subscriber, Vacancy
+from apps.recruitment.models import Application, Interview, Subscriber, Vacancy
 
 
 class VacancyListView(ListView):
@@ -94,3 +97,29 @@ class SubscribeCreateView(CreateView):
     form = SubscriberForm
     success_url = reverse_lazy("vacancy_list")
     template_name = "recruitment/subscribe/create.html"
+
+
+class InterviewResponseView(UpdateView):
+    model = Interview
+    form_class = InterviewInvitationResponseForm
+    template_name = "recruitment/interview/invitation.html"
+    success_url = reverse_lazy("vacancy_list")
+
+    def form_valid(self, form):
+        response = form.save(commit=False)
+        response.response_date = timezone.now()
+        response.save()
+        return super().form_valid(form)
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if self.object.response_date:
+            return redirect("vacancy_list")
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs.get("pk")
+        context["interview"] = get_object_or_404(Interview, pk=pk)
+        return context
