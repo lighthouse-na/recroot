@@ -8,7 +8,7 @@ on:
 
 env:
   # DJANGO_SETTINGS_MODULE: config.settings.development
-  SECRET_KEY: "secrete_key"
+  DJANGO_SECRET_KEY: "secrete_key"
 
 jobs:
   build:
