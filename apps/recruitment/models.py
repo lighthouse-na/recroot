@@ -214,6 +214,13 @@ class Interview(models.Model):
     response = models.CharField(max_length=255, blank=True, null=True)
     response_deadline = models.DateTimeField(blank=True, null=True)
     response_date = models.DateTimeField(blank=True, null=True)
+    location = models.ForeignKey(
+        Location,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="interviews",
+    )
 
     def __str__(self):
         return f"{self.application.vacancy.title} - {self.application.first_name} {self.application.last_name}"

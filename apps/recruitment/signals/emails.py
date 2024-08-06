@@ -109,31 +109,29 @@ def send_interview_notification_email(sender, instance, created, **kwargs):
         f"{first_name} {last_name}" if first_name and last_name else "Applicant"
     )
 
-    # if not created and instance.status == "scheduled":
-    #     if recipient_list:
-    #         message = f"""
-    #             Dear {recipient_name},
+    if not created and instance.status == "scheduled":
+        if recipient_list:
+            message = f"""
+                Dear {recipient_name},
 
-    #             I hope this email finds you well. We appreciate your interest in the {instance.application.vacancy} position at Telecom Namibia Limited. We are pleased to invite you for an interview to discuss your candidacy further.
+                I hope this email finds you well. We appreciate your interest in the {instance.application.vacancy} position at Telecom Namibia Limited. We are pleased to invite you for an interview to discuss your candidacy further.
 
-    #             Interview Details:
+                Interview Details:
 
-    #             Date and Time: {instance.schedule_datetime}
-    #             Type of interview: {instance.interview_type}
-    #             Duration: {instance.duration}
-    #             Location: {instance.location}
+                Date and Time: {instance.schedule_datetime}
+                Location: {instance.location}
 
-    #             If the scheduled time is inconvenient or if you have any specific requests, please let us know as soon as possible, and we will do our best to accommodate.
+                If the scheduled time is inconvenient or if you have any specific requests, please let us know as soon as possible, and we will do our best to accommodate.
 
-    #             We look forward to the opportunity to learn more about you and discuss how your expertise can contribute to our team. Please confirm your attendance by replying to this email.
+                We look forward to the opportunity to learn more about you and discuss how your expertise can contribute to our team. Please confirm your attendance by replying to this email.
 
-    #             If you have any questions or need further information, feel free to contact us at demo@email.com.
+                If you have any questions or need further information, feel free to contact us at demo@email.com.
 
-    #             Thank you for your interest in Telecom Namibia Limited, and we look forward to meeting you.
+                Thank you for your interest in Telecom Namibia Limited, and we look forward to meeting you.
 
-    #             Best regards,
+                Best regards,
 
-    #             Demo
-    #         """
+                Demo
+            """
 
-    #     send_mail(subject, message, from_email, recipient_list)
+        send_mail(subject, message, from_email, recipient_list)
