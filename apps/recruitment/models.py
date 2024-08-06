@@ -174,6 +174,14 @@ class ApplicantResponse(models.Model):
 # **********************************************************************************************
 #                                       INTERVIEW
 # **********************************************************************************************
+class Location(models.Model):
+    title = models.CharField(max_length=255, unique=True)
+    address = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.title
+
+
 class Interview(models.Model):
     class STATUS(models.TextChoices):
         SCHEDULED = "scheduled"
@@ -182,6 +190,8 @@ class Interview(models.Model):
         WAITING = "Waiting"
         REJECTED = "rejected"
         ACCEPTED = "accepted"
+
+    class INTERVIEW_TYPE(models.TextChoices): ...
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     application = models.ForeignKey(Application, on_delete=models.CASCADE)
