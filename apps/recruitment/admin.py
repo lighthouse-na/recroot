@@ -242,7 +242,7 @@ class InterviewAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
     form = InterviewForm
     export_form_class = SelectableFieldsExportForm
     list_display = ["application", "status", "schedule_datetime"]
-    list_filter = ["application", "status", "schedule_datetime"]
+    list_filter = ["status", "schedule_datetime"]
 
     def get_model_objects(self, request, action=None, klass=None):
         opts = self.opts
@@ -272,7 +272,7 @@ class InterviewAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
             return super().has_change_permission(request, obj)
         else:
             self.has_permission(request, obj, "change")
-            if obj is not None and obj.status != "submitted":
+            if obj is not None and obj.status == None:
                 return False
             return True
 
@@ -287,3 +287,8 @@ class InterviewAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
         else:
             data = self.get_model_objects(request)
             return data
+
+    def save_model(self, request, obj, form, change):
+        if not obj.status:
+            obj.status = Interview.STATUS.SCHEDULED
+        super().save_model(request, obj, form, change)

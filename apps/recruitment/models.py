@@ -145,7 +145,7 @@ class Application(models.Model):
     review_comments = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
-        return self.vacancy.title
+        return f"{self.vacancy.title} - {self.first_name} {self.last_name}"
 
     def clean(self):
         if self.date_of_birth:
@@ -188,22 +188,22 @@ class Interview(models.Model):
     schedule_datetime = models.DateTimeField(
         help_text=_(
             "Please select a date and time at least one day in the future, excluding weekends."
-        )
+        ),
+        blank=True,
     )
-    status = models.CharField(
-        max_length=20, choices=STATUS.choices, default=STATUS.SCHEDULED
-    )
+    status = models.CharField(max_length=20, choices=STATUS.choices, blank=True)
     description = models.TextField(
         blank=True,
         help_text=_(
             "What do you want the interviewee to know before attending the interview?"
         ),
+        null=True,
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.application.vacancy.title
+        return f"{self.application.vacancy.title} - {self.application.first_name} {self.application.last_name}"
 
     def clean(self):
         if self.schedule_datetime <= timezone.now():

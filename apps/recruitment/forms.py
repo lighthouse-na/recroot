@@ -4,7 +4,6 @@ from django import forms
 from django.utils import timezone
 from phonenumber_field.formfields import PhoneNumberField
 from tinymce.widgets import TinyMCE
-from unfold.widgets import UnfoldAdminSelectWidget
 
 from .models import (
     ApplicantResponse,
@@ -82,11 +81,6 @@ class ApplicantResponseForm(forms.ModelForm):
 #                                       INTERVIEW
 # **********************************************************************************************
 class InterviewForm(forms.ModelForm):
-    application = forms.ModelChoiceField(
-        queryset=Application.objects.filter(status=Application.STATUS.ACCEPTED),
-        widget=UnfoldAdminSelectWidget,
-    )
-
     class Meta:
         model = Interview
         fields = ("application", "schedule_datetime", "description")
@@ -107,6 +101,15 @@ class InterviewForm(forms.ModelForm):
             raise forms.ValidationError(
                 "Scheduled datetime must be at least one day in the future."
             )
+
+        if schedule_datetime.hour < 8 or schedule_datetime.hour > 16:
+            raise forms.ValidationError("Scheduled time must be between 8am and 5pm.")
+
+        if schedule_datetime.hour == 17:
+            raise forms.ValidationError("Scheduled time cannot be later than 5pm.")
+
+        if schedule_datetime.hour == 7:
+            raise forms.ValidationError("Scheduled time cannot be earlier than 8am.")
 
         return schedule_datetime
 
