@@ -240,12 +240,19 @@ class Interview(models.Model):
         if self.schedule_datetime.weekday() >= 5:  # 5 = Saturday, 6 = Sunday
             raise ValidationError("Scheduled datetime cannot be on weekends.")
 
-        # Additional check to ensure the scheduled datetime is at least one day in the future
-
         if self.schedule_datetime.date() - timezone.now().date() < timedelta(days=1):
             raise ValidationError(
                 "Scheduled datetime must be at least one day in the future."
             )
+
+        if self.application.vacancy.deadline < timezone.now():
+            raise ValidationError(
+                "Cannot schedule an interview before the vacancy deadline"
+            )
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
 
 
 # **********************************************************************************************

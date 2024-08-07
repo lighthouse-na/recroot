@@ -272,6 +272,12 @@ class InterviewAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
     def has_view_permission(self, request, obj=None):
         return self.has_permission(request, obj, "view")
 
+    def has_delete_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return super().has_change_permission(request, obj)
+        else:
+            return False
+
     def has_change_permission(self, request, obj=None):
         if request.user.is_superuser:
             return super().has_change_permission(request, obj)
@@ -280,6 +286,14 @@ class InterviewAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
             if obj is not None and obj.status == None:
                 return False
             return True
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj is not None and obj.status in [
+            Interview.STATUS.ACCEPTED,
+            Interview.STATUS.REJECTED,
+        ]:
+            return [field.name for field in self.model._meta.fields]
+        return super().get_readonly_fields(request, obj)
 
     def has_module_permission(self, request):
         if super().has_module_permission(request):
@@ -295,5 +309,6 @@ class InterviewAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
 
     def save_model(self, request, obj, form, change):
         if not obj.status:
+            obj.clean()
             obj.status = Interview.STATUS.SCHEDULED
         super().save_model(request, obj, form, change)
