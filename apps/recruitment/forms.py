@@ -83,7 +83,7 @@ class ApplicantResponseForm(forms.ModelForm):
 class InterviewForm(forms.ModelForm):
     class Meta:
         model = Interview
-        fields = ("application", "schedule_datetime", "description")
+        fields = ("application", "schedule_datetime", "description", "location")
 
     def clean_schedule_datetime(self):
         schedule_datetime = self.cleaned_data["schedule_datetime"]

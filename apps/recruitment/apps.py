@@ -6,4 +6,4 @@ class RecruitmentConfig(AppConfig):
     name = "apps.recruitment"
 
     def ready(self):
-        from . import signals
+        from .signals import create,emails,permissions 

@@ -1,7 +1,9 @@
+from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.test import TestCase
+
 from apps.recruitment.models import VacancyType
-from django.core.exceptions import ValidationError
+
 
 class VacancyTypeTestCase(TestCase):
     def test_vacancy_type_creation(self):
@@ -34,7 +36,6 @@ class VacancyTypeTestCase(TestCase):
         VacancyType.objects.create(type=VacancyType.VACANCY_TYPE.INTERNSHIP)
         with self.assertRaises(IntegrityError):
             VacancyType.objects.create(type=VacancyType.VACANCY_TYPE.INTERNSHIP)
-
 
     def test_vacancy_type_max_length(self):
         # Test that the type field has a max length of 50

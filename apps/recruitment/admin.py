@@ -19,6 +19,7 @@ from .models import (
     ApplicantResponse,
     Application,
     Interview,
+    Location,
     MinimumRequirement,
     Vacancy,
     VacancyType,
@@ -237,10 +238,14 @@ class ApplicationAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
 # **********************************************************************************************
 #                                       INTERVIEW
 # **********************************************************************************************
+admin.site.register(Location, ModelAdmin)
+
+
 @admin.register(Interview)
 class InterviewAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
     form = InterviewForm
     export_form_class = SelectableFieldsExportForm
+    readonly_fields = ["application"]
     list_display = ["application", "status", "schedule_datetime"]
     list_filter = ["status", "schedule_datetime"]
 
