@@ -18,6 +18,7 @@ LOCAL_APPS = [
     "apps.organisation",
     "apps.recruitment",
     "apps.pages",
+    "apps.finaid",
 ]
 THIRD_PARTY_APPS = [
     "django_extensions",
