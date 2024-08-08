@@ -6,7 +6,6 @@ from guardian.shortcuts import get_objects_for_user
 from import_export.admin import ExportActionModelAdmin
 from unfold.admin import ModelAdmin, TabularInline
 from unfold.contrib.import_export.forms import SelectableFieldsExportForm
-
 from .forms import (
     ApplicationForm,
     ApplicationReviewForm,
@@ -312,3 +311,18 @@ class InterviewAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
             obj.clean()
             obj.status = Interview.STATUS.SCHEDULED
         super().save_model(request, obj, form, change)
+
+
+class RecruitmentAdminArea(admin.AdminSite):
+    site_header = "Recruitment Admin"
+    site_title = "Recruitment"
+    enable_nav_sidebar = False
+    login_template = "recruitment/admin/login.html"
+    logout_template = "recruitment/admin/logout.html"
+    password_change_template = "recruitment/admin/password_change.html"
+
+
+recruitment_admin_site = RecruitmentAdminArea(name="Recruitment")
+recruitment_admin_site.register(Application, ApplicationAdmin)
+recruitment_admin_site.register(Vacancy, VacancyAdmin)
+recruitment_admin_site.register(Interview, InterviewAdmin)
