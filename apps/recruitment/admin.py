@@ -5,6 +5,7 @@ from guardian.admin import GuardedModelAdmin
 from guardian.shortcuts import get_objects_for_user
 from import_export.admin import ExportActionModelAdmin
 from unfold.admin import ModelAdmin, TabularInline
+from unfold.contrib.filters.admin import RangeDateFilter
 from unfold.contrib.import_export.forms import SelectableFieldsExportForm
 
 from .forms import (
@@ -247,7 +248,8 @@ class InterviewAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
     export_form_class = SelectableFieldsExportForm
     readonly_fields = ["application"]
     list_display = ["application", "status", "schedule_datetime"]
-    list_filter = ["status", "schedule_datetime"]
+    list_filter = ["status", ("schedule_datetime", RangeDateFilter)]
+    list_filter_submit = True
 
     def get_model_objects(self, request, action=None, klass=None):
         opts = self.opts

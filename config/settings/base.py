@@ -36,6 +36,7 @@ INSTALLED_APPS = (
         "unfold",
         "unfold.contrib.import_export",
         "unfold.contrib.guardian",
+        "unfold.contrib.filters",
         "django.contrib.admin",
         "django.contrib.auth",
         "django.contrib.contenttypes",
