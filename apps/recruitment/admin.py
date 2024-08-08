@@ -316,6 +316,8 @@ class InterviewAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
 class RecruitmentAdminArea(admin.AdminSite):
     site_header = "Recruitment Admin"
     site_title = "Recruitment"
+    index_title = "Recruitment Dashboard"
+    index_template = ""
     enable_nav_sidebar = False
     login_template = "recruitment/admin/login.html"
     logout_template = "recruitment/admin/logout.html"

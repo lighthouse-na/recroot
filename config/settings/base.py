@@ -21,8 +21,6 @@ LOCAL_APPS = [
 ]
 THIRD_PARTY_APPS = [
     "django_extensions",
-    "allauth",
-    "allauth.account",
     "phonenumber_field",
     "crispy_forms",
     "crispy_tailwind",
@@ -46,6 +44,8 @@ INSTALLED_APPS = (
         "whitenoise.runserver_nostatic",
         "django.contrib.staticfiles",
         # "django.contrib.sites",
+        "allauth",
+        "allauth.account",
     ]
     + LOCAL_APPS
     + THIRD_PARTY_APPS
