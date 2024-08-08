@@ -7,7 +7,7 @@ from allauth.account.admin import EmailAddressAdmin as BaseEmailAddressAdmin
 from apps.organisation.admin import RegionAdmin
 from apps.organisation.models import Region
 from apps.recruitment.admin import VacancyAdmin, ApplicationAdmin, InterviewAdmin
-from apps.recruitment.models import Vacancy, Application, Interview, Location
+from apps.recruitment.models import Vacancy, Application, Interview, Location, VacancyType
 from unfold.admin import ModelAdmin
 
 admin.site.unregister(User)
@@ -48,3 +48,4 @@ admin_dashboard_site.register(Location, ModelAdmin)
 admin_dashboard_site.register(Vacancy, VacancyAdmin)
 admin_dashboard_site.register(Application, ApplicationAdmin)
 admin_dashboard_site.register(Interview, InterviewAdmin)
+admin_dashboard_site.register(VacancyType, ModelAdmin)
