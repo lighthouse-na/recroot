@@ -6,6 +6,7 @@ from guardian.shortcuts import get_objects_for_user
 from import_export.admin import ExportActionModelAdmin
 from unfold.admin import ModelAdmin, TabularInline
 from unfold.contrib.import_export.forms import SelectableFieldsExportForm
+
 from .forms import (
     ApplicationForm,
     ApplicationReviewForm,
@@ -322,6 +323,12 @@ class RecruitmentAdminArea(admin.AdminSite):
     login_template = "recruitment/admin/login.html"
     logout_template = "recruitment/admin/logout.html"
     password_change_template = "recruitment/admin/password_change.html"
+
+    def has_permission(self, request):
+        return (
+            request.user.is_active
+            and request.user.groups.filter(name="recruiter").exists()
+        )
 
 
 recruitment_admin_site = RecruitmentAdminArea(name="Recruitment")

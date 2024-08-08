@@ -1,14 +1,21 @@
+from allauth.account.admin import EmailAddressAdmin as BaseEmailAddressAdmin
+from allauth.account.models import EmailAddress
 from django.contrib import admin
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group, User
-from allauth.account.models import EmailAddress
-from allauth.account.admin import EmailAddressAdmin as BaseEmailAddressAdmin
+from unfold.admin import ModelAdmin
+
 from apps.organisation.admin import RegionAdmin
 from apps.organisation.models import Region
-from apps.recruitment.admin import VacancyAdmin, ApplicationAdmin, InterviewAdmin
-from apps.recruitment.models import Vacancy, Application, Interview, Location, VacancyType
-from unfold.admin import ModelAdmin
+from apps.recruitment.admin import ApplicationAdmin, InterviewAdmin, VacancyAdmin
+from apps.recruitment.models import (
+    Application,
+    Interview,
+    Location,
+    Vacancy,
+    VacancyType,
+)
 
 admin.site.unregister(User)
 admin.site.unregister(Group)
@@ -37,6 +44,11 @@ class AdminDashboard(admin.AdminSite):
     login_template = "account/admin/login.html"
     logout_template = "account/admin/logout.html"
     password_change_template = "account/admin/password_change.html"
+
+    def has_permission(self, request):
+        return (
+            request.user.is_active and request.user.groups.filter(name="admin").exists()
+        )
 
 
 admin_dashboard_site = AdminDashboard(name="Admin")
