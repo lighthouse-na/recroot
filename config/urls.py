@@ -6,6 +6,7 @@ from apps.accounts.admin import admin_dashboard_site
 from apps.recruitment.admin import recruitment_admin_site
 
 urlpatterns = [
+    path("accounts/", include("allauth.urls")),
     path("superuser/", admin.site.urls),
     path("admin/", admin_dashboard_site.urls),
     path("recruitment/", recruitment_admin_site.urls),

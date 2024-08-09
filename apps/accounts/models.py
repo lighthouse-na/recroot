@@ -1,28 +1,24 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from apps.organisation.models import CostCentre, Department, Position
+from apps.organisation.models import CostCentre, Position
 
 
 class Profile(models.Model):
     user = models.OneToOneField(
         User, primary_key=True, on_delete=models.CASCADE, related_name="profile"
     )
-    id_number = models.PositiveIntegerField()
-    salary_reference_number = models.PositiveIntegerField()
+    salary_reference_number = models.PositiveIntegerField(blank=True,null=True)
     position = models.ForeignKey(
-        Position, on_delete=models.PROTECT, related_name="profiles"
-    )
-    department = models.ForeignKey(
-        Department, on_delete=models.PROTECT, related_name="profiles"
+        Position, on_delete=models.PROTECT, related_name="profiles",blank=True,null=True
     )
     cost_centre = models.ForeignKey(
-        CostCentre, on_delete=models.PROTECT, related_name="profiles"
+        CostCentre, on_delete=models.PROTECT, related_name="profiles",blank=True,null=True
     )
     gender = models.CharField(
-        max_length=6, choices=[("male", "Male"), ("female", "Female")]
+        max_length=6, choices=[("male", "Male"), ("female", "Female")],blank=True,null=True
     )
-    date_appointed = models.DateField()
+    date_appointed = models.DateField(blank=True,null=True)
 
     def __str__(self):
         return self.user
