@@ -99,6 +99,14 @@ UNFOLD = {
                             "view_region"
                         ),
                     },
+                    {
+                        "title": _("Positions"),
+                        "icon": "location_on",
+                        "link": reverse_lazy("admin:organisation_position_changelist"),
+                        "permission": lambda request: request.user.has_perm(
+                            "view_position"
+                        ),
+                    },
                 ],
             },
             {

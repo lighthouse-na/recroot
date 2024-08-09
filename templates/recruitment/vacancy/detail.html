@@ -3,43 +3,43 @@
 {% load widget_tweaks %}
 {% load crispy_forms_tags %}
 {% block head %}{{ form.media }}
-<link rel="stylesheet" href="{% static 'css/tinymce.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tinymce.min.css' %}">
 {% endblock head %}
 {% block title %}{{ vacancy.title }}{% endblock title %}
 {% block content %}
-<div class="p-4">
-    <section class="">
-        <div>
-            <h1>{{ vacancy.title }} <span>{{ vacancy.deadline }}</span>
-                <span>(
-                    {% for town in vacancy.town.all %}
-                    {{ town }}
-                    {% endfor %})</span>
-            </h1>
-            <button class="p-4 border border-gray-400">Download Advert</button>
-            <hr>
-            <p>
-                {{ vacancy.functions_responsibilities|safe }}
-            </p>
-            <hr>
-            <h3>Minimum Requirements</h3>
-            <ul>
-                {% for requirement in vacancy.requirements.all %}
-                <li>{{ requirement }}?</li>
-                {% endfor %}
-            </ul>
-            <br>
-            <hr>
-            <p>
-                {{ vacancy.remarks|safe }}
-            </p>
-            <a href="{% url 'apply' vacancy.slug %}"><button>APPLY</button></a>
-        </div>
-    </section>
-</div>
+    <div class="p-4">
+        <section class="">
+            <div>
+                <h1>{{ vacancy.title }} <span>{{ vacancy.deadline }}</span>
+                    <span>(
+                        {% for town in vacancy.town.all %}
+                            {{ town }}
+                        {% endfor %})</span>
+                </h1>
+                <button class="p-4 border border-gray-400">Download Advert</button>
+                <hr>
+                <p>
+                    {{ vacancy.functions_responsibilities|safe }}
+                </p>
+                <hr>
+                <h3>Minimum Requirements</h3>
+                <ul>
+                    {% for requirement in vacancy.requirements.all %}
+                        <li>{{ requirement }}?</li>
+                    {% endfor %}
+                </ul>
+                <br>
+                <hr>
+                <p>
+                    {{ vacancy.remarks|safe }}
+                </p>
+                <a href="{% url 'apply' vacancy.slug %}"><button>APPLY</button></a>
+            </div>
+        </section>
+    </div>
 {% endblock content %}
 
 
 {% block scripts %}
-<script src="{% static 'js/tinymce.min.js' %}"></script>
+    <script src="{% static 'js/tinymce.min.js' %}"></script>
 {% endblock scripts %}

@@ -20,6 +20,7 @@ pillow = "*"
 whitenoise = "*"
 django-debug-toolbar = "*"
 django-cleanup = "*"
+djhtml = "*"
 
 [dev-packages]
 

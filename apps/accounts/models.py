@@ -21,4 +21,4 @@ class Profile(models.Model):
     date_appointed = models.DateField(blank=True,null=True)
 
     def __str__(self):
-        return self.user
+        return f"{self.user.first_name} {self.user.last_name}"
