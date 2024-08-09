@@ -3,17 +3,21 @@ from import_export.admin import ExportActionModelAdmin
 from unfold.admin import ModelAdmin
 from unfold.contrib.import_export.forms import SelectableFieldsExportForm
 
-from .forms import FinancialAssistanceApplicationForm
+from .forms import (
+    BursaryAdvertForm,
+    BursaryApplicationForm,
+    FinancialAssistanceApplicationForm,
+)
 from .models import (
-    Bursary,
-    BursaryApplications,
-    FinancialAssistance,
+    BursaryAdvert,
+    BursaryApplication,
+    FinancialAssistanceAdvert,
     FinancialAssistanceApplication,
 )
 
-admin.site.register(FinancialAssistance, ModelAdmin)
-admin.site.register(Bursary, ModelAdmin)
-admin.site.register(BursaryApplications, ModelAdmin)
+admin.site.register(FinancialAssistanceAdvert, ModelAdmin)
+# admin.site.register(Bursary, ModelAdmin)
+# admin.site.register(BursaryApplications, ModelAdmin)
 
 
 @admin.register(FinancialAssistanceApplication)
@@ -60,3 +64,33 @@ class FinancialAssistanceAdmin(ModelAdmin, ExportActionModelAdmin):
     def save_model(self, request, obj, form, change):
         obj.applicant = request.user
         super().save_model(request, obj, form, change)
+
+
+@admin.register(BursaryApplication)
+class BursaryApplicationsAdmin(ModelAdmin, ExportActionModelAdmin):
+    model = BursaryApplication
+    form = BursaryApplicationForm
+    export_form_class = SelectableFieldsExportForm
+    readonly_fields = [
+        "bursary",
+        "status",
+    ]
+    list_display = [
+        "bursary",
+        "status",
+    ]
+    list_filter = (
+        "bursary",
+        "status",
+    )
+
+    def has_add_permission(self, request):
+        return False
+
+
+@admin.register(BursaryAdvert)
+class BursaryApplicationsAdmin(ModelAdmin, ExportActionModelAdmin):
+    model = BursaryAdvert
+    form = BursaryAdvertForm
+    export_form_class = SelectableFieldsExportForm
+    readonly_fields = []

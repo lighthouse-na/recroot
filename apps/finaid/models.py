@@ -16,7 +16,14 @@ from apps.accounts.models import Profile
 from apps.utils.validators import FileValidator
 
 
-class Bursary(models.Model):
+# **********************************************************************************************
+#                                       BURSARY
+# **********************************************************************************************
+class BursaryAdvert(models.Model):
+    YEAR_CHOICES = [
+        (year, str(year)) for year in range(datetime.date.today().year, 2100)
+    ]
+    year = models.CharField(max_length=4, choices=YEAR_CHOICES, unique=True)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     advert = models.FileField(
         upload_to="adverts/bursary",
@@ -27,15 +34,17 @@ class Bursary(models.Model):
         blank=True,
         help_text="Please upload a PDF file, maximum size 10MB.",
     )
-    remarks = HTMLField(
-        blank=True, help_text="Enter any additional remarks about the vacancy."
-    )
+    description = HTMLField(blank=True, help_text="Bursary description.")
     deadline = models.DateTimeField(help_text="Enter the deadline for the bursary.")
+    is_visible = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f"Bursary for {self.year}"
 
-class BursaryApplications(models.Model):
+
+class BursaryApplication(models.Model):
     class STATUS(models.TextChoices):
         SUBMITTED = "submitted"
         ACCEPTED = "accepted"
@@ -43,12 +52,11 @@ class BursaryApplications(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     bursary = models.ForeignKey(
-        Bursary, on_delete=models.PROTECT, related_name="applications"
+        BursaryAdvert, on_delete=models.PROTECT, related_name="applications"
     )
     status = models.CharField(
         max_length=20, choices=STATUS.choices, default=STATUS.SUBMITTED
     )
-    submitted_at = models.DateTimeField(auto_now_add=True)
     first_name = models.CharField(max_length=255, help_text="Enter your first name")
     middle_name = models.CharField(
         max_length=255, blank=True, null=True, help_text="Enter your middle name"
@@ -76,7 +84,6 @@ class BursaryApplications(models.Model):
         help_text="Please upload a PDF/DOCX file, maximum size 10MB.",
     )
     motivation_letter = models.TextField(blank=True, null=True)
-    is_citizen = models.BooleanField(default=False)
     is_visible = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -131,7 +138,10 @@ class BursaryApplications(models.Model):
         return super().clean()
 
 
-class FinancialAssistance(models.Model):
+# **********************************************************************************************
+#                                  FINANCIAL ASSISTANCE
+# **********************************************************************************************
+class FinancialAssistanceAdvert(models.Model):
     YEAR_CHOICES = [
         (year, str(year)) for year in range(datetime.date.today().year, 2100)
     ]
@@ -176,7 +186,7 @@ class FinancialAssistanceApplication(models.Model):
     ]
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     assistance = models.ForeignKey(
-        FinancialAssistance, on_delete=models.PROTECT, related_name="applications"
+        FinancialAssistanceAdvert, on_delete=models.PROTECT, related_name="applications"
     )
     applicant = models.ForeignKey(
         Profile,

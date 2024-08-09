@@ -84,9 +84,17 @@ UNFOLD = {
                 "collapsible": True,
                 "items": [
                     {
-                        "title": _("Region"),
+                        "title": _("Regions"),
                         "icon": "location_on",
                         "link": reverse_lazy("admin:organisation_region_changelist"),
+                        "permission": lambda request: request.user.has_perm(
+                            "view_region"
+                        ),
+                    },
+                    {
+                        "title": _("Divisions"),
+                        "icon": "location_on",
+                        "link": reverse_lazy("admin:organisation_division_changelist"),
                         "permission": lambda request: request.user.has_perm(
                             "view_region"
                         ),
@@ -132,13 +140,13 @@ UNFOLD = {
                 "collapsible": True,
                 "items": [
                     {
-                        "title": _("Financial Assistance"),
+                        "title": _("Financial Assistance Adverts"),
                         "icon": "people",
                         "link": reverse_lazy(
-                            "admin:finaid_financialassistance_changelist"
+                            "admin:finaid_financialassistanceadvert_changelist"
                         ),
                         "permission": lambda request: request.user.has_perm(
-                            "view_financialassistance"
+                            "view_financialassistanceadvert"
                         ),
                     },
                     {
@@ -152,21 +160,21 @@ UNFOLD = {
                         ),
                     },
                     {
-                        "title": _("Bursaries"),
+                        "title": _("Bursary Adverts"),
                         "icon": "people",
-                        "link": reverse_lazy("admin:finaid_bursary_changelist"),
+                        "link": reverse_lazy("admin:finaid_bursaryadvert_changelist"),
                         "permission": lambda request: request.user.has_perm(
-                            "view_financialassistance"
+                            "view_bursaryadvert"
                         ),
                     },
                     {
                         "title": _("Bursary Applications"),
                         "icon": "request_quote",
                         "link": reverse_lazy(
-                            "admin:finaid_bursaryapplications_changelist"
+                            "admin:finaid_bursaryapplication_changelist"
                         ),
                         "permission": lambda request: request.user.has_perm(
-                            "view_financialassistanceapplication"
+                            "view_bursaryapplication"
                         ),
                     },
                 ],

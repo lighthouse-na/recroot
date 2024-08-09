@@ -18,7 +18,7 @@ class Town(models.Model):
 
 
 class Division(models.Model):
-    name = models.CharField(max_length=20, unique=True)
+    name = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
         return self.name
@@ -28,7 +28,7 @@ class Department(models.Model):
     division = models.ForeignKey(
         Division, on_delete=models.CASCADE, related_name="departments"
     )
-    name = models.CharField(max_length=20, unique=True)
+    name = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
         return self.name
@@ -42,10 +42,30 @@ class CostCentre(models.Model):
 
 
 class Position(models.Model):
+    department = models.ForeignKey(
+        Department, on_delete=models.PROTECT, related_name="positions"
+    )
     line_manager = models.ForeignKey(
-        "self", on_delete=models.PROTECT, related_name="subordinates"
+        "self",
+        on_delete=models.PROTECT,
+        related_name="subordinates",
+        blank=True,
+        null=True,
     )
     name = models.CharField(max_length=255, unique=True)
+    is_manager = models.BooleanField(default=False)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=("department", "is_manager"),
+                condition=models.Q(is_manager=True),
+                name="unique_manager_per_department",
+            )
+        ]
 
     def __str__(self):
-        return self.name
+        return f"{self.name} - {self.department}"
+
+    def clean(self):
+        return super().clean()
