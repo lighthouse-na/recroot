@@ -2,10 +2,11 @@ from django.contrib import admin
 from import_export.admin import ExportActionModelAdmin
 from unfold.admin import ModelAdmin
 from unfold.contrib.import_export.forms import SelectableFieldsExportForm
+
 from apps.finaid.admin import (
-    FinancialAssistanceAdmin,
+    BursaryAdvertAdmin,
     BursaryApplicationsAdmin,
-    BursaryAdvertAdmin
+    FinancialAssistanceAdmin,
 )
 from apps.finaid.models import (
     BursaryAdvert,
@@ -28,6 +29,7 @@ class FinaidAminArea(admin.AdminSite):
     def has_permission(self, request):
         return (
             request.user.is_active
+            and request.user.is_authenticated
             and request.user.groups.filter(name="finaid").exists()
         )
 

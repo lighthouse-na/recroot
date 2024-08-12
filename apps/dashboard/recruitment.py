@@ -2,16 +2,11 @@ from django.contrib import admin
 
 from apps.recruitment.admin import (
     ApplicationAdmin,
-    VacancyAdmin,
     InterviewAdmin,
     SubscriberAdmin,
+    VacancyAdmin,
 )
-from apps.recruitment.models import (
-    Application,
-    Interview,
-    Subscriber,
-    Vacancy,
-)
+from apps.recruitment.models import Application, Interview, Subscriber, Vacancy
 
 
 class RecruitmentAdminArea(admin.AdminSite):
@@ -27,6 +22,7 @@ class RecruitmentAdminArea(admin.AdminSite):
     def has_permission(self, request):
         return (
             request.user.is_active
+            and request.user.is_authenticated
             and request.user.groups.filter(name="recruiter").exists()
         )
 

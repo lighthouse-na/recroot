@@ -3,30 +3,34 @@ from django.contrib import admin
 from django.contrib.auth.models import Group, User
 from unfold.admin import ModelAdmin
 
-from apps.organisation.admin import RegionAdmin, PositionAdmin, CostCentreAdmin
-from apps.organisation.models import Region, Position, CostCentre
-from apps.recruitment.admin import (
-    ApplicationAdmin,
-    InterviewAdmin,
-    VacancyAdmin,
-    SubscriberAdmin,
+from apps.accounts.admin import EmailAddressAdmin, GroupAdmin, UserAdmin
+from apps.finaid.admin import (
+    BursaryAdvertAdmin,
+    BursaryApplicationsAdmin,
+    FinancialAssistanceAdmin,
 )
-from apps.recruitment.models import (
-    Application,
-    Interview,
-    Location,
-    Vacancy,
-    VacancyType,
-    Subscriber,
-)
-from apps.finaid.admin import BursaryAdvertAdmin, BursaryApplicationsAdmin, FinancialAssistanceAdmin
 from apps.finaid.models import (
     BursaryAdvert,
     BursaryApplication,
     FinancialAssistanceAdvert,
     FinancialAssistanceApplication,
 )
-from apps.accounts.admin import UserAdmin, GroupAdmin, EmailAddressAdmin
+from apps.organisation.admin import CostCentreAdmin, PositionAdmin, RegionAdmin
+from apps.organisation.models import CostCentre, Position, Region
+from apps.recruitment.admin import (
+    ApplicationAdmin,
+    InterviewAdmin,
+    SubscriberAdmin,
+    VacancyAdmin,
+)
+from apps.recruitment.models import (
+    Application,
+    Interview,
+    Location,
+    Subscriber,
+    Vacancy,
+    VacancyType,
+)
 
 # admin.site.unregister(User)
 # admin.site.unregister(Group)
@@ -45,7 +49,9 @@ class AdminDashboard(admin.AdminSite):
 
     def has_permission(self, request):
         return (
-            request.user.is_active and request.user.groups.filter(name="admin").exists()
+            request.user.is_active
+            and request.user.is_authenticated
+            and request.user.groups.filter(name="admin").exists()
         )
 
 

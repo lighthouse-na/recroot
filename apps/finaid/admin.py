@@ -96,5 +96,8 @@ class BursaryAdvertAdmin(ModelAdmin, ExportActionModelAdmin):
     # readonly_fields = []
 
     def has_add_permission(self, request):
-        if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
+        if (
+            request.user.is_superuser
+            or request.user.groups.filter(name="admin").exists()
+        ):
             return super().has_change_permission(request)
