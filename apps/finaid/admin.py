@@ -43,8 +43,8 @@ class FinancialAssistanceAdmin(ModelAdmin, ExportActionModelAdmin):
         code_name = f"{action}_{opts.model_name}"
         if obj:
             return request.user.has_perm(f"{opts.app_label}.{code_name}", obj)
-        else:
-            return self.get_model_objects(request).exists()
+        # else:
+        #     return self.get_model_objects(request).exists()
 
     # def has_view_permission(self, request, obj=None):
     #     return self.has_permission(request, obj, "view")
@@ -89,8 +89,12 @@ class BursaryApplicationsAdmin(ModelAdmin, ExportActionModelAdmin):
 
 
 @admin.register(BursaryAdvert)
-class BursaryApplicationsAdmin(ModelAdmin, ExportActionModelAdmin):
+class BursaryAdvertAdmin(ModelAdmin, ExportActionModelAdmin):
     model = BursaryAdvert
     form = BursaryAdvertForm
     export_form_class = SelectableFieldsExportForm
-    readonly_fields = []
+    # readonly_fields = []
+
+    def has_add_permission(self, request):
+        if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
+            return super().has_change_permission(request)

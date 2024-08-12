@@ -326,29 +326,3 @@ class SubscriberAdmin(ModelAdmin):
 
     def has_add_permission(self, request):
         return False
-
-
-# **********************************************************************************************
-#                                 RECRUITMENT DASHBOARD
-# **********************************************************************************************
-class RecruitmentAdminArea(admin.AdminSite):
-    site_header = "Recruitment Admin"
-    site_title = "Recruitment"
-    index_title = "Recruitment Dashboard"
-    index_template = ""
-    enable_nav_sidebar = False
-    login_template = "recruitment/admin/login.html"
-    logout_template = "recruitment/admin/logout.html"
-    password_change_template = "recruitment/admin/password_change.html"
-
-    def has_permission(self, request):
-        return (
-            request.user.is_active
-            and request.user.groups.filter(name="recruiter").exists()
-        )
-
-
-recruitment_admin_site = RecruitmentAdminArea(name="Recruitment")
-recruitment_admin_site.register(Application, ApplicationAdmin)
-recruitment_admin_site.register(Vacancy, VacancyAdmin)
-recruitment_admin_site.register(Interview, InterviewAdmin)
