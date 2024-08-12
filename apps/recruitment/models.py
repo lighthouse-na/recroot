@@ -74,7 +74,7 @@ class Vacancy(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("vacancy_detail", args=[self.slug])
+        return reverse("recruitment:vacancy_detail", args=[self.slug])
 
 
 class MinimumRequirement(models.Model):

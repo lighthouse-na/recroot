@@ -166,7 +166,7 @@ class VacancyModelTest(TestCase):
         )
         vacancy.town.set([self.town])
         self.assertEqual(
-            vacancy.get_absolute_url(), reverse("vacancy_detail", args=[vacancy.slug])
+            vacancy.get_absolute_url(), reverse("recruitment:vacancy_detail", args=[vacancy.slug])
         )
 
     def test_vacancy_string_representation(self):
