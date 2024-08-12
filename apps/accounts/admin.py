@@ -16,6 +16,7 @@ from apps.recruitment.models import (
     Vacancy,
     VacancyType,
 )
+
 from .models import Profile
 
 admin.site.unregister(User)

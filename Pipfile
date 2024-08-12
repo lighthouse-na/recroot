@@ -21,6 +21,7 @@ whitenoise = "*"
 django-debug-toolbar = "*"
 django-cleanup = "*"
 djhtml = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 

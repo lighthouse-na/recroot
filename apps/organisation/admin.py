@@ -1,7 +1,7 @@
 from django.contrib import admin
 from guardian.admin import GuardedModelAdmin
-from unfold.admin import ModelAdmin, TabularInline
 from import_export.admin import ImportExportActionModelAdmin
+from unfold.admin import ModelAdmin, TabularInline
 from unfold.contrib.import_export.forms import ImportForm, SelectableFieldsExportForm
 
 from .models import CostCentre, Department, Division, Position, Region, Town
@@ -40,6 +40,8 @@ class PositionInline(TabularInline):
     model = Position
     extra = 1
     # tab = True
+
+
 @admin.register(Position)
 class PositionAdmin(ModelAdmin, GuardedModelAdmin, ImportExportActionModelAdmin):
     model = Position

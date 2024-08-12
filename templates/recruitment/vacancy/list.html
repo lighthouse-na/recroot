@@ -1,28 +1,16 @@
-{% extends 'base.html' %}
-{% block title %}Vacancies{% endblock title %}
-{% block content %}
-
+{% load humanize %}
+<div class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
     {% for vacancy in vacancies %}
-
-        <div class="p-4">
-            <div
-                class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <div class="flex flex-col items-center pb-10 pt-10">
-                    <a href="{% url 'vacancy_detail' vacancy.slug %}">
-                        <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{vacancy.title}}
-                            ({% for town in vacancy.town.all %}
-                                {{ town }}
-                            {% endfor %})
-                        </h5>
-                    </a>
-                    <span class="text-sm text-gray-500 dark:text-gray-400">{{ vacancy.deadline }}</span>
-                    <div class="flex mt-4 md:mt-6">
-                        <a href="{% url 'vacancy_detail' vacancy.slug %}"
-                           class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">View</a>
-                    </div>
-                </div>
-            </div>
+        <div class="border p-2">
+        <!-- <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 dark:bg-primary-900">
+                        <svg class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                    </div> -->
+            <a href="{% url 'recruitment:vacancy_detail' vacancy.slug %}">
+                <h3 class="mb-2 text-xl font-bold dark:text-white">{{vacancy.title}}
+                    <span class="text-sm text-red-500 dark:text-red-400">{{ vacancy.deadline|naturaltime }}</span>
+                </h3>
+            </a>
+            <p class="text-gray-500 dark:text-gray-400"></p>
         </div>
-
     {% endfor %}
-{% endblock content %}
+</div>

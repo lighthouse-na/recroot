@@ -31,6 +31,7 @@ THIRD_PARTY_APPS = [
     "debug_toolbar",
     "import_export",
     "django_cleanup.apps.CleanupConfig",
+    "corsheaders",
 ]
 INSTALLED_APPS = (
     [
@@ -45,7 +46,8 @@ INSTALLED_APPS = (
         "django.contrib.messages",
         "whitenoise.runserver_nostatic",
         "django.contrib.staticfiles",
-        # "django.contrib.sites",
+        "django.contrib.sites",
+        "django.contrib.humanize",
         "allauth",
         "allauth.account",
     ]
@@ -64,6 +66,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",  # allauth
     "debug_toolbar.middleware.DebugToolbarMiddleware",  # debug toolbar
+    "corsheaders.middleware.CorsMiddleware",  # corsheaders
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -152,8 +155,17 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-# ANONYMOUS_USER_NAME = None  # guardian
+SITE_ID = 1
 
+X_FRAME_OPTIONS = "SAMEORIGIN"
+# ANONYMOUS_USER_NAME = None  # guardian
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+]
+UBLOCK_ORIGIN_EXCEPTIONS = [
+    "http://localhost:8000/*",
+    # Add your domain here
+]
 from .third_party.allauth import *
 from .third_party.crispy_forms import *
 from .third_party.tinymce import *

@@ -7,36 +7,50 @@
 {% endblock head %}
 {% block title %}{{ vacancy.title }}{% endblock title %}
 {% block content %}
-    <div class="p-4">
-        <section class="">
-            <div>
-                <h1>{{ vacancy.title }} <span>{{ vacancy.deadline }}</span>
-                    <span>(
-                        {% for town in vacancy.town.all %}
-                            {{ town }}
-                        {% endfor %})</span>
+    <section class="bg-white dark:bg-gray-900">
+        <div class="items-center py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+            <div class="mt-4 md:mt-0">
+                <h1 class="mb-4 text-5xl tracking-tight font-extrabold text-gray-900 dark:text-white">{{ vacancy.title }}
+                    <span class="text-xs text-red-500 dark:text-red-400">{{ vacancy.deadline }}</span>
+                    <span class="text-xs text-purple-500 dark:text-purple-400">
+                        <a href="{{ vacancy.advert.url }}" target="_blank">
+                            <button>Download Advert</button>
+                        </a>
+                    </span>
                 </h1>
-                <button class="p-4 border border-gray-400">Download Advert</button>
-                <hr>
-                <p>
-                    {{ vacancy.functions_responsibilities|safe }}
-                </p>
-                <hr>
-                <h3>Minimum Requirements</h3>
-                <ul>
-                    {% for requirement in vacancy.requirements.all %}
-                        <li>{{ requirement }}?</li>
-                    {% endfor %}
-                </ul>
-                <br>
-                <hr>
-                <p>
-                    {{ vacancy.remarks|safe }}
-                </p>
-                <a href="{% url 'apply' vacancy.slug %}"><button>APPLY</button></a>
+                <h2 class="mb-4 text-3xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+                    Functions and Responsibilities
+                </h2>
+                <p class="mb-6 font-light text-gray-500 md:text-lg dark:text-gray-400">
+                    {{ vacancy.functions_responsibilities|safe }}</p>
+                <hr class="w-48 h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-700">
+
+                <h2 class="mb-4 text-3xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+                    Remarks
+                </h2>
+                <p class="mb-6 font-light text-gray-500 md:text-lg dark:text-gray-400">
+                    {{ vacancy.remarks|safe }}</p>
+                <hr class="w-48 h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-700">
+
+                {% if vacancy.requirements %}
+                    <ul>
+                        {% for requirement in vacancy.requirements.all %}
+                            <li class="mb-6 font-light text-gray-500 md:text-lg dark:text-gray-400">{{ requirement }}?</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <a href="{% url 'recruitment:apply' vacancy.slug %}"
+                   class="inline-flex items-center text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-purple-900">Apply
+                    <svg class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                </a>
             </div>
-        </section>
-    </div>
+        </div>
+    </section>
 {% endblock content %}
 
 

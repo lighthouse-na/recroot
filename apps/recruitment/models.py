@@ -40,7 +40,7 @@ class Vacancy(models.Model):
         upload_to="adverts/vacancy",
         validators=[
             FileExtensionValidator(allowed_extensions=["pdf"]),
-            MaxValueValidator(limit_value=10 * 1024 * 1024),
+            FileValidator(max_size=10 * 1024 * 1024),
         ],
         blank=True,
         help_text="Please upload a PDF file, maximum size 10MB.",

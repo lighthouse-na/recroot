@@ -22,6 +22,7 @@ from .models import (
     Interview,
     Location,
     MinimumRequirement,
+    Subscriber,
     Vacancy,
     VacancyType,
 )
@@ -316,6 +317,20 @@ class InterviewAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
         super().save_model(request, obj, form, change)
 
 
+# **********************************************************************************************
+#                                       SUBSCRIBER
+# **********************************************************************************************
+@admin.register(Subscriber)
+class SubscriberAdmin(ModelAdmin):
+    model = Subscriber
+
+    def has_add_permission(self, request):
+        return False
+
+
+# **********************************************************************************************
+#                                 RECRUITMENT DASHBOARD
+# **********************************************************************************************
 class RecruitmentAdminArea(admin.AdminSite):
     site_header = "Recruitment Admin"
     site_title = "Recruitment"
