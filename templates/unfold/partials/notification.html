@@ -1,11 +1,14 @@
 {% load humanize %}
-<a href="#" class="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
+
+
+<a href="#" id="notification" hx-swap-oob="afterbegin"
+    class="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
     <div class="pl-3 w-full">
-        <div class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">New message from
-            <span class="font-semibold text-gray-900 dark:text-white">Bonnie Green</span>: "Hey,
-            what's up? All set for the presentation?"
+        <div class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">{{ message }}
+            <!-- <span class="font-semibold text-gray-900 dark:text-white">Bonnie Green</span>: "Hey,
+            what's up? All set for the presentation?" -->
         </div>
-        <div class="text-xs font-medium text-primary-700 dark:text-primary-400">a few moments ago
+        <div class="text-xs font-medium text-primary-700 dark:text-primary-400">{{ created_at|naturaltime }}
         </div>
     </div>
 </a>

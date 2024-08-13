@@ -3,6 +3,7 @@ import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from django.template.loader import get_template
+from django.contrib.auth.models import User
 
 
 class AdminNotificationConsumer(WebsocketConsumer):
@@ -52,7 +53,7 @@ class FinaidNotificationConsumer(WebsocketConsumer):
 
 class StaffNotificationConsumer(WebsocketConsumer):
     def connect(self):
-        self.GROUP_NAME = "staff-notifications"
+        self.GROUP_NAME = f"staff-notifications-{self.scope['user'].id}"
         async_to_sync(self.channel_layer.group_add)(self.GROUP_NAME, self.channel_name)
         self.accept()
 
@@ -64,11 +65,15 @@ class StaffNotificationConsumer(WebsocketConsumer):
     def receive(self, text_data=None, bytes_data=None):
         return super().receive(text_data, bytes_data)
 
-    def vacancy_created(self, event):
+    def created(self, event):
         # self.send(text_data=event["vacancy_id", "vacancy_slug", "vacancy_title"])
         context = {
-            "vacancy_id": event["vacancy_id"],
-            "vacancy_slug": event["vacancy_slug"],
-            "vacancy_title": event["vacancy_title"],
+            "id": event["id"],
+            "user": event["user"],
+            "object_id": event["object_id"],
+            "message": event["message"],
+            "is_read": event["read"],
+            "created_at": event["created_at"],
         }
         html = get_template("unfold/partials/notification.html").render(context)
+        self.send(text_data=html)
