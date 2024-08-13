@@ -63,6 +63,7 @@ class Vacancy(models.Model):
     )
     deadline = models.DateTimeField(help_text="Enter the deadline for the vacancy.")
     is_public = models.BooleanField(default=False)
+    is_published = models.BooleanField(default=False)
     slug = AutoSlugField(unique=True, populate_from=["title", "id"])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

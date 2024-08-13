@@ -20,6 +20,7 @@ LOCAL_APPS = [
     "apps.pages",
     "apps.finaid",
     "apps.dashboard",
+    "apps.notification",
 ]
 THIRD_PARTY_APPS = [
     "django_extensions",
@@ -36,6 +37,7 @@ THIRD_PARTY_APPS = [
 ]
 INSTALLED_APPS = (
     [
+        "daphne",
         "unfold",
         "unfold.contrib.import_export",
         "unfold.contrib.guardian",
@@ -51,6 +53,7 @@ INSTALLED_APPS = (
         "django.contrib.humanize",
         "allauth",
         "allauth.account",
+        "channels"
     ]
     + LOCAL_APPS
     + THIRD_PARTY_APPS
@@ -88,7 +91,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "config.wsgi.application"
+# WSGI_APPLICATION = "config.wsgi.application"
+ASGI_APPLICATION = "config.asgi.application"
 
 
 # Password validation
@@ -168,6 +172,7 @@ UBLOCK_ORIGIN_EXCEPTIONS = [
     # Add your domain here
 ]
 from .third_party.allauth import *
+from .third_party.channels import *
 from .third_party.crispy_forms import *
 from .third_party.tinymce import *
 from .third_party.unfold import *

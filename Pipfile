@@ -22,6 +22,7 @@ django-debug-toolbar = "*"
 django-cleanup = "*"
 djhtml = "*"
 django-cors-headers = "*"
+channels = {extras = ["daphne"], version = "*"}
 
 [dev-packages]
 

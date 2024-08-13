@@ -48,12 +48,14 @@ class VacancyAdmin(ModelAdmin, GuardedModelAdmin):
         "deadline",
         "vacancy_type",
         "is_public",
+        "is_published",
     ]
     list_filter = [
         "title",
         "deadline",
         "is_public",
     ]
+    list_editable = ["is_published"]
     filter_horizontal = ["town"]
     inlines = [MinimumRequirementsAddInline]
 
@@ -83,7 +85,7 @@ class VacancyAdmin(ModelAdmin, GuardedModelAdmin):
     def has_change_permission(self, request, obj=None):
         if request.user.is_superuser:
             return super().has_change_permission(request, obj)
-        elif obj is not None and obj.deadline > timezone.now():
+        elif obj is not None and obj.is_published:
             return False
         else:
             return self.has_permission(request, obj, "change")
