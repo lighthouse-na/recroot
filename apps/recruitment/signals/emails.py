@@ -10,7 +10,7 @@ email = "recruitment@email.com"
 
 @receiver(post_save, sender=Vacancy)
 def send_vacancy_notification(sender, instance, created, **kwargs):
-    if created and instance.is_public and instance.is_published:
+    if instance.is_public and instance.is_published:
         vacancy_type = instance.vacancy_type
         subscribers = Subscriber.objects.filter(
             subscribed=True, vacancy_types__type=vacancy_type

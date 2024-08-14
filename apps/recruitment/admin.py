@@ -80,10 +80,12 @@ class VacancyAdmin(ModelAdmin, GuardedModelAdmin):
             return self.get_model_objects(request).exists()
 
     def has_view_permission(self, request, obj=None):
+        if request.user.is_superuser or request.user.groups.filter(name="admin"):
+            return True
         return self.has_permission(request, obj, "view")
 
     def has_change_permission(self, request, obj=None):
-        if request.user.is_superuser:
+        if request.user.is_superuser or request.user.groups.filter(name="admin"):
             return super().has_change_permission(request, obj)
         elif obj is not None and obj.is_published:
             return False
@@ -91,7 +93,7 @@ class VacancyAdmin(ModelAdmin, GuardedModelAdmin):
             return self.has_permission(request, obj, "change")
 
     def has_delete_permission(self, request, obj=None):
-        if request.user.is_superuser:
+        if request.user.is_superuser or request.user.groups.filter(name="admin"):
             return super().has_delete_permission(request, obj)
         else:
             return self.has_permission(request, obj, "delete")

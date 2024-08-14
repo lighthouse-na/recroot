@@ -53,6 +53,8 @@ class FinaidNotificationConsumer(WebsocketConsumer):
 
 class StaffNotificationConsumer(WebsocketConsumer):
     def connect(self):
+        self.user = self.scope["user"]
+        # if not self.user.is_authenticated
         self.GROUP_NAME = f"staff-notifications-{self.scope['user'].id}"
         async_to_sync(self.channel_layer.group_add)(self.GROUP_NAME, self.channel_name)
         self.accept()

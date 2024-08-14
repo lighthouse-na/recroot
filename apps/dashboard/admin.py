@@ -41,7 +41,7 @@ class AdminDashboard(admin.AdminSite):
     site_header = "Admin Dashboard"
     site_title = "Admin Dashboard"
     index_title = "Admin Dashboard"
-    # index_template = "account/admin/index.html"
+    # index_template = "admin/index.html"
     enable_nav_sidebar = False
     login_template = "admin/login.html"
     logout_template = "admin/logout.html"

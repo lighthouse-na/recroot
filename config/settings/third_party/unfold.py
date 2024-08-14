@@ -1,4 +1,4 @@
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.translation import gettext_lazy as _
 
 UNFOLD = {
@@ -42,7 +42,8 @@ UNFOLD = {
                     {
                         "title": _("Dashboard"),
                         "icon": "dashboard",
-                        "link": reverse_lazy("admin:index"),
+                        # "link": reverse_lazy("admin:index"),
+                        "link": "/admin/",
                         "permission": lambda request: request.user.is_superuser,
                     },
                 ],
@@ -55,7 +56,8 @@ UNFOLD = {
                     {
                         "title": _("Users"),
                         "icon": "people",
-                        "link": reverse_lazy("admin:auth_user_changelist"),
+                        # "link": reverse_lazy("admin:auth_user_changelist"),
+                        "link": "/admin/auth/user/",
                         "permission": lambda request: request.user.has_perm(
                             "auth.view_user"
                         ),
@@ -63,7 +65,8 @@ UNFOLD = {
                     {
                         "title": _("Emails"),
                         "icon": "email",
-                        "link": reverse_lazy("admin:account_emailaddress_changelist"),
+                        # "link": reverse_lazy("admin:account_emailaddress_changelist"),
+                        "link": "/admin/account/emailaddress",
                         "permission": lambda request: request.user.has_perm(
                             "account.view_emailaddress"
                         ),
@@ -71,7 +74,8 @@ UNFOLD = {
                     {
                         "title": _("Groups"),
                         "icon": "groups",
-                        "link": reverse_lazy("admin:auth_group_changelist"),
+                        # "link": reverse_lazy("admin:auth_group_changelist"),
+                        "link": "/admin/auth/group/",
                         "permission": lambda request: request.user.has_perm(
                             "auth.view_group"
                         ),
@@ -86,23 +90,26 @@ UNFOLD = {
                     {
                         "title": _("Regions"),
                         "icon": "location_on",
-                        "link": reverse_lazy("admin:organisation_region_changelist"),
+                        # "link": reverse_lazy("admin:organisation_region_changelist"),
+                        "link": "/admin/organisation/region",
                         "permission": lambda request: request.user.has_perm(
                             "view_region"
                         ),
                     },
-                    {
-                        "title": _("Divisions"),
-                        "icon": "location_on",
-                        "link": reverse_lazy("admin:organisation_division_changelist"),
-                        "permission": lambda request: request.user.has_perm(
-                            "view_region"
-                        ),
-                    },
+                    # {
+                    #     "title": _("Divisions"),
+                    #     "icon": "location_on",
+                    #     # "link": reverse_lazy("admin:organisation_division_changelist"),
+                    #     "link": "/admin/organisation/division",
+                    #     "permission": lambda request: request.user.has_perm(
+                    #         "view_region"
+                    #     ),
+                    # },
                     {
                         "title": _("Positions"),
                         "icon": "location_on",
-                        "link": reverse_lazy("admin:organisation_position_changelist"),
+                        # "link": reverse_lazy("admin:organisation_position_changelist"),
+                        "link": "/admin/organisation/position",
                         "permission": lambda request: request.user.has_perm(
                             "view_position"
                         ),
@@ -117,9 +124,10 @@ UNFOLD = {
                     {
                         "title": _("Applications"),
                         "icon": "stacks",
-                        "link": reverse_lazy(
-                            "admin:recruitment_application_changelist"
-                        ),
+                        # "link": reverse_lazy(
+                        #     "admin:recruitment_application_changelist"
+                        # ),
+                        "link": "/admin/recruitment/application",
                         "permission": lambda request: request.user.has_perm(
                             "view_application"
                         ),
@@ -127,7 +135,8 @@ UNFOLD = {
                     {
                         "title": _("Interviews"),
                         "icon": "event",
-                        "link": reverse_lazy("admin:recruitment_interview_changelist"),
+                        # "link": reverse_lazy("admin:recruitment_interview_changelist"),
+                        "link": "/admin/recruitment/interview",
                         "permission": lambda request: request.user.has_perm(
                             "view_interview"
                         ),
@@ -135,7 +144,8 @@ UNFOLD = {
                     {
                         "title": _("Vacancies"),
                         "icon": "people",
-                        "link": reverse_lazy("admin:recruitment_vacancy_changelist"),
+                        # "link": reverse_lazy("admin:recruitment_vacancy_changelist"),
+                        "link": "/admin/recruitment/vacancy",
                         "permission": lambda request: request.user.has_perm(
                             "view_vacancy"
                         ),
@@ -147,22 +157,24 @@ UNFOLD = {
                 # "separator": True,
                 "collapsible": True,
                 "items": [
-                    {
-                        "title": _("Financial Assistance Adverts"),
-                        "icon": "people",
-                        "link": reverse_lazy(
-                            "admin:finaid_financialassistanceadvert_changelist"
-                        ),
-                        "permission": lambda request: request.user.has_perm(
-                            "view_financialassistanceadvert"
-                        ),
-                    },
+                    # {
+                    #     "title": _("Financial Assistance Adverts"),
+                    #     "icon": "people",
+                    #     # "link": reverse_lazy(
+                    #     #     "admin:finaid_financialassistanceadvert_changelist"
+                    #     # ),
+                    #     "link": "/admin/finaid/financialassistanceadvert",
+                    #     "permission": lambda request: request.user.has_perm(
+                    #         "view_financialassistanceadvert"
+                    #     ),
+                    # },
                     {
                         "title": _("Financial Assistance Applications"),
                         "icon": "request_quote",
-                        "link": reverse_lazy(
-                            "admin:finaid_financialassistanceapplication_changelist"
-                        ),
+                        # "link": reverse_lazy(
+                        #     "admin:finaid_financialassistanceapplication_changelist"
+                        # ),
+                        "link": "/admin/finaid/financialassistanceapplication",
                         "permission": lambda request: request.user.has_perm(
                             "view_financialassistanceapplication"
                         ),
@@ -170,7 +182,8 @@ UNFOLD = {
                     {
                         "title": _("Bursary Adverts"),
                         "icon": "people",
-                        "link": reverse_lazy("admin:finaid_bursaryadvert_changelist"),
+                        # "link": reverse_lazy("admin:finaid_bursaryadvert_changelist"),
+                        "link": "/admin/finaid/bursaryadvert",
                         "permission": lambda request: request.user.has_perm(
                             "view_bursaryadvert"
                         ),
@@ -178,9 +191,10 @@ UNFOLD = {
                     {
                         "title": _("Bursary Applications"),
                         "icon": "request_quote",
-                        "link": reverse_lazy(
-                            "admin:finaid_bursaryapplication_changelist"
-                        ),
+                        # "link": reverse_lazy(
+                        #     "admin:finaid_bursaryapplication_changelist"
+                        # ),
+                        "link": "/admin/finaid/bursaryapplication",
                         "permission": lambda request: request.user.has_perm(
                             "view_bursaryapplication"
                         ),
