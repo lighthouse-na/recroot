@@ -1,5 +1,7 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin
+from apps.recruitment.models import Vacancy
+from datetime import datetime
 
 
 class StaffDashboard(admin.AdminSite):
@@ -11,6 +13,13 @@ class StaffDashboard(admin.AdminSite):
     login_template = "admin/login.html"
     logout_template = "admin/logout.html"
     password_change_template = "admin/password_change.html"
+
+    def index(self, request, extra_context=None):
+        vacancies = Vacancy.objects.filter(
+            is_published=True, deadline__gt=datetime.now()
+        ).order_by("-created_at")
+        extra_context = {"vacancies": vacancies}
+        return super().index(request, extra_context)
 
     def has_permission(self, request):
         return request.user.is_active and request.user.is_authenticated

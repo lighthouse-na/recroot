@@ -12,11 +12,13 @@
             <div class="mt-4 md:mt-0">
                 <h1 class="mb-4 text-5xl tracking-tight font-extrabold text-gray-900 dark:text-white">{{ vacancy.title }}
                     <span class="text-xs text-red-500 dark:text-red-400">{{ vacancy.deadline }}</span>
+                    {% if vacancy.advert %}
                     <span class="text-xs text-purple-500 dark:text-purple-400">
                         <a href="{{ vacancy.advert.url }}" target="_blank">
                             <button>Download Advert</button>
                         </a>
                     </span>
+                    {% endif %}
                 </h1>
                 <h2 class="mb-4 text-3xl tracking-tight font-extrabold text-gray-900 dark:text-white">
                     Functions and Responsibilities
