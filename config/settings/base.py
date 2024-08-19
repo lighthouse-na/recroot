@@ -53,7 +53,7 @@ INSTALLED_APPS = (
         "django.contrib.humanize",
         "allauth",
         "allauth.account",
-        "channels"
+        "channels",
     ]
     + LOCAL_APPS
     + THIRD_PARTY_APPS

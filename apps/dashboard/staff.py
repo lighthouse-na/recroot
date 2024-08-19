@@ -1,7 +1,9 @@
+from datetime import datetime
+
 from django.contrib import admin
 from unfold.admin import ModelAdmin
+
 from apps.recruitment.models import Vacancy
-from datetime import datetime
 
 
 class StaffDashboard(admin.AdminSite):

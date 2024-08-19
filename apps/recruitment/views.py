@@ -1,7 +1,6 @@
 from datetime import datetime
-from typing import Any
 
-from django.contrib import messages
+from django.db import transaction
 from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -9,13 +8,18 @@ from django.utils import timezone
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from apps.recruitment.forms import (
-    ApplicantResponseForm,
     ApplicationForm,
     InterviewInvitationResponseForm,
-    MinimumRequirementsAnswerForm,
     SubscriberForm,
 )
-from apps.recruitment.models import Application, Interview, Subscriber, Vacancy
+from apps.recruitment.models import (
+    ApplicantResponse,
+    Application,
+    Interview,
+    MinimumRequirement,
+    Subscriber,
+    Vacancy,
+)
 
 
 class VacancyListView(ListView):
@@ -74,15 +78,28 @@ class VacancyDetailView(DetailView):
 class ApplicationCreateView(CreateView):
     model = Application
     form_class = ApplicationForm
-    success_url = reverse_lazy("vacancy_list")
+    success_url = reverse_lazy("recruitment:vacancy_list")
     template_name = "recruitment/application/create.html"
 
     def form_valid(self, form):
         slug = self.kwargs.get("slug")
         vacancy = get_object_or_404(Vacancy, slug=slug)
-        application = form.save(commit=False)
-        application.vacancy = vacancy
-        application.save()
+
+        # Wrap the entire save process in a transaction
+        with transaction.atomic():
+            application = form.save(commit=False)
+            application.vacancy = vacancy
+            application.save()
+
+            requirements = MinimumRequirement.objects.filter(vacancy=vacancy)
+            for requirement in requirements:
+                answer = form.cleaned_data[f"requirement_{requirement.id}"]
+                ApplicantResponse.objects.create(
+                    application=application, requirement=requirement, answer=answer
+                )
+
+            form.save_m2m()
+
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -90,6 +107,13 @@ class ApplicationCreateView(CreateView):
         slug = self.kwargs.get("slug")
         context["vacancy"] = get_object_or_404(Vacancy, slug=slug)
         return context
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        slug = self.kwargs.get("slug")
+        vacancy = get_object_or_404(Vacancy, slug=slug)
+        kwargs["vacancy"] = vacancy
+        return kwargs
 
 
 class SubscribeCreateView(CreateView):

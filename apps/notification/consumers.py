@@ -2,8 +2,8 @@ import json
 
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
-from django.template.loader import get_template
 from django.contrib.auth.models import User
+from django.template.loader import get_template
 
 
 class AdminNotificationConsumer(WebsocketConsumer):

@@ -176,6 +176,9 @@ class ApplicantResponse(models.Model):
     requirement = models.ForeignKey(MinimumRequirement, on_delete=models.CASCADE)
     answer = models.CharField(max_length=255, blank=True, null=True)
 
+    def __str__(self):
+        return self.requirement.title
+
 
 # **********************************************************************************************
 #                                       INTERVIEW

@@ -55,7 +55,7 @@ class ApplicationReviewForm(forms.ModelForm):
 class ApplicationForm(forms.ModelForm):
     primary_contact = PhoneNumberField(region="NA")
     secondary_contact = PhoneNumberField(region="NA", required=False)
-    date_of_birth = forms.DateField(widget=forms.DateInput)
+    date_of_birth = forms.DateField(widget=forms.DateInput())
 
     class Meta:
         model = Application
@@ -69,6 +69,22 @@ class ApplicationForm(forms.ModelForm):
             "date_of_birth",
             "cv",
         )
+
+    def __init__(self, vacancy, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.vacancy = vacancy
+        self.requirements = MinimumRequirement.objects.filter(vacancy=vacancy)
+
+        for requirement in self.requirements:
+            if requirement.question_type == MinimumRequirement.QuestionType.TEXT:
+                self.fields[f"requirement_{requirement.id}"] = forms.CharField(
+                    label=requirement.title, required=True
+                )
+
+            elif requirement.question_type == MinimumRequirement.QuestionType.BOOL:
+                self.fields[f"requirement_{requirement.id}"] = forms.BooleanField(
+                    label=requirement.title, required=True
+                )
 
 
 class ApplicantResponseForm(forms.ModelForm):

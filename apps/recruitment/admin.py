@@ -116,10 +116,13 @@ class VacancyAdmin(ModelAdmin, GuardedModelAdmin):
 # **********************************************************************************************
 class ApplicantResponseInline(TabularInline):
     model = ApplicantResponse
-    readonly_fields = ["requirement", "answer"]
+    fields = ["answer"]
     tab = True
 
     def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
         return False
 
     def has_change_permission(self, request, obj=None):

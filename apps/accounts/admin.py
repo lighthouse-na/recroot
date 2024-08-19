@@ -1,16 +1,14 @@
 from typing import List
+
 from allauth.account.admin import EmailAddressAdmin as BaseEmailAddressAdmin
 from allauth.account.models import EmailAddress
 from django.contrib import admin
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group, User
-from django.urls import URLPattern
+from django.urls import URLPattern, path
 from unfold.admin import ModelAdmin, TabularInline
 from unfold.sites import UnfoldAdminSite
-from django.urls import path
-from .models import Profile
-
 
 from apps.finaid.admin import (
     BursaryAdvertAdmin,
@@ -40,6 +38,7 @@ from apps.recruitment.models import (
     VacancyType,
 )
 
+from .models import Profile
 
 admin.site.unregister(User)
 admin.site.unregister(Group)
