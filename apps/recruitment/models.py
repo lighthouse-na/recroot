@@ -82,6 +82,7 @@ class MinimumRequirement(models.Model):
     class QuestionType(models.TextChoices):
         TEXT = "text"
         BOOL = "bool"
+        DATE = "date"
 
     vacancy = models.ForeignKey(
         Vacancy, on_delete=models.CASCADE, related_name="requirements"
