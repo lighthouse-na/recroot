@@ -1,44 +1,42 @@
 <!-- Settings Panel -->
-        <!-- Backdrop -->
-        <div x-transition:enter="transition duration-300 ease-in-out" x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100" x-transition:leave="transition duration-300 ease-in-out"
-            x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" x-show="openUserNotifications"
-            @click="openUserNotifications = false" class="fixed inset-0 z-10 bg-primary-darker" style="opacity: 0.5"
-            aria-hidden="true"></div>
-        <!-- Panel -->
-        <section x-transition:enter="transition duration-300 ease-in-out transform sm:duration-500"
-            x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
-            x-transition:leave="transition duration-300 ease-in-out transform sm:duration-500"
-            x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full" x-ref="settingsPanel"
-            tabindex="-1" x-show="openUserNotifications" @keydown.escape="openUserNotifications = false"
-            class="fixed inset-y-0 right-0 z-20 w-full max-w-xs bg-white shadow-xl dark:bg-darker dark:text-light sm:max-w-md focus:outline-none"
-            aria-labelledby="settinsPanelLabel">
-            <div class="absolute left-0 p-2 transform -translate-x-full">
-                <!-- Close button -->
-                <button @click="openUserNotifications = false"
-                    class="p-2 text-white rounded-md focus:outline-none focus:ring">
-                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-            <!-- Panel content -->
-            <div class="flex flex-col h-screen">
-                <!-- Panel header -->
-                <div
-                    class="flex flex-col items-center justify-center flex-shrink-0 px-4 py-5 space-y-4 border-b dark:border-primary-dark">
-                    <h2 id="settinsPanelLabel" class="text-xl font-medium text-gray-500 dark:text-light">Notifications
-                    </h2>
-                </div>
-                <!-- Content -->
-                <div class="flex-1 overflow-hidden hover:overflow-y-auto">
-                    <div class="p-4 space-y-4 md:p-8">
-                        <div class="flex items-center space-x-8">
-                            Some Notification
-                        </div>
-                    </div>
+<!-- Backdrop -->
+<div x-transition:enter="transition duration-300 ease-in-out" x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100" x-transition:leave="transition duration-300 ease-in-out"
+    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" x-show="openUserNotifications"
+    @click="openUserNotifications = false" class="fixed inset-0 z-10 bg-red-darker" style="opacity: 0.5"
+    aria-hidden="true"></div>
+<!-- Panel -->
+<section x-transition:enter="transition duration-300 ease-in-out transform sm:duration-500"
+    x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
+    x-transition:leave="transition duration-300 ease-in-out transform sm:duration-500"
+    x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full" x-ref="settingsPanel"
+    tabindex="-1" x-show="openUserNotifications" @keydown.escape="openUserNotifications = false"
+    class="fixed inset-y-0 right-0 z-20 w-full max-w-xs bg-white shadow-xl dark:bg-darker dark:text-light sm:max-w-md focus:outline-none"
+    aria-labelledby="settinsPanelLabel">
+    <div class="absolute left-0 p-2 transform -translate-x-full">
+        <!-- Close button -->
+        <button @click="openUserNotifications = false" class="p-2 text-white rounded-md focus:outline-none focus:ring">
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    </div>
+    <!-- Panel content -->
+    <div class="flex flex-col h-screen">
+        <!-- Panel header -->
+        <div
+            class="flex flex-col items-center justify-center flex-shrink-0 px-4 py-5 space-y-4 border-b dark:border-red-dark">
+            <h2 id="settinsPanelLabel" class="text-xl font-medium text-gray-500 dark:text-light">Notifications
+            </h2>
+        </div>
+        <!-- Content -->
+        <div class="flex-1 overflow-hidden hover:overflow-y-auto">
+            <div class="p-4 space-y-4 md:p-8">
+                <div class="flex items-center space-x-8">
+                    Some Notification
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
+</section>

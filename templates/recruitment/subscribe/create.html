@@ -3,17 +3,17 @@
 <form action="{% url 'recruitment:subscriber_create' %}" method="post" class="max-w-sm mx-auto">
     {% csrf_token %}
     <div>
-        {% render_field form.email placeholder="janedoe@email.com" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %}
+        {% render_field form.email placeholder="janedoe@email.com" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" %}
     </div>
     <br>
 
     <div class="grid grid-cols-2">
         <div class="flex items-center mb-4">
-            {% render_field form.vacancy_types class="gap-1 rounded focus:ring-blue-500" %}
+            {% render_field form.vacancy_types class="gap-1 rounded focus:ring-red-500" %}
         </div>
     </div>
     <button type="submit" class="border rounded-lg p-3">Subscribe</button>
     <p id="helper-text-explanation" class="mt-2 text-sm text-gray-500 dark:text-gray-400">We’ll never share your
-        details. Read our <a href="#" class="font-medium text-blue-600 hover:underline dark:text-blue-500">Privacy
+        details. Read our <a href="#" class="font-medium text-red-600 hover:underline dark:text-red-500">Privacy
             Policy</a>.</p>
 </form>

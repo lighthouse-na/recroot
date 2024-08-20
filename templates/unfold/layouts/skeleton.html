@@ -32,10 +32,9 @@
         {% endif %} {% if favicon.type %}type="{{ favicon.type }}" {% endif %}
         {% if favicon.sizes %}sizes="{{ favicon.sizes }}" {% endif %}>
     {% endfor %}
-    <script src="https://cdn.tailwindcss.com"></script>
     <link href="{% static 'unfold/css/styles.css' %}" rel="stylesheet">
     <link href="{% static 'unfold/css/simplebar.css' %}" rel="stylesheet">
-    <!-- <link href="{% static 'css/flowbite.min.css' %}" rel="stylesheet"> -->
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
 
     <script src="{% static 'unfold/js/alpine.anchor.js' %}" defer></script>
     <script src="{% static 'unfold/js/alpine.persist.js' %}" defer></script>
@@ -44,6 +43,7 @@
     <script src="{% static 'unfold/js/chart.js' %}"></script>
 
     <script src="{% static 'js/htmx.ws.js' %}"></script>
+    <script src="{% static 'js/tailwind.min.js' %}"></script>
 
     {% for script in scripts %}
     <script src="{{ script }}"></script>

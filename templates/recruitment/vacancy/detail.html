@@ -20,7 +20,7 @@
                     {{ vacancy.title }}
                     <span class="text-xs text-red-500 dark:text-red-400">{{ vacancy.deadline }}</span>
                     {% if vacancy.advert %}
-                    <span class="text-xs text-purple-500 dark:text-purple-400">
+                    <span class="text-xs text-red-500 dark:text-red-400">
                         <a href="{{ vacancy.advert.url }}" target="_blank">
                             <button>Download Advert</button>
                         </a>
@@ -69,7 +69,7 @@
                 {% endif %}
                 <br>
                 <a href="{% url 'recruitment:apply' vacancy.slug %}"
-                    class="inline-flex items-center text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-purple-900">Apply
+                    class="inline-flex items-center text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-red-900">Apply
                     <svg class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
