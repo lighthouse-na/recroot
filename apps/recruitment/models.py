@@ -91,7 +91,6 @@ class MinimumRequirement(models.Model):
     question_type = models.CharField(
         max_length=50, choices=QuestionType.choices, default=QuestionType.BOOL
     )
-    answer = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -172,7 +171,7 @@ class Application(models.Model):
         return reverse("application_detail", kwargs={"pk": self.pk})
 
 
-class ApplicantResponse(models.Model):
+class MinimumRequirementAnswer(models.Model):
     application = models.ForeignKey(Application, on_delete=models.CASCADE)
     requirement = models.ForeignKey(MinimumRequirement, on_delete=models.CASCADE)
     answer = models.CharField(max_length=255, blank=True, null=True)

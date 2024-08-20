@@ -36,3 +36,61 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
+
+
+class Qualification(models.Model):
+
+    QUALIFICATION_TYPE = [
+        ("phd", "Doctorate(PHD)"),
+        ("md", "Doctor of Medicine (MD)"),
+        ("jd", "Juris Doctor (JD)"),
+        ("fellowship", "Fellowship"),
+        ("masters", "Masters"),
+        ("postgraduate_diploma", "Postgraduate Diploma"),
+        ("graduate_certificate", "Graduate Certificate"),
+        ("honours", "Honours"),
+        ("bachelors", "Bachelors"),
+        ("associate_degree", "Associate Degree"),
+        ("advanced_diploma", "Advanced Diploma"),
+        ("diploma", "Diploma"),
+        ("certificate", "Certificate"),
+        ("trade_certificate", "Trade Certificate"),
+        ("vocational_qualification", "Vocational Qualification"),
+        ("technical_diploma", "Technical Diploma"),
+        ("artisan", "Artisan"),
+        ("apprenticeship", "Apprenticeship"),
+        ("continuing_education", "Continuing Education"),
+        ("executive_education", "Executive Education"),
+        ("high_school_diploma", "High School Diploma"),
+        ("ged", "General Educational Development (GED)"),
+        ("professional_certification", "Professional Certification"),
+        ("licensure", "Licensure"),
+        ("grade12", "Grade 12"),
+    ]
+
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="qualifications"
+    )
+    qualification_type = models.CharField(max_length=50, choices=QUALIFICATION_TYPE)
+    title = models.CharField(max_length=255)
+    institution = models.CharField(max_length=255)
+    date_completed = models.DateField()
+    file = models.FileField(upload_to="accounts/qualifications")
+
+    def __str__(self) -> str:
+        return self.title
+
+
+class Certification(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="certifications"
+    )
+    title = models.CharField(max_length=255)
+    institute = models.CharField(max_length=255)
+    obtained_date = models.DateField()
+    expiry_date = models.DateField(blank=True, null=True)
+    file = models.FileField(upload_to="accounts/certifications")
+    certification_id = models.CharField(max_length=255)
+
+    def __str__(self) -> str:
+        return self.title

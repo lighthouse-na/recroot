@@ -13,7 +13,7 @@ from apps.recruitment.forms import (
     SubscriberForm,
 )
 from apps.recruitment.models import (
-    ApplicantResponse,
+    MinimumRequirementAnswer,
     Application,
     Interview,
     MinimumRequirement,
@@ -94,7 +94,7 @@ class ApplicationCreateView(CreateView):
             requirements = MinimumRequirement.objects.filter(vacancy=vacancy)
             for requirement in requirements:
                 answer = form.cleaned_data[f"requirement_{requirement.id}"]
-                ApplicantResponse.objects.create(
+                MinimumRequirementAnswer.objects.create(
                     application=application, requirement=requirement, answer=answer
                 )
 

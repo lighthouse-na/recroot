@@ -2,6 +2,7 @@ import datetime
 import uuid
 from datetime import timedelta
 
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator, MaxValueValidator
 from django.db import models
@@ -84,7 +85,11 @@ class BursaryApplication(models.Model):
         help_text="Please upload a PDF/DOCX file, maximum size 10MB.",
     )
     motivation_letter = models.TextField(blank=True, null=True)
-    is_visible = models.BooleanField(default=False)
+    reviewed_by = models.ForeignKey(
+        User, on_delete=models.PROTECT, blank=True, null=True
+    )
+    reviewed_at = models.DateTimeField(blank=True, null=True)
+    review_comments = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -177,11 +182,29 @@ class FinancialAssistanceApplication(models.Model):
 
     QUALIFICATION_TYPE = [
         ("phd", "Doctorate(PHD)"),
+        ("md", "Doctor of Medicine (MD)"),
+        ("jd", "Juris Doctor (JD)"),
+        ("fellowship", "Fellowship"),
         ("masters", "Masters"),
+        ("postgraduate_diploma", "Postgraduate Diploma"),
+        ("graduate_certificate", "Graduate Certificate"),
         ("honours", "Honours"),
         ("bachelors", "Bachelors"),
+        ("associate_degree", "Associate Degree"),
+        ("advanced_diploma", "Advanced Diploma"),
         ("diploma", "Diploma"),
         ("certificate", "Certificate"),
+        ("trade_certificate", "Trade Certificate"),
+        ("vocational_qualification", "Vocational Qualification"),
+        ("technical_diploma", "Technical Diploma"),
+        ("artisan", "Artisan"),
+        ("apprenticeship", "Apprenticeship"),
+        ("continuing_education", "Continuing Education"),
+        ("executive_education", "Executive Education"),
+        ("high_school_diploma", "High School Diploma"),
+        ("ged", "General Educational Development (GED)"),
+        ("professional_certification", "Professional Certification"),
+        ("licensure", "Licensure"),
         ("grade12", "Grade 12"),
     ]
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -225,6 +248,11 @@ class FinancialAssistanceApplication(models.Model):
     status = models.CharField(
         max_length=50, choices=STATUS.choices, default=STATUS.PENDING
     )
+    reviewed_by = models.ForeignKey(
+        User, on_delete=models.PROTECT, blank=True, null=True
+    )
+    reviewed_at = models.DateTimeField(blank=True, null=True)
+    review_comments = models.CharField(max_length=255, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

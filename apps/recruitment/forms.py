@@ -6,7 +6,7 @@ from phonenumber_field.formfields import PhoneNumberField
 from tinymce.widgets import TinyMCE
 
 from .models import (
-    ApplicantResponse,
+    MinimumRequirementAnswer,
     Application,
     Interview,
     MinimumRequirement,
@@ -24,12 +24,6 @@ class MinimumRequirementsAddForm(forms.ModelForm):
     class Meta:
         model = MinimumRequirement
         fields = ["title", "question_type"]
-
-
-class MinimumRequirementsAnswerForm(forms.ModelForm):
-    class Meta:
-        model = MinimumRequirement
-        fields = ["answer"]
 
 
 class VacancyForm(forms.ModelForm):
@@ -96,9 +90,9 @@ class ApplicationForm(forms.ModelForm):
                 )
 
 
-class ApplicantResponseForm(forms.ModelForm):
+class MinimumRequirementAnswerForm(forms.ModelForm):
     class Meta:
-        model = ApplicantResponse
+        model = MinimumRequirementAnswer
         fields = ["requirement", "answer"]
 
 

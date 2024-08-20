@@ -9,15 +9,13 @@ from unfold.contrib.filters.admin import RangeDateFilter
 from unfold.contrib.import_export.forms import SelectableFieldsExportForm
 
 from .forms import (
-    ApplicationForm,
     ApplicationReviewForm,
     InterviewForm,
     MinimumRequirementsAddForm,
-    MinimumRequirementsAnswerForm,
     VacancyForm,
 )
 from .models import (
-    ApplicantResponse,
+    MinimumRequirementAnswer,
     Application,
     Interview,
     Location,
@@ -115,7 +113,7 @@ class VacancyAdmin(ModelAdmin, GuardedModelAdmin):
 #                                       APPLICATION
 # **********************************************************************************************
 class ApplicantResponseInline(TabularInline):
-    model = ApplicantResponse
+    model = MinimumRequirementAnswer
     fields = ["answer"]
     tab = True
 
