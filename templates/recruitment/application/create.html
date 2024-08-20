@@ -5,10 +5,10 @@
 {% block title %}{{ vacancy.title }}{% endblock title %}
 {% block content %}
 <div class="p-4">
-    <section class="p-6 order border-2 rounded rounded-xl shadow shadow-lg">
+    <section class="p-6">
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+            <div class="relative p-4 bg-white rounded-lg shadow shadow-xl dark:bg-gray-800 sm:p-5">
                 <div class="inline-flex items-center justify-center w-full">
                     <hr class="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                     <span
@@ -81,7 +81,7 @@
             </div>
             <br>
             {% if form.requirements %}
-            <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+            <div class="relative p-4 bg-white rounded-lg shadow shadow-xl dark:bg-gray-800 sm:p-5">
                 <!-- <div
                     class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
