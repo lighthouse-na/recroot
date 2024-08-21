@@ -7,7 +7,7 @@ from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group, User
 from django.urls import URLPattern, path
-from unfold.admin import ModelAdmin, TabularInline
+from unfold.admin import ModelAdmin, StackedInline
 from unfold.sites import UnfoldAdminSite
 
 from apps.finaid.admin import (
@@ -38,14 +38,15 @@ from apps.recruitment.models import (
     VacancyType,
 )
 
-from .models import Profile
+from .forms import ProfileUpdateForm
+from .models import Certification, Profile, Qualification
 
 admin.site.unregister(User)
 admin.site.unregister(Group)
 admin.site.unregister(EmailAddress)
 
 
-class ProfileInline(TabularInline):
+class ProfileInline(StackedInline):
     model = Profile
     can_delete = False
     max_num = 1
@@ -68,6 +69,60 @@ class GroupAdmin(BaseGroupAdmin, ModelAdmin): ...
 
 @admin.register(EmailAddress)
 class EmailAddressAdmin(BaseEmailAddressAdmin, ModelAdmin): ...
+
+
+class QualificationInline(StackedInline):
+    model = Qualification
+    extra = 1
+    tab = True
+
+
+class CertificationInline(StackedInline):
+    model = Certification
+    extra = 1
+    tab = True
+
+
+@admin.register(Profile)
+class ProfileAdmin(ModelAdmin):
+    form = ProfileUpdateForm
+    inlines = [QualificationInline, CertificationInline]
+    readonly_fields = [
+        "salary_reference_number",
+        "position",
+        "cost_centre",
+        "gender",
+        "date_of_birth",
+        "date_appointed",
+    ]
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(user=request.user)
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def get_inline_instances(self, request, obj=None):
+
+        if (
+            request.user.is_staff
+            and request.user.is_active
+            and request.user.is_authenticated
+        ):
+
+            return [
+                QualificationInline(self.model, self.admin_site),
+                CertificationInline(self.model, self.admin_site),
+            ]
+
+        return super().get_inline_instances(request, obj)
 
 
 class SuperuserDashboard(UnfoldAdminSite):
@@ -113,3 +168,4 @@ superuser_dashboard_site.register(BursaryApplication, BursaryApplicationsAdmin)
 superuser_dashboard_site.register(
     FinancialAssistanceApplication, FinancialAssistanceAdmin
 )
+superuser_dashboard_site.register(Profile, ProfileAdmin)

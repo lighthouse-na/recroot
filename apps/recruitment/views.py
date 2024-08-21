@@ -13,10 +13,10 @@ from apps.recruitment.forms import (
     SubscriberForm,
 )
 from apps.recruitment.models import (
-    MinimumRequirementAnswer,
     Application,
     Interview,
     MinimumRequirement,
+    MinimumRequirementAnswer,
     Subscriber,
     Vacancy,
 )

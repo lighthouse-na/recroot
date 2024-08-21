@@ -1,0 +1,167 @@
+{% load humanize %}
+{% now "Y-m-d" as current_date %}
+<!-- Backdrop -->
+<div x-transition:enter="transition duration-300 ease-in-out" x-transition:enter-start="opacity-0"
+     x-transition:enter-end="opacity-100" x-transition:leave="transition duration-300 ease-in-out"
+     x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" x-show="openProfile"
+     @click="openProfile = false" class="fixed inset-0 z-10 bg-red-darker" style="opacity: 0.5" aria-hidden="true"></div>
+<!-- Panel -->
+<section x-transition:enter="transition duration-300 ease-in-out transform sm:duration-500"
+         x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
+         x-transition:leave="transition duration-300 ease-in-out transform sm:duration-500"
+         x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full" x-ref="profilePanel"
+         tabindex="-1" x-show="openProfile" @keydown.escape="openProfile = false"
+         class="fixed inset-y-0 right-0 z-20 w-full max-w-xs bg-white shadow-xl dark:bg-darker dark:text-light sm:max-w-md focus:outline-none"
+         aria-labelledby="settinsPanelLabel">
+    <div class="absolute right-0 p-2 transform -translate-x-full">
+        <!-- Close button -->
+        <button @click="openProfile = false" class="p-2 text-red-500 rounded-md focus:outline-none focus:ring">
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    </div>
+    <!-- Panel content -->
+    <div class="flex flex-col h-screen">
+        <!-- Panel header -->
+        <div
+            class="flex flex-col items-center justify-center flex-shrink-0 px-4 py-5 space-y-4 border-b dark:border-red-dark">
+            <h2 id="settinsPanelLabel" class="text-xl font-medium text-gray-500 dark:text-light">{{ user.profile }}
+            </h2>
+        </div>
+        <!-- Content -->
+        <div class="flex-1 overflow-hidden hover:overflow-y-auto">
+            <div class="p-4 space-y-4 md:p-8">
+                <div class="flex items-center space-x-8">
+                    <form action="#">
+                        <div class="grid gap-4 mb-4 sm:grid-cols-2">
+                            <div>
+                                <label for="username"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+                                <input type="text" name="username" id="username" value="{{ user.username|upper }}"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                       placeholder="Type product username" disabled>
+                            </div>
+                            <div>
+                                <label for="email"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                                <input type="email" name="email" id="email" value="{{ user.email }}"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                       placeholder="Type product email" disabled>
+                            </div>
+                            <div>
+                                <label for="gender"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                                <input type="text" name="gender" id="gender" value="{{ user.profile.gender }}"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                       placeholder="Type product gender" disabled>
+                            </div>
+                            <div>
+                                <label for="position"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position</label>
+                                <input type="text" name="position" id="position" value="{{ user.profile.position }}"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                       placeholder="Type product position" disabled>
+                            </div>
+                            <div>
+                                <label for="cost_centre"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cost
+                                    Centre</label>
+                                <input type="text" name="cost_centre" id="cost_centre"
+                                       value="{{ user.profile.cost_centre }}"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                       placeholder="Product cost_centre" disabled>
+                            </div>
+                            <div>
+                                <label for="date_appointed"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date
+                                    Appointed</label>
+                                <input type="text" name="date_appointed" id="date_appointed"
+                                       value="{{ user.profile.date_appointed }}"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                       placeholder="Product date_appointed" disabled>
+                            </div>
+                        </div>
+                        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+
+                        <!-- Qualifications and Certifications -->
+                        {% for qualification in user.qualifications.all %}
+                            <div class="flex items-center p-4 mb-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600"
+                                 role="alert">
+                                <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true"
+                                     xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                </svg>
+                                <span class="sr-only">Info</span>
+                                <div>
+                                    <span class="font-medium">{{ qualification|upper }}</span>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        {% for certification in user.certifications.all %}
+                            {% if not certification.expiry_date %}
+                                <div class="flex items-center p-4 mb-4 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
+                                     role="alert">
+                                    <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true"
+                                         xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                    </svg>
+                                    <span class="sr-only">Info</span>
+                                    <div>
+                                        <span class="font-medium">{{ certification }}</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {% if certification.expiry_date %}
+                                {% if certification.expiry_date > current_date %}
+                                    <div class="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+                                         role="alert">
+                                        <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true"
+                                             xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                        </svg>
+                                        <span class="sr-only">Info</span>
+                                        <div>
+                                            <span class="font-medium">{{ certification }}</span>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="flex items-center p-4 mb-4 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800"
+                                         role="alert">
+                                        <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true"
+                                             xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                        </svg>
+                                        <span class="sr-only">Info</span>
+                                        <div>
+                                            <span class="font-medium">{{ certification }}</span>
+                                            ({{ certification.expiry_date|naturalday }})
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+
+                        <a href="{% url 'admin:accounts_profile_change' user.id %}"
+                           class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                            <svg class="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                      d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                      clip-rule="evenodd"></path>
+                            </svg>
+                            Edit Profile
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -2,19 +2,23 @@ from datetime import datetime
 
 from django.contrib import admin
 from unfold.admin import ModelAdmin
+from unfold.sites import UnfoldAdminSite
 
+from apps.accounts.admin import ProfileAdmin
+from apps.accounts.models import Certification, Profile, Qualification
 from apps.recruitment.models import Vacancy
 
 
 class StaffDashboard(admin.AdminSite):
+    # class StaffDashboard(UnfoldAdminSite):
     site_header = "Staff Dashboard"
     site_title = "Staff Dashboard"
     # index_title = "Staff Dashboard"
     index_template = "dashboard/staff/index.html"
     enable_nav_sidebar = False
-    login_template = "admin/login.html"
-    logout_template = "admin/logout.html"
-    password_change_template = "admin/password_change.html"
+    # login_template = "admin/login.html"
+    # logout_template = "admin/logout.html"
+    # password_change_template = "admin/password_change.html"
 
     def index(self, request, extra_context=None):
         vacancies = Vacancy.objects.filter(
@@ -28,3 +32,4 @@ class StaffDashboard(admin.AdminSite):
 
 
 staff_dashboard_site = StaffDashboard(name="Staff")
+staff_dashboard_site.register(Profile, ProfileAdmin)

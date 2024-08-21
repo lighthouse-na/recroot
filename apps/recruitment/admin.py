@@ -15,11 +15,11 @@ from .forms import (
     VacancyForm,
 )
 from .models import (
-    MinimumRequirementAnswer,
     Application,
     Interview,
     Location,
     MinimumRequirement,
+    MinimumRequirementAnswer,
     Subscriber,
     Vacancy,
     VacancyType,

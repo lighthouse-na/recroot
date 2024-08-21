@@ -1,46 +1,16 @@
-{% extends 'admin/base.html' %}
+{% extends 'admin_base.html' %}
 {% load humanize %}
 {% block title %}Staff Dashboard{% endblock title %}
 
 {% block content %}
-<div>
-    <!-- <div class="border-1 shadow-lg shadow-gray-700 rounded-lg"> -->
-    <div class="border-1 rounded-lg">
-
-        <!-- top content -->
-        <!-- <div class="flex rounded-t-lg bg-gray-200 sm:px-2 w-full">
-            <div class="h-40 w-40 overflow-hidden sm:rounded-full sm:relative sm:p-0 top-10 left-5 p-3">
-                {% if user.profile.picture %}
-                <img src="{{ user.profile.picture.url }}" alt="{{ user.profile }} picture" />
-                {% else %}
-                <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" />
-                {% endif %}
-            </div>
-
-            <div class="w-2/3 sm:text-center pl-5 mt-10 text-start">
-                <p class="font-poppins font-bold text-heading sm:text-4xl text-2xl">
-                    {{ user.profile }}
-                </p>
-                <p class="text-heading">{{ user.profile.position }}</p>
-            </div>
-
-        </div> -->
-
-        <!-- main content -->
-        <div class="p-5 pt-10">
-            <div class="mt-2">
-                <!-- State cards -->
-                <div class="grid grid-cols-1 gap-8 p-4 lg:grid-cols-2 xl:grid-cols-4">
-                    <!-- Value card -->
-
-
-                    {% if vacancies %}
-                    {% for vacancy in vacancies %}
+    <div>
+        <div class="grid grid-cols-1 gap-8 p-4 lg:grid-cols-2 xl:grid-cols-4">
+            {% if vacancies %}
+                {% for vacancy in vacancies %}
                     <a href="{% url 'recruitment:vacancy_detail' vacancy.slug %}"
-                        class="flex items-center justify-between p-4 border border-1 border-gray-900 rounded-md dark:bg-darker">
+                       class="flex items-center justify-between p-4 border border-1 border-gray-900 rounded-md dark:bg-darker">
                         <div>
-                            <h6
-                                class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-red-light">
+                            <h6 class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-red-light">
                                 {{vacancy.title}}
                                 <span class="inline-block px-2 py-px ml-2 text-xs text-red-500 bg-red-100 rounded-md">
                                     {{ vacancy.deadline|naturaltime }}
@@ -48,17 +18,11 @@
                             </h6>
                         </div>
                     </a>
-                    {% endfor %}
-                    {% endif %}
-
-                </div>
-            </div>
+                {% endfor %}
+            {% endif %}
         </div>
-
     </div>
 
-</div>
 
-
-{% include 'unfold/partials/apps.html' %}
+    {% include 'unfold/partials/apps.html' %}
 {% endblock content %}

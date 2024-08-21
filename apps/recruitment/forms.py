@@ -6,10 +6,10 @@ from phonenumber_field.formfields import PhoneNumberField
 from tinymce.widgets import TinyMCE
 
 from .models import (
-    MinimumRequirementAnswer,
     Application,
     Interview,
     MinimumRequirement,
+    MinimumRequirementAnswer,
     Subscriber,
     Vacancy,
     VacancyType,

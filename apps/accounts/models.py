@@ -69,7 +69,7 @@ class Qualification(models.Model):
     ]
 
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="qualifications"
+        Profile, on_delete=models.CASCADE, related_name="qualifications"
     )
     qualification_type = models.CharField(max_length=50, choices=QUALIFICATION_TYPE)
     title = models.CharField(max_length=255)
@@ -78,12 +78,12 @@ class Qualification(models.Model):
     file = models.FileField(upload_to="accounts/qualifications")
 
     def __str__(self) -> str:
-        return self.title
+        return f"{self.qualification_type} {self.title}"
 
 
 class Certification(models.Model):
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="certifications"
+        Profile, on_delete=models.CASCADE, related_name="certifications"
     )
     title = models.CharField(max_length=255)
     institute = models.CharField(max_length=255)
