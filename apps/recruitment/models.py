@@ -12,7 +12,7 @@ from django_extensions.db.fields import AutoSlugField
 from phonenumber_field.modelfields import PhoneNumberField
 from tinymce.models import HTMLField
 
-from apps.organisation.models import Town
+from apps.organisation.models import Town, Location
 from apps.utils.validators import FileValidator
 
 
@@ -183,12 +183,6 @@ class MinimumRequirementAnswer(models.Model):
 # **********************************************************************************************
 #                                       INTERVIEW
 # **********************************************************************************************
-class Location(models.Model):
-    title = models.CharField(max_length=255, unique=True)
-    address = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.title
 
 
 class Interview(models.Model):

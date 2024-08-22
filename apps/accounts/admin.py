@@ -1,4 +1,4 @@
-from typing import List
+from typing import Dict, List
 
 from allauth.account.admin import EmailAddressAdmin as BaseEmailAddressAdmin
 from allauth.account.models import EmailAddress
@@ -6,6 +6,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group, User
+from django.http import HttpRequest
 from django.urls import URLPattern, path
 from unfold.admin import ModelAdmin, StackedInline
 from unfold.sites import UnfoldAdminSite
@@ -22,7 +23,7 @@ from apps.finaid.models import (
     FinancialAssistanceApplication,
 )
 from apps.organisation.admin import CostCentreAdmin, PositionAdmin, RegionAdmin
-from apps.organisation.models import CostCentre, Position, Region
+from apps.organisation.models import CostCentre, Position, Region, Location
 from apps.recruitment.admin import (
     ApplicationAdmin,
     InterviewAdmin,
@@ -32,7 +33,6 @@ from apps.recruitment.admin import (
 from apps.recruitment.models import (
     Application,
     Interview,
-    Location,
     Subscriber,
     Vacancy,
     VacancyType,
@@ -71,6 +71,30 @@ class GroupAdmin(BaseGroupAdmin, ModelAdmin): ...
 class EmailAddressAdmin(BaseEmailAddressAdmin, ModelAdmin): ...
 
 
+@admin.register(Qualification)
+class QualificationAdmin(ModelAdmin):
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+
+        if request.user.is_superuser:
+            return qs
+
+        profile = Profile.objects.get(user=request.user)
+        return qs.filter(user=profile)
+
+
+@admin.register(Certification)
+class CertificationAdmin(ModelAdmin):
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+
+        if request.user.is_superuser:
+            return qs
+
+        profile = Profile.objects.get(user=request.user)
+        return qs.filter(user=profile)
+
+
 class QualificationInline(StackedInline):
     model = Qualification
     extra = 1
@@ -86,7 +110,7 @@ class CertificationInline(StackedInline):
 @admin.register(Profile)
 class ProfileAdmin(ModelAdmin):
     form = ProfileUpdateForm
-    inlines = [QualificationInline, CertificationInline]
+    # inlines = [QualificationInline, CertificationInline]
     readonly_fields = [
         "salary_reference_number",
         "position",
@@ -104,25 +128,44 @@ class ProfileAdmin(ModelAdmin):
         return qs.filter(user=request.user)
 
     def has_add_permission(self, request):
+        if request.user.is_superuser:
+            return True
         return False
 
     def has_delete_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
         return False
 
-    def get_inline_instances(self, request, obj=None):
+    # def get_inline_instances(self, request, obj=None):
+    #     if (
+    #         request.user.is_staff
+    #         and request.user.is_active
+    #         and request.user.is_authenticated
+    #     ):
+    #         return [
+    #             QualificationInline(self.model, self.admin_site),
+    #             CertificationInline(self.model, self.admin_site),
+    #         ]
+    #     return super().get_inline_instances(request, obj)
 
-        if (
-            request.user.is_staff
-            and request.user.is_active
-            and request.user.is_authenticated
-        ):
+    # def get_formsets(self, request, obj=None):
 
-            return [
-                QualificationInline(self.model, self.admin_site),
-                CertificationInline(self.model, self.admin_site),
-            ]
+    #     if (
+    #         request.user.is_staff
+    #         and request.user.is_active
+    #         and request.user.is_authenticated
+    #     ):
 
-        return super().get_inline_instances(request, obj)
+    #         for inline in self.get_inline_instances(request, obj):
+
+    #             if isinstance(inline, (QualificationInline, CertificationInline)):
+
+    #                 yield inline.get_formset(request, obj)
+
+    #     else:
+
+    #         return super().get_formsets(request, obj)
 
 
 class SuperuserDashboard(UnfoldAdminSite):

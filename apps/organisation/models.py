@@ -69,3 +69,14 @@ class Position(models.Model):
 
     def clean(self):
         return super().clean()
+
+
+class Location(models.Model):
+    title = models.CharField(max_length=255, unique=True)
+    address = models.CharField(max_length=255)
+    town = models.ForeignKey(
+        Town, on_delete=models.CASCADE, related_name="locations", default=None
+    )
+
+    def __str__(self):
+        return self.title
