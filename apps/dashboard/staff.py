@@ -88,7 +88,7 @@ class StaffDashboard(UnfoldAdminSite):
     site_header = "Staff Dashboard"
     site_title = "Staff Dashboard"
     # index_title = "Staff Dashboard"
-    # index_template = "dashboard/staff/index.html"
+    index_template = "dashboard/staff/index.html"
     enable_nav_sidebar = True
     # login_template = "admin/login.html"
     # logout_template = "admin/logout.html"

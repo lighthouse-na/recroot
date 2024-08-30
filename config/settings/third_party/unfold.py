@@ -70,6 +70,15 @@ UNFOLD = {
                         ),
                     },
                     {
+                        "title": _("Recruitment"),
+                        "icon": "people",
+                        # "link": reverse_lazy("admin:index"),
+                        "link": "/dashboard/staff/recruitment",
+                        "permission": lambda request: request.user.groups.filter(
+                            name="staff"
+                        ).exists(),
+                    },
+                    {
                         "title": _("Financial Aid"),
                         "icon": "request_quote",
                         # "link": reverse_lazy("admin:index"),
