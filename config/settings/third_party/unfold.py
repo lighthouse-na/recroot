@@ -70,15 +70,6 @@ UNFOLD = {
                         ),
                     },
                     {
-                        "title": _("Recruitment"),
-                        "icon": "people",
-                        # "link": reverse_lazy("admin:index"),
-                        "link": "/dashboard/staff/recruitment",
-                        "permission": lambda request: request.user.groups.filter(
-                            name="staff"
-                        ).exists(),
-                    },
-                    {
                         "title": _("Financial Aid"),
                         "icon": "request_quote",
                         # "link": reverse_lazy("admin:index"),
@@ -86,6 +77,54 @@ UNFOLD = {
                         "permission": lambda request: request.user.has_perm(
                             "view_application"
                         ),
+                    },
+                    # -----------------------------------------------------------------------
+                    # Admin Dashboard Urls
+                    # -----------------------------------------------------------------------
+                    {
+                        "title": _("Dashboard"),
+                        "icon": "dashboard",
+                        # "link": reverse_lazy("administrator"),
+                        "link": "/dashboard/admin/",
+                        "permission": lambda request: request.user.groups.filter(
+                            name="admin"
+                        ).exists(),
+                    },
+                    {
+                        "title": _("Auth"),
+                        "icon": "people",
+                        # "link": reverse_lazy("admin:index"),
+                        "link": "/dashboard/admin/auth/",
+                        "permission": lambda request: request.user.groups.filter(
+                            name="admin"
+                        ).exists(),
+                    },
+                    {
+                        "title": _("Organisation"),
+                        "icon": "home",
+                        # "link": reverse_lazy("admin:index"),
+                        "link": "/dashboard/admin/organisation",
+                        "permission": lambda request: request.user.groups.filter(
+                            name="admin"
+                        ).exists(),
+                    },
+                    {
+                        "title": _("Recruitment"),
+                        "icon": "people",
+                        # "link": reverse_lazy("admin:index"),
+                        "link": "/dashboard/admin/recruitment",
+                        "permission": lambda request: request.user.groups.filter(
+                            name="admin"
+                        ).exists(),
+                    },
+                    {
+                        "title": _("Financial Aid"),
+                        "icon": "request_quote",
+                        # "link": reverse_lazy("admin:index"),
+                        "link": "/dashboard/admin/finaid/",
+                        "permission": lambda request: request.user.groups.filter(
+                            name="admin"
+                        ).exists(),
                     },
                 ],
             },

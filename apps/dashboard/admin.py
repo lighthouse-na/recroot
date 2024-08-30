@@ -3,7 +3,8 @@ from django.contrib import admin
 from django.contrib.auth.models import Group, User
 from unfold.admin import ModelAdmin
 
-from apps.accounts.admin import EmailAddressAdmin, GroupAdmin, UserAdmin
+from apps.accounts.admin import EmailAddressAdmin, GroupAdmin, UserAdmin, ProfileAdmin
+from apps.accounts.models import Profile
 from apps.finaid.admin import (
     BursaryAdvertAdmin,
     BursaryApplicationsAdmin,
@@ -31,18 +32,19 @@ from apps.recruitment.models import (
     Vacancy,
     VacancyType,
 )
+from unfold.sites import UnfoldAdminSite
 
 # admin.site.unregister(User)
 # admin.site.unregister(Group)
 # admin.site.unregister(EmailAddress)
 
 
-class AdminDashboard(admin.AdminSite):
+class AdminDashboard(UnfoldAdminSite):
     site_header = "Admin Dashboard"
     site_title = "Admin Dashboard"
     index_title = "Admin Dashboard"
     # index_template = "admin/index.html"
-    enable_nav_sidebar = False
+    enable_nav_sidebar = True
     login_template = "admin/login.html"
     logout_template = "admin/logout.html"
     password_change_template = "admin/password_change.html"
@@ -57,6 +59,7 @@ class AdminDashboard(admin.AdminSite):
 
 admin_dashboard_site = AdminDashboard(name="Admin")
 admin_dashboard_site.register(User, UserAdmin)
+admin_dashboard_site.register(Profile, ProfileAdmin)
 admin_dashboard_site.register(Group, GroupAdmin)
 admin_dashboard_site.register(EmailAddress, EmailAddressAdmin)
 admin_dashboard_site.register(Region, RegionAdmin)
