@@ -84,11 +84,11 @@ UNFOLD = {
                     {
                         "title": _("Dashboard"),
                         "icon": "dashboard",
-                        # "link": reverse_lazy("administrator"),
                         "link": "/dashboard/admin/",
                         "permission": lambda request: request.user.groups.filter(
                             name="admin"
-                        ).exists(),
+                        ).exists()
+                        and request.path.startswith("/dashboard/admin/"),
                     },
                     {
                         "title": _("Auth"),
@@ -97,7 +97,8 @@ UNFOLD = {
                         "link": "/dashboard/admin/auth/",
                         "permission": lambda request: request.user.groups.filter(
                             name="admin"
-                        ).exists(),
+                        ).exists()
+                        and request.path.startswith("/dashboard/admin/"),
                     },
                     {
                         "title": _("Organisation"),
@@ -106,7 +107,8 @@ UNFOLD = {
                         "link": "/dashboard/admin/organisation",
                         "permission": lambda request: request.user.groups.filter(
                             name="admin"
-                        ).exists(),
+                        ).exists()
+                        and request.path.startswith("/dashboard/admin/"),
                     },
                     {
                         "title": _("Recruitment"),
@@ -115,7 +117,8 @@ UNFOLD = {
                         "link": "/dashboard/admin/recruitment",
                         "permission": lambda request: request.user.groups.filter(
                             name="admin"
-                        ).exists(),
+                        ).exists()
+                        and request.path.startswith("/dashboard/admin/"),
                     },
                     {
                         "title": _("Financial Aid"),
@@ -124,7 +127,50 @@ UNFOLD = {
                         "link": "/dashboard/admin/finaid/",
                         "permission": lambda request: request.user.groups.filter(
                             name="admin"
-                        ).exists(),
+                        ).exists()
+                        and request.path.startswith("/dashboard/admin/"),
+                    },
+                    # -----------------------------------------------------------------------
+                    # Staff Dashboard Urls
+                    # -----------------------------------------------------------------------
+                    {
+                        "title": _("Dashboard"),
+                        "icon": "dashboard",
+                        "link": "/dashboard/staff/",
+                        "permission": lambda request: request.path.startswith(
+                            "/dashboard/staff/"
+                        ),
+                        "permission": lambda request: request.user.groups.filter(
+                            name="staff"
+                        ).exists()
+                        and request.path.startswith("/dashboard/staff/"),
+                    },
+                    {
+                        "title": _("Account"),
+                        "icon": "person",
+                        "link": "/dashboard/staff/accounts",
+                        "permission": lambda request: request.user.groups.filter(
+                            name="staff"
+                        ).exists()
+                        and request.path.startswith("/dashboard/staff/"),
+                    },
+                    {
+                        "title": _("Recruitment"),
+                        "icon": "people",
+                        "link": "/dashboard/staff/recruitment",
+                        "permission": lambda request: request.user.groups.filter(
+                            name="staff"
+                        ).exists()
+                        and request.path.startswith("/dashboard/staff/"),
+                    },
+                    {
+                        "title": _("Financial Aid"),
+                        "icon": "request_quote",
+                        "link": "/dashboard/staff/finaid/",
+                        "permission": lambda request: request.user.groups.filter(
+                            name="staff"
+                        ).exists()
+                        and request.path.startswith("/dashboard/staff/"),
                     },
                 ],
             },

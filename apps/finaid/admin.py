@@ -38,6 +38,13 @@ class FinancialAssistanceAdmin(ModelAdmin, ExportActionModelAdmin):
         "study_mode",
     )
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(applicant=request.user.profile)
+
     def has_permission(self, request, obj, action):
         opts = self.opts
         code_name = f"{action}_{opts.model_name}"
@@ -86,6 +93,9 @@ class BursaryApplicationsAdmin(ModelAdmin, ExportActionModelAdmin):
 
     def has_add_permission(self, request):
         return False
+
+    # def has_view_permission(self, request):
+    #     return self.has_view_permission(request, "view")
 
 
 @admin.register(BursaryAdvert)

@@ -328,6 +328,7 @@ class InterviewAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
 @admin.register(Subscriber)
 class SubscriberAdmin(ModelAdmin):
     model = Subscriber
+    readonly_fields = ["email", "vacancy_types", "subscribed"]
 
     def has_add_permission(self, request):
         return False

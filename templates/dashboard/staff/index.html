@@ -9,11 +9,22 @@
 {% endif %}
 
 {% if vacancies %}
-<div class="px-2 py-10 rounded-lg shadow-2xl">
+<div class="px-2 py-10">
     <div class="mx-auto max-w-6xl">
         <h1
             class="text-center mb-4 text-4xl font-extrabold leading-none tracking-tight text-primary-500 md:text-5xl lg:text-6xl dark:text-white">
             Vacancies</h1>
+        {% include 'recruitment/vacancy/list.html' %}
+    </div>
+</div>
+{% endif %}
+
+{% if financial_assistance_adverts %}
+<div class="px-2 py-10 rounded-lg shadow-2xl">
+    <div class="mx-auto max-w-6xl">
+        <h1
+            class="text-center mb-4 text-4xl font-extrabold leading-none tracking-tight text-primary-500 md:text-5xl lg:text-6xl dark:text-white">
+            Financial Aid</h1>
         {% include 'recruitment/vacancy/list.html' %}
     </div>
 </div>

@@ -9,6 +9,12 @@ from unfold.sites import UnfoldAdminSite
 from apps.accounts.admin import ProfileAdmin, QualificationAdmin, CertificationAdmin
 from apps.accounts.models import Certification, Profile, Qualification
 from apps.recruitment.models import Vacancy, Interview, Application
+from apps.finaid.models import (
+    BursaryAdvert,
+    FinancialAssistanceAdvert,
+    FinancialAssistanceApplication,
+)
+from apps.finaid.admin import FinancialAssistanceAdmin
 
 
 # @admin.register(Vacancy)
@@ -84,6 +90,7 @@ class InterviewAdmin(ModelAdmin):
         return super().has_view_permission(request, obj)
 
 
+# class StaffDashboard(admin.AdminSite):
 class StaffDashboard(UnfoldAdminSite):
     site_header = "Staff Dashboard"
     site_title = "Staff Dashboard"
@@ -101,9 +108,17 @@ class StaffDashboard(UnfoldAdminSite):
         vacancies = Vacancy.objects.filter(
             is_published=True, deadline__gt=datetime.now()
         ).order_by("-created_at")
+        bursaries = BursaryAdvert.objects.filter(
+            is_visible=True, deadline__gt=datetime.now()
+        ).order_by("-created_at")
+        financial_assistance_adverts = FinancialAssistanceAdvert.objects.filter(
+            is_visible=True, deadline__gt=datetime.now()
+        ).order_by("-created_at")
         extra_context = {
             **self.each_context(request),
             "vacancies": vacancies,
+            "bursaries": bursaries,
+            "financial_assistance_adverts": financial_assistance_adverts,
             "title": request.user.profile,
         }
         return super().index(request, extra_context)
@@ -119,6 +134,7 @@ staff_dashboard_site = StaffDashboard(name="Staff")
 staff_dashboard_site.register(Profile, ProfileAdmin)
 staff_dashboard_site.register(Qualification, QualificationAdmin)
 staff_dashboard_site.register(Certification, CertificationAdmin)
-staff_dashboard_site.register(Vacancy, VacancyAdmin)
+# staff_dashboard_site.register(Vacancy, VacancyAdmin)
 staff_dashboard_site.register(Application, ApplicationAdmin)
 staff_dashboard_site.register(Interview, InterviewAdmin)
+staff_dashboard_site.register(FinancialAssistanceApplication, FinancialAssistanceAdmin)
