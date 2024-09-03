@@ -9,6 +9,7 @@ from apps.finaid.admin import (
     BursaryAdvertAdmin,
     BursaryApplicationsAdmin,
     FinancialAssistanceAdmin,
+    FinancialAssistanceAdvertAdmin,
 )
 from apps.finaid.models import (
     BursaryAdvert,
@@ -33,10 +34,6 @@ from apps.recruitment.models import (
     VacancyType,
 )
 from unfold.sites import UnfoldAdminSite
-
-# admin.site.unregister(User)
-# admin.site.unregister(Group)
-# admin.site.unregister(EmailAddress)
 
 
 class AdminDashboard(UnfoldAdminSite):
@@ -74,3 +71,4 @@ admin_dashboard_site.register(CostCentre, CostCentreAdmin)
 admin_dashboard_site.register(BursaryAdvert, BursaryAdvertAdmin)
 admin_dashboard_site.register(BursaryApplication, BursaryApplicationsAdmin)
 admin_dashboard_site.register(FinancialAssistanceApplication, FinancialAssistanceAdmin)
+admin_dashboard_site.register(FinancialAssistanceAdvert, FinancialAssistanceAdvertAdmin)

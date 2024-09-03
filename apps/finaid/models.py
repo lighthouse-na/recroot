@@ -22,7 +22,7 @@ from apps.utils.validators import FileValidator
 # **********************************************************************************************
 class BursaryAdvert(models.Model):
     YEAR_CHOICES = [
-        (year, str(year)) for year in range(datetime.date.today().year, 2100)
+        (f"{year}", str(year)) for year in range(datetime.date.today().year, 2100 + 1)
     ]
     year = models.CharField(max_length=4, choices=YEAR_CHOICES, unique=True)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -148,8 +148,9 @@ class BursaryApplication(models.Model):
 # **********************************************************************************************
 class FinancialAssistanceAdvert(models.Model):
     YEAR_CHOICES = [
-        (year, str(year)) for year in range(datetime.date.today().year, 2100)
+        (f"{year}", str(year)) for year in range(datetime.date.today().year, 2100 + 1)
     ]
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     year = models.CharField(max_length=4, choices=YEAR_CHOICES, unique=True)
     deadline = models.DateTimeField()
@@ -208,7 +209,7 @@ class FinancialAssistanceApplication(models.Model):
         ("grade12", "Grade 12"),
     ]
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    assistance = models.ForeignKey(
+    advert = models.ForeignKey(
         FinancialAssistanceAdvert, on_delete=models.PROTECT, related_name="applications"
     )
     applicant = models.ForeignKey(
@@ -257,7 +258,7 @@ class FinancialAssistanceApplication(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ("assistance", "applicant")
+        unique_together = ("advert", "applicant")
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

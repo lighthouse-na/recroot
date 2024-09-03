@@ -15,6 +15,7 @@ from apps.finaid.admin import (
     BursaryAdvertAdmin,
     BursaryApplicationsAdmin,
     FinancialAssistanceAdmin,
+    FinancialAssistanceAdvertAdmin,
 )
 from apps.finaid.models import (
     BursaryAdvert,
@@ -212,3 +213,6 @@ superuser_dashboard_site.register(
     FinancialAssistanceApplication, FinancialAssistanceAdmin
 )
 superuser_dashboard_site.register(Profile, ProfileAdmin)
+superuser_dashboard_site.register(
+    FinancialAssistanceAdvert, FinancialAssistanceAdvertAdmin
+)

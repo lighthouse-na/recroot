@@ -8,6 +8,11 @@ class FinancialAssistanceApplicationForm(forms.ModelForm):
     class Meta:
         model = FinancialAssistanceApplication
         exclude = [
+            "advert",
+            "applicant",
+            "reviewed_by",
+            "reviewed_at",
+            "review_comments",
             "status",
             "created_at",
             "updated_at",

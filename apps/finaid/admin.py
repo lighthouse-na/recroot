@@ -15,9 +15,14 @@ from .models import (
     FinancialAssistanceApplication,
 )
 
-admin.site.register(FinancialAssistanceAdvert, ModelAdmin)
+# admin.site.register(FinancialAssistanceAdvert, ModelAdmin)
 # admin.site.register(Bursary, ModelAdmin)
 # admin.site.register(BursaryApplications, ModelAdmin)
+
+
+@admin.register(FinancialAssistanceAdvert)
+class FinancialAssistanceAdvertAdmin(ModelAdmin, ExportActionModelAdmin):
+    model = FinancialAssistanceAdvert
 
 
 @admin.register(FinancialAssistanceApplication)
