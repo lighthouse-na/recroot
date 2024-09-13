@@ -1,4 +1,8 @@
 {% load group_filter %}
+{% url 'superuser' as superuser_dashboard %}
+{% url 'admin' as admin_dashboard %}
+
+{% if not superuser_dashboard %}
 <div data-dial-init class="fixed end-6 bottom-6 group">
     <div id="speed-dial-menu-click" class="flex flex-col items-center hidden mb-4 space-y-2">
         {% if user|is_in_group:"admin" %}
@@ -84,3 +88,4 @@
         <span class="sr-only">Open actions menu</span>
     </button>
 </div>
+{% endif %}

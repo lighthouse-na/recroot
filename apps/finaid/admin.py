@@ -37,6 +37,7 @@ class FinancialAssistanceAdmin(ModelAdmin, ExportActionModelAdmin):
     list_display = [
         "applicant",
         "study_mode",
+        "status",
     ]
     list_filter = (
         "applicant",

@@ -22,15 +22,15 @@ UNFOLD = {
             "950": "#660000",
         },
     },
-    # "EXTENSIONS": {
-    #     "modeltranslation": {
-    #         "flags": {
-    #             "en": "🇬🇧",
-    #             "fr": "🇫🇷",
-    #             "nl": "🇧🇪",
-    #         },
-    #     },
-    # },
+    "EXTENSIONS": {
+        "modeltranslation": {
+            "flags": {
+                "en": "🇬🇧",
+                "fr": "🇫🇷",
+                "nl": "🇧🇪",
+            },
+        },
+    },
     "SIDEBAR": {
         "show_search": True,
         "show_all_applications": True,
@@ -42,28 +42,24 @@ UNFOLD = {
                     {
                         "title": _("Dashboard"),
                         "icon": "dashboard",
-                        # "link": reverse_lazy("admin:index"),
                         "link": "/admin/",
                         "permission": lambda request: request.user.is_superuser,
                     },
                     {
                         "title": _("Auth"),
                         "icon": "people",
-                        # "link": reverse_lazy("admin:index"),
                         "link": "/admin/auth/user",
                         "permission": lambda request: request.user.is_superuser,
                     },
                     {
                         "title": _("Organisation"),
                         "icon": "home",
-                        # "link": reverse_lazy("admin:index"),
                         "link": "/admin/organisation",
                         "permission": lambda request: request.user.is_superuser,
                     },
                     {
                         "title": _("Recruitment"),
                         "icon": "people",
-                        # "link": reverse_lazy("admin:index"),
                         "link": "/admin/recruitment",
                         "permission": lambda request: request.user.has_perm(
                             "view_application"
@@ -72,7 +68,6 @@ UNFOLD = {
                     {
                         "title": _("Financial Aid"),
                         "icon": "request_quote",
-                        # "link": reverse_lazy("admin:index"),
                         "link": "/admin/finaid/",
                         "permission": lambda request: request.user.has_perm(
                             "view_application"
@@ -93,7 +88,6 @@ UNFOLD = {
                     {
                         "title": _("Auth"),
                         "icon": "people",
-                        # "link": reverse_lazy("admin:index"),
                         "link": "/dashboard/admin/auth/",
                         "permission": lambda request: request.user.groups.filter(
                             name="admin"
@@ -103,7 +97,6 @@ UNFOLD = {
                     {
                         "title": _("Organisation"),
                         "icon": "home",
-                        # "link": reverse_lazy("admin:index"),
                         "link": "/dashboard/admin/organisation",
                         "permission": lambda request: request.user.groups.filter(
                             name="admin"
@@ -113,7 +106,6 @@ UNFOLD = {
                     {
                         "title": _("Recruitment"),
                         "icon": "people",
-                        # "link": reverse_lazy("admin:index"),
                         "link": "/dashboard/admin/recruitment",
                         "permission": lambda request: request.user.groups.filter(
                             name="admin"
@@ -123,7 +115,6 @@ UNFOLD = {
                     {
                         "title": _("Financial Aid"),
                         "icon": "request_quote",
-                        # "link": reverse_lazy("admin:index"),
                         "link": "/dashboard/admin/finaid/",
                         "permission": lambda request: request.user.groups.filter(
                             name="admin"
@@ -136,7 +127,6 @@ UNFOLD = {
                     {
                         "title": _("Dashboard"),
                         "icon": "dashboard",
-                        # "link": "/dashboard/staff/",
                         "link": reverse_lazy("Staff:index"),
                         "permission": lambda request: request.path.startswith(
                             "/dashboard/staff/"
@@ -147,8 +137,8 @@ UNFOLD = {
                         and request.path.startswith("/dashboard/staff/"),
                     },
                     {
-                        "title": _("Account"),
-                        "icon": "person",
+                        "title": _("Qualifications"),
+                        "icon": "clinical_notes",
                         "link": "/dashboard/staff/accounts",
                         "permission": lambda request: request.user.groups.filter(
                             name="staff"
@@ -167,7 +157,7 @@ UNFOLD = {
                     {
                         "title": _("Financial Aid"),
                         "icon": "request_quote",
-                        "link": "/dashboard/staff/finaid/",
+                        "link": "/dashboard/staff/finaid/financialassistanceapplication/",
                         "permission": lambda request: request.user.groups.filter(
                             name="staff"
                         ).exists()

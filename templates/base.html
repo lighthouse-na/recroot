@@ -17,6 +17,11 @@
 
 <body>
     {% include 'includes/navbar.html' %}
+
+    {% if user.is_authenticated %}
+    {% include 'unfold/partials/speed_dial.html' %}
+    {% endif %}
+
     {% block content %}{% endblock content %}
     <hr>
     {% include 'includes/footer.html' %}

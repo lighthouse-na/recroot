@@ -101,9 +101,6 @@ class StaffDashboard(UnfoldAdminSite):
     # logout_template = "admin/logout.html"
     # password_change_template = "admin/password_change.html"
 
-    def each_context(self, request):
-        return super().each_context(request)
-
     def index(self, request, extra_context=None):
         vacancies = Vacancy.objects.filter(
             is_published=True, deadline__gt=datetime.now()
@@ -131,7 +128,7 @@ class StaffDashboard(UnfoldAdminSite):
 
 
 staff_dashboard_site = StaffDashboard(name="Staff")
-staff_dashboard_site.register(Profile, ProfileAdmin)
+# staff_dashboard_site.register(Profile, ProfileAdmin)
 staff_dashboard_site.register(Qualification, QualificationAdmin)
 staff_dashboard_site.register(Certification, CertificationAdmin)
 # staff_dashboard_site.register(Vacancy, VacancyAdmin)
