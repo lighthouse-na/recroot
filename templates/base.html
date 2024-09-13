@@ -18,7 +18,8 @@
 <body>
     {% include 'includes/navbar.html' %}
     {% block content %}{% endblock content %}
-    <!-- {% include 'includes/footer.html' %} -->
+    <hr>
+    {% include 'includes/footer.html' %}
     {% block scripts %}{% endblock scripts %}
     <script src="{% static 'js/flowbite.min.js' %}"></script>
 </body>

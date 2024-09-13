@@ -26,3 +26,8 @@ def index(request):
     }
     context = {"vacancies": vacancies}
     return render(request, template_name, context)
+
+
+def policy(request):
+    template_name = "pages/privacy.html"
+    return render(request, template_name)
