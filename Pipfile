@@ -23,6 +23,7 @@ django-cleanup = "*"
 djhtml = "*"
 django-cors-headers = "*"
 channels = {extras = ["daphne"], version = "*"}
+requests = "*"
 
 [dev-packages]
 

@@ -113,9 +113,9 @@ def send_interview_notification_email(sender, instance, created, **kwargs):
     if not created and instance.status == "scheduled":
         if recipient_list:
             invitation_link = reverse(
-                "interview_invitation", kwargs={"pk": instance.pk}
+                "recruitment:interview_invitation", kwargs={"pk": instance.pk}
             )
-            invitation_url = f"http://.{invitation_link}"
+            invitation_url = f"https://localhost/{invitation_link}"
             message = f"""
                 Dear {recipient_name},
 

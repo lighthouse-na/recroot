@@ -162,10 +162,10 @@ class Application(models.Model):
             if age < 18:
                 raise ValidationError("Applicant must be at least 18 years old")
 
-    def save(self, *args, **kwargs):
-        if self.vacancy.deadline < timezone.now():
-            raise ValidationError("Applications cannot be accepted past the deadline")
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if self.vacancy.deadline < timezone.now():
+    #         raise ValidationError("Applications cannot be accepted past the deadline")
+    #     super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("application_detail", kwargs={"pk": self.pk})
@@ -197,7 +197,9 @@ class Interview(models.Model):
     class INTERVIEW_TYPE(models.TextChoices): ...
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    application = models.ForeignKey(Application, on_delete=models.CASCADE)
+    application = models.ForeignKey(
+        Application, on_delete=models.CASCADE, related_name="interviews"
+    )
     schedule_datetime = models.DateTimeField(
         help_text=_(
             "Please select a date and time at least one day in the future, excluding weekends."
@@ -243,10 +245,10 @@ class Interview(models.Model):
                 "Scheduled datetime must be at least one day in the future."
             )
 
-        if self.application.vacancy.deadline < timezone.now():
-            raise ValidationError(
-                "Cannot schedule an interview before the vacancy deadline"
-            )
+        # if self.application.vacancy.deadline < timezone.now():
+        #     raise ValidationError(
+        #         "Cannot schedule an interview before the vacancy deadline"
+        #     )
 
     def save(self, *args, **kwargs):
         self.clean()
