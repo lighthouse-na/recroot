@@ -7,7 +7,7 @@ from django.dispatch import receiver
 
 from apps.recruitment.models import Vacancy
 
-from .models import StaffNotification
+from .models import Notification
 from .types import NOTIFICATION_TYPES
 
 
@@ -17,7 +17,7 @@ def new_vacancy_notification(sender, instance, created, **kwargs):
     if instance.is_published:
         content_type = ContentType.objects.get_for_model(instance)
         for user in users:
-            StaffNotification.objects.create(
+            Notification.objects.create(
                 user=user,
                 notification_type=NOTIFICATION_TYPES.NEW_VACANCY,
                 content_type=content_type,
@@ -27,11 +27,11 @@ def new_vacancy_notification(sender, instance, created, **kwargs):
             )
 
 
-@receiver(post_save, sender=StaffNotification)
-def send_staff_notification(sender, instance, created, **kwargs):
+@receiver(post_save, sender=Notification)
+def send_notification(sender, instance, created, **kwargs):
     if created:
         channel_layer = get_channel_layer()
-        group_name = f"staff-notifications-{instance.user.id}"
+        group_name = f"notifications-{instance.user.id}"
         event = {
             "type": "created",
             "id": instance.id,

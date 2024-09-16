@@ -6,9 +6,9 @@ from django.db import models
 from .types import NOTIFICATION_TYPES
 
 
-class StaffNotification(models.Model):
+class Notification(models.Model):
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="staff_notifications"
+        User, on_delete=models.CASCADE, related_name="notifications"
     )
     notification_type = models.CharField(
         max_length=255, choices=NOTIFICATION_TYPES.choices
