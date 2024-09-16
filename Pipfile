@@ -24,6 +24,9 @@ djhtml = "*"
 django-cors-headers = "*"
 channels = {extras = ["daphne"], version = "*"}
 requests = "*"
+djangorestframework = "*"
+markdown = "*"
+django-filter = "*"
 
 [dev-packages]
 

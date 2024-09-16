@@ -14,4 +14,6 @@ urlpatterns = [
     path("recruitment/", include("apps.recruitment.urls")),
     path("dashboard/", include("apps.dashboard.urls")),
     path("finaid/", include("apps.finaid.urls")),
+    path("api-auth/", include("rest_framework.urls")),
+    path("api/v1/", include("apps.api_v1.urls")),
 ] + debug_toolbar_urls()

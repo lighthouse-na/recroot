@@ -20,7 +20,8 @@ LOCAL_APPS = [
     "apps.pages",
     "apps.finaid",
     "apps.dashboard",
-    "apps.notification",
+    # "apps.notification",
+    "apps.api_v1",
 ]
 THIRD_PARTY_APPS = [
     "django_extensions",
@@ -34,6 +35,7 @@ THIRD_PARTY_APPS = [
     "import_export",
     "django_cleanup.apps.CleanupConfig",
     "corsheaders",
+    "rest_framework",
 ]
 INSTALLED_APPS = (
     [
@@ -171,6 +173,7 @@ UBLOCK_ORIGIN_EXCEPTIONS = [
     "http://localhost:8000/*",
     # Add your domain here
 ]
+from .third_party.drf import *
 from .third_party.allauth import *
 from .third_party.channels import *
 from .third_party.crispy_forms import *
