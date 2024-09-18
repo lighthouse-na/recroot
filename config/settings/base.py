@@ -39,7 +39,7 @@ THIRD_PARTY_APPS = [
 ]
 INSTALLED_APPS = (
     [
-        "daphne",
+        # "daphne",
         "unfold",
         "unfold.contrib.import_export",
         "unfold.contrib.guardian",
@@ -55,7 +55,7 @@ INSTALLED_APPS = (
         "django.contrib.humanize",
         "allauth",
         "allauth.account",
-        "channels",
+        # "channels",
     ]
     + LOCAL_APPS
     + THIRD_PARTY_APPS
@@ -93,8 +93,8 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = "config.wsgi.application"
-ASGI_APPLICATION = "config.asgi.application"
+WSGI_APPLICATION = "config.wsgi.application"
+# ASGI_APPLICATION = "config.asgi.application"
 
 
 # Password validation
