@@ -2,7 +2,7 @@
 <ul class="mt-16 grid grid-cols-1 gap-6 text-center text-slate-700 md:grid-cols-3">
     {% for vacancy in vacancies %}
     <a href="{% url 'recruitment:vacancy_detail' vacancy.slug %}"
-        class="rounded-xl bg-white px-6 py-8 border hover:shadow-2xl hover:duration-300">
+        class="rounded-xl bg-white dark:bg-gray-900 px-6 py-8 border dark:border-gray-700 hover:shadow-2xl hover:duration-300 dark:hover:shadow-orange-500">
 
         {% if vacancy.vacancy_type.type == "volunteer" %}
         <img src="https://www.svgrepo.com/show/434320/heart-hand.svg" alt="" class="mx-auto my-3 h-10 w-10">

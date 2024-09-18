@@ -2,7 +2,7 @@
 {% url 'superuser' as superuser_dashboard %}
 {% url 'admin' as admin_dashboard %}
 
-{% if not superuser_dashboard %}
+{% if user.is_authenticated %}
 <div data-dial-init class="fixed end-6 bottom-6 group">
     <div id="speed-dial-menu-click" class="flex flex-col items-center hidden mb-4 space-y-2">
         {% if user|is_in_group:"admin" %}

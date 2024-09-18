@@ -37,7 +37,7 @@ class VacancyType(models.Model):
 class Vacancy(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     advert = models.FileField(
-        upload_to="adverts/vacancy",
+        upload_to="adverts/vacancy/",
         validators=[
             FileExtensionValidator(allowed_extensions=["pdf"]),
             FileValidator(max_size=10 * 1024 * 1024),
