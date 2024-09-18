@@ -38,6 +38,7 @@ from apps.recruitment.models import (
     Vacancy,
     VacancyType,
 )
+from apps.pages.models import Announcement
 
 from .forms import ProfileUpdateForm
 from .models import Certification, Profile, Qualification
@@ -216,3 +217,4 @@ superuser_dashboard_site.register(Profile, ProfileAdmin)
 superuser_dashboard_site.register(
     FinancialAssistanceAdvert, FinancialAssistanceAdvertAdmin
 )
+superuser_dashboard_site.register(Announcement, ModelAdmin)

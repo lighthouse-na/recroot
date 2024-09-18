@@ -15,6 +15,7 @@ from apps.finaid.models import (
     FinancialAssistanceApplication,
 )
 from apps.finaid.admin import FinancialAssistanceAdmin
+from apps.pages.models import Announcement
 
 
 # @admin.register(Vacancy)
@@ -102,6 +103,10 @@ class StaffDashboard(UnfoldAdminSite):
     # password_change_template = "admin/password_change.html"
 
     def index(self, request, extra_context=None):
+        announcements = Announcement.objects.filter(
+            deadline__gt=datetime.now(),
+            is_visible=True,
+        )
         vacancies = Vacancy.objects.filter(
             is_published=True, deadline__gt=datetime.now()
         ).order_by("-created_at")
@@ -113,6 +118,7 @@ class StaffDashboard(UnfoldAdminSite):
         ).order_by("-created_at")
         extra_context = {
             **self.each_context(request),
+            "announcements": announcements,
             "vacancies": vacancies,
             "bursaries": bursaries,
             "financial_assistance_adverts": financial_assistance_adverts,

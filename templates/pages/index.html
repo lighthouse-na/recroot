@@ -15,11 +15,16 @@
     </div>
 </section>
 {% endif %}
+
+
+{% comment %}
 <section>
     <div id="subscribe-form" hx-get="{% url 'recruitment:subscriber_create' %}" hx-target="#subscribe-form"
         hx-trigger="load">
         {% include 'recruitment/subscribe/create.html' %}
     </div>
 </section>
+{% endcomment %}
+
 <br>
 {% endblock content %}
