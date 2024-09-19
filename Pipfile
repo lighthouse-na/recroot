@@ -27,6 +27,7 @@ requests = "*"
 djangorestframework = "*"
 markdown = "*"
 django-filter = "*"
+django-recaptcha = "*"
 
 [dev-packages]
 

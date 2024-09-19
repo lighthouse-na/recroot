@@ -2,8 +2,11 @@ from datetime import timedelta
 
 from django import forms
 from django.utils import timezone
+from django_recaptcha.fields import ReCaptchaField, ReCaptchaV2Checkbox
 from phonenumber_field.formfields import PhoneNumberField
 from tinymce.widgets import TinyMCE
+
+from config.env import env
 
 from .models import (
     Application,
@@ -47,6 +50,11 @@ class ApplicationReviewForm(forms.ModelForm):
 
 
 class ApplicationForm(forms.ModelForm):
+    captcha = ReCaptchaField(
+        public_key=env("RECAPTCHA_V2_PUBLIC_KEY"),
+        private_key=env("RECAPTCHA_V2_PRIVATE_KEY"),
+        widget=ReCaptchaV2Checkbox,
+    )
     primary_contact = PhoneNumberField(region="NA")
     secondary_contact = PhoneNumberField(region="NA", required=False)
     date_of_birth = forms.DateField(widget=forms.DateInput())

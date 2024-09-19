@@ -36,6 +36,7 @@ THIRD_PARTY_APPS = [
     "django_cleanup.apps.CleanupConfig",
     "corsheaders",
     "rest_framework",
+    "django_recaptcha",
 ]
 INSTALLED_APPS = (
     [
@@ -177,5 +178,6 @@ from .third_party.allauth import *
 from .third_party.channels import *
 from .third_party.crispy_forms import *
 from .third_party.drf import *
+from .third_party.recaptcha import *
 from .third_party.tinymce import *
 from .third_party.unfold import *
