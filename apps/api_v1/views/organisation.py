@@ -1,20 +1,22 @@
 from rest_framework import permissions, viewsets
+
 from apps.organisation.models import (
+    CostCentre,
+    Department,
+    Division,
+    Location,
+    Position,
     Region,
     Town,
-    Department,
-    Position,
-    Location,
-    Division,
-    CostCentre,
 )
+
 from ..serializers.organisation import (
-    RegionSerializer,
-    TownSerializer,
+    CostCentreSerializer,
     DepartmentSerializer,
     DivisionSerializer,
     LocationSerializer,
-    CostCentreSerializer,
+    RegionSerializer,
+    TownSerializer,
 )
 
 

@@ -4,144 +4,194 @@
 {% load crispy_forms_tags %}
 {% block title %}{{ vacancy.title }}{% endblock title %}
 {% block content %}
-<div class="p-4">
-    <section class="p-6">
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="relative p-4 bg-white rounded-lg shadow-xl dark:bg-gray-800 sm:p-5">
-                <div class="inline-flex items-center justify-center w-full">
-                    <hr class="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
-                    <span
-                        class="absolute px-3 text-2xl font-semibold text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">Applicant
-                        Details</span>
-                </div>
 
-                <div class="grid gap-4 mb-4 sm:grid-cols-3">
-                    {% if not user.is_authenticated %}
-                    <div>
-                        {{ form.first_name.errors }}
-                        <label for="{{ form.first_name.id_for_label }}"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name
-                            <span class="text-red-500">*</span></label>
-                        {% render_field form.first_name type="text" placeholder="eg. Jane" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" %}
+    <div class="p-4 dark:text-gray-400">
+        <section class="p-6">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="relative p-4 rounded-lg shadow-xl sm:p-5">
+                    <div class="inline-flex items-center justify-center w-full">
+                        <hr class="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+                        <span
+                            class="absolute px-3 text-2xl font-semibold text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">Applicant
+                            Details</span>
                     </div>
-                    <div>
-                        {{ form.middle_name.errors }}
-                        <label for="{{ form.middle_name.id_for_label }}"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Middle Name
-                        </label>
-                        {% render_field form.middle_name type="text" placeholder="eg. Jane" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" %}
-                    </div>
-                    <div>
-                        {{ form.last_name.errors }}
-                        <label for="{{ form.last_name.id_for_label }}"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name
-                            <span class="text-red-500">*</span></label>
-                        {% render_field form.last_name type="text" placeholder="eg. Doe" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" %}
-                    </div>
-                    <div>
-                        {{ form.email.errors }}
-                        <label for="{{ form.email.id_for_label }}"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email
-                            <span class="text-red-500">*</span></label>
-                        {% render_field form.email type="email" placeholder="eg. janedoe@email.com" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" %}
-                    </div>
-                    <div>
-                        {{ form.primary_contact.errors }}
-                        <label for="{{ form.primary_contact.id_for_label }}"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Primary Contact
-                            Number
-                            <span class="text-red-500">*</span></label>
-                        {% render_field form.primary_contact type="tel" placeholder="eg. 081 123 4567" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" %}
-                    </div>
-                    <div>
-                        {{ form.secondary_contact.errors }}
-                        <label for="{{ form.secondary_contact.id_for_label }}"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Secondary Contact
-                            Number
-                        </label>
-                        {% render_field form.secondary_contact type="tel" placeholder="eg. 083 765 4321" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" %}
-                    </div>
-                    <div>
-                        {{ form.date_of_birth.errors }}
-                        <label for="{{ form.date_of_birth.id_for_label }}"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of Birth
-                            <span class="text-red-500">*</span></label>
-                        {% render_field form.date_of_birth type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" %}
-                    </div>
-                    {% endif %}
-                    <div>
-                        {{ form.cv.errors }}
-                        <label for="{{ form.cv.id_for_label }}"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CV
-                            <span class="text-red-500">*</span></label>
-                        {% render_field form.cv type="file" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" %}
+
+                    <div class="grid gap-4 mb-4 sm:grid-cols-3">
+                        {% if not user.is_authenticated %}
+                            <div>
+                                {{ form.first_name.errors }}
+                                <label for="{{ form.first_name.id_for_label }}"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name
+                                    <span class="text-orange-500">*</span></label>
+                                {% render_field form.first_name type="text" placeholder="eg. Jane" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+
+                                {% if form.first_name.errors %}
+                                    <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                                         role="alert">{{ form.first_name.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div>
+                                <label for="{{ form.middle_name.id_for_label }}"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Middle Name
+                                </label>
+                                {% render_field form.middle_name type="text" placeholder="eg. Jane" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+
+                                {% if form.middle_name.errors %}
+                                    <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                                         role="alert">{{ form.middle_name.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div>
+                                <label for="{{ form.last_name.id_for_label }}"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name
+                                    <span class="text-orange-500">*</span></label>
+                                {% render_field form.last_name type="text" placeholder="eg. Doe" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+
+                                {% if form.last_name.errors %}
+                                    <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                                         role="alert">{{ form.last_name.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div>
+                                <label for="{{ form.email.id_for_label }}"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email
+                                    <span class="text-orange-500">*</span></label>
+                                {% render_field form.email type="email" placeholder="eg. janedoe@email.com" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+
+                                {% if form.email.errors %}
+                                    <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                                         role="alert">{{ form.email.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div>
+                                <label for="{{ form.primary_contact.id_for_label }}"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Primary Contact
+                                    Number
+                                    <span class="text-orange-500">*</span></label>
+                                {% render_field form.primary_contact type="tel" placeholder="eg. 081 123 4567" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+
+                                {% if form.primary_contact.errors %}
+                                    <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                                         role="alert">{{ form.primary_contact.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div>
+                                <label for="{{ form.secondary_contact.id_for_label }}"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Secondary Contact
+                                    Number
+                                </label>
+                                {% render_field form.secondary_contact type="tel" placeholder="eg. 083 765 4321" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+
+                                {% if form.secondary_contact.errors %}
+                                    <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                                         role="alert">{{ form.secondary_contact.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div>
+                                <label for="{{ form.date_of_birth.id_for_label }}"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of Birth
+                                    <span class="text-orange-500">*</span></label>
+                                {% render_field form.date_of_birth type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+
+                                {% if form.date_of_birth.errors %}
+                                    <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                                         role="alert">{{ form.date_of_birth.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                        {% endif %} <!-- End of is_authenticated -->
+
+                        <div>
+                            <label for="{{ form.cv.id_for_label }}"
+                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CV
+                                <span class="text-orange-500">*</span></label>
+                            {% render_field form.cv type="file" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+
+                            {% if form.cv.errors %}
+                                <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                                     role="alert">{{ form.cv.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
-            </div>
-            <br>
-            {% if form.requirements %}
-            <div class="relative p-4 bg-white rounded-lg shadow-xl dark:bg-gray-800 sm:p-5">
+                <br>
+                {% if form.requirements %}
+                    <div class="relative p-4 rounded-lg shadow-xl sm:p-5">
                 <!-- <div
                     class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                         Minimum Requirements
                     </h3>
                 </div> -->
-                <div class="inline-flex items-center justify-center w-full">
-                    <hr class="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
-                    <span
-                        class="absolute px-3 text-2xl font-semibold text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">Minimum
-                        Requirements</span>
-                </div>
-                <div>
-                    {% for field in form %}
-                    {% if field.name|slice:":12" == "requirement_" %}
-                    <ul>
+                        <div class="inline-flex items-center justify-center w-full">
+                            <hr class="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+                            <span
+                                class="absolute px-3 text-2xl font-semibold text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">Minimum
+                                Requirements</span>
+                        </div>
+                        <div>
+                            {% for field in form %}
+                                {% if field.name|slice:":12" == "requirement_" %}
+                                    <ul>
                         <!-- {{ field.label_tag }} {{ field }} -->
-                        {% if field.field.widget.input_type == 'checkbox' %}
-                        <li class="mb-4 grid grid-cols-8">
-                            <label for="{{ field.id_for_label }}"
-                                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 col-span-6">{{ field.label_tag }}</label>
-                            {% render_field field type="checkbox" class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" %}
+                                        {% if field.field.widget.input_type == 'checkbox' %}
+                                            <li class="mb-4 grid grid-cols-8">
+                                                <label for="{{ field.id_for_label }}"
+                                                       class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 col-span-6">{{ field.label_tag }}</label>
+                                                {% render_field field type="checkbox" class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" %}
 
-                        </li>
-                        {% elif field.field.widget.input_type == 'text' %}
-                        <li class="mb-4">
-                            {{ field.errors }}
-                            <label for="{{ field.id_for_label }}"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ field.label_tag }}
-                            </label>
-                            {% render_field field type="text" class="w-full border border-gray-300 " %}
-                        </li>
-                        {% elif field.field.widget.input_type == 'date' %}
-                        <li class="mb-4">
-                            {{ field.errors }}
-                            <label for="{{ field.id_for_label }}"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ field.label_tag }}
-                            </label>
-                            {% render_field field type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" %}
-                        </li>
-                        {% endif %}
+                                            </li>
+                                        {% elif field.field.widget.input_type == 'text' %}
+                                            <li class="mb-4">
+                                                {{ field.errors }}
+                                                <label for="{{ field.id_for_label }}"
+                                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ field.label_tag }}
+                                                </label>
+                                                {% render_field field type="text" class="w-full p-2 border border-gray-300 dark:bg-gray-900" %}
+                                            </li>
+                                        {% elif field.field.widget.input_type == 'date' %}
+                                            <li class="mb-4">
+                                                {{ field.errors }}
+                                                <label for="{{ field.id_for_label }}"
+                                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ field.label_tag }}
+                                                </label>
+                                                {% render_field field type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+                                            </li>
+                                        {% endif %}
 
-                    </ul>
-                    {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-            {% endif %}
+                                    </ul>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
 
-            <button type="submit"
-                class="text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
-                <svg class="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                        clip-rule="evenodd"></path>
-                </svg>
-                Apply
-            </button>
-        </form>
-    </section>
-</div>
+                <button type="submit"
+                        class="text-white inline-flex items-center bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">
+                    <svg class="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                    Apply
+                </button>
+            </form>
+        </section>
+    </div>
 {% endblock content %}

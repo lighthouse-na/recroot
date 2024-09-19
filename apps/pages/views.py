@@ -1,9 +1,10 @@
 from datetime import datetime
+
 from django.contrib.admin import site
 from django.shortcuts import get_object_or_404, redirect, render
 
-from apps.recruitment.models import Application, Interview, Subscriber, Vacancy
 from apps.pages.models import Announcement
+from apps.recruitment.models import Application, Interview, Subscriber, Vacancy
 
 
 def index(request):

@@ -1,9 +1,10 @@
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import CreateView
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
+from django.views.generic import CreateView
+
 from .forms import FinancialAssistanceApplicationForm
-from .models import FinancialAssistanceApplication, FinancialAssistanceAdvert
+from .models import FinancialAssistanceAdvert, FinancialAssistanceApplication
 
 
 class FinancialAssistanceApplicationCreateView(CreateView):

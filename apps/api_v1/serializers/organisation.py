@@ -1,12 +1,13 @@
 from rest_framework import serializers
+
 from apps.organisation.models import (
-    Region,
-    Town,
+    CostCentre,
     Department,
     Division,
-    CostCentre,
-    Position,
     Location,
+    Position,
+    Region,
+    Town,
 )
 
 

@@ -1,12 +1,14 @@
 from django.contrib.auth.models import Group, User
 from rest_framework import permissions, viewsets
-from apps.accounts.models import Profile, Qualification, Certification
+
+from apps.accounts.models import Certification, Profile, Qualification
+
 from ..serializers.accounts import (
-    UserSerializer,
+    CertificationSerializer,
     GroupSerializer,
     ProfileSerializer,
     QualificationSerializer,
-    CertificationSerializer,
+    UserSerializer,
 )
 
 

@@ -1,12 +1,12 @@
 from rest_framework import routers
 
 from ..views.organisation import (
-    RegionViewSet,
-    TownViewSet,
+    CostCentreViewSet,
     DepartmentViewSet,
     DivisionViewSet,
     LocationViewSet,
-    CostCentreViewSet,
+    RegionViewSet,
+    TownViewSet,
 )
 
 organisation_router = routers.DefaultRouter()

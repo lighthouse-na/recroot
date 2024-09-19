@@ -1,11 +1,11 @@
 from rest_framework import routers
 
 from ..views.accounts import (
-    UserViewSet,
+    CertificationViewSet,
     GroupViewSet,
     ProfileViewSet,
     QualificationViewSet,
-    CertificationViewSet,
+    UserViewSet,
 )
 
 accounts_router = routers.DefaultRouter()

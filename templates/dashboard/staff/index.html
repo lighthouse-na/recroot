@@ -2,38 +2,38 @@
 {% load humanize %}
 {% block title %}Staff Dashboard{% endblock title %}
 {% block branding %}
-<h1 id="site-name">
-    <a href="{% url 'admin:index' %}">
-        {{ site_header|default:_('Django administration') }}
-    </a>
-</h1>
+    <h1 id="site-name">
+        <a href="{% url 'admin:index' %}">
+            {{ site_header|default:_('Django administration') }}
+        </a>
+    </h1>
 {% endblock %}
 {% block content %}
 
 
 
-{% if announcements %}
-{% include 'pages/announcements.html' %}
-{% endif %}
+    {% if announcements %}
+        {% include 'pages/announcements.html' %}
+    {% endif %}
 
-{% if vacancies %}
-<div class="px-2">
-    <div class="mx-auto max-w-6xl">
-        {% include 'recruitment/vacancy/list.html' %}
-    </div>
-</div>
-{% endif %}
+    {% if vacancies %}
+        <div class="px-2">
+            <div class="mx-auto max-w-6xl">
+                {% include 'recruitment/vacancy/list.html' %}
+            </div>
+        </div>
+    {% endif %}
 
-{% if financial_assistance_adverts %}
-<div class="px-2 py-10">
-    <div class="mx-auto max-w-6xl">
-        <h1
-            class="text-center mb-4 text-4xl font-extrabold leading-none tracking-tight text-primary-500 md:text-5xl lg:text-6xl dark:text-white">
-            Financial Aid</h1>
-        {% include 'recruitment/finaid/list.html' %}
-    </div>
-</div>
-{% endif %}
+    {% if financial_assistance_adverts %}
+        <div class="px-2 py-10">
+            <div class="mx-auto max-w-6xl">
+                <h1
+                    class="text-center mb-4 text-4xl font-extrabold leading-none tracking-tight text-primary-500 md:text-5xl lg:text-6xl dark:text-white">
+                    Financial Aid</h1>
+                {% include 'recruitment/finaid/list.html' %}
+            </div>
+        </div>
+    {% endif %}
 
 
 {% comment %}{% include 'unfold/partials/apps.html' %}{% endcomment %}

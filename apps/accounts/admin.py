@@ -24,7 +24,8 @@ from apps.finaid.models import (
     FinancialAssistanceApplication,
 )
 from apps.organisation.admin import CostCentreAdmin, PositionAdmin, RegionAdmin
-from apps.organisation.models import CostCentre, Position, Region, Location
+from apps.organisation.models import CostCentre, Location, Position, Region
+from apps.pages.models import Announcement
 from apps.recruitment.admin import (
     ApplicationAdmin,
     InterviewAdmin,
@@ -38,7 +39,6 @@ from apps.recruitment.models import (
     Vacancy,
     VacancyType,
 )
-from apps.pages.models import Announcement
 
 from .forms import ProfileUpdateForm
 from .models import Certification, Profile, Qualification

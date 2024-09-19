@@ -1,12 +1,13 @@
 from rest_framework import serializers
+
 from apps.recruitment.models import (
-    Vacancy,
-    VacancyType,
-    MinimumRequirement,
-    MinimumRequirementAnswer,
     Application,
     Interview,
+    MinimumRequirement,
+    MinimumRequirementAnswer,
     Subscriber,
+    Vacancy,
+    VacancyType,
 )
 
 

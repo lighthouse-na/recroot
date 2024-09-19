@@ -1,13 +1,13 @@
 from rest_framework import routers
 
 from ..views.recruitment import (
-    VacancyViewSet,
-    VacancyTypeViewSet,
-    SubscriberViewSet,
-    MinimumRequirementViewSet,
     ApplicationViewSet,
     InterviewViewSet,
     MinimumRequirementAnswerViewSet,
+    MinimumRequirementViewSet,
+    SubscriberViewSet,
+    VacancyTypeViewSet,
+    VacancyViewSet,
 )
 
 recruitment_router = routers.DefaultRouter()

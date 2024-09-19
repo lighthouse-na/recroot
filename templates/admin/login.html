@@ -30,7 +30,7 @@
             <div class="w-full sm:w-96">
                 <h1 class="font-semibold mb-10">
                     <span class="block text-gray-700 dark:text-gray-200">{% trans 'Welcome back to' %}</span>
-                    <span class="block text-red-600 text-xl dark:text-red-500">{{ site_title }}</span>
+                    <span class="block text-orange-600 text-xl dark:text-orange-500">{{ site_title }}</span>
                 </h1>
 
                 {% include "unfold/helpers/messages/errornote.html" with errors=form.errors %}
@@ -60,7 +60,7 @@
 
                     <div class="submit-row">
                         <button type="submit"
-                                class="bg-red-600 border border-transparent flex flex-row font-semibold group items-center justify-center py-2 rounded-md text-sm text-white w-full">
+                                class="bg-orange-600 border border-transparent flex flex-row font-semibold group items-center justify-center py-2 rounded-md text-sm text-white w-full">
                             {% translate 'Log in' %}
 
                             <i
@@ -83,7 +83,7 @@
 
             <div class="absolute flex flex-row items-center justify-between left-0 m-4 right-0 top-0">
                 {% if site_url %}
-                    <a href="{{ site_url }}" class="flex font-medium items-center text-sm text-red-600 dark:text-red-500">
+                    <a href="{{ site_url }}" class="flex font-medium items-center text-sm text-orange-600 dark:text-orange-500">
                         <span class="material-symbols-outlined mr-2">arrow_back</span> {% trans 'Return to site' %}
                     </a>
                 {% endif %}

@@ -1,15 +1,15 @@
 from django.contrib import admin
+from unfold.sites import UnfoldAdminSite
 
+from apps.accounts.admin import ProfileAdmin
+from apps.accounts.models import Profile
 from apps.recruitment.admin import (
     ApplicationAdmin,
     InterviewAdmin,
     SubscriberAdmin,
     VacancyAdmin,
 )
-from apps.accounts.admin import ProfileAdmin
-from apps.accounts.models import Profile
 from apps.recruitment.models import Application, Interview, Subscriber, Vacancy
-from unfold.sites import UnfoldAdminSite
 
 
 class RecruitmentAdminArea(admin.AdminSite):

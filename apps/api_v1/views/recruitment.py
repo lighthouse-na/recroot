@@ -1,21 +1,23 @@
 from rest_framework import permissions, viewsets
+
 from apps.recruitment.models import (
+    Application,
+    Interview,
+    MinimumRequirement,
+    MinimumRequirementAnswer,
+    Subscriber,
     Vacancy,
     VacancyType,
-    MinimumRequirementAnswer,
-    MinimumRequirement,
-    Application,
-    Subscriber,
-    Interview,
 )
+
 from ..serializers.recruitment import (
-    VacancySerializer,
-    VacancyTypeSerializer,
+    ApplicationSerializer,
+    InterviewSerializer,
     MinimumRequirementAnswerSerializer,
     MinimumRequirementSerializer,
-    ApplicationSerializer,
     SubscriberSerializer,
-    InterviewSerializer,
+    VacancySerializer,
+    VacancyTypeSerializer,
 )
 
 

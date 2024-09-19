@@ -6,16 +6,16 @@ from django.http import HttpRequest
 from unfold.admin import ModelAdmin
 from unfold.sites import UnfoldAdminSite
 
-from apps.accounts.admin import ProfileAdmin, QualificationAdmin, CertificationAdmin
+from apps.accounts.admin import CertificationAdmin, ProfileAdmin, QualificationAdmin
 from apps.accounts.models import Certification, Profile, Qualification
-from apps.recruitment.models import Vacancy, Interview, Application
+from apps.finaid.admin import FinancialAssistanceAdmin
 from apps.finaid.models import (
     BursaryAdvert,
     FinancialAssistanceAdvert,
     FinancialAssistanceApplication,
 )
-from apps.finaid.admin import FinancialAssistanceAdmin
 from apps.pages.models import Announcement
+from apps.recruitment.models import Application, Interview, Vacancy
 
 
 # @admin.register(Vacancy)

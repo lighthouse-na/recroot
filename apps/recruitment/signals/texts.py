@@ -1,10 +1,13 @@
-import requests
 import base64
 import os
-from config.env import BASE_DIR, env
+
+import requests
 from django.core.mail import send_mail
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+from config.env import BASE_DIR, env
+
 from ..models import Interview
 
 env.read_env(os.path.join(BASE_DIR, ".env"))

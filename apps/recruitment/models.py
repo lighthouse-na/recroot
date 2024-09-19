@@ -12,7 +12,7 @@ from django_extensions.db.fields import AutoSlugField
 from phonenumber_field.modelfields import PhoneNumberField
 from tinymce.models import HTMLField
 
-from apps.organisation.models import Town, Location
+from apps.organisation.models import Location, Town
 from apps.utils.validators import FileValidator
 
 

@@ -2,8 +2,9 @@ from allauth.account.models import EmailAddress
 from django.contrib import admin
 from django.contrib.auth.models import Group, User
 from unfold.admin import ModelAdmin
+from unfold.sites import UnfoldAdminSite
 
-from apps.accounts.admin import EmailAddressAdmin, GroupAdmin, UserAdmin, ProfileAdmin
+from apps.accounts.admin import EmailAddressAdmin, GroupAdmin, ProfileAdmin, UserAdmin
 from apps.accounts.models import Profile
 from apps.finaid.admin import (
     BursaryAdvertAdmin,
@@ -33,7 +34,6 @@ from apps.recruitment.models import (
     Vacancy,
     VacancyType,
 )
-from unfold.sites import UnfoldAdminSite
 
 
 class AdminDashboard(UnfoldAdminSite):
