@@ -28,6 +28,7 @@ djangorestframework = "*"
 markdown = "*"
 django-filter = "*"
 django-recaptcha = "*"
+gunicorn = "*"
 
 [dev-packages]
 

@@ -13,7 +13,7 @@ daphne==4.1.2
 diff-match-patch==20230430
 Django==5.1.1
 django-allauth==64.2.1
-django-cleanup==8.1.0
+django-cleanup==9.0.0
 django-cors-headers==4.4.0
 django-crispy-forms==2.3
 django-debug-toolbar==4.4.6
@@ -25,15 +25,17 @@ django-import-export==4.1.1
 django-phonenumber-field==8.0.0
 django-recaptcha==4.0.0
 django-tinymce==4.1.0
-django-unfold==0.38.0
+django-unfold==0.39.0
 django-widget-tweaks==1.5.0
 djangorestframework==3.15.2
 djhtml==3.0.6
+gunicorn==23.0.0
 hyperlink==21.0.0
 idna==3.10
 incremental==24.7.2
 isort==5.13.2
 Markdown==3.7
+packaging==24.1
 phonenumbers==8.13.45
 pillow==10.4.0
 pyasn1==0.6.1
@@ -42,7 +44,7 @@ pycparser==2.22
 pyOpenSSL==24.2.1
 requests==2.32.3
 service-identity==24.1.0
-setuptools==75.0.0
+setuptools==75.1.0
 sqlparse==0.5.1
 tablib==3.5.0
 Twisted==24.7.0

@@ -5,30 +5,30 @@ services:
     # Build the Docker image from the current directory (.)
     build: .
     # Command to run when the container starts (run Gunicorn with 4 workers)
-    command: python manage.py runserver
-    # command:
-#       [
-#         "gunicorn",
-#         "config.wsgi:application",
-#         "--bind",
-#         "0.0.0.0:8000",
-#         "--workers",
-#         "4",
-#       ]
-#     # Restart the container if it fails
-#     restart: always
-#     # Mount the current directory as a volume at /code
-#     volumes:
-#       - .:/code
-#     # Expose port 8000 from the container to the host
-#     ports:
-#       - "8000:8000"
-#     # Load environment variables from a .env file
-#     env_file:
-#       - .env
-#     # Set the DJANGO_SETTINGS_MODULE environment variable
-#     environment:
-#       - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+    # command: python manage.py runserver
+    command:
+      [
+        "gunicorn",
+        "config.wsgi:application",
+        "--bind",
+        "0.0.0.0:8000",
+        "--workers",
+        "4",
+      ]
+    # Restart the container if it fails
+    restart: always
+    # Mount the current directory as a volume at /code
+    volumes:
+      - .:/code
+    # Expose port 8000 from the container to the host
+    ports:
+      - "8000:8000"
+    # Load environment variables from a .env file
+    env_file:
+      - .env
+    # Set the DJANGO_SETTINGS_MODULE environment variable
+    environment:
+      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
 #       - POSTGRES_DB=${POSTGRES_DB}
 #       - POSTGRES_USER=${POSTGRES_USER}
 #       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
