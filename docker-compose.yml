@@ -29,68 +29,67 @@ services:
     # Set the DJANGO_SETTINGS_MODULE environment variable
     environment:
       - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
-#       - POSTGRES_DB=${POSTGRES_DB}
-#       - POSTGRES_USER=${POSTGRES_USER}
-#       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-#     # Depend on the cache service (i.e., start web after cache)
-#     depends_on:
-#       - db
-#       - cache
+  #       - POSTGRES_DB=${POSTGRES_DB}
+  #       - POSTGRES_USER=${POSTGRES_USER}
+  #       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  #     # Depend on the cache service (i.e., start web after cache)
+  #     depends_on:
+  #       - db
+  #       - cache
 
-#   # Database service (Postgresql)
-#   db:
-#     container_name: database
-#     # Use the latest Postgresql image
-#     image: postgres:latest
-#     # Restart the container if it fails
-#     restart: always
-#     # Mount a volume at ./data/db to persist data
-#     volumes:
-#       - ./data/db:/var/lib/postgresql/data
-#     # Load environment variables from a .env file
-#     environment:
-#       - POSTGRES_DB=${POSTGRES_DB}
-#       - POSTGRES_USER=${POSTGRES_USER}
-#       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-#     expose:
-#       - "5432:5432"
+  #   # Database service (Postgresql)
+  #   db:
+  #     container_name: database
+  #     # Use the latest Postgresql image
+  #     image: postgres:latest
+  #     # Restart the container if it fails
+  #     restart: always
+  #     # Mount a volume at ./data/db to persist data
+  #     volumes:
+  #       - ./data/db:/var/lib/postgresql/data
+  #     # Load environment variables from a .env file
+  #     environment:
+  #       - POSTGRES_DB=${POSTGRES_DB}
+  #       - POSTGRES_USER=${POSTGRES_USER}
+  #       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  #     expose:
+  #       - "5432:5432"
 
-#   pgadmin:
-#     container_name: pgadmin
-#     image: dpage/pgadmin4
-#     restart: always
-#     environment:
-#       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
-#       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
-#     ports:
-#       - "5050:80"
+  #   pgadmin:
+  #     container_name: pgadmin
+  #     image: dpage/pgadmin4
+  #     restart: always
+  #     environment:
+  #       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+  #       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+  #     ports:
+  #       - "5050:80"
 
-#   # Cache service (Redis)
-#   cache:
-#     container_name: redis
-#     # Use the latest Redis image
-#     image: redis:latest
-#     # Restart the container if it fails
-#     restart: always
-#     # Mount a volume at ./data/cache to persist data
-#     volumes:
-#       - ./data/cache:/data
+  #   # Cache service (Redis)
+  #   cache:
+  #     container_name: redis
+  #     # Use the latest Redis image
+  #     image: redis:latest
+  #     # Restart the container if it fails
+  #     restart: always
+  #     # Mount a volume at ./data/cache to persist data
+  #     volumes:
+  #       - ./data/cache:/data
 
-#   # Nginx service (reverse proxy)
-#   nginx:
-#     container_name: nginx
-#     # Use the latest Nginx image
-#     image: nginx:latest
-#     # Restart the container if it fails
-#     restart: always
-#     # Mount volumes for Nginx configuration and code
-#     volumes:
-#       - ./config/nginx:/etc/nginx/templates
-#       - .:/code
-#     # Expose port 80 from the container to the host
-#     ports:
-#       - "80:80"
-
+  # Nginx service (reverse proxy)
+  nginx:
+    container_name: nginx
+    # Use the latest Nginx image
+    image: nginx:latest
+    # Restart the container if it fails
+    restart: always
+    # Mount volumes for Nginx configuration and code
+    volumes:
+      - ./config/nginx:/etc/nginx/templates
+      - .:/code
+    # Expose port 80 from the container to the host
+    ports:
+      - "80:80"
 #   # RabbitMQ service (message broker)
 #   # rabbitmq:
 #   #   container_name: rabbitmq
