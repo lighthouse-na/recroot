@@ -268,6 +268,16 @@ class FinancialAssistanceApplication(models.Model):
             "financial_assistance_application_detail", kwargs={"pk": self.pk}
         )
 
+    def clean(self):
+        if (
+            self.advert.deadline
+            and self.created_at
+            and self.created_at > self.advert.deadline
+        ):
+            raise ValidationError(
+                {"submitted_at": "Applications cannot be accepted past the deadline."}
+            )
+
     def save(self, *args, **kwargs):
         self.status = self.STATUS.PENDING
         super().save(*args, **kwargs)

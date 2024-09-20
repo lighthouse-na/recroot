@@ -108,8 +108,8 @@ def send_application_submission_sms(sender, instance, created, **kwargs):
         message_body = f"Your application has been received by Telecom Namibia."
         http_req = (
             f"{my_uri}/api?action=sendmessage"
-            f"&username=admin"
-            f"&password=Telecom098"
+            f"&username={my_username}"
+            f"&password={my_password}"
             f"&recipient={recipient}"
             f"&messagetype=SMS:TEXT"
             f"&messagedata={message_body}"

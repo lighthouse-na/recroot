@@ -74,6 +74,10 @@ class Vacancy(models.Model):
     def __str__(self):
         return self.title
 
+    def clean(self):
+        if self.deadline and self.deadline < timezone.now():
+            raise ValidationError({"deadline": "Deadline cannot be set before today."})
+
     def get_absolute_url(self):
         return reverse("recruitment:vacancy_detail", args=[self.slug])
 
@@ -161,6 +165,15 @@ class Application(models.Model):
             )
             if age < 18:
                 raise ValidationError("Applicant must be at least 18 years old")
+
+        if (
+            self.vacancy.deadline
+            and self.submitted_at
+            and self.submitted_at > self.vacancy.deadline
+        ):
+            raise ValidationError(
+                {"submitted_at": "Applications cannot be accepted past the deadline."}
+            )
 
     # def save(self, *args, **kwargs):
     #     if self.vacancy.deadline < timezone.now():

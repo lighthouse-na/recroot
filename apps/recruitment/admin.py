@@ -53,7 +53,7 @@ class VacancyAdmin(ModelAdmin, GuardedModelAdmin):
         "deadline",
         "is_public",
     ]
-    list_editable = ["is_published"]
+    # list_editable = ["is_published"]
     filter_horizontal = ["town"]
     inlines = [MinimumRequirementsAddInline]
 

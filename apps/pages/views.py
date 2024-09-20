@@ -10,7 +10,7 @@ from apps.recruitment.models import Application, Interview, Subscriber, Vacancy
 def index(request):
     template_name = "pages/index.html"
     vacancies = Vacancy.objects.filter(
-        is_public=True, deadline__gt=datetime.now()
+        is_published=True, is_public=True, deadline__gt=datetime.now()
     ).order_by("-created_at")
     announcements = Announcement.objects.filter(
         deadline__gt=datetime.now(), is_visible=True, is_external=True
