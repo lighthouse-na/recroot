@@ -1,8 +1,6 @@
 from django.contrib import admin
 from unfold.sites import UnfoldAdminSite
 
-from apps.accounts.admin import ProfileAdmin
-from apps.accounts.models import Profile
 from apps.recruitment.admin import (
     ApplicationAdmin,
     InterviewAdmin,
@@ -32,7 +30,6 @@ class RecruitmentAdminArea(admin.AdminSite):
 
 recruitment_admin_site = RecruitmentAdminArea(name="Recruitment")
 recruitment_admin_site.register(Application, ApplicationAdmin)
-# recruitment_admin_site.register(Profile, ProfileAdmin)
 recruitment_admin_site.register(Vacancy, VacancyAdmin)
 recruitment_admin_site.register(Interview, InterviewAdmin)
 # recruitment_admin_site.register(Subscriber, SubscriberAdmin)

@@ -4,8 +4,8 @@ from django.contrib.auth.models import Group, User
 from unfold.admin import ModelAdmin
 from unfold.sites import UnfoldAdminSite
 
-from apps.accounts.admin import EmailAddressAdmin, GroupAdmin, ProfileAdmin, UserAdmin
-from apps.accounts.models import Profile
+from apps.accounts.admin import EmailAddressAdmin, GroupAdmin, UserAdmin, UserAdmin
+from apps.accounts.models import User
 from apps.finaid.admin import (
     BursaryAdvertAdmin,
     BursaryApplicationsAdmin,
@@ -56,7 +56,6 @@ class AdminDashboard(UnfoldAdminSite):
 
 admin_dashboard_site = AdminDashboard(name="Admin")
 admin_dashboard_site.register(User, UserAdmin)
-admin_dashboard_site.register(Profile, ProfileAdmin)
 admin_dashboard_site.register(Group, GroupAdmin)
 admin_dashboard_site.register(EmailAddress, EmailAddressAdmin)
 admin_dashboard_site.register(Region, RegionAdmin)

@@ -1,7 +1,7 @@
 import uuid
 from datetime import date, timedelta
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator, MaxValueValidator
 from django.db import models
@@ -144,7 +144,7 @@ class Application(models.Model):
         help_text="Please upload a PDF/DOCX file, maximum size 10MB.",
     )
     reviewed_by = models.ForeignKey(
-        User, on_delete=models.PROTECT, blank=True, null=True
+        get_user_model(), on_delete=models.PROTECT, blank=True, null=True
     )
     reviewed_at = models.DateTimeField(blank=True, null=True)
     review_comments = models.CharField(max_length=255, blank=True, null=True)

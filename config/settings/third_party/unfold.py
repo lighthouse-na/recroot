@@ -63,7 +63,7 @@ UNFOLD = {
                     {
                         "title": _("Auth"),
                         "icon": "people",
-                        "link": "/admin/auth/user",
+                        "link": "/admin/accounts/user",
                         "permission": lambda request: request.user.is_superuser,
                     },
                     {

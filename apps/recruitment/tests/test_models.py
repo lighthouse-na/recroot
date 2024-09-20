@@ -56,7 +56,9 @@ class VacancyTypeTestCase(TestCase):
 class VacancyModelTest(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create_user(username="testuser", password="password")
+        self.user = User.objects.create_user(
+            email="testuser@email.com", password="password"
+        )
         self.vacancy_type = VacancyType.objects.create(
             type=VacancyType.VACANCY_TYPE.INTERNSHIP
         )

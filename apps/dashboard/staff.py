@@ -6,8 +6,8 @@ from django.http import HttpRequest
 from unfold.admin import ModelAdmin
 from unfold.sites import UnfoldAdminSite
 
-from apps.accounts.admin import CertificationAdmin, ProfileAdmin, QualificationAdmin
-from apps.accounts.models import Certification, Profile, Qualification
+from apps.accounts.admin import CertificationAdmin, QualificationAdmin
+from apps.accounts.models import Certification, Qualification
 from apps.finaid.admin import FinancialAssistanceAdmin
 from apps.finaid.models import (
     BursaryAdvert,
@@ -122,7 +122,7 @@ class StaffDashboard(UnfoldAdminSite):
             "vacancies": vacancies,
             "bursaries": bursaries,
             "financial_assistance_adverts": financial_assistance_adverts,
-            "title": request.user.profile,
+            "title": request.user,
         }
         return super().index(request, extra_context)
 
@@ -134,7 +134,6 @@ class StaffDashboard(UnfoldAdminSite):
 
 
 staff_dashboard_site = StaffDashboard(name="Staff")
-# staff_dashboard_site.register(Profile, ProfileAdmin)
 staff_dashboard_site.register(Qualification, QualificationAdmin)
 staff_dashboard_site.register(Certification, CertificationAdmin)
 # staff_dashboard_site.register(Vacancy, VacancyAdmin)

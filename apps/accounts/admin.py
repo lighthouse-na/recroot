@@ -3,9 +3,10 @@ from typing import Dict, List
 from allauth.account.admin import EmailAddressAdmin as BaseEmailAddressAdmin
 from allauth.account.models import EmailAddress
 from django.contrib import admin
+from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group
 from django.http import HttpRequest
 from django.urls import URLPattern, path
 from unfold.admin import ModelAdmin, StackedInline
@@ -40,29 +41,12 @@ from apps.recruitment.models import (
     VacancyType,
 )
 
-from .forms import ProfileUpdateForm
-from .models import Certification, Profile, Qualification
+from .models import Certification, Qualification, User
+from .forms import CustomUserCreationForm, CustomUserChangeForm
 
-admin.site.unregister(User)
+# admin.site.unregister(User)
 admin.site.unregister(Group)
 admin.site.unregister(EmailAddress)
-
-
-class ProfileInline(StackedInline):
-    model = Profile
-    can_delete = False
-    max_num = 1
-    extra = 0
-    tab = True
-
-
-@admin.register(User)
-class UserAdmin(BaseUserAdmin, ModelAdmin):
-    readonly_fields = ["is_superuser", "date_joined", "last_login"]
-    inlines = [ProfileInline]
-
-    def has_add_permission(self, request):
-        return False
 
 
 @admin.register(Group)
@@ -81,8 +65,8 @@ class QualificationAdmin(ModelAdmin):
         if request.user.is_superuser:
             return qs
 
-        profile = Profile.objects.get(user=request.user)
-        return qs.filter(user=profile)
+        user = get_user_model().objects.get(user=request.user)
+        return qs.filter(user=user)
 
 
 @admin.register(Certification)
@@ -93,8 +77,8 @@ class CertificationAdmin(ModelAdmin):
         if request.user.is_superuser:
             return qs
 
-        profile = Profile.objects.get(user=request.user)
-        return qs.filter(user=profile)
+        user = get_user_model().objects.get(user=request.user)
+        return qs.filter(user=user)
 
 
 class QualificationInline(StackedInline):
@@ -109,18 +93,10 @@ class CertificationInline(StackedInline):
     tab = True
 
 
-@admin.register(Profile)
-class ProfileAdmin(ModelAdmin):
-    form = ProfileUpdateForm
-    # inlines = [QualificationInline, CertificationInline]
-    readonly_fields = [
-        "salary_reference_number",
-        "position",
-        "cost_centre",
-        "gender",
-        "date_of_birth",
-        "date_appointed",
-    ]
+@admin.register(get_user_model())
+class UserAdmin(ModelAdmin):
+    form = CustomUserCreationForm
+    form_add = CustomUserCreationForm
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
@@ -213,7 +189,6 @@ superuser_dashboard_site.register(BursaryApplication, BursaryApplicationsAdmin)
 superuser_dashboard_site.register(
     FinancialAssistanceApplication, FinancialAssistanceAdmin
 )
-superuser_dashboard_site.register(Profile, ProfileAdmin)
 superuser_dashboard_site.register(
     FinancialAssistanceAdvert, FinancialAssistanceAdvertAdmin
 )

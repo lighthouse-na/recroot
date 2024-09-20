@@ -2,7 +2,7 @@ import datetime
 import uuid
 from datetime import timedelta
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator, MaxValueValidator
 from django.db import models
@@ -13,7 +13,6 @@ from django_extensions.db.fields import AutoSlugField
 from phonenumber_field.modelfields import PhoneNumberField
 from tinymce.models import HTMLField
 
-from apps.accounts.models import Profile
 from apps.utils.validators import FileValidator
 
 
@@ -86,7 +85,7 @@ class BursaryApplication(models.Model):
     )
     motivation_letter = models.TextField(blank=True, null=True)
     reviewed_by = models.ForeignKey(
-        User, on_delete=models.PROTECT, blank=True, null=True
+        get_user_model(), on_delete=models.PROTECT, blank=True, null=True
     )
     reviewed_at = models.DateTimeField(blank=True, null=True)
     review_comments = models.CharField(max_length=255, blank=True, null=True)
@@ -213,7 +212,7 @@ class FinancialAssistanceApplication(models.Model):
         FinancialAssistanceAdvert, on_delete=models.PROTECT, related_name="applications"
     )
     applicant = models.ForeignKey(
-        Profile,
+        get_user_model(),
         on_delete=models.PROTECT,
         related_name="financial_assistance_applications",
     )
@@ -250,7 +249,7 @@ class FinancialAssistanceApplication(models.Model):
         max_length=50, choices=STATUS.choices, default=STATUS.PENDING
     )
     reviewed_by = models.ForeignKey(
-        User, on_delete=models.PROTECT, blank=True, null=True
+        get_user_model(), on_delete=models.PROTECT, blank=True, null=True
     )
     reviewed_at = models.DateTimeField(blank=True, null=True)
     review_comments = models.CharField(max_length=255, blank=True, null=True)

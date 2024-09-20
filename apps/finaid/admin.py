@@ -49,7 +49,7 @@ class FinancialAssistanceAdmin(ModelAdmin, ExportActionModelAdmin):
 
         if request.user.is_superuser:
             return qs
-        return qs.filter(applicant=request.user.profile)
+        return qs.filter(applicant=request.user)
 
     def has_permission(self, request, obj, action):
         opts = self.opts

@@ -1,15 +1,17 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group, User
 from rest_framework import permissions, viewsets
 
-from apps.accounts.models import Certification, Profile, Qualification
+from apps.accounts.models import Certification, Qualification
 
 from ..serializers.accounts import (
     CertificationSerializer,
     GroupSerializer,
-    ProfileSerializer,
     QualificationSerializer,
     UserSerializer,
 )
+
+User = get_user_model()
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -17,7 +19,7 @@ class UserViewSet(viewsets.ModelViewSet):
     API endpoint that allows users to be viewed or edited.
     """
 
-    queryset = User.objects.all().order_by("-date_joined")
+    queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -29,16 +31,6 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     queryset = Group.objects.all().order_by("name")
     serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
-class ProfileViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows profiles to be viewed or edited.
-    """
-
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 

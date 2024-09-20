@@ -9,13 +9,18 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         fields = [
             "url",
-            "username",
             "email",
             "groups",
             "password",
             "is_active",
             "is_staff",
             "is_superuser",
+            "salary_reference_number",
+            "position",
+            "cost_centre",
+            "gender",
+            "date_appointed",
+            "date_of_birth",
         ]
 
 
@@ -23,23 +28,6 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Group
         fields = ["url", "name"]
-
-
-class ProfileSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Profile
-        fields = [
-            "url",
-            "user",
-            "picture",
-            "salary_reference_number",
-            "position",
-            "cost_centre",
-            "gender",
-            "date_appointed",
-            "date_of_birth",
-            "cv",
-        ]
 
 
 class QualificationSerializer(serializers.HyperlinkedModelSerializer):

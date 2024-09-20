@@ -174,6 +174,9 @@ UBLOCK_ORIGIN_EXCEPTIONS = [
     "http://localhost:8000/*",
     # Add your domain here
 ]
+
+AUTH_USER_MODEL = "accounts.User"
+
 from .third_party.allauth import *
 from .third_party.channels import *
 from .third_party.crispy_forms import *

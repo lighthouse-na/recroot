@@ -17,7 +17,7 @@ class FinancialAssistanceApplicationCreateView(CreateView):
         advert_id = self.kwargs.get("advert_id")
         advert = get_object_or_404(FinancialAssistanceAdvert, pk=advert_id)
         form = form.save(commit=False)
-        form.applicant = self.request.user.profile
+        form.applicant = self.request.user
         form.advert = advert
         form.save()
         return super().form_valid(form)
