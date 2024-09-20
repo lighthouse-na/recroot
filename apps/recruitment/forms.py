@@ -1,8 +1,10 @@
-from datetime import timedelta
+import os
+from datetime import timedelta, date
 
 from django import forms
 from django.utils import timezone
-from django_recaptcha.fields import ReCaptchaField, ReCaptchaV2Checkbox
+from django_recaptcha.fields import ReCaptchaField
+from django_recaptcha.widgets import ReCaptchaV2Invisible
 from phonenumber_field.formfields import PhoneNumberField
 from tinymce.widgets import TinyMCE
 
@@ -53,7 +55,7 @@ class ApplicationForm(forms.ModelForm):
     captcha = ReCaptchaField(
         public_key=env("RECAPTCHA_V2_PUBLIC_KEY"),
         private_key=env("RECAPTCHA_V2_PRIVATE_KEY"),
-        widget=ReCaptchaV2Checkbox,
+        widget=ReCaptchaV2Invisible,
     )
     primary_contact = PhoneNumberField(region="NA")
     secondary_contact = PhoneNumberField(region="NA", required=False)
@@ -96,6 +98,16 @@ class ApplicationForm(forms.ModelForm):
                     required=False,
                     widget=forms.DateInput(attrs={"type": "date"}),
                 )
+
+    def clean_date_of_birth(self):
+        dob = self.cleaned_data["date_of_birth"]
+        today = date.today()
+        age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+
+        if age < 18:
+            raise forms.ValidationError("You must be at least 18 years old to apply.")
+
+        return dob
 
 
 class MinimumRequirementAnswerForm(forms.ModelForm):

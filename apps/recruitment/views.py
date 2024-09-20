@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.db import transaction
 from django.http.response import HttpResponse as HttpResponse
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
@@ -78,7 +78,7 @@ class VacancyDetailView(DetailView):
 class ApplicationCreateView(CreateView):
     model = Application
     form_class = ApplicationForm
-    success_url = reverse_lazy("recruitment:vacancy_list")
+    success_url = reverse_lazy("recruitment:application_success")
     template_name = "recruitment/application/create.html"
 
     def form_valid(self, form):
@@ -147,3 +147,7 @@ class InterviewResponseView(UpdateView):
         pk = self.kwargs.get("pk")
         context["interview"] = get_object_or_404(Interview, pk=pk)
         return context
+
+
+def application_success(request):
+    return render(request, "recruitment/application/success.html")
