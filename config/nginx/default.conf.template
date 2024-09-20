@@ -1,6 +1,15 @@
 server {
     listen 80;
-    server_name localhost;
+    server_name training.telecom.na www.training.telecom.na 197.188.250.244;
+    return 301 https://$host$request_uri;
+}
+
+
+server {
+    listen 443 ssl;
+    ssl_certificate /code/config/ssl/telecom.crt;
+    ssl_certificate_key /code/config/ssl/private.key;
+    server_name training.telecom.na www.training.telecom.na 197.188.250.244;
     access_log  /var/log/nginx/example.log;
 
     location / {

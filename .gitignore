@@ -16,6 +16,7 @@ testing_data.json
 Pipfile.lock
 # Backup files # 
 *.bak 
+ssl/
 
 ### Django.Python Stack ###
 *.py[cod]
