@@ -25,7 +25,7 @@ def send_vacancy_notification(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Application)
 def send_vacancy_application_notification(sender, instance, created, **kwargs):
     subject = f"{instance.vacancy} Application Status"
-    from_email = "demo@email.com"
+    from_email = "careers@telecom.na"
 
     first_name = getattr(instance, "first_name", None)
     last_name = getattr(instance, "last_name", None)
@@ -47,7 +47,7 @@ def send_vacancy_application_notification(sender, instance, created, **kwargs):
 
             Best regards,
 
-            Demo
+            Telecom Namibia
 
         """
         send_mail(subject, message, from_email, recipient_list)
@@ -57,7 +57,7 @@ def send_vacancy_application_notification(sender, instance, created, **kwargs):
         message = f"""
             Dear {recipient_name},
 
-            I trust this email finds you well. We appreciate the time and effort you invested in your application for the {instance.vacancy} role at Demo. After careful consideration, we are pleased to inform you that you have been shortlisted for the next stage of our selection process.
+            I trust this email finds you well. We appreciate the time and effort you invested in your application for the {instance.vacancy} role at Telecom Namibia. After careful consideration, we are pleased to inform you that you have been shortlisted for the next stage of our selection process.
 
             We were impressed with your qualifications and experience, which align well with the requirements of the position. We would like to learn more about your skills and discuss how your expertise could contribute to our team.
 
@@ -69,7 +69,7 @@ def send_vacancy_application_notification(sender, instance, created, **kwargs):
 
             Best regards,
 
-            Demo
+            Telecom Namibia
 
         """
         send_mail(subject, message, from_email, recipient_list)
@@ -78,7 +78,7 @@ def send_vacancy_application_notification(sender, instance, created, **kwargs):
         message = f"""
             Dear {recipient_name},
             
-            I hope this message finds you well. Thank you for your interest in the {instance.vacancy} position at Demo. We appreciate the time and effort you dedicated to the application process.
+            I hope this message finds you well. Thank you for your interest in the {instance.vacancy} position at Telecom Namibia. We appreciate the time and effort you dedicated to the application process.
             
             After careful consideration, we regret to inform you that we have chosen not to move forward with your application at this time. We received a high volume of qualified applicants, and our decision-making process was challenging due to the exceptional caliber of candidates.
 
@@ -86,13 +86,13 @@ def send_vacancy_application_notification(sender, instance, created, **kwargs):
 
             We understand that this news may be disappointing, and we wish you continued success in your job search. If you have any specific feedback or questions about your application, please feel free to reach out to us.
 
-            Thank you once again for considering Demo as a potential employer. We appreciate the opportunity to connect with you during this process.
+            Thank you once again for considering Telecom Namibia as a potential employer. We appreciate the opportunity to connect with you during this process.
 
             Wishing you all the best in your future endeavors.
 
             Sincerely,
 
-            Demo
+            Telecom Namibia
         """
         send_mail(subject, message, from_email, recipient_list)
 
@@ -100,7 +100,7 @@ def send_vacancy_application_notification(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Interview)
 def send_interview_notification_email(sender, instance, created, **kwargs):
     subject = f"{instance.application.vacancy} Application Interview"
-    from_email = "demo@email.com"
+    from_email = "careers@telecom.na"
 
     first_name = getattr(instance.application, "first_name", None)
     last_name = getattr(instance.application, "last_name", None)
@@ -115,7 +115,7 @@ def send_interview_notification_email(sender, instance, created, **kwargs):
             invitation_link = reverse(
                 "recruitment:interview_invitation", kwargs={"pk": instance.pk}
             )
-            invitation_url = f"https://localhost/{invitation_link}"
+            invitation_url = f"https://telecom.na/{invitation_link}"
             message = f"""
                 Dear {recipient_name},
 
@@ -133,11 +133,11 @@ def send_interview_notification_email(sender, instance, created, **kwargs):
 
                 If you have any questions or need further information, feel free to contact us at demo@email.com.
 
-                Thank you for your interest in Demo, and we look forward to meeting you.
+                Thank you for your interest in Telecom Namibia, and we look forward to meeting you.
 
                 Best regards,
 
-                Demo
+                Telecom Namibia
             """
 
         send_mail(subject, message, from_email, recipient_list)
