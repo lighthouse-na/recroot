@@ -21,6 +21,8 @@ from apps.recruitment.models import (
     Vacancy,
 )
 
+from .tasks import *
+
 
 class VacancyListView(ListView):
     """
@@ -99,7 +101,7 @@ class ApplicationCreateView(CreateView):
                 )
 
             form.save_m2m()
-
+        # send_vacancy_application_notification_task.delay(application.id)
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -127,11 +129,12 @@ class InterviewResponseView(UpdateView):
     model = Interview
     form_class = InterviewInvitationResponseForm
     template_name = "recruitment/interview/invitation.html"
-    success_url = reverse_lazy("vacancy_list")
+    success_url = reverse_lazy("recruitment:interview_response_success")
 
     def form_valid(self, form):
         response = form.save(commit=False)
         response.response_date = timezone.now()
+        # response.response_deadline = timezone.now()
         response.save()
         return super().form_valid(form)
 
@@ -139,15 +142,26 @@ class InterviewResponseView(UpdateView):
         self.object = self.get_object()
 
         if self.object.response_date:
-            return redirect("vacancy_list")
+            return redirect("home")
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         pk = self.kwargs.get("pk")
-        context["interview"] = get_object_or_404(Interview, pk=pk)
+        interview = get_object_or_404(Interview, pk=pk)
+        context["interview"] = interview
+
+        disabled_statuses = ["no_response", "accepted", "rescheduled", "rejected"]
+        if interview.status in disabled_statuses:
+            context["disable_link"] = True
+        else:
+            context["disable_link"] = False
         return context
 
 
 def application_success(request):
     return render(request, "recruitment/application/success.html")
+
+
+def interview_response_success(request):
+    return render(request, "recruitment/interview/success.html")

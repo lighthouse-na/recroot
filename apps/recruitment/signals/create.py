@@ -14,10 +14,10 @@ def create_interview(sender, instance, **kwargs):
     if instance.status == Application.STATUS.ACCEPTED:
         scheduled_time = timezone.now() + timedelta(days=2)
 
-        if scheduled_time < instance.vacancy.deadline:
-            raise ValidationError(
-                _("Interview cannot be scheduled before the vacancy's deadline.")
-            )
+        # if scheduled_time < instance.vacancy.deadline:
+        #     raise ValidationError(
+        #         _("Interview cannot be scheduled before the vacancy's deadline.")
+        #     )
 
         if scheduled_time.weekday() >= 5:
             scheduled_time += timedelta(days=(7 - scheduled_time.weekday()))

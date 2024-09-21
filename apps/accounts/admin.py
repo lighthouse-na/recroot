@@ -10,7 +10,7 @@ from django.contrib.auth.models import Group
 from django.http import HttpRequest
 from django.urls import URLPattern, path
 from import_export.admin import ExportActionModelAdmin
-from unfold.admin import ModelAdmin, StackedInline
+from unfold.admin import ModelAdmin, StackedInline, TabularInline
 from unfold.sites import UnfoldAdminSite
 
 from apps.finaid.admin import (
@@ -26,7 +26,14 @@ from apps.finaid.models import (
     FinancialAssistanceApplication,
 )
 from apps.organisation.admin import CostCentreAdmin, PositionAdmin, RegionAdmin
-from apps.organisation.models import CostCentre, Location, Position, Region
+from apps.organisation.models import (
+    CostCentre,
+    Department,
+    Division,
+    Location,
+    Position,
+    Region,
+)
 from apps.pages.models import Announcement
 from apps.recruitment.admin import (
     ApplicationAdmin,
@@ -82,16 +89,14 @@ class CertificationAdmin(ModelAdmin, ExportActionModelAdmin):
         return qs.filter(user=user)
 
 
-class QualificationInline(StackedInline):
-    model = Qualification
+class DepartmentInline(TabularInline):
+    model = Department
     extra = 1
-    tab = True
 
 
-class CertificationInline(StackedInline):
-    model = Certification
-    extra = 1
-    tab = True
+# @admin.register(Division)
+class DivisionAdmin(ModelAdmin):
+    inlines = [DepartmentInline]
 
 
 @admin.register(get_user_model())
@@ -200,3 +205,4 @@ superuser_dashboard_site.register(
     FinancialAssistanceAdvert, FinancialAssistanceAdvertAdmin
 )
 superuser_dashboard_site.register(Announcement, ModelAdmin)
+superuser_dashboard_site.register(Division, DivisionAdmin)

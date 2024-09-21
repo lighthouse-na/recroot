@@ -19,4 +19,9 @@ urlpatterns = [
     ),
     path("subscribe/", views.SubscribeCreateView.as_view(), name="subscriber_create"),
     path("success/", views.application_success, name="application_success"),
+    path(
+        "interview_response_success/",
+        views.interview_response_success,
+        name="interview_response_success",
+    ),
 ]

@@ -369,12 +369,19 @@ UNFOLD = {
         },
         {
             "models": [
+                "organisation.division",
                 "organisation.position",
                 "organisation.costcentre",
                 "organisation.region",
                 "organisation.location",
             ],
             "items": [
+                {
+                    "title": _("Divisions"),
+                    "link": "/admin/organisation/division/",
+                    "permission": lambda request: request.user.is_superuser
+                    or request.user.has_perm("view_division"),
+                },
                 {
                     "title": _("Positions"),
                     "link": "/admin/organisation/position/",

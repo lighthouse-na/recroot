@@ -154,12 +154,19 @@ class InterviewForm(forms.ModelForm):
 
 
 class InterviewInvitationResponseForm(forms.ModelForm):
-    STATUS_CHOICES = (("accepted", "Accept"), ("rejected", "Reject"))
+    STATUS_CHOICES = (
+        ("accepted", "Accept"),
+        ("rejected", "Reject"),
+        ("reschedule", "Reschedule"),
+    )
     status = forms.ChoiceField(choices=STATUS_CHOICES)
+    reschedule_date = forms.DateField(
+        widget=forms.DateInput(attrs={"type": "date"}), required=False
+    )
 
     class Meta:
         model = Interview
-        fields = ("status", "response")
+        fields = ("status", "response", "reschedule_date")
 
 
 # **********************************************************************************************

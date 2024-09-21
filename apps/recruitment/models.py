@@ -1,5 +1,5 @@
 import uuid
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
@@ -107,7 +107,6 @@ class MinimumRequirement(models.Model):
 # **********************************************************************************************
 class Application(models.Model):
     class STATUS(models.TextChoices):
-        SUBMITTED = "submitted"
         ACCEPTED = "accepted"
         REJECTED = "rejected"
 
@@ -116,7 +115,7 @@ class Application(models.Model):
         Vacancy, on_delete=models.PROTECT, related_name="applications"
     )
     status = models.CharField(
-        max_length=20, choices=STATUS.choices, default=STATUS.SUBMITTED
+        max_length=20, choices=STATUS.choices, default="submitted"
     )
     submitted_at = models.DateTimeField(auto_now_add=True)
     first_name = models.CharField(max_length=255, help_text="Enter your first name")
@@ -166,11 +165,7 @@ class Application(models.Model):
             if age < 18:
                 raise ValidationError("Applicant must be at least 18 years old")
 
-        if (
-            self.vacancy.deadline
-            and self.submitted_at
-            and self.submitted_at > self.vacancy.deadline
-        ):
+        if self.submitted_at and self.submitted_at > self.vacancy.deadline:
             raise ValidationError(
                 {"submitted_at": "Applications cannot be accepted past the deadline."}
             )
@@ -239,6 +234,7 @@ class Interview(models.Model):
         on_delete=models.SET_NULL,
         related_name="interviews",
     )
+    reschedule_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.application.vacancy.title} - {self.application.first_name} {self.application.last_name}"
@@ -253,9 +249,9 @@ class Interview(models.Model):
         if self.schedule_datetime.weekday() >= 5:  # 5 = Saturday, 6 = Sunday
             raise ValidationError("Scheduled datetime cannot be on weekends.")
 
-        if self.schedule_datetime.date() - timezone.now().date() < timedelta(days=1):
+        if self.schedule_datetime.date() - timezone.now().date() < timedelta(days=3):
             raise ValidationError(
-                "Scheduled datetime must be at least one day in the future."
+                "Scheduled datetime must be at least three(3) days in the future."
             )
 
         # if self.application.vacancy.deadline < timezone.now():
@@ -263,8 +259,15 @@ class Interview(models.Model):
         #         "Cannot schedule an interview before the vacancy deadline"
         #     )
 
+    def update_no_response_status(self):
+        if self.response_deadline and self.response_deadline < datetime.now():
+            self.status = "no_response"
+            self.save()
+
     def save(self, *args, **kwargs):
         self.clean()
+        if self.schedule_datetime:
+            self.response_deadline = self.schedule_datetime - timedelta(days=2)
         super().save(*args, **kwargs)
 
 
