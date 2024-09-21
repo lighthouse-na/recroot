@@ -107,6 +107,7 @@ class MinimumRequirement(models.Model):
 # **********************************************************************************************
 class Application(models.Model):
     class STATUS(models.TextChoices):
+        SUBMITTED = "submitted"
         ACCEPTED = "accepted"
         REJECTED = "rejected"
 
@@ -115,7 +116,7 @@ class Application(models.Model):
         Vacancy, on_delete=models.PROTECT, related_name="applications"
     )
     status = models.CharField(
-        max_length=20, choices=STATUS.choices, default="submitted"
+        max_length=20, choices=STATUS.choices, default=STATUS.SUBMITTED
     )
     submitted_at = models.DateTimeField(auto_now_add=True)
     first_name = models.CharField(max_length=255, help_text="Enter your first name")

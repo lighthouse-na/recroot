@@ -21,8 +21,6 @@ from apps.recruitment.models import (
     Vacancy,
 )
 
-from .tasks import *
-
 
 class VacancyListView(ListView):
     """
@@ -101,7 +99,6 @@ class ApplicationCreateView(CreateView):
                 )
 
             form.save_m2m()
-        # send_vacancy_application_notification_task.delay(application.id)
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):

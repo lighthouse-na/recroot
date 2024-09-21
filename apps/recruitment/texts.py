@@ -1,12 +1,8 @@
 import os
 
 import requests
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
 from config.env import BASE_DIR, env
-
-from ..models import Application, Interview
 
 env.read_env(os.path.join(BASE_DIR, ".env"))
 
@@ -18,8 +14,7 @@ my_username = str(env("SMS_USERNAME"))
 my_password = str(env("SMS_PASSWORD"))
 
 
-@receiver(post_save, sender=Application)
-def send_vacancy_application_notification(sender, instance, created, **kwargs):
+def send_vacancy_application_notification_text(instance, created):
     if created and instance.status == "submitted":
         recipient = str(instance.primary_contact)
         message_body = f"Your application has been received by Telecom Namibia."
@@ -84,8 +79,7 @@ def send_vacancy_application_notification(sender, instance, created, **kwargs):
                 print("Error details: {}".format(ex.response.text))
 
 
-@receiver(post_save, sender=Interview)
-def send_vacancy_interview_notification(sender, instance, created, **kwargs):
+def send_vacancy_interview_notification_text(instance, created):
     if created and instance.status == "scheduled":
         recipient = str(instance.primary_contact)
         message_body = f"Telecom Namibia invites you for a {instance.application.vacancy.title} interview, please check your email inbox or spam folder for more information."

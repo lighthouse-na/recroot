@@ -7,4 +7,4 @@ class RecruitmentConfig(AppConfig):
     label = "recruitment"
 
     def ready(self):
-        from .signals import create, emails, permissions  # , texts
+        from . import signals
