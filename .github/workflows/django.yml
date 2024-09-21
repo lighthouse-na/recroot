@@ -11,10 +11,14 @@ env:
   DJANGO_SECRET_KEY: "secrete_key"
   SMS_USERNAME: "username"
   SMS_PASSWORD: "password"
-  EMAIL_HOST: "smtp.gmail.com"
-  EMAIL_PORT: "587"
-  EMAIL_HOST_USER: "sakariandadi@gmail.com"
-  EMAIL_HOST_PASSWORD: "ahfw byeg zvzb qslq"
+  EMAIL_HOST: ""
+  EMAIL_PORT: ""
+  EMAIL_HOST_USER: ""
+  EMAIL_HOST_PASSWORD: ""
+  RECAPTCHA_V3_PUBLIC_KEY: ""
+  RECAPTCHA_V3_PRIVATE_KEY: ""
+  RECAPTCHA_V2_PUBLIC_KEY: ""
+  RECAPTCHA_V2_PRIVATE_KEY: ""
 
 jobs:
   build:
