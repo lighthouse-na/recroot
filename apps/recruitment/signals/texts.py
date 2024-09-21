@@ -6,7 +6,7 @@ from django.dispatch import receiver
 
 from config.env import BASE_DIR, env
 
-from ..models import Interview, Application
+from ..models import Application, Interview
 
 env.read_env(os.path.join(BASE_DIR, ".env"))
 

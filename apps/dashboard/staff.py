@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Dict, List
 
 from django.contrib import admin
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from unfold.admin import ModelAdmin
 from unfold.sites import UnfoldAdminSite
 
@@ -16,6 +16,8 @@ from apps.finaid.models import (
 )
 from apps.pages.models import Announcement
 from apps.recruitment.models import Application, Interview, Vacancy
+
+from .views import StaffLoginView
 
 
 # @admin.register(Vacancy)
@@ -125,6 +127,9 @@ class StaffDashboard(UnfoldAdminSite):
             "title": request.user,
         }
         return super().index(request, extra_context)
+
+    def login(self, request, extra_context=None):
+        return StaffLoginView.as_view()(request)
 
     def has_permission(self, request):
         return request.user.is_active and request.user.is_authenticated

@@ -9,6 +9,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
 from django.http import HttpRequest
 from django.urls import URLPattern, path
+from import_export.admin import ExportActionModelAdmin
 from unfold.admin import ModelAdmin, StackedInline
 from unfold.sites import UnfoldAdminSite
 
@@ -41,8 +42,8 @@ from apps.recruitment.models import (
     VacancyType,
 )
 
+from .forms import CustomUserChangeForm, CustomUserCreationForm
 from .models import Certification, Qualification, User
-from .forms import CustomUserCreationForm, CustomUserChangeForm
 
 # admin.site.unregister(User)
 admin.site.unregister(Group)
@@ -58,7 +59,7 @@ class EmailAddressAdmin(BaseEmailAddressAdmin, ModelAdmin): ...
 
 
 @admin.register(Qualification)
-class QualificationAdmin(ModelAdmin):
+class QualificationAdmin(ModelAdmin, ExportActionModelAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
 
@@ -70,7 +71,7 @@ class QualificationAdmin(ModelAdmin):
 
 
 @admin.register(Certification)
-class CertificationAdmin(ModelAdmin):
+class CertificationAdmin(ModelAdmin, ExportActionModelAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
 
@@ -94,9 +95,15 @@ class CertificationInline(StackedInline):
 
 
 @admin.register(get_user_model())
-class UserAdmin(ModelAdmin):
-    form = CustomUserCreationForm
+class UserAdmin(ModelAdmin, ExportActionModelAdmin):
+    form = CustomUserChangeForm
     form_add = CustomUserCreationForm
+    filter_horizontal = ["groups", "user_permissions"]
+    list_display = [
+        "first_name",
+        "last_name",
+        "email",
+    ]
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)

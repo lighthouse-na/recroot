@@ -1,10 +1,21 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 from apps.organisation.models import CostCentre, Position
 
 
 class User(AbstractUser):
+    primary_contact = PhoneNumberField(
+        region="NA",
+        help_text="Enter a valid Namibian phone number",
+    )
+    secondary_contact = PhoneNumberField(
+        region="NA",
+        blank=True,
+        help_text="Enter a valid Namibian phone number",
+    )
+
     salary_reference_number = models.PositiveIntegerField(blank=True, null=True)
     position = models.ForeignKey(
         Position,

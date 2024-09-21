@@ -339,7 +339,7 @@ UNFOLD = {
     "TABS": [
         {
             "models": [
-                "auth.user",
+                "accounts.user",
                 "auth.group",
                 "account.emailaddress",
             ],
@@ -347,7 +347,7 @@ UNFOLD = {
                 {
                     "title": _("Users"),
                     # "link": reverse_lazy("admin:auth_user_changelist"),
-                    "link": "/admin/auth/user/",
+                    "link": "/admin/accounts/user/",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_user"),
                 },

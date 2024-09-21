@@ -15,6 +15,8 @@ from apps.finaid.models import (
     FinancialAssistanceApplication,
 )
 
+from .views import FinaidLoginView
+
 
 class FinaidAminArea(admin.AdminSite):
     site_header = "Financial Aid Admin"
@@ -25,6 +27,9 @@ class FinaidAminArea(admin.AdminSite):
     login_template = "admin/login.html"
     logout_template = "admin/logout.html"
     password_change_template = "admin/password_change.html"
+
+    def login(self, request, extra_context=None):
+        return FinaidLoginView.as_view()(request)
 
     def has_permission(self, request):
         return (

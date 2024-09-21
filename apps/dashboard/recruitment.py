@@ -9,6 +9,8 @@ from apps.recruitment.admin import (
 )
 from apps.recruitment.models import Application, Interview, Subscriber, Vacancy
 
+from .views import RecruiterLoginView
+
 
 class RecruitmentAdminArea(admin.AdminSite):
     site_header = "Recruitment Admin"
@@ -19,6 +21,9 @@ class RecruitmentAdminArea(admin.AdminSite):
     # login_template = "admin/login.html"
     # logout_template = "admin/logout.html"
     # password_change_template = "admin/password_change.html"
+
+    def login(self, request, extra_context=None):
+        return RecruiterLoginView.as_view()(request)
 
     def has_permission(self, request):
         return (
