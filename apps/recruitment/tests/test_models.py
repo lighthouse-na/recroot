@@ -2,7 +2,7 @@ import os
 import uuid
 from datetime import datetime
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import IntegrityError
@@ -56,7 +56,7 @@ class VacancyTypeTestCase(TestCase):
 class VacancyModelTest(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create_user(
+        self.user = get_user_model().objects.create_user(
             email="testuser@email.com", password="password"
         )
         self.vacancy_type = VacancyType.objects.create(
