@@ -32,9 +32,7 @@ class MinimumRequirementsAddForm(forms.ModelForm):
 
 
 class VacancyForm(forms.ModelForm):
-    functions_responsibilities = forms.CharField(
-        label="Functions and Responsibilities", widget=TinyMCE
-    )
+    content = forms.CharField(label="Content", widget=TinyMCE)
     remarks = forms.CharField(label="Remarks", widget=TinyMCE)
 
     class Meta:
@@ -157,21 +155,21 @@ class InterviewInvitationResponseForm(forms.ModelForm):
     STATUS_CHOICES = (
         ("accepted", "Accept"),
         ("rejected", "Reject"),
-        ("reschedule", "Reschedule"),
+        # ("reschedule", "Reschedule"),
     )
-    captcha = ReCaptchaField(
-        public_key=env("RECAPTCHA_V2_PUBLIC_KEY"),
-        private_key=env("RECAPTCHA_V2_PRIVATE_KEY"),
-        widget=ReCaptchaV2Invisible,
-    )
+    # captcha = ReCaptchaField(
+    #     public_key=env("RECAPTCHA_V2_PUBLIC_KEY"),
+    #     private_key=env("RECAPTCHA_V2_PRIVATE_KEY"),
+    #     widget=ReCaptchaV2Invisible,
+    # )
     status = forms.ChoiceField(choices=STATUS_CHOICES)
-    reschedule_date = forms.DateField(
-        widget=forms.DateInput(attrs={"type": "date"}), required=False
-    )
+    # reschedule_date = forms.DateField(
+    #     widget=forms.DateInput(attrs={"type": "date"}), required=False
+    # )
 
     class Meta:
         model = Interview
-        fields = ("status", "response", "reschedule_date")
+        fields = ("status",)
 
 
 # **********************************************************************************************

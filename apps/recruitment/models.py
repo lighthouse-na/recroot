@@ -50,7 +50,7 @@ class Vacancy(models.Model):
     )
     vacancy_type = models.ForeignKey(VacancyType, on_delete=models.SET_NULL, null=True)
     pay_grade = models.CharField(max_length=3, blank=True)
-    functions_responsibilities = HTMLField(
+    content = HTMLField(
         verbose_name="Functions and Responsibilities",
         help_text="Enter the functions and responsibilities of the vacancy.",
     )

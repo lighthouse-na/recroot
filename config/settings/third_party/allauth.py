@@ -3,9 +3,9 @@
 # ACCOUNT_EMAIL_NOTIFICATIONS = True
 # ACCOUNT_EMAIL_REQUIRED = True
 # ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-# ACCOUNT_FORMS = {
-#     "signup": "apps.accounts.forms.CustomSignupForm",
-# }
+ACCOUNT_FORMS = {
+    "login": "apps.accounts.forms.CustomLoginForm",
+}
 
 LOGIN_REDIRECT_URL = "/dashboard/staff/"
 ACCOUNT_ADAPTER = "apps.accounts.adapters.MyAccountAdapter"
@@ -19,3 +19,4 @@ ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_SESSION_REMEMBER = True
+# ACCOUNT_SIGNUP_FORM_CLASS = "apps.accounts.forms.CustomSignupForm"

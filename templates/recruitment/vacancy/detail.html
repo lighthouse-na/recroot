@@ -55,16 +55,11 @@
 
                 </div>
                 <div class="block p-6 border border-gray-200 rounded-lg shadow dark:border-gray-700">
-                    {% if vacancy.functions_responsibilities %}
-                        <div class="inline-flex items-center justify-center w-full md:my-10">
-                            <hr class="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
-                            <span
-                                class="absolute px-3 text-lg font-semibold text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">Functions
-                                and Responsibilities</span>
-                        </div>
+                    {% if vacancy.content %}
+
                         <div class="px-5">
                             <p class="mb-6 font-light text-gray-500 md:text-lg dark:text-gray-400">
-                                {{ vacancy.functions_responsibilities|safe }}</p>
+                                {{ vacancy.content|safe }}</p>
                         </div>
                     {% endif %}
                     {% if vacancy.remarks %}

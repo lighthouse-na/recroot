@@ -25,7 +25,7 @@ class VacancySerializer(serializers.HyperlinkedModelSerializer):
             "title",
             "vacancy_type",
             "pay_grade",
-            "functions_responsibilities",
+            "content",
             "town",
             "remarks",
             "is_public",

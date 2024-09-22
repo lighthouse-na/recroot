@@ -70,7 +70,7 @@ class VacancyModelTest(TestCase):
             title="Test Vacancy",
             vacancy_type=self.vacancy_type,
             pay_grade="PG1",
-            functions_responsibilities="<p>This is a test vacancy</p>",
+            content="<p>This is a test vacancy</p>",
             deadline="2023-03-01 12:00:00",
             is_public=True,
         )
@@ -78,9 +78,7 @@ class VacancyModelTest(TestCase):
         self.assertEqual(vacancy.title, "Test Vacancy")
         self.assertEqual(vacancy.vacancy_type, self.vacancy_type)
         self.assertEqual(vacancy.pay_grade, "PG1")
-        self.assertEqual(
-            vacancy.functions_responsibilities, "<p>This is a test vacancy</p>"
-        )
+        self.assertEqual(vacancy.content, "<p>This is a test vacancy</p>")
         self.assertEqual(vacancy.town.first(), self.town)
         self.assertEqual(vacancy.deadline, "2023-03-01 12:00:00")
         self.assertTrue(vacancy.is_public)
@@ -97,7 +95,7 @@ class VacancyModelTest(TestCase):
                 advert=file,
                 vacancy_type=self.vacancy_type,
                 pay_grade="PG1",
-                functions_responsibilities="<p>This is a test vacancy</p>",
+                content="<p>This is a test vacancy</p>",
                 deadline="2023-03-01 12:00:00",
                 is_public=True,
             )
@@ -119,7 +117,7 @@ class VacancyModelTest(TestCase):
     #                 advert=file,
     #                 vacancy_type=self.vacancy_type,
     #                 pay_grade="PG1",
-    #                 functions_responsibilities="<p>This is a test vacancy</p>",
+    #                 content="<p>This is a test vacancy</p>",
     #                 deadline="2023-03-01 12:00:00",
     #                 is_public=True,
     #             )
@@ -139,7 +137,7 @@ class VacancyModelTest(TestCase):
     #                 advert=file,
     #                 vacancy_type=self.vacancy_type,
     #                 pay_grade="PG1",
-    #                 functions_responsibilities="<p>This is a test vacancy</p>",
+    #                 content="<p>This is a test vacancy</p>",
     #                 town=self.town,
     #                 deadline="2023-03-01 12:00:00",
     #                 is_public=True,
@@ -150,7 +148,7 @@ class VacancyModelTest(TestCase):
             title="Test Vacancy",
             vacancy_type=self.vacancy_type,
             pay_grade="PG1",
-            functions_responsibilities="<p>This is a test vacancy</p>",
+            content="<p>This is a test vacancy</p>",
             deadline="2023-03-01 12:00:00",
             is_public=True,
         )
@@ -162,7 +160,7 @@ class VacancyModelTest(TestCase):
             title="Test Vacancy",
             vacancy_type=self.vacancy_type,
             pay_grade="PG1",
-            functions_responsibilities="<p>This is a test vacancy</p>",
+            content="<p>This is a test vacancy</p>",
             deadline="2023-03-01 12:00:00",
             is_public=True,
         )
@@ -177,7 +175,7 @@ class VacancyModelTest(TestCase):
             title="Test Vacancy",
             vacancy_type=self.vacancy_type,
             pay_grade="PG1",
-            functions_responsibilities="<p>This is a test vacancy</p>",
+            content="<p>This is a test vacancy</p>",
             deadline="2023-03-01 12:00:00",
             is_public=True,
         )
@@ -193,7 +191,7 @@ class VacancyModelTest(TestCase):
             title="Test Vacancy",
             vacancy_type=self.vacancy_type,
             pay_grade="PG1",
-            functions_responsibilities="<p>This is a test vacancy</p>",
+            content="<p>This is a test vacancy</p>",
             deadline=deadline_date,
             is_public=True,
         )
@@ -202,7 +200,7 @@ class VacancyModelTest(TestCase):
         self.assertIsInstance(vacancy.title, str)
         self.assertIsInstance(vacancy.vacancy_type, VacancyType)
         self.assertIsInstance(vacancy.pay_grade, str)
-        self.assertIsInstance(vacancy.functions_responsibilities, str)
+        self.assertIsInstance(vacancy.content, str)
         self.assertIsInstance(vacancy.town.all()[0], Town)
         self.assertIsInstance(vacancy.deadline, datetime)
         self.assertIsInstance(vacancy.is_public, bool)
@@ -212,7 +210,7 @@ class VacancyModelTest(TestCase):
             title="Test Vacancy",
             vacancy_type=self.vacancy_type,
             pay_grade="PG1",
-            functions_responsibilities="<p>This is a test vacancy</p>",
+            content="<p>This is a test vacancy</p>",
             deadline="2023-03-01 12:00:00",
             is_public=True,
         )
@@ -227,7 +225,7 @@ class VacancyModelTest(TestCase):
             title="Test Vacancy",
             vacancy_type=self.vacancy_type,
             pay_grade="PG1",
-            functions_responsibilities="<p>This is a test vacancy</p>",
+            content="<p>This is a test vacancy</p>",
             deadline="2023-03-01 12:00:00",
             is_public=True,
         )
@@ -242,7 +240,7 @@ class VacancyModelTest(TestCase):
             title="Test Vacancy",
             vacancy_type=self.vacancy_type,
             pay_grade="PG1",
-            functions_responsibilities="<p>This is a test vacancy</p>",
+            content="<p>This is a test vacancy</p>",
             deadline="2023-03-01 12:00:00",
             is_public=True,
         )

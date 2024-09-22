@@ -1,8 +1,11 @@
-from allauth.account.forms import SignupForm
-from django import forms
+from allauth.account.forms import LoginForm
+from config.env import env
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.utils.translation import gettext_lazy as _
+
+from django_recaptcha.fields import ReCaptchaField, ReCaptchaV3
+from django_recaptcha.widgets import ReCaptchaV2Invisible
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -29,7 +32,13 @@ class CustomUserChangeForm(UserChangeForm):
         )
 
 
-class CustomSignupForm(SignupForm): ...
+class CustomLoginForm(LoginForm):
+    captcha = ReCaptchaField(
+        widget=ReCaptchaV3,
+    )
+
+    def login(self, *args, **kwargs):
+        return super(CustomLoginForm, self).login(*args, **kwargs)
 
 
 #     def save(self, request):
