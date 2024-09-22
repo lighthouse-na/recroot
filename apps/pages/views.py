@@ -3,7 +3,7 @@ from datetime import datetime
 from django.contrib.admin import site
 from django.shortcuts import get_object_or_404, redirect, render
 
-from apps.pages.models import Announcement
+from apps.pages.models import FAQ, Announcement
 from apps.recruitment.models import Application, Interview, Subscriber, Vacancy
 
 
@@ -15,23 +15,12 @@ def index(request):
     announcements = Announcement.objects.filter(
         deadline__gt=datetime.now(), is_visible=True, is_external=True
     )
-    # context = {
-    #     "title": "My Admin Page",
-    #     "site_header": "My Site",
-    #     "site_url": "/",
-    #     # "has_permission": request.user.is_staff,
-    #     # "available_apps": site.get_app_list(request),
-    #     "is_popup": True,
-    #     "is_nav_sidebar_enabled": True,
-    #     # "app_label": "myapp",  # Replace with your app label
-    #     # "app_list": site.get_model_list(
-    #     #     request, "myapp"
-    #     # ),  # Replace with your app label
-    #     "request": request,
-    # }
+    faqs = FAQ.objects.filter(is_visible=True)
+
     context = {
         "vacancies": vacancies,
         "announcements": announcements,
+        "faqs": faqs,
     }
     return render(request, template_name, context)
 

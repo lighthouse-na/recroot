@@ -1,6 +1,12 @@
 from django.contrib import admin
+from unfold.admin import ModelAdmin
 
-from .models import Announcement
+from .models import FAQ, Announcement
 
-# Register your models here.
-admin.site.register(Announcement)
+
+@admin.register(Announcement)
+class AnnouncementAdmin(ModelAdmin): ...
+
+
+@admin.register(FAQ)
+class FAQAdmin(ModelAdmin): ...

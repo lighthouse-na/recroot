@@ -20,6 +20,7 @@ from apps.finaid.models import (
 )
 from apps.organisation.admin import CostCentreAdmin, PositionAdmin, RegionAdmin
 from apps.organisation.models import CostCentre, Position, Region
+from apps.pages.models import FAQ, Announcement
 from apps.recruitment.admin import (
     ApplicationAdmin,
     InterviewAdmin,
@@ -76,3 +77,5 @@ admin_dashboard_site.register(BursaryAdvert, BursaryAdvertAdmin)
 admin_dashboard_site.register(BursaryApplication, BursaryApplicationsAdmin)
 admin_dashboard_site.register(FinancialAssistanceApplication, FinancialAssistanceAdmin)
 admin_dashboard_site.register(FinancialAssistanceAdvert, FinancialAssistanceAdvertAdmin)
+admin_dashboard_site.register(Announcement, ModelAdmin)
+admin_dashboard_site.register(FAQ, ModelAdmin)

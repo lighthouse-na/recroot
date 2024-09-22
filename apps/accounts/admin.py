@@ -34,7 +34,7 @@ from apps.organisation.models import (
     Position,
     Region,
 )
-from apps.pages.models import Announcement
+from apps.pages.models import FAQ, Announcement
 from apps.recruitment.admin import (
     ApplicationAdmin,
     InterviewAdmin,
@@ -205,4 +205,5 @@ superuser_dashboard_site.register(
     FinancialAssistanceAdvert, FinancialAssistanceAdvertAdmin
 )
 superuser_dashboard_site.register(Announcement, ModelAdmin)
+superuser_dashboard_site.register(FAQ, ModelAdmin)
 superuser_dashboard_site.register(Division, DivisionAdmin)
