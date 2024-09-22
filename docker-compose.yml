@@ -38,6 +38,8 @@ services:
   db:
     container_name: database
     image: postgres:latest
+    networks:
+      - my_network
     restart: always
     volumes:
       - ./data/db:/var/lib/postgresql/data
@@ -52,6 +54,8 @@ services:
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
+    networks:
+      - my_network
     restart: always
     environment:
       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
@@ -73,6 +77,8 @@ services:
   nginx:
     container_name: nginx
     image: nginx:latest
+    networks:
+      - my_network
     restart: always
     volumes:
       - ./config/nginx:/etc/nginx/templates
