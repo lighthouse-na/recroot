@@ -8,9 +8,13 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": env("POSTGRES_DB"),
+        "USER": env("POSTGRES_USER"),
+        "PASSWORD": env("POSTGRES_PASSWORD"),
+        "HOST": env("POSTGRES_HOST", default="localhost"),
+        "PORT": env("POSTGRES_PORT", default="5432"),
+    },
 }
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -19,9 +23,15 @@ EMAIL_PORT = env("EMAIL_PORT")
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-EMAIL_KEYFILE = env("EMAIL_KEYFILE")
-EMAIL_CERTFILE = env("EMAIL_CERTFILE")
+# EMAIL_KEYFILE = env("EMAIL_KEYFILE")
+# EMAIL_CERTFILE = env("EMAIL_CERTFILE")
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": env("REDIS_URL"),
+    }
+}
 
 CSRF_USE_SESSIONS = True
 SESSION_COOKIE_SECURE = True

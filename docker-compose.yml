@@ -1,6 +1,7 @@
 networks:
   my_network:
     driver: bridge
+
 services:
   web:
     container_name: app
@@ -26,62 +27,58 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
       - BROKER_URL=amqp://guest:guest@rabbitmq:5672//
-    #       - POSTGRES_DB=${POSTGRES_DB}
-    #       - POSTGRES_USER=${POSTGRES_USER}
-    #       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    #     depends_on:
-    #       - db
-    #       - cache
+        - POSTGRES_DB=${POSTGRES_DB}
+        - POSTGRES_USER=${POSTGRES_USER}
+        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    depends_on:
+      - db
+      - cache
 
-    #   # Database service (Postgresql)
-    #   db:
-    #     container_name: database
-    #     # Use the latest Postgresql image
-    #     image: postgres:latest
-    #     # Restart the container if it fails
-    #     restart: always
-    #     # Mount a volume at ./data/db to persist data
-    #     volumes:
-    #       - ./data/db:/var/lib/postgresql/data
-    #     # Load environment variables from a .env file
-    #     environment:
-    #       - POSTGRES_DB=${POSTGRES_DB}
-    #       - POSTGRES_USER=${POSTGRES_USER}
-    #       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    #     expose:
-    #       - "5432:5432"
+  # Database service (Postgresql)
+  db:
+    container_name: database
+    image: postgres:latest
+    restart: always
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    expose:
+      - "5432:5432"
 
-    #   pgadmin:
-    #     container_name: pgadmin
-    #     image: dpage/pgadmin4
-    #     restart: always
-    #     environment:
-    #       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
-    #       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
-    #     ports:
-    #       - "5050:80"
+  # PgAdmin To interact with database
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "5050:80"
 
-  # cache:
-  #   container_name: cache
-  #   image: cache:latest
-  #   restart: always
-  #   volumes:
-  #     - ./data/cache:/data
+  # Cache
+  cache:
+    container_name: cache
+    image: redis:latest
+    networks:
+      - my_network
+    restart: always
+    volumes:
+      - ./data/cache:/data
 
   # Nginx service (reverse proxy)
-  # nginx:
-  #   container_name: nginx
-  #   # Use the latest Nginx image
-  #   image: nginx:latest
-  #   # Restart the container if it fails
-  #   restart: always
-  #   # Mount volumes for Nginx configuration and code
-  #   volumes:
-  #     - ./config/nginx:/etc/nginx/templates
-  #     - .:/code
-  #   # Expose port 80 from the container to the host
-  #   ports:
-  #     - "80:80"
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    restart: always
+    volumes:
+      - ./config/nginx:/etc/nginx/templates
+      - .:/code
+    ports:
+      - "80:80"
 
   # RabbitMQ service (message broker)
   rabbitmq:
