@@ -10,7 +10,7 @@ message = None
 def send_email_notification(
     subject, template_name, instance, recipient_name, recipient_list
 ):
-    from_email = "careers@telecom.na"
+    from_email = email
     template = env.get_template(template_name)
     message = template.render(instance=instance, recipient_name=recipient_name)
 
@@ -60,8 +60,9 @@ def send_vacancy_application_notification_email(instance, created):
 
 
 def send_interview_notification_email(instance, created):
+
     subject = f"{instance.application.vacancy} Application Interview"
-    from_email = "careers@telecom.na"
+    from_email = email
 
     first_name = getattr(instance.application, "first_name", None)
     last_name = getattr(instance.application, "last_name", None)
@@ -72,24 +73,24 @@ def send_interview_notification_email(instance, created):
     )
 
     if not created and instance.status == "scheduled":
-        if recipient_list:
-            invitation_link = reverse(
-                "recruitment:interview_invitation", kwargs={"pk": instance.pk}
-            )
-            invitation_url = f"https://telecom.na/{invitation_link}"
 
-            template = env.get_template("interview.html")
-            subject = "Do not reply."
-            message = template.render(
-                instance=instance,
-                recipient_name=recipient_name,
-                invitation_url=invitation_url,
-            )
-            send_email = EmailMessage(
-                subject=subject,
-                body=message,
-                from_email=from_email,
-                to=recipient_list,
-            )
-            send_email.content_subtype = "html"
-            send_email.send()
+        invitation_link = reverse(
+            "recruitment:interview_invitation", kwargs={"pk": instance.pk}
+        ).lstrip("/")
+        invitation_url = f"http://training.telecom.na/{invitation_link}"
+
+        template = env.get_template("interview.html")
+
+        message = template.render(
+            instance=instance,
+            recipient_name=recipient_name,
+            invitation_url=invitation_url,
+        )
+        send_email = EmailMessage(
+            subject=subject,
+            body=message,
+            from_email=from_email,
+            to=recipient_list,
+        )
+        send_email.content_subtype = "html"
+        send_email.send()

@@ -196,6 +196,7 @@ class MinimumRequirementAnswer(models.Model):
 
 class Interview(models.Model):
     class STATUS(models.TextChoices):
+        RESCHEDULED = "rescheduled"
         SCHEDULED = "scheduled"
         DONE = "done"
         CANCELED = "canceled"
@@ -250,10 +251,10 @@ class Interview(models.Model):
         if self.schedule_datetime.weekday() >= 5:  # 5 = Saturday, 6 = Sunday
             raise ValidationError("Scheduled datetime cannot be on weekends.")
 
-        if self.schedule_datetime.date() - timezone.now().date() < timedelta(days=3):
-            raise ValidationError(
-                "Scheduled datetime must be at least three(3) days in the future."
-            )
+        # if self.schedule_datetime.date() - timezone.now().date() < timedelta(days=3):
+        #     raise ValidationError(
+        #         "Scheduled datetime must be at least three(3) days in the future."
+        #     )
 
         # if self.application.vacancy.deadline < timezone.now():
         #     raise ValidationError(

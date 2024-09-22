@@ -20,13 +20,13 @@ from .tasks import (
 @receiver(post_save, sender=Application)
 def send_application_notification_tasks(sender, instance, created, **kwargs):
     send_vacancy_application_notification_email_task.delay(instance.id, created)
-    send_vacancy_application_notification_text_task.delay(instance.id, created)
+    # send_vacancy_application_notification_text_task.delay(instance.id, created)
 
 
 @receiver(post_save, sender=Interview)
 def send_interview_notification_tasks(sender, instance, created, **kwargs):
     send_interview_notification_email_task.delay(instance.id, created)
-    send_interview_notification_text_task.delay(instance.id, created)
+    # send_interview_notification_text_task.delay(instance.id, created)
 
 
 @receiver(post_save, sender=Application)

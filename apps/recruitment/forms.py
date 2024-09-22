@@ -159,6 +159,11 @@ class InterviewInvitationResponseForm(forms.ModelForm):
         ("rejected", "Reject"),
         ("reschedule", "Reschedule"),
     )
+    captcha = ReCaptchaField(
+        public_key=env("RECAPTCHA_V2_PUBLIC_KEY"),
+        private_key=env("RECAPTCHA_V2_PRIVATE_KEY"),
+        widget=ReCaptchaV2Invisible,
+    )
     status = forms.ChoiceField(choices=STATUS_CHOICES)
     reschedule_date = forms.DateField(
         widget=forms.DateInput(attrs={"type": "date"}), required=False

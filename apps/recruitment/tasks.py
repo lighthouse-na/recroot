@@ -1,4 +1,5 @@
 from celery import shared_task
+from django.shortcuts import get_object_or_404
 
 from .emails import (
     send_interview_notification_email,
@@ -13,23 +14,23 @@ from .texts import (
 
 @shared_task
 def send_vacancy_application_notification_email_task(instance_id, created):
-    instance = Application.objects.get(id=instance_id)
+    instance = get_object_or_404(Application, pk=instance_id)
     send_vacancy_application_notification_email(instance, created)
 
 
 @shared_task
 def send_vacancy_application_notification_text_task(instance_id, created):
-    instance = Application.objects.get(id=instance_id)
+    instance = get_object_or_404(Application, pk=instance_id)
     send_vacancy_application_notification_text(instance, created)
 
 
 @shared_task
 def send_interview_notification_email_task(instance_id, created):
-    instance = Interview.objects.get(id=instance_id)
+    instance = get_object_or_404(Interview, pk=instance_id)
     send_interview_notification_email(instance, created)
 
 
 @shared_task
 def send_interview_notification_text_task(instance_id, created):
-    instance = Interview.objects.get(id=instance_id)
+    instance = get_object_or_404(Interview, pk=instance_id)
     send_vacancy_interview_notification_text(instance, created)

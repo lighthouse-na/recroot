@@ -166,10 +166,9 @@ class ApplicationAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
         "status",
     ]
     list_filter = (
-        "first_name",
-        "last_name",
         "email",
         "vacancy",
+        "status",
     )
     search_fields = (
         "first_name",

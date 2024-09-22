@@ -176,6 +176,7 @@ UBLOCK_ORIGIN_EXCEPTIONS = [
 ]
 
 AUTH_USER_MODEL = "accounts.User"
+CELERY_BROKER_URL = env("BROKER_URL")
 
 from .third_party.allauth import *
 from .third_party.channels import *
