@@ -33,7 +33,20 @@ CACHES = {
     }
 }
 
-CSRF_USE_SESSIONS = True
+
+# CORS
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ORIGIN_WHITELIST = env.list("CORS_ORIGIN_WHITELIST", default=[])
+
+# Security
+CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = False
+# SECURE_SSL_REDIRECT = True
 X_FRAME_OPTIONS = "DENY"
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://training.telecom.na",
+    "https://www.training.telecom.na",
+    "https://192.168.215.146",
+    "https://197.188.250.244",
+]
