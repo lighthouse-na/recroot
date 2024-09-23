@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.contrib import messages
 from django.db import IntegrityError, transaction
 from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -99,7 +100,11 @@ class ApplicationCreateView(CreateView):
                     )
                 form.save_m2m()
         except IntegrityError:
-            form.non_field_errors = ["You have already applied for this vacancy."]
+            messages.add_message(
+                self.request,
+                messages.ERROR,
+                "You have already applied for this vacancy.",
+            )
             return self.form_invalid(form)
 
         return super().form_valid(form)
