@@ -4,6 +4,10 @@ from .base import *
 
 DEBUG = False
 
+ADMINS = [
+    ("Sakaria Ndadi", "oipapi.ndadi@gmail.com"),
+]
+
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
 DATABASES = {
@@ -39,10 +43,10 @@ CORS_ALLOW_ALL_ORIGINS = False
 CORS_ORIGIN_WHITELIST = env.list("CORS_ORIGIN_WHITELIST", default=[])
 
 # Security
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
 # SECURE_SSL_REDIRECT = True
-X_FRAME_OPTIONS = "DENY"
+# X_FRAME_OPTIONS = "DENY"
 
 CSRF_TRUSTED_ORIGINS = [
     "https://training.telecom.na",

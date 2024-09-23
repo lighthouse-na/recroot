@@ -11,25 +11,27 @@ from config.env import env
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = get_user_model()
-        exclude = (
-            "username",
-            "date_joined",
-            "last_login",
-            "password",
-            "is_superuser",
-        )
+        fields = "__all__"
+        # exclude = (
+        #     "username",
+        #     "date_joined",
+        #     "last_login",
+        #     # "password",
+        #     "is_superuser",
+        # )
 
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = get_user_model()
-        exclude = (
-            "username",
-            "date_joined",
-            "last_login",
-            "password",
-            "is_superuser",
-        )
+        fields = "__all__"
+        # exclude = (
+        #     "username",
+        #     "date_joined",
+        #     "last_login",
+        #     # "password",
+        #     "is_superuser",
+        # )
 
 
 class CustomLoginForm(LoginForm):

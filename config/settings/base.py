@@ -63,6 +63,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",  # cors-headers
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",  # whitenoise
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -73,7 +74,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",  # allauth
     "debug_toolbar.middleware.DebugToolbarMiddleware",  # debug toolbar
-    "corsheaders.middleware.CorsMiddleware",  # corsheaders
 ]
 
 ROOT_URLCONF = "config.urls"
