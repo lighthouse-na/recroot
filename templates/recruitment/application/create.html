@@ -16,6 +16,11 @@
                             class="absolute px-3 text-2xl font-semibold text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">Applicant
                             Details</span>
                     </div>
+                    {% if view.form.non_field_errors %}
+                        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-gray-100"
+                             role="alert">{{ view.form.non_field_errors }}
+                        </div>
+                    {% endif %}
 
                     <div class="grid gap-4 mb-4 sm:grid-cols-3">
                         {% if not user.is_authenticated %}

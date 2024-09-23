@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
@@ -84,21 +84,24 @@ class ApplicationCreateView(CreateView):
     def form_valid(self, form):
         slug = self.kwargs.get("slug")
         vacancy = get_object_or_404(Vacancy, slug=slug)
+        try:
+            # Wrap the entire save process in a transaction
+            with transaction.atomic():
+                application = form.save(commit=False)
+                application.vacancy = vacancy
+                application.save()
 
-        # Wrap the entire save process in a transaction
-        with transaction.atomic():
-            application = form.save(commit=False)
-            application.vacancy = vacancy
-            application.save()
+                requirements = MinimumRequirement.objects.filter(vacancy=vacancy)
+                for requirement in requirements:
+                    answer = form.cleaned_data[f"requirement_{requirement.id}"]
+                    MinimumRequirementAnswer.objects.create(
+                        application=application, requirement=requirement, answer=answer
+                    )
+                form.save_m2m()
+        except IntegrityError:
+            form.non_field_errors = ["You have already applied for this vacancy."]
+            return self.form_invalid(form)
 
-            requirements = MinimumRequirement.objects.filter(vacancy=vacancy)
-            for requirement in requirements:
-                answer = form.cleaned_data[f"requirement_{requirement.id}"]
-                MinimumRequirementAnswer.objects.create(
-                    application=application, requirement=requirement, answer=answer
-                )
-
-            form.save_m2m()
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
