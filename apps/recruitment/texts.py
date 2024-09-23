@@ -4,7 +4,7 @@ import requests
 
 from config.env import BASE_DIR, env
 
-env.read_env(os.path.join(BASE_DIR, ".env"))
+# env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # This URL is used for sending messages
 my_uri = env("SMS_URI")

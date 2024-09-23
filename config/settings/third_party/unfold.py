@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
@@ -57,25 +58,34 @@ UNFOLD = {
                     {
                         "title": _("Dashboard"),
                         "icon": "dashboard",
-                        "link": "/admin/",
+                        "link": "/"
+                        + ("admin/" if settings.DEBUG else "oshimashakula/"),
                         "permission": lambda request: request.user.is_superuser,
                     },
                     {
                         "title": _("Auth"),
                         "icon": "people",
-                        "link": "/admin/accounts/user",
+                        "link": "/"
+                        + ("admin/" if settings.DEBUG else "oshimashakula/")
+                        + "accounts/user",
                         "permission": lambda request: request.user.is_superuser,
                     },
                     {
                         "title": _("Organisation"),
                         "icon": "home",
-                        "link": "/admin/organisation",
+                        # "link": "/admin/organisation",
+                        "link": "/"
+                        + ("admin/" if settings.DEBUG else "oshimashakula/")
+                        + "organisation",
                         "permission": lambda request: request.user.is_superuser,
                     },
                     {
                         "title": _("Recruitment"),
                         "icon": "people",
-                        "link": "/admin/recruitment",
+                        # "link": "/admin/recruitment",
+                        "link": "/"
+                        + ("admin/" if settings.DEBUG else "oshimashakula/")
+                        + "recruitment",
                         "permission": lambda request: request.user.has_perm(
                             "view_application"
                         ),
@@ -83,7 +93,10 @@ UNFOLD = {
                     {
                         "title": _("Financial Aid"),
                         "icon": "request_quote",
-                        "link": "/admin/finaid/",
+                        # "link": "/admin/finaid/",
+                        "link": "/"
+                        + ("admin/" if settings.DEBUG else "oshimashakula/")
+                        + "finaid",
                         "permission": lambda request: request.user.has_perm(
                             "view_application"
                         ),
@@ -94,7 +107,14 @@ UNFOLD = {
                     {
                         "title": _("Dashboard"),
                         "icon": "dashboard",
-                        "link": "/dashboard/admin/",
+                        # "link": "/dashboard/admin/",
+                        "link": "/"
+                        + (
+                            "dashboard/admin/"
+                            if settings.DEBUG
+                            else "dashboard/telecom/administrator/"
+                        )
+                        + "accounts/user",
                         "permission": lambda request: request.user.groups.filter(
                             name="admin"
                         ).exists()
@@ -103,7 +123,14 @@ UNFOLD = {
                     {
                         "title": _("Auth"),
                         "icon": "people",
-                        "link": "/dashboard/admin/auth/",
+                        # "link": "/dashboard/admin/auth/",
+                        "link": "/"
+                        + (
+                            "dashboard/admin/"
+                            if settings.DEBUG
+                            else "dashboard/telecom/administrator/"
+                        )
+                        + "accounts/user",
                         "permission": lambda request: request.user.groups.filter(
                             name="admin"
                         ).exists()
@@ -112,7 +139,14 @@ UNFOLD = {
                     {
                         "title": _("Organisation"),
                         "icon": "home",
-                        "link": "/dashboard/admin/organisation",
+                        # "link": "/dashboard/admin/organisation",
+                        "link": "/"
+                        + (
+                            "dashboard/admin/"
+                            if settings.DEBUG
+                            else "dashboard/telecom/administrator/"
+                        )
+                        + "accounts/user",
                         "permission": lambda request: request.user.groups.filter(
                             name="admin"
                         ).exists()
@@ -121,7 +155,14 @@ UNFOLD = {
                     {
                         "title": _("Recruitment"),
                         "icon": "people",
-                        "link": "/dashboard/admin/recruitment",
+                        # "link": "/dashboard/admin/recruitment",
+                        "link": "/"
+                        + (
+                            "dashboard/admin/"
+                            if settings.DEBUG
+                            else "dashboard/telecom/administrator/"
+                        )
+                        + "accounts/user",
                         "permission": lambda request: request.user.groups.filter(
                             name="admin"
                         ).exists()
@@ -130,7 +171,14 @@ UNFOLD = {
                     {
                         "title": _("Financial Aid"),
                         "icon": "request_quote",
-                        "link": "/dashboard/admin/finaid/",
+                        # "link": "/dashboard/admin/finaid/",
+                        "link": "/"
+                        + (
+                            "dashboard/admin/"
+                            if settings.DEBUG
+                            else "dashboard/telecom/administrator/"
+                        )
+                        + "accounts/user",
                         "permission": lambda request: request.user.groups.filter(
                             name="admin"
                         ).exists()
@@ -347,21 +395,30 @@ UNFOLD = {
                 {
                     "title": _("Users"),
                     # "link": reverse_lazy("admin:auth_user_changelist"),
-                    "link": "/admin/accounts/user/",
+                    # "link": "/admin/accounts/user/",
+                    "link": "/"
+                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + "accounts/user",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_user"),
                 },
                 {
                     "title": _("Groups"),
                     # "link": reverse_lazy("admin:auth_group_changelist"),
-                    "link": "/admin/auth/group/",
+                    # "link": "/admin/auth/group/",
+                    "link": "/"
+                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + "auth/group",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_group"),
                 },
                 {
                     "title": _("Emails"),
                     # "link": reverse_lazy("admin:auth_group_changelist"),
-                    "link": "/admin/account/emailaddress/",
+                    # "link": "/admin/account/emailaddress/",
+                    "link": "/"
+                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + "account/emailaddress",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_emailaddress"),
                 },
@@ -378,31 +435,46 @@ UNFOLD = {
             "items": [
                 {
                     "title": _("Divisions"),
-                    "link": "/admin/organisation/division/",
+                    # "link": "/admin/organisation/division/",
+                    "link": "/"
+                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + "organisation/division",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_division"),
                 },
                 {
                     "title": _("Positions"),
-                    "link": "/admin/organisation/position/",
+                    # "link": "/admin/organisation/position/",
+                    "link": "/"
+                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + "organisation/position",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_position"),
                 },
                 {
                     "title": _("Locations"),
-                    "link": "/admin/organisation/location/",
+                    # "link": "/admin/organisation/location/",
+                    "link": "/"
+                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + "organisation/location",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_location"),
                 },
                 {
                     "title": _("Cost Centres"),
-                    "link": "/admin/organisation/costcentre/",
+                    # "link": "/admin/organisation/costcentre/",
+                    "link": "/"
+                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + "organisation/costcentre",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_costcentre"),
                 },
                 {
                     "title": _("Regions"),
-                    "link": "/admin/organisation/region/",
+                    # "link": "/admin/organisation/region/",
+                    "link": "/"
+                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + "organisation/region",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_region"),
                 },
@@ -417,19 +489,28 @@ UNFOLD = {
             "items": [
                 {
                     "title": _("Applications"),
-                    "link": "/admin/recruitment/application/",
+                    # "link": "/admin/recruitment/application/",
+                    "link": "/"
+                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + "recruitment/application",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_application"),
                 },
                 {
                     "title": _("Vacancies"),
-                    "link": "/admin/recruitment/vacancy/",
+                    # "link": "/admin/recruitment/vacancy/",
+                    "link": "/"
+                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + "recruitment/vacancy",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_vacancy"),
                 },
                 {
                     "title": _("Interviews"),
-                    "link": "/admin/recruitment/interview/",
+                    # "link": "/admin/recruitment/interview/",
+                    "link": "/"
+                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + "recruitment/interview",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_interview"),
                 },

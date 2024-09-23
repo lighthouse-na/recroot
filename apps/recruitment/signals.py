@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
+from django.db import transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
@@ -19,14 +20,36 @@ from .tasks import (
 
 @receiver(post_save, sender=Application)
 def send_application_notification_tasks(sender, instance, created, **kwargs):
-    send_vacancy_application_notification_email_task.delay(instance.id, created)
+    transaction.on_commit(
+        lambda: (
+            send_vacancy_application_notification_email_task.delay(
+                instance.id, created
+            ),
+            send_vacancy_application_notification_text_task.delay(instance.id, created),
+        )
+    )
+    # transaction.on_commit(
+    #     lambda: send_vacancy_application_notification_email_task.delay(
+    #         instance.id, created
+    #     ),
+    # )
+    # transaction.on_commit(
+    #     lambda: send_vacancy_application_notification_text_task.delay(
+    #         instance.id, created
+    #     ),
+    # )
+    # send_vacancy_application_notification_email_task.delay(instance.id, created)
     # send_vacancy_application_notification_text_task.delay(instance.id, created)
 
 
 @receiver(post_save, sender=Interview)
 def send_interview_notification_tasks(sender, instance, created, **kwargs):
-    send_interview_notification_email_task.delay(instance.id, created)
-    # send_interview_notification_text_task.delay(instance.id, created)
+    transaction.on_commit(
+        lambda: (
+            send_interview_notification_email_task.delay(instance.id, created),
+            send_interview_notification_text_task.delay(instance.id, created),
+        )
+    )
 
 
 @receiver(post_save, sender=Application)
