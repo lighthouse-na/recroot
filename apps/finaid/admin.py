@@ -47,7 +47,10 @@ class FinancialAssistanceAdmin(ModelAdmin, ExportActionModelAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
 
-        if request.user.is_superuser:
+        if (
+            request.user.is_superuser
+            or request.user.groups.filter(name="admin").exists()
+        ):
             return qs
         return qs.filter(applicant=request.user)
 
@@ -66,7 +69,10 @@ class FinancialAssistanceAdmin(ModelAdmin, ExportActionModelAdmin):
         return False
 
     def has_change_permission(self, request, obj=None):
-        if request.user.is_superuser:
+        if (
+            request.user.is_superuser
+            or request.user.groups.filter(name="admin").exists()
+        ):
             return super().has_change_permission(request, obj)
         else:
             self.has_permission(request, obj, "change")

@@ -70,7 +70,10 @@ class QualificationAdmin(ModelAdmin, ExportActionModelAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
 
-        if request.user.is_superuser:
+        if (
+            request.user.is_superuser
+            or request.user.groups.filter(name="admin").exists()
+        ):
             return qs
 
         user = get_user_model().objects.get(user=request.user)
@@ -82,7 +85,10 @@ class CertificationAdmin(ModelAdmin, ExportActionModelAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
 
-        if request.user.is_superuser:
+        if (
+            request.user.is_superuser
+            or request.user.groups.filter(name="admin").exists()
+        ):
             return qs
 
         user = get_user_model().objects.get(user=request.user)
@@ -113,17 +119,26 @@ class UserAdmin(ModelAdmin, ExportActionModelAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
 
-        if request.user.is_superuser:
+        if (
+            request.user.is_superuser
+            or request.user.groups.filter(name="admin").exists()
+        ):
             return qs
         return qs.filter(user=request.user)
 
     def has_add_permission(self, request):
-        if request.user.is_superuser:
+        if (
+            request.user.is_superuser
+            or request.user.groups.filter(name="admin").exists()
+        ):
             return True
         return False
 
     def has_delete_permission(self, request, obj=None):
-        if request.user.is_superuser:
+        if (
+            request.user.is_superuser
+            or request.user.groups.filter(name="admin").exists()
+        ):
             return True
         return False
 
