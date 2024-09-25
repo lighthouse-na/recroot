@@ -44,6 +44,12 @@ class VacancyForm(forms.ModelForm):
 #                                       APPLICATION
 # **********************************************************************************************
 class ApplicationReviewForm(forms.ModelForm):
+    STATUS_CHOICES = (
+        ("accepted", "Accept"),
+        ("rejected", "Reject"),
+    )
+    status = forms.ChoiceField(choices=STATUS_CHOICES)
+
     class Meta:
         model = Application
         fields = ["status", "review_comments"]
