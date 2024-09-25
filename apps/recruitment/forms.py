@@ -7,7 +7,7 @@ from django_recaptcha.fields import ReCaptchaField
 from django_recaptcha.widgets import ReCaptchaV2Invisible
 from phonenumber_field.formfields import PhoneNumberField
 from tinymce.widgets import TinyMCE
-
+from unfold.widgets import UnfoldAdminSelectWidget
 from config.env import env
 
 from .models import (
@@ -48,7 +48,7 @@ class ApplicationReviewForm(forms.ModelForm):
         ("accepted", "Accept"),
         ("rejected", "Reject"),
     )
-    status = forms.ChoiceField(choices=STATUS_CHOICES)
+    status = forms.ChoiceField(choices=STATUS_CHOICES, widget=UnfoldAdminSelectWidget())
 
     class Meta:
         model = Application

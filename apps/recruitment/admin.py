@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.utils.html import format_html
 from guardian.admin import GuardedModelAdmin
@@ -233,8 +234,10 @@ class ApplicationAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
     def save_model(self, request, obj, form, change):
 
         if obj.status in [Application.STATUS.ACCEPTED, Application.STATUS.REJECTED]:
+            user = get_user_model().objects.get(id=request.user.id)
+
             obj.reviewed_at = timezone.now()
-            obj.reviewed_by = request.user
+            obj.reviewed_by = user
 
         super().save_model(request, obj, form, change)
 
