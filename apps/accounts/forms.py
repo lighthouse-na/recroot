@@ -7,31 +7,36 @@ from django_recaptcha.widgets import ReCaptchaV2Invisible
 
 from config.env import env
 
+from django import forms
 
-class CustomUserCreationForm(UserCreationForm):
+
+class CustomUserCreationForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
-        fields = "__all__"
-        # exclude = (
-        #     "username",
-        #     "date_joined",
-        #     "last_login",
-        #     # "password",
-        #     "is_superuser",
-        # )
+        # fields = "__all__"
+        exclude = (
+            # "username",
+            "date_joined",
+            "last_login",
+            # "password",
+            "is_superuser",
+            "is_active",
+            "is_staff",
+        )
 
 
-class CustomUserChangeForm(UserChangeForm):
+class CustomUserChangeForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
-        fields = "__all__"
-        # exclude = (
-        #     "username",
-        #     "date_joined",
-        #     "last_login",
-        #     # "password",
-        #     "is_superuser",
-        # )
+        # fields = "__all__"
+        exclude = (
+            # "username",
+            "date_joined",
+            "last_login",
+            # "password",
+            "is_superuser",
+            "is_staff",
+        )
 
 
 class CustomLoginForm(LoginForm):
