@@ -22,31 +22,19 @@ from .tasks import (
 def send_application_notification_tasks(sender, instance, created, **kwargs):
     transaction.on_commit(
         lambda: (
-            send_vacancy_application_notification_email_task.delay(
-                instance.id, created
-            ),
+            # send_vacancy_application_notification_email_task.delay(
+            #     instance.id, created
+            # ),
             send_vacancy_application_notification_text_task.delay(instance.id, created),
         )
     )
-    # transaction.on_commit(
-    #     lambda: send_vacancy_application_notification_email_task.delay(
-    #         instance.id, created
-    #     ),
-    # )
-    # transaction.on_commit(
-    #     lambda: send_vacancy_application_notification_text_task.delay(
-    #         instance.id, created
-    #     ),
-    # )
-    # send_vacancy_application_notification_email_task.delay(instance.id, created)
-    # send_vacancy_application_notification_text_task.delay(instance.id, created)
 
 
 @receiver(post_save, sender=Interview)
 def send_interview_notification_tasks(sender, instance, created, **kwargs):
     transaction.on_commit(
         lambda: (
-            send_interview_notification_email_task.delay(instance.id, created),
+            # send_interview_notification_email_task.delay(instance.id, created),
             send_interview_notification_text_task.delay(instance.id, created),
         )
     )
