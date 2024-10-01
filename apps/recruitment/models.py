@@ -22,6 +22,7 @@ from apps.utils.validators import FileValidator
 # **********************************************************************************************
 class VacancyType(models.Model):
     class VACANCY_TYPE(models.TextChoices):
+        APPRENTICESHIP = "apprenticeship"
         INTERNSHIP = "internship"
         PERMANENT = "permanent"
         PART_TIME = "part_time"
