@@ -199,15 +199,15 @@ UNFOLD = {
                         ).exists()
                         and request.path.startswith("/dashboard/staff/"),
                     },
-                    {
-                        "title": _("Qualifications"),
-                        "icon": "clinical_notes",
-                        "link": "/dashboard/staff/accounts",
-                        "permission": lambda request: request.user.groups.filter(
-                            name="staff"
-                        ).exists()
-                        and request.path.startswith("/dashboard/staff/"),
-                    },
+                    # {
+                    #     "title": _("Qualifications"),
+                    #     "icon": "clinical_notes",
+                    #     "link": "/dashboard/staff/accounts",
+                    #     "permission": lambda request: request.user.groups.filter(
+                    #         name="staff"
+                    #     ).exists()
+                    #     and request.path.startswith("/dashboard/staff/"),
+                    # },
                     {
                         "title": _("Recruitment"),
                         "icon": "people",
