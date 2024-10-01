@@ -217,15 +217,15 @@ UNFOLD = {
                         ).exists()
                         and request.path.startswith("/dashboard/staff/"),
                     },
-                    {
-                        "title": _("Financial Aid"),
-                        "icon": "request_quote",
-                        "link": "/dashboard/staff/finaid/financialassistanceapplication/",
-                        "permission": lambda request: request.user.groups.filter(
-                            name="staff"
-                        ).exists()
-                        and request.path.startswith("/dashboard/staff/"),
-                    },
+                    # {
+                    #     "title": _("Financial Aid"),
+                    #     "icon": "request_quote",
+                    #     "link": "/dashboard/staff/finaid/financialassistanceapplication/",
+                    #     "permission": lambda request: request.user.groups.filter(
+                    #         name="staff"
+                    #     ).exists()
+                    #     and request.path.startswith("/dashboard/staff/"),
+                    # },
                 ],
             },
             # {
