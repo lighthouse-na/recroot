@@ -56,11 +56,11 @@ class ApplicationReviewForm(forms.ModelForm):
 
 
 class ApplicationForm(forms.ModelForm):
-    captcha = ReCaptchaField(
-        public_key=env("RECAPTCHA_V2_PUBLIC_KEY"),
-        private_key=env("RECAPTCHA_V2_PRIVATE_KEY"),
-        widget=ReCaptchaV2Invisible,
-    )
+    # captcha = ReCaptchaField(
+    #     public_key=env("RECAPTCHA_V2_PUBLIC_KEY"),
+    #     private_key=env("RECAPTCHA_V2_PRIVATE_KEY"),
+    #     widget=ReCaptchaV2Invisible,
+    # )
     primary_contact = PhoneNumberField(region="NA")
     secondary_contact = PhoneNumberField(region="NA", required=False)
     date_of_birth = forms.DateField(widget=forms.DateInput())
