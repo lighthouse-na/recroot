@@ -138,6 +138,12 @@ class Application(models.Model):
         help_text="Enter a valid Namibian phone number",
     )
     date_of_birth = models.DateField(help_text="Enter your data if birth")
+    gender = models.CharField(
+        help_text="Select your gender",
+        default="",
+        max_length=10,
+        choices=(("male", "Male"), ("female", "Female")),
+    )
     cv = models.FileField(
         upload_to="cv/",
         validators=[

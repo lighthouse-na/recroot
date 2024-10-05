@@ -154,6 +154,7 @@ class ApplicationAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
         "primary_contact",
         "secondary_contact",
         "date_of_birth",
+        "gender",
         "cv",
         "reviewed_by",
         "reviewed_at",

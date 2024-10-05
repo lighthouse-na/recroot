@@ -120,6 +120,19 @@
                         {% endif %}
                     </div>
 
+                    <div>
+                        <label for="{{ form.gender.id_for_label }}"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender
+                            <span class="text-orange-500">*</span></label>
+                        {% render_field form.gender type="select" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+
+                        {% if form.gender.errors %}
+                        <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                            role="alert">{{ form.gender.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
                     {% endif %} <!-- End of is_authenticated -->
 
                     <div>

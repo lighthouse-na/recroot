@@ -75,6 +75,7 @@ class ApplicationForm(forms.ModelForm):
             "primary_contact",
             "secondary_contact",
             "date_of_birth",
+            "gender",
             "cv",
         )
 

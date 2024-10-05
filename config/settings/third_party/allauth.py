@@ -3,9 +3,9 @@
 # ACCOUNT_EMAIL_NOTIFICATIONS = True
 # ACCOUNT_EMAIL_REQUIRED = True
 # ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_FORMS = {
-    "login": "apps.accounts.forms.CustomLoginForm",
-}
+# ACCOUNT_FORMS = {
+#     "login": "apps.accounts.forms.CustomLoginForm",
+# }
 
 LOGIN_REDIRECT_URL = "/dashboard/staff/"
 ACCOUNT_ADAPTER = "apps.accounts.adapters.MyAccountAdapter"
