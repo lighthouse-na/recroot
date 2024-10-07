@@ -73,20 +73,23 @@
                                 {{ vacancy.remarks|safe }}</p>
                         </div>
                     {% endif %}
-                    {% if vacancy.requirements.all %}
 
-                        <div class="inline-flex items-center justify-center w-full md:my-10">
-                            <hr class="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
-                            <span
-                                class="absolute px-3 text-lg font-semibold text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">Minimum
-                                Requirements</span>
-                        </div>
-                        <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
-                            {% for requirement in vacancy.requirements.all %}
-                                <li>{{ requirement }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
+                {% comment %}
+                {% if vacancy.requirements.all %}
+
+                <div class="inline-flex items-center justify-center w-full md:my-10">
+                    <hr class="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+                    <span
+                        class="absolute px-3 text-lg font-semibold text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">Minimum
+                        Requirements</span>
+                </div>
+                <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
+                    {% for requirement in vacancy.requirements.all %}
+                    <li>{{ requirement }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endcomment %}
                     <br>
                     <a href="{% url 'recruitment:apply' vacancy.slug %}"
                        class="inline-flex items-center text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-orange-900">Apply
