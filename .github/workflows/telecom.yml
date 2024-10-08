@@ -33,17 +33,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Makemigrations
+        run: python manage.py makemigrations
+
+      - name: Run Tests
+        run: python manage.py test apps
+
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
       - name: Run docker compose
         run: docker compose up -d
-      #   - name: Wait for containers to be ready
-      #     run: docker compose exec -T web sleep 30
-      #   - name: Run celery flower
-      #     run: docker compose exec web celery -A config flower
-      - name: Make Migrations
-        run: docker compose exec web python manage.py makemigrations
-      - name: Migrate to database
+
+      - name: Migrate into db container
         run: docker compose exec web python manage.py migrate
-      - name: Run Tests
-        run: docker compose exec web python manage.py test apps
