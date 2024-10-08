@@ -37,6 +37,8 @@ jobs:
         run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
       - name: Run docker compose
         run: docker compose up -d
+      - name: Run celery flower
+        run: docker compose exec web celery -A config flower
       - name: Make Migrations
         run: docker compose exec web python manage.py makemigrations
       - name: Migrate to database

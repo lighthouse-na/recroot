@@ -23,11 +23,9 @@ services:
     ports:
       - "8000:8000"
       - "5555:5555"
-    env_file:
-      - .env
     environment:
       - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
-      - BROKER_URL=amqp://guest:guest@rabbitmq:5672//
+      - BROKER_URL=${BROKER_URL}
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -126,23 +124,3 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
-
-  # Celery flower service
-  # flower:
-  #   container_name: celery_flower
-  #   build: .
-  #   networks:
-  #     - my_network
-  #   command: celery -A config flower
-  #   volumes:
-  #     - .:/code
-  #   ports:
-  #     - "5555:5555"
-  #   env_file:
-  #     - .env
-  #   environment:
-  #     - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
-  #     - BROKER_URL=${BROKER_URL}
-  #     - CELERY_RESULT_BACKEND=rpc://
-  #   depends_on:
-  #     - worker
