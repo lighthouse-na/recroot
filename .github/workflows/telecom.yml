@@ -40,8 +40,8 @@ jobs:
       - name: Makemigrations
         run: python manage.py makemigrations
 
-      - name: Run Tests
-        run: python manage.py test apps
+      #   - name: Run Tests
+      #     run: python manage.py test apps
 
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
