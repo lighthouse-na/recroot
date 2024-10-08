@@ -1,0 +1,37 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: ["telecom"]
+  pull_request:
+    branches: ["telecom"]
+env:
+  DJANGO_SETTINGS_MODULE: config.settings.production
+  DJANGO_SECRET_KEY: "secrete_key"
+  SMS_USERNAME: ""
+  SMS_PASSWORD: ""
+  EMAIL_HOST: ""
+  EMAIL_PORT: ""
+  EMAIL_HOST_USER: ""
+  EMAIL_HOST_PASSWORD: ""
+  RECAPTCHA_V3_PUBLIC_KEY: ""
+  RECAPTCHA_V3_PRIVATE_KEY: ""
+  RECAPTCHA_V2_PUBLIC_KEY: ""
+  RECAPTCHA_V2_PRIVATE_KEY: ""
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - name: Run docker compose
+        run: docker compose up -d
+      - name: Make Migrations
+        run: docker compose exec web python manage.py makemigrations
+      - name: Migrate to database
+        run: docker compose exec web python manage.py migrate
+      - name: Run Tests
+        run: docker compose exec web python manage.py test apps
