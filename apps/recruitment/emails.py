@@ -3,7 +3,7 @@ from django.urls import reverse
 from jinja2 import Environment, FileSystemLoader
 
 env = Environment(loader=FileSystemLoader("templates/emails/"))
-email = "recruitment@email.com"
+email = "training@telecom.na"
 message = None
 
 
