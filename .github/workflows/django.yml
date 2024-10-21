@@ -2,9 +2,9 @@ name: Django CI
 
 on:
   push:
-    branches: ["master"]
+    branches: ["master", "development", "telecom"]
   pull_request:
-    branches: ["master"]
+    branches: ["master", "development", "telecom"]
 
 env:
   DJANGO_SETTINGS_MODULE: config.settings.production
