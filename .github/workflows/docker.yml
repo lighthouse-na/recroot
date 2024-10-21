@@ -1,0 +1,48 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: ["master", "telecom", "development"]
+  pull_request:
+    branches: ["master", "telecom", "development"]
+
+env:
+  DJANGO_SETTINGS_MODULE: config.settings.production
+  DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+  BROKER_URL: ${{ secrets.BROKER_URL }}
+  REDIS_URL: ${{ secrets.REDIS_URL }}
+  RECAPTCHA_V3_PUBLIC_KEY: ${{ secrets.RECAPTCHA_V3_PUBLIC_KEY }}
+  RECAPTCHA_V3_PRIVATE_KEY: ${{ secrets.RECAPTCHA_V3_PRIVATE_KEY }}
+  RECAPTCHA_V2_PUBLIC_KEY: ${{ secrets.RECAPTCHA_V2_PUBLIC_KEY }}
+  RECAPTCHA_V2_PRIVATE_KEY: ${{ secrets.RECAPTCHA_V2_PRIVATE_KEY }}
+  EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
+  EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
+  EMAIL_USE_TLS: ${{ secrets.EMAIL_USE_TLS }}
+  EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+  EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+  POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+  POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+  POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+  PGADMIN_DEFAULT_EMAIL: ${{ secrets.PGADMIN_DEFAULT_EMAIL }}
+  PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+  SMS_URI: ${{ secrets.SMS_URI }}
+  SMS_USERNAME: ${{ secrets.SMS_USERNAME }}
+  SMS_PASSWORD: ${{ secrets.SMS_PASSWORD }}
+  ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - name: Docker compose up
+        run: docker compose up
+      - name: Makemigrations
+        run: docker compose exec web python manage.py makemigrations
+      - name: Migrate
+        run: docker compose exec web python manage.py migrate
