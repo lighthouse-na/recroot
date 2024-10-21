@@ -30,6 +30,7 @@ env:
   SMS_URI: ${{ secrets.SMS_URI }}
   SMS_USERNAME: ${{ secrets.SMS_USERNAME }}
   SMS_PASSWORD: ${{ secrets.SMS_PASSWORD }}
+  ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
 
 jobs:
   build:
