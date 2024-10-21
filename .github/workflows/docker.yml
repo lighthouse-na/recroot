@@ -8,7 +8,7 @@ on:
 
 env:
   DJANGO_SETTINGS_MODULE: config.settings.production
-  DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+  DJANGO_SECRET_KEY: "secret_key"
   BROKER_URL: ${{ secrets.BROKER_URL }}
   REDIS_URL: ${{ secrets.REDIS_URL }}
   RECAPTCHA_V3_PUBLIC_KEY: ${{ secrets.RECAPTCHA_V3_PUBLIC_KEY }}
