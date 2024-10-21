@@ -3,6 +3,14 @@
 {% load widget_tweaks %}
 {% load crispy_forms_tags %}
 {% block title %}{{ vacancy.title }}{% endblock title %}
+{% block head %}
+<!-- Alpine Plugins -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
+
+<!-- Alpine Core -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+{% endblock head %}
+
 {% block content %}
 
     <div class="p-4 dark:text-gray-400">
@@ -152,12 +160,6 @@
                 <br>
                 {% if form.requirements %}
                     <div class="relative p-4 rounded-lg shadow-xl sm:p-5">
-                <!-- <div
-                    class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                        Minimum Requirements
-                    </h3>
-                </div> -->
                         <div class="inline-flex items-center justify-center w-full">
                             <hr class="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                             <span
@@ -168,11 +170,12 @@
                             {% for field in form %}
                                 {% if field.name|slice:":12" == "requirement_" %}
                                     <ul>
-                        <!-- {{ field.label_tag }} {{ field }} -->
                                         {% if field.field.widget.input_type == 'checkbox' %}
                                             <li class="mb-4 grid grid-cols-8">
                                                 <label for="{{ field.id_for_label }}"
-                                                       class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 col-span-6">{{ field.label_tag }}</label>
+                                                       class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 col-span-6">{{ field.label_tag }}
+                                                    {% if field.field.is_required %}<span class="text-orange-500">*</span>{% endif %}
+                                                </label>
                                                 {% render_field field type="checkbox" class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" %}
 
                                             </li>
@@ -181,6 +184,7 @@
                                                 {{ field.errors }}
                                                 <label for="{{ field.id_for_label }}"
                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ field.label_tag }}
+                                                    {% if field.field.is_required %}<span class="text-orange-500">*</span>{% endif %}
                                                 </label>
                                                 {% render_field field type="text" class="w-full p-2 border border-gray-300 dark:bg-gray-900" %}
                                             </li>
@@ -189,25 +193,181 @@
                                                 {{ field.errors }}
                                                 <label for="{{ field.id_for_label }}"
                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ field.label_tag }}
+                                                    {% if field.field.is_required %}<span class="text-orange-500">*</span>{% endif %}
                                                 </label>
                                                 {% render_field field type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
                                             </li>
+
+
+
+
+                                        {% elif field.field.widget.input_type == 'select' %}
+                                            <div
+                                                class="relative flex w-full max-w-xs flex-col gap-1 text-neutral-600 dark:text-neutral-300">
+                                                {% if field.errors %}
+                                                    <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                                                         role="alert">{{ field.errors }}
+                                                    </div>
+                                                {% endif %}
+                            <!-- <label for="{{ field.id_for_label }}"
+                                class="w-fit pl-0.5 text-sm">{{ field.label_tag }}</label>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                class="absolute pointer-events-none right-4 top-8 h-5 w-5">
+                                <path fill-rule="evenodd"
+                                    d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            <select id="{{ field.id }}" name="{{ field.html_name }}"
+                                class="w-full appearance-none rounded-md border border-neutral-300 bg-neutral-50 px-4 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black disabled:cursor-not-allowed disabled:opacity-75 dark:border-neutral-700 dark:bg-neutral-900/50 dark:focus-visible:outline-white">
+                                <option selected>Please Select</option>
+                                {% for value, label in field.field.choices %}
+                                <option value="{{ label }}" {% if field.value == label %}selected{% endif %}>
+                                    {{ label }}
+                                </option>
+                                {% endfor %}
+                            </select> -->
+                                                <li class="mb-4">
+                                                    {{ field.errors }}
+                                                    <label for="{{ field.id_for_label }}"
+                                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ field.label_tag }}
+                                                        {% if field.field.is_required %}<span class="text-orange-500">*</span>{% endif %}
+                                                    </label>
+                                                    {% render_field field type="select" class="w-full appearance-none rounded-md border border-neutral-300 bg-neutral-50 px-4 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black disabled:cursor-not-allowed disabled:opacity-75 dark:border-neutral-700 dark:bg-neutral-900/50 dark:focus-visible:outline-white" %}
+                                                </li>
+                                            </div>
+
+                        <!-- {% elif field.field.widget.input_type == 'multiselect' %}
+                        <div x-data="{
+                            options: [
+                                {% for value, label in field.field.choices %}
+                                    {
+                                        value: '{{ label }}',
+                                        label: '{{ label }}'
+                                    }
+                                    {% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            ],
+                            isOpen: false,
+                            openedWithKeyboard: false,
+                            selectedOptions: [],
+                            setLabelText() {
+                                const count = this.selectedOptions.length;
+                    
+                                // if there are no selected options
+                                if (count === 0) return 'Please Select';
+                    
+                                // join the selected options with a comma
+                                return this.selectedOptions.join(', ');
+                            },
+                            highlightFirstMatchingOption(pressedKey) {
+                                // if Enter pressed, do nothing
+                                if (pressedKey === 'Enter') return
+                    
+                                // find and focus the option that starts with the pressed key
+                                const option = this.options.find((item) =>
+                                    item.label.toLowerCase().startsWith(pressedKey.toLowerCase()),
+                                )
+                                if (option) {
+                                    const index = this.options.indexOf(option)
+                                    const allOptions = document.querySelectorAll('.combobox-option')
+                                    if (allOptions[index]) {
+                                        allOptions[index].focus()
+                                    }
+                                }
+                            },
+                            handleOptionToggle(option) {
+                                if (option.checked) {
+                                    this.selectedOptions.push(option.value);
+                                } else {
+                                    // remove the unchecked option from the selectedOptions array
+                                    this.selectedOptions = this.selectedOptions.filter(
+                                        (opt) => opt !== option.value,
+                                    )
+                                }
+                                // set the value of the hidden field to the selectedOptions array
+                                this.$refs.hiddenTextField.value = this.selectedOptions
+                            },
+                        }" class="w-full max-w-xs flex flex-col gap-1"
+                            x-on:keydown="highlightFirstMatchingOption($event.key)"
+                            x-on:keydown.esc.window="isOpen = false, openedWithKeyboard = false">
+                            <label for="{{ field.id_for_label }}"
+                                class="w-fit pl-0.5 text-sm text-neutral-600 dark:text-neutral-300">{{ field.label_tag }}</label>
+                            <div class="relative">
+
+                                <!-- trigger button  -->
+                                            <button type="button" role="combobox"
+                                                    class="inline-flex w-full items-center justify-between gap-2 whitespace-nowrap border-neutral-300 bg-neutral-50 px-4 py-2 text-sm font-medium capitalize tracking-wide text-neutral-600 transition hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:border-neutral-700 dark:bg-neutral-900/50 dark:text-neutral-300 dark:focus-visible:outline-white border rounded-md"
+                                                    aria-haspopup="listbox" aria-controls="{{ field.id }}-list" x-on:click="isOpen = ! isOpen"
+                                                    x-on:keydown.down.prevent="openedWithKeyboard = true"
+                                                    x-on:keydown.enter.prevent="openedWithKeyboard = true"
+                                                    x-on:keydown.space.prevent="openedWithKeyboard = true" x-bind:aria-label="setLabelText()"
+                                                    x-bind:aria-expanded="isOpen || openedWithKeyboard">
+                                                <span
+                                                    class="text-sm w-full font-normal text-start overflow-hidden text-ellipsis  whitespace-nowrap"
+                                                    x-text="setLabelText()"></span>
+                            <!-- Chevron  -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                                     class="size-5">
+                                                    <path fill-rule="evenodd"
+                                                          d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                                                          clip-rule="evenodd" />
+                                                </svg>
+                                            </button>
+
+                        <!-- hidden input to grab the selected value  -->
+                                            <input id="{{ field.id }}" name="{{ field.html_name }}" type="text" x-ref="hiddenTextField"
+                                                   hidden />
+                                            <ul x-cloak x-show="isOpen || openedWithKeyboard" id="{{ field.id }}-list"
+                                                class="absolute z-10 left-0 top-11 flex max-h-44 w-full flex-col overflow-hidden overflow-y-auto border-neutral-300 bg-neutral-50 py-1.5 dark:border-neutral-700 dark:bg-neutral-900 border rounded-md"
+                                                role="listbox" x-on:click.outside="isOpen = false, openedWithKeyboard = false"
+                                                x-on:keydown.down.prevent="$focus.wrap().next()"
+                                                x-on:keydown.up.prevent="$focus.wrap().previous()" x-transition x-trap="openedWithKeyboard">
+                                                <template x-for="(item, index) in options" x-bind:key="item.value">
+                                <!-- option  -->
+                                                    <li role="option">
+                                                        <label
+                                                            class="flex cursor-pointer items-center gap-2 px-4 py-3 text-sm font-medium text-neutral-600 hover:bg-neutral-950/5 has-[:focus]:bg-neutral-950/5 dark:text-neutral-300 dark:hover:bg-white/5 dark:has-[:focus]:bg-white/5 [&:has(input:checked)]:text-neutral-900 dark:[&:has(input:checked)]:text-white [&:has(input:disabled)]:cursor-not-allowed [&:has(input:disabled)]:opacity-75"
+                                                            x-bind:for="index">
+                                                            <div class="relative flex items-center">
+                                                                <input type="checkbox"
+                                                                       class="combobox-option before:content[''] peer relative size-4 cursor-pointer appearance-none overflow-hidden border border-neutral-300 bg-neutral-50 before:absolute before:inset-0 checked:border-black checked:before:bg-black focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-neutral-800 checked:focus:outline-black active:outline-offset-0 disabled:cursor-not-allowed dark:border-neutral-700 rounded dark:bg-neutral-900 dark:checked:border-white dark:checked:before:bg-white dark:focus:outline-neutral-300 dark:checked:focus:outline-white"
+                                                                       x-on:change="handleOptionToggle($el)"
+                                                                       x-on:keydown.enter.prevent="$el.checked = ! $el.checked; handleOptionToggle($el)"
+                                                                       x-bind:value="item.value" x-bind:id="item" />
+                                            <!-- Checkmark  -->
+                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                                     stroke="currentColor" fill="none" stroke-width="4"
+                                                                     class="pointer-events-none invisible absolute left-1/2 top-1/2 size-3 -translate-x-1/2 -translate-y-1/2 text-neutral-100 peer-checked:visible dark:text-black"
+                                                                     aria-hidden="true">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                          d="M4.5 12.75l6 6 9-13.5" />
+                                                                </svg>
+                                                            </div>
+                                                            <span x-text="item.label"></span>
+                                                        </label>
+                                                    </li>
+                                                </template>
+                                            </ul>
+                                            </div>
+                                            </div> -->
+
                                         {% endif %}
 
                                     </ul>
                                 {% endif %}
+
                             {% endfor %}
+
                         </div>
                     </div>
                 {% endif %}
-            {% comment %}
-            <div class="block">{% render_field form.captcha %}</div>
-            {% endcomment %}
+{% comment %}
+<div class="block">{% render_field form.captcha %}</div>
+{% endcomment %}
 
                 <button type="submit"
                         class="text-white inline-flex items-center bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">
-                    <svg class="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
-                         xmlns="http://www.w3.org/2000/svg">
+                    <svg class="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
                               d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                               clip-rule="evenodd"></path>

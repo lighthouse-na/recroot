@@ -38,12 +38,14 @@ from apps.pages.models import FAQ, Announcement
 from apps.recruitment.admin import (
     ApplicationAdmin,
     InterviewAdmin,
+    RequirementsAdmin,
     SubscriberAdmin,
     VacancyAdmin,
 )
 from apps.recruitment.models import (
     Application,
     Interview,
+    MinimumRequirement,
     Subscriber,
     Vacancy,
     VacancyType,
@@ -222,3 +224,4 @@ superuser_dashboard_site.register(
 superuser_dashboard_site.register(Announcement, ModelAdmin)
 superuser_dashboard_site.register(FAQ, ModelAdmin)
 superuser_dashboard_site.register(Division, DivisionAdmin)
+superuser_dashboard_site.register(MinimumRequirement, RequirementsAdmin)

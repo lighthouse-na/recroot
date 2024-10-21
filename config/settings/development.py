@@ -1,4 +1,5 @@
 from config import env
+
 from .base import *
 
 DEBUG = True

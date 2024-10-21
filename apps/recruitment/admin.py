@@ -5,7 +5,7 @@ from django.utils.html import format_html
 from guardian.admin import GuardedModelAdmin
 from guardian.shortcuts import get_objects_for_user
 from import_export.admin import ExportActionModelAdmin
-from unfold.admin import ModelAdmin, TabularInline
+from unfold.admin import ModelAdmin, StackedInline, TabularInline
 from unfold.contrib.filters.admin import RangeDateFilter
 from unfold.contrib.import_export.forms import SelectableFieldsExportForm
 
@@ -13,6 +13,7 @@ from .forms import (
     ApplicationReviewForm,
     InterviewForm,
     MinimumRequirementsAddForm,
+    SelectQuestionTypeOptionsForm,
     VacancyForm,
 )
 from .models import (
@@ -21,6 +22,7 @@ from .models import (
     Location,
     MinimumRequirement,
     MinimumRequirementAnswer,
+    SelectQuestionTypeOptions,
     Subscriber,
     Vacancy,
     VacancyType,
@@ -30,6 +32,28 @@ from .models import (
 #                                       VACANCY
 # **********************************************************************************************
 admin.site.register(VacancyType, ModelAdmin)
+
+
+class SelectQuestionTypeOptionsInline(StackedInline):
+    model = SelectQuestionTypeOptions
+    form = SelectQuestionTypeOptionsForm
+    extra = 1
+
+
+class RequirementsAdmin(ModelAdmin):
+    model = MinimumRequirement
+    list_display = ("__str__", "vacancy", "is_required", "is_internal")
+    readonly_fields = [
+        "vacancy",
+        "title",
+        "question_type",
+        "is_required",
+        "is_internal",
+    ]
+    inlines = [SelectQuestionTypeOptionsInline]
+
+    def has_add_permission(self, request):
+        return False
 
 
 class MinimumRequirementsAddInline(TabularInline):
@@ -158,6 +182,7 @@ class ApplicationAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
         "cv",
         "reviewed_by",
         "reviewed_at",
+        "submitted_at",
     ]
     form = ApplicationReviewForm
     list_display = [
@@ -166,18 +191,19 @@ class ApplicationAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
         "email",
         "vacancy",
         "status",
+        "submitted_at",
     ]
     list_filter = (
-        "email",
         "vacancy",
         "status",
+        "submitted_at",
     )
     search_fields = (
         "first_name",
         "last_name",
         "email",
     )
-
+    ordering = ("submitted_at",)
     inlines = [ApplicantResponseInline]
 
     def get_model_objects(self, request, action=None, klass=None):

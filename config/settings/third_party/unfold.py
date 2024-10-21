@@ -1,6 +1,10 @@
+import os
+
 from django.conf import settings
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
+
+module = os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.development")
 
 UNFOLD = {
     "SITE_TITLE": "Telecom Namibia",
@@ -59,14 +63,22 @@ UNFOLD = {
                         "title": _("Dashboard"),
                         "icon": "dashboard",
                         "link": "/"
-                        + ("admin/" if settings.DEBUG else "oshimashakula/"),
+                        + (
+                            "admin/"
+                            if module == "config.settings.development"
+                            else "oshimashakula/"
+                        ),
                         "permission": lambda request: request.user.is_superuser,
                     },
                     {
                         "title": _("Auth"),
                         "icon": "people",
                         "link": "/"
-                        + ("admin/" if settings.DEBUG else "oshimashakula/")
+                        + (
+                            "admin/"
+                            if module == "config.settings.development"
+                            else "oshimashakula/"
+                        )
                         + "accounts/user",
                         "permission": lambda request: request.user.is_superuser,
                     },
@@ -75,7 +87,11 @@ UNFOLD = {
                         "icon": "home",
                         # "link": "/admin/organisation",
                         "link": "/"
-                        + ("admin/" if settings.DEBUG else "oshimashakula/")
+                        + (
+                            "admin/"
+                            if module == "config.settings.development"
+                            else "oshimashakula/"
+                        )
                         + "organisation",
                         "permission": lambda request: request.user.is_superuser,
                     },
@@ -84,7 +100,11 @@ UNFOLD = {
                         "icon": "people",
                         # "link": "/admin/recruitment",
                         "link": "/"
-                        + ("admin/" if settings.DEBUG else "oshimashakula/")
+                        + (
+                            "admin/"
+                            if module == "config.settings.development"
+                            else "oshimashakula/"
+                        )
                         + "recruitment",
                         "permission": lambda request: request.user.has_perm(
                             "view_application"
@@ -95,7 +115,11 @@ UNFOLD = {
                         "icon": "request_quote",
                         # "link": "/admin/finaid/",
                         "link": "/"
-                        + ("admin/" if settings.DEBUG else "oshimashakula/")
+                        + (
+                            "admin/"
+                            if module == "config.settings.development"
+                            else "oshimashakula/"
+                        )
                         + "finaid",
                         "permission": lambda request: request.user.has_perm(
                             "view_application"
@@ -111,7 +135,7 @@ UNFOLD = {
                         "link": "/"
                         + (
                             "dashboard/admin/"
-                            if settings.DEBUG
+                            if module == "config.settings.development"
                             else "dashboard/telecom/administrator/"
                         )
                         + "accounts/user",
@@ -127,7 +151,7 @@ UNFOLD = {
                         "link": "/"
                         + (
                             "dashboard/admin/"
-                            if settings.DEBUG
+                            if module == "config.settings.development"
                             else "dashboard/telecom/administrator/"
                         )
                         + "accounts/user",
@@ -143,7 +167,7 @@ UNFOLD = {
                         "link": "/"
                         + (
                             "dashboard/admin/"
-                            if settings.DEBUG
+                            if module == "config.settings.development"
                             else "dashboard/telecom/administrator/"
                         )
                         + "accounts/user",
@@ -159,7 +183,7 @@ UNFOLD = {
                         "link": "/"
                         + (
                             "dashboard/admin/"
-                            if settings.DEBUG
+                            if module == "config.settings.development"
                             else "dashboard/telecom/administrator/"
                         )
                         + "accounts/user",
@@ -175,7 +199,7 @@ UNFOLD = {
                         "link": "/"
                         + (
                             "dashboard/admin/"
-                            if settings.DEBUG
+                            if module == "config.settings.development"
                             else "dashboard/telecom/administrator/"
                         )
                         + "accounts/user",
@@ -397,7 +421,11 @@ UNFOLD = {
                     # "link": reverse_lazy("admin:auth_user_changelist"),
                     # "link": "/admin/accounts/user/",
                     "link": "/"
-                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + (
+                        "admin/"
+                        if module == "config.settings.development"
+                        else "oshimashakula/"
+                    )
                     + "accounts/user",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_user"),
@@ -407,7 +435,11 @@ UNFOLD = {
                     # "link": reverse_lazy("admin:auth_group_changelist"),
                     # "link": "/admin/auth/group/",
                     "link": "/"
-                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + (
+                        "admin/"
+                        if module == "config.settings.development"
+                        else "oshimashakula/"
+                    )
                     + "auth/group",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_group"),
@@ -417,7 +449,11 @@ UNFOLD = {
                     # "link": reverse_lazy("admin:auth_group_changelist"),
                     # "link": "/admin/account/emailaddress/",
                     "link": "/"
-                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + (
+                        "admin/"
+                        if module == "config.settings.development"
+                        else "oshimashakula/"
+                    )
                     + "account/emailaddress",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_emailaddress"),
@@ -437,7 +473,11 @@ UNFOLD = {
                     "title": _("Divisions"),
                     # "link": "/admin/organisation/division/",
                     "link": "/"
-                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + (
+                        "admin/"
+                        if module == "config.settings.development"
+                        else "oshimashakula/"
+                    )
                     + "organisation/division",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_division"),
@@ -446,7 +486,11 @@ UNFOLD = {
                     "title": _("Positions"),
                     # "link": "/admin/organisation/position/",
                     "link": "/"
-                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + (
+                        "admin/"
+                        if module == "config.settings.development"
+                        else "oshimashakula/"
+                    )
                     + "organisation/position",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_position"),
@@ -455,7 +499,11 @@ UNFOLD = {
                     "title": _("Locations"),
                     # "link": "/admin/organisation/location/",
                     "link": "/"
-                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + (
+                        "admin/"
+                        if module == "config.settings.development"
+                        else "oshimashakula/"
+                    )
                     + "organisation/location",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_location"),
@@ -464,7 +512,11 @@ UNFOLD = {
                     "title": _("Cost Centres"),
                     # "link": "/admin/organisation/costcentre/",
                     "link": "/"
-                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + (
+                        "admin/"
+                        if module == "config.settings.development"
+                        else "oshimashakula/"
+                    )
                     + "organisation/costcentre",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_costcentre"),
@@ -473,7 +525,11 @@ UNFOLD = {
                     "title": _("Regions"),
                     # "link": "/admin/organisation/region/",
                     "link": "/"
-                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + (
+                        "admin/"
+                        if module == "config.settings.development"
+                        else "oshimashakula/"
+                    )
                     + "organisation/region",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_region"),
@@ -491,7 +547,11 @@ UNFOLD = {
                     "title": _("Applications"),
                     # "link": "/admin/recruitment/application/",
                     "link": "/"
-                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + (
+                        "admin/"
+                        if module == "config.settings.development"
+                        else "oshimashakula/"
+                    )
                     + "recruitment/application",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_application"),
@@ -500,7 +560,11 @@ UNFOLD = {
                     "title": _("Vacancies"),
                     # "link": "/admin/recruitment/vacancy/",
                     "link": "/"
-                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + (
+                        "admin/"
+                        if module == "config.settings.development"
+                        else "oshimashakula/"
+                    )
                     + "recruitment/vacancy",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_vacancy"),
@@ -509,7 +573,11 @@ UNFOLD = {
                     "title": _("Interviews"),
                     # "link": "/admin/recruitment/interview/",
                     "link": "/"
-                    + ("admin/" if settings.DEBUG else "oshimashakula/")
+                    + (
+                        "admin/"
+                        if module == "config.settings.development"
+                        else "oshimashakula/"
+                    )
                     + "recruitment/interview",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_interview"),

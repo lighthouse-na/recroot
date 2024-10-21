@@ -76,9 +76,9 @@ class Vacancy(models.Model):
     def __str__(self):
         return self.title
 
-    def clean(self):
-        if self.deadline and self.deadline < timezone.now():
-            raise ValidationError({"deadline": "Deadline cannot be set before today."})
+    # def clean(self):
+    #     if self.deadline and self.deadline < timezone.now():
+    #         raise ValidationError({"deadline": "Deadline cannot be set before today."})
 
     def get_absolute_url(self):
         return reverse("recruitment:vacancy_detail", args=[self.slug])
@@ -89,6 +89,8 @@ class MinimumRequirement(models.Model):
         TEXT = "text"
         BOOL = "bool"
         DATE = "date"
+        SELECT = "select"
+        MULTISELECT = "multiselect"
 
     vacancy = models.ForeignKey(
         Vacancy, on_delete=models.CASCADE, related_name="requirements"
@@ -97,11 +99,34 @@ class MinimumRequirement(models.Model):
     question_type = models.CharField(
         max_length=50, choices=QuestionType.choices, default=QuestionType.BOOL
     )
+    is_internal = models.BooleanField(default=False)
+    is_required = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
+
+
+class SelectQuestionTypeOptions(models.Model):
+    requirement = models.ForeignKey(
+        MinimumRequirement, on_delete=models.CASCADE, related_name="options"
+    )
+    option = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.option
+
+    def clean(self):
+        if (
+            self.requirement.question_type != MinimumRequirement.QuestionType.SELECT
+            and self.requirement.question_type
+            != MinimumRequirement.QuestionType.MULTISELECT
+        ):
+            raise ValidationError(
+                "This field is only available for select type questions."
+            )
+        return super().clean()
 
 
 # **********************************************************************************************
@@ -152,6 +177,7 @@ class Application(models.Model):
         ],
         help_text="Please upload a PDF/DOCX file, maximum size 10MB.",
     )
+    is_internal = models.BooleanField(default=False)
     reviewed_by = models.ForeignKey(
         get_user_model(), on_delete=models.PROTECT, blank=True, null=True
     )
@@ -175,15 +201,17 @@ class Application(models.Model):
             if age < 18:
                 raise ValidationError("Applicant must be at least 18 years old")
 
-        if self.submitted_at and self.submitted_at > self.vacancy.deadline:
+        # if timezone.now() > self.vacancy.deadline:
+        #     raise ValidationError(
+        #         {"submitted_at": "Applications cannot be accepted past the deadline."}
+        #     )
+
+    def save(self, *args, **kwargs):
+        if timezone.now() > self.vacancy.deadline:
             raise ValidationError(
                 {"submitted_at": "Applications cannot be accepted past the deadline."}
             )
-
-    # def save(self, *args, **kwargs):
-    #     if self.vacancy.deadline < timezone.now():
-    #         raise ValidationError("Applications cannot be accepted past the deadline")
-    #     super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("application_detail", kwargs={"pk": self.pk})

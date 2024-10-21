@@ -8,6 +8,7 @@ from django_recaptcha.widgets import ReCaptchaV2Invisible
 from phonenumber_field.formfields import PhoneNumberField
 from tinymce.widgets import TinyMCE
 from unfold.widgets import UnfoldAdminSelectWidget
+
 from config.env import env
 
 from .models import (
@@ -15,6 +16,7 @@ from .models import (
     Interview,
     MinimumRequirement,
     MinimumRequirementAnswer,
+    SelectQuestionTypeOptions,
     Subscriber,
     Vacancy,
     VacancyType,
@@ -28,7 +30,7 @@ from .models import (
 class MinimumRequirementsAddForm(forms.ModelForm):
     class Meta:
         model = MinimumRequirement
-        fields = ["title", "question_type"]
+        fields = ["title", "question_type", "is_internal", "is_required"]
 
 
 class VacancyForm(forms.ModelForm):
@@ -38,6 +40,12 @@ class VacancyForm(forms.ModelForm):
     class Meta:
         model = Vacancy
         exclude = ["slug", "created_at", "updated_at"]
+
+
+class SelectQuestionTypeOptionsForm(forms.ModelForm):
+    class Meta:
+        model = SelectQuestionTypeOptions
+        fields = ("option",)
 
 
 # **********************************************************************************************
@@ -88,20 +96,52 @@ class ApplicationForm(forms.ModelForm):
             if requirement.question_type == MinimumRequirement.QuestionType.TEXT:
                 self.fields[f"requirement_{requirement.id}"] = forms.CharField(
                     label=requirement.title,
-                    required=False,
+                    required=requirement.is_required,
                 )
 
             elif requirement.question_type == MinimumRequirement.QuestionType.BOOL:
                 self.fields[f"requirement_{requirement.id}"] = forms.BooleanField(
                     label=requirement.title,
-                    required=False,
+                    required=requirement.is_required,
                 )
 
             elif requirement.question_type == MinimumRequirement.QuestionType.DATE:
                 self.fields[f"requirement_{requirement.id}"] = forms.DateField(
                     label=requirement.title,
-                    required=False,
+                    required=requirement.is_required,
                     widget=forms.DateInput(attrs={"type": "date"}),
+                )
+
+            elif requirement.question_type == MinimumRequirement.QuestionType.SELECT:
+                self.fields[f"requirement_{requirement.id}"] = forms.ChoiceField(
+                    label=requirement.title,
+                    # choices=[
+                    #     (str(option.option), str(option.option))
+                    #     for option in requirement.options.all()
+                    # ],
+                    choices=[
+                        ("", "Please Select"),
+                        *[
+                            (str(option.option), str(option.option))
+                            for option in requirement.options.all()
+                        ],
+                    ],
+                    required=requirement.is_required,
+                )
+
+            elif (
+                requirement.question_type == MinimumRequirement.QuestionType.MULTISELECT
+            ):
+                self.fields[f"requirement_{requirement.id}"] = (
+                    forms.MultipleChoiceField(
+                        label=requirement.title,
+                        choices=[
+                            (option.id, str(option.option))
+                            for option in requirement.options.all()
+                        ],
+                        # widget=forms.SelectMultiple(),
+                        required=requirement.is_required,
+                    )
                 )
 
     def clean_date_of_birth(self):
