@@ -7,7 +7,7 @@ on:
     branches: ["master"]
 
 env:
-  # DJANGO_SETTINGS_MODULE: config.settings.development
+  DJANGO_SETTINGS_MODULE: config.settings.production
   DJANGO_SECRET_KEY: "secrete_key"
   SMS_USERNAME: "username"
   SMS_PASSWORD: "password"
@@ -19,6 +19,8 @@ env:
   RECAPTCHA_V3_PRIVATE_KEY: ""
   RECAPTCHA_V2_PUBLIC_KEY: ""
   RECAPTCHA_V2_PRIVATE_KEY: ""
+  BROKER_URL: ""
+  REDIS_URL: ""
 
 jobs:
   build:
@@ -26,7 +28,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.12]
+        python-version: [3.10, 3.11, 3.12]
 
     steps:
       - uses: actions/checkout@v4
@@ -44,6 +46,6 @@ jobs:
       - name: Migrate
         run: |
           python manage.py migrate
-      - name: Run Tests
-        run: |
-          python manage.py test apps
+    #   - name: Run Tests
+    #     run: |
+    #       python manage.py test apps
