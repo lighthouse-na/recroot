@@ -15,6 +15,7 @@ jobs:
 
       - name: Create .env file
         run: |
+          echo "DJANGO_SETTINGS_MODULE=config.settings.production" >> .env
           echo "DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> .env
           echo "BROKER_URL=${{ secrets.BROKER_URL }}" >> .env
           echo "REDIS_URL=${{ secrets.REDIS_URL }}" >> .env
