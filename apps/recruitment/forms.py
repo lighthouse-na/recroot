@@ -115,33 +115,25 @@ class ApplicationForm(forms.ModelForm):
             elif requirement.question_type == MinimumRequirement.QuestionType.SELECT:
                 self.fields[f"requirement_{requirement.id}"] = forms.ChoiceField(
                     label=requirement.title,
-                    # choices=[
-                    #     (str(option.option), str(option.option))
-                    #     for option in requirement.options.all()
-                    # ],
-                    choices=[
-                        ("", "Please Select"),
-                        *[
-                            (str(option.option), str(option.option))
-                            for option in requirement.options.all()
-                        ],
-                    ],
                     required=requirement.is_required,
+                    choices=[
+                        (str(option.option), str(option.option))
+                        for option in requirement.options.all()
+                    ],
+                    widget=forms.Select(),
                 )
 
             elif (
                 requirement.question_type == MinimumRequirement.QuestionType.MULTISELECT
             ):
-                self.fields[f"requirement_{requirement.id}"] = (
-                    forms.MultipleChoiceField(
-                        label=requirement.title,
-                        choices=[
-                            (option.id, str(option.option))
-                            for option in requirement.options.all()
-                        ],
-                        # widget=forms.SelectMultiple(),
-                        required=requirement.is_required,
-                    )
+                self.fields[f"requirement_{requirement.id}"] = forms.ChoiceField(
+                    label=requirement.title,
+                    choices=[
+                        (option.id, str(option.option))
+                        for option in requirement.options.all()
+                    ],
+                    widget=forms.SelectMultiple(),
+                    required=requirement.is_required,
                 )
 
     def clean_date_of_birth(self):

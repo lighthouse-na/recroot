@@ -90,6 +90,18 @@ class ApplicationCreateView(CreateView):
             with transaction.atomic():
                 application = form.save(commit=False)
                 application.vacancy = vacancy
+                user = self.request.user
+
+                if user.is_authenticated:
+                    application.first_name = user.first_name
+                    application.middle_name = user.middle_name
+                    application.last_name = user.last_name
+                    application.email = user.email
+                    application.primary_contact = user.primary_contact
+                    application.secondary_contact = user.secondary_contact
+                    application.date_of_birth = user.date_of_birth
+                    application.gender = user.gender
+
                 application.save()
 
                 requirements = MinimumRequirement.objects.filter(vacancy=vacancy)
@@ -99,6 +111,7 @@ class ApplicationCreateView(CreateView):
                         application=application, requirement=requirement, answer=answer
                     )
                 form.save_m2m()
+
         except IntegrityError:
             messages.add_message(
                 self.request,
