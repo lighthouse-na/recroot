@@ -232,7 +232,8 @@ class ApplicationAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
             request.user.is_superuser
             or request.user.groups.filter(name="admin").exists()
         ):
-            return self.has_view_permission(request, obj)
+            return True
+        return False
 
     def has_add_permission(self, request):
         return False
