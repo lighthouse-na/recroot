@@ -227,7 +227,12 @@ class ApplicationAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
             return self.get_model_objects(request).exists()
 
     def has_view_permission(self, request, obj=None):
-        return self.has_permission(request, obj, "view")
+        # return self.has_permission(request, obj, "view")
+        if (
+            request.user.is_superuser
+            or request.user.groups.filter(name="admin").exists()
+        ):
+            return self.has_view_permission(request, obj)
 
     def has_add_permission(self, request):
         return False
