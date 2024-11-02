@@ -1,0 +1,6 @@
+{% load static %}
+<a href="{{ url }}" class="flex items-center space-x-3 rtl:space-x-reverse">
+    <img src="{% static 'img/logo.png' %}" class="h-8" alt="Telecom Namibia Logo" />
+    <span
+        class="{% if labelClass %}{{ labbelClass }}{% else %}text-transparent bg-clip-text bg-sky-800 dark:bg-orange-500{% endif %}">{{ label }}</span>
+</a>

@@ -80,7 +80,8 @@ class ApplicationCreateView(CreateView):
     model = Application
     form_class = ApplicationForm
     success_url = reverse_lazy("recruitment:application_success")
-    template_name = "recruitment/application/create.html"
+    # template_name = "recruitment/application/create.html"
+    template_name = "recruitment/vacancy/detail.html"
 
     def form_valid(self, form):
         slug = self.kwargs.get("slug")

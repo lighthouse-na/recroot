@@ -22,6 +22,7 @@ LOCAL_APPS = [
     "apps.dashboard",
     # "apps.notification",
     "apps.api_v1",
+    "apps.staff",
 ]
 THIRD_PARTY_APPS = [
     "django_extensions",
@@ -37,6 +38,9 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "rest_framework",
     "django_recaptcha",
+    "django_cotton",
+    "django_cotton_components",
+    "compressor",
 ]
 INSTALLED_APPS = (
     [
@@ -135,6 +139,11 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATICFILES_FINDERS = (
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "compressor.finders.CompressorFinder",
+)
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 

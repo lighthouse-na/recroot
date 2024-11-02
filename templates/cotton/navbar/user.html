@@ -1,0 +1,55 @@
+{% load group_filter %}
+<li x-data="{ userDropDownIsOpen: false, openWithKeyboard: false }"
+    @keydown.esc.window="userDropDownIsOpen = false, openWithKeyboard = false" class="relative flex items-center">
+    <button @click="userDropDownIsOpen = ! userDropDownIsOpen" :aria-expanded="userDropDownIsOpen"
+        @keydown.space.prevent="openWithKeyboard = true" @keydown.enter.prevent="openWithKeyboard = true"
+        @keydown.down.prevent="openWithKeyboard = true"
+        class="rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:focus-visible:outline-white"
+        aria-controls="userMenu">
+        <img src="https://penguinui.s3.amazonaws.com/component-assets/avatar-8.webp" alt="User Profile"
+            class="size-10 rounded-full object-cover" />
+    </button>
+    <!-- User Dropdown -->
+    <ul x-cloak x-show="userDropDownIsOpen || openWithKeyboard" x-transition.opacity x-trap="openWithKeyboard"
+        @click.outside="userDropDownIsOpen = false, openWithKeyboard = false"
+        @keydown.down.prevent="$focus.wrap().next()" @keydown.up.prevent="$focus.wrap().previous()" id="userMenu"
+        class="absolute right-0 top-12 flex w-full min-w-[12rem] flex-col overflow-hidden rounded-md border border-neutral-300 bg-neutral-50 py-1.5 dark:border-neutral-700 dark:bg-neutral-900">
+        <li class="border-b border-neutral-300 dark:border-neutral-700">
+            <div class="flex flex-col px-4 py-2">
+                <span class="text-sm font-medium text-neutral-900 dark:text-white">{{ user }}</span>
+                <p class="text-xs text-neutral-600 dark:text-neutral-300">{{ user.email }}</p>
+            </div>
+        </li>
+        <li><a href="#"
+                class="block bg-neutral-50 px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-900/5 hover:text-neutral-900 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-none dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-50/5 dark:hover:text-white dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">Dashboard</a>
+        </li>
+        {% if user.is_superuser %}
+        <li>
+            <c-link label="Superuser" url="/admin/" dropdown />
+        </li>
+        {% endif %}
+        {% if user|is_in_group:"admin" %}
+        <li>
+            <c-link label="Admin" url="/admin/" dropdown />
+        </li>
+        {% endif %}
+        {% if user|is_in_group:"recruiter" %}
+        <li>
+            <c-link label="Recruiter" url="{% url 'recruiter_dashboard' %}" dropdown />
+        </li>
+        {% endif %}
+        {% if user|is_in_group:"finaid" %}
+        <li>
+            <c-link label="Financial Aid" url="{% url 'finaid_dashboard' %}" dropdown />
+        </li>
+        {% endif %}
+        <li
+            class="block bg-neutral-50 px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-900/5 hover:text-neutral-900 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-none dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-50/5 dark:hover:text-white dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">
+            <c-dcc-modal id="signout-modal" header="Are you sure you want to sign out?" headerLabelClass="px-20"
+                label="Sign out" buttonClass="none">
+                <div id="hx-signout" hx-get="{% url 'account_logout' %}" hx-trigger="load" hx-swap="outerHtml"
+                    hx-target="#hx-signout"></div>
+            </c-dcc-modal>
+        </li>
+    </ul>
+</li>

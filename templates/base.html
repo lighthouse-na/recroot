@@ -1,4 +1,4 @@
-{% load static %}
+{% load static compress %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,13 +9,28 @@
             {% block title %}{% endblock title %}
         </title>
 
-    <!-- Favicons -->
+        {% compress css %}
+
+            <link href="{% static 'css/output.css' %}" rel="stylesheet">
+
+            {% block extracss %}{% endblock extracss %}
+
+        {% endcompress %}
+
+        {% compress js %}
+
+            <script src="{% static 'js/alpine.focus.js' %}" defer></script>
+            <script src="{% static 'js/alpine.js' %}" defer></script>
+
+            <script src="{% static 'js/htmx.min.js' %}"></script>
+            <script src="{% static 'js/tailwind.min.js' %}"></script>
+
+            {% block extrascripts %}{% endblock extrascripts %}
+
+        {% endcompress %}
+
         <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon" />
 
-    <!-- <link rel="stylesheet" href="{% static 'css/flowbite.min.css' %}"> -->
-        <link href="{% static 'css/output.css' %}" rel="stylesheet">
-        <script src="{% static 'js/htmx.min.js' %}"></script>
-        <script src="{% static 'js/tailwind.min.js' %}"></script>
         {% block head %}{% endblock head %}
     </head>
 
@@ -23,17 +38,12 @@
         {% if announcements %}
             {% include 'pages/announcements.html' %}
         {% endif %}
-        {% include 'includes/navbar.html' %}
 
-        {% if user.is_authenticated %}
-            {% include 'unfold/partials/speed_dial.html' %}
-        {% endif %}
+        {% block base_content %}{% endblock base_content %}
 
-        {% block content %}{% endblock content %}
-    <!-- <hr> -->
-        {% include 'includes/footer.html' %}
         {% block scripts %}{% endblock scripts %}
-        <script src="{% static 'js/flowbite.min.js' %}"></script>
+
+    {# <script src="{% static 'js/flowbite.min.js' %}"></script> #}
     </body>
 
 </html>

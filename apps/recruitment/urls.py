@@ -6,12 +6,13 @@ app_name = "recruitment"
 
 urlpatterns = [
     path("", views.VacancyListView.as_view(), name="vacancy_list"),
-    path(
-        "vacancy/<slug>/detail/",
-        views.VacancyDetailView.as_view(),
-        name="vacancy_detail",
-    ),
-    path("<slug>/apply", views.ApplicationCreateView.as_view(), name="apply"),
+    # path(
+    #     "vacancy/<slug>/detail/",
+    #     views.VacancyDetailView.as_view(),
+    #     name="vacancy_detail",
+    # ),
+    # path("<slug>/apply", views.ApplicationCreateView.as_view(), name="apply"),
+    path("<slug>/apply", views.ApplicationCreateView.as_view(), name="vacancy_detail"),
     path(
         "<str:pk>/invitation",
         views.InterviewResponseView.as_view(),

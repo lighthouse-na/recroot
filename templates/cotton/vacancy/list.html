@@ -1,0 +1,6 @@
+{% load humanize %}
+<ul class="mt-10 grid grid-cols-1 gap-6 text-center text-slate-700 md:grid-cols-3">
+    {% for vacancy in vacancies %}
+        <c-vacancy.card />
+    {% endfor %}
+</ul>

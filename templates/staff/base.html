@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+
+{% block base_content %}
+<div id="staff-content">
+    <c-navbar />
+    <div class="p-5">
+        {% block content %}
+        {% endblock content %}
+    </div>
+</div>
+{% endblock base_content %}

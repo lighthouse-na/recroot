@@ -3,12 +3,7 @@
     <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div class="md:flex md:justify-between">
             <div class="mb-6 md:mb-0">
-                <a href="https://www.telecom.na" class="flex items-center">
-                    <img src="{% static 'img/logo.png' %}" class="h-8 me-3" alt="FlowBite Logo" />
-                    <span
-                        class="self-center text-base font-semibold whitespace-nowrap text-sky-800 sm:text-center dark:text-orange-500">Telecom
-                        Namibia</span>
-                </a>
+                <c-logo url="https://telecom.na" label="Telecom Namibia" />
             </div>
             <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
 
@@ -33,11 +28,8 @@
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Legal</h2>
                     <ul class="text-gray-500 dark:text-gray-400 font-medium">
                         <li class="mb-4">
-                            <a href="https://www.telecom.na/privacy-policy" class="hover:underline">Privacy Policy</a>
+                            <c-link label="Privacy Policy" url="https://www.telecom.na/privacy-policy" />
                         </li>
-                        <!-- <li>
-                            <a href="#" class="hover:underline">Terms &amp; Conditions</a>
-                        </li> -->
                     </ul>
                 </div>
             </div>
