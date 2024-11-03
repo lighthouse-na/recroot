@@ -1,5 +1,7 @@
 from datetime import datetime
+
 from django.shortcuts import render
+
 from apps.recruitment import models
 
 

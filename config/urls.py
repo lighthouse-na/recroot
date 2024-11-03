@@ -19,6 +19,7 @@ urlpatterns = (
         path("api-auth/", include("rest_framework.urls")),
         path("api/v1/", include("apps.api_v1.urls")),
         path("staff/", include("apps.staff.urls")),
+        path("utils/", include("apps.utils.urls")),
     ]
     # + debug_toolbar_urls()
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

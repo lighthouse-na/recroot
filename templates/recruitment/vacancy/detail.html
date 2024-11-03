@@ -1,211 +1,139 @@
 {% extends 'pages/base.html' %}
-{% load static widget_tweaks crispy_forms_tags test %}
+{% load static widget_tweaks crispy_forms_tags %}
 {% block head %}{{ form.media }}
-<link rel="stylesheet" href="{% static 'css/tinymce.min.css' %}">
-<script src="{% static 'js/tinymce.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/tinymce.min.css' %}">
+    <script src="{% static 'js/tinymce.min.js' %}"></script>
 {% endblock head %}
 {% block title %}{{ vacancy.title }}{% endblock title %}
 {% block content %}
 
-<section class="bg-gray-100">
-    <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
-            <div class="lg:col-span-2 lg:py-12">
-                <c-h3 title="{{ vacancy.title }}" />
-
-                <div class="mt-8">
-                    <time datetime="{{ vacancy.deadline }}" class="text-red-500">{{ vacancy.deadline }}</time>
-                </div>
-
-                <p>
-                    {{ vacancy.content|safe }}
-                    {% lorem %}
-                </p>
-            </div>
-
-            <div class="rounded-lg bg-white p-8 shadow-lg lg:col-span-3 lg:p-12">
-                <form method="post" enctype="multipart/form-data" class="space-y-4">
-                    {% csrf_token %}
-                    <div class="grid grid-cols-3 gap-2">
-                        <c-input id="first_name" placeholder="First Name" name="first_name" autocomplete required />
-                        <c-input id="middle_name" placeholder="Middle Name" name="middle_name"
-                            class="w-full rounded-lg border border-gray-200 p-3 text-sm" />
-                        <c-input id="last_name" placeholder="Last Name" name="last_name" autocomplete required />
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-2">
-                        {% render_field form.gender type="select" class="bg-white w-full rounded-lg border border-gray-200 p-3 text-sm text-gray-700" %}
-
-                        <c-input id="email" placeholder="@Email" name="email"
-                            class="w-full rounded-lg border border-gray-200 p-3 text-sm" autocomplete required />
-                        <c-input id="date_of_irth" name="date_of_irth" type="date"
-                            class="w-full rounded-lg border border-gray-200 p-3 text-sm" autocomplete required />
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-2">
-                        <c-input id="primary_contact" placeholder="Primary Contact" name="primary_contact" type="tel"
-                            class="w-full rounded-lg border border-gray-200 p-3 text-sm" autocomplete required />
-                        <c-input id="secondary_contact" placeholder="Secondary Contact" name="secondary_contact"
-                            type="tel" class="w-full rounded-lg border border-gray-200 p-3 text-sm" autocomplete />
-                        <c-input id="cv" name="cv" type="file"
-                            class="w-full rounded-lg border border-gray-200 p-3 text-sm" autocomplete required />
-                    </div>
-
-                    <div class="inline-flex items-center justify-center w-full md:my-10 col-span-2">
-                        <c-h4 title="Requirements" />
-                    </div>
-                    <div class="grid gap-2">
-                        {% if vacancy.requirements.all %}
-
-
-                        {% for field in form %}
-                        {% if field.name|slice:":12" == "requirement_" %}
-
-                        {% if field.field.widget.input_type == 'checkbox' %}
-                        <div>
-                            <c-dcc-checkbox id="{{ field.id }}" label="{{ field.label }}"
-                                name="{{ field.html_name }}" />
-                        </div>
-                        {% elif field.field.widget.input_type == 'text' %}
-                        <div class="col-span-2">
-                            <label for="{{ field.id }}">{{ field.label }}</label>
-                            <c-input id="{{ field.id }}" placeholder="{{ field.label }}" name="{{ field.html_name }}" />
-                        </div>
-
-                        {% elif field.field.widget.input_type == 'date' %}
-                        <div>
-                            <c-input id="{{ field.id }}" type="date" name="{{ field.html_name }}" />
-                        </div>
-
-                        {% elif field.field.is_select %}
-                        <div>
-                            <label for="{{ field.id }}">{{ field.label }}</label>
-                            <c-dcc-select id="{{ field.id }}" type="select" name="{{ field.html_name }}"
-                                :options="[{% for value, label in field.field.choices %}'{{ label }}'{% if not forloop.last %},{% endif %}{% endfor %}]" />
-                            <script>console.log('{{ field.field.is_multiselect }}')</script>
-                        </div>
-                        {% elif field.field.is_multiselect %}
-                        <div>
-                            <label for="{{ field.id }}">{{ field.label }}</label>
-                            <c-dcc-select-multiple id="{{ field.id }}" label="Choss" name="{{ field.html_name }}"
-                                :options="[{% for value, label in field.field.choices %}'{{ label }}'{% if not forloop.last %},{% endif %}{% endfor %}]" />
-                        </div>
-                        {% endif %}
-                        {% endif %}
-                        {% endfor %} {% endif %}
-
-
-                        <div class="mt-4 grid-cols-2">
-                            <c-button label="Apply" type="submit" primary />
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="dark:text-gray-400">
-    <div class="items-center py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-        <div class="mt-4 md:mt-0">
-            <div class="grid md:grid-cols-3 gap-4 grid-cols-1">
-                <div class="download flex justify-self-start animate-pulse duration-75">
-                    <div
-                        class="text-red-800 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2">
-
-                        <svg class="w-6 h-6 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
-                            height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                        </svg>
-
-
-                        {{ vacancy.deadline }}
-                    </div>
-                </div>
-                <div class="flex justify-self-center">
-                    <h1 class="mb-4 text-5xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-                        {{ vacancy.title }}
-                    </h1>
-                </div>
-
-                <div class="download flex justify-self-end">
+    <section x-data="{submittable: false}" class="bg-gray-100">
+        <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
+                <div class="lg:col-span-2 lg:py-12">
+                    <c-h3 title="{{ vacancy.title }}" />
                     {% if vacancy.advert and vacancy.advert.url %}
-                    <a href="{{ vacancy.advert.url }}" target="_blank">
-                        <button type="button"
-                            class="border text-sky-800 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <a href="{{ vacancy.advert.url }}" target="_blank">
+                            <button type="button"
+                                    class="border text-sky-800 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
 
-                            <svg class="w-4 h-4 me-2 animate-bounce duration-75" aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4" />
-                            </svg>
+                                <svg class="w-4 h-4 me-2 animate-bounce duration-75" aria-hidden="true"
+                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4" />
+                                </svg>
 
-                            Download Advert
-                        </button>
-                    </a>
+                                Download Advert
+                            </button>
+                        </a>
                     {% endif %}
+
+                    <div class="mt-8">
+                        <time datetime="{{ vacancy.deadline }}" class="text-red-500">{{ vacancy.deadline }}</time>
+                    </div>
+
+                    <p>
+                        {{ vacancy.content|safe }}
+                        {% lorem %}
+                    </p>
+                <!-- Remarks -->
+                    <p>
+                        <strong>Remarks:</strong>
+                        {{ vacancy.remarks|safe }}
+                        {% lorem %}
+                    </p>
                 </div>
 
+                <div class="rounded-lg bg-white p-8 shadow-lg lg:col-span-3 lg:p-12">
+                    <form method="post" enctype="multipart/form-data" class="space-y-4">
+                        {% csrf_token %}
+                        <div class="grid grid-cols-3 gap-2">
+                            <c-input id="first_name" placeholder="First Name" name="first_name" autocomplete required
+                                     validationUrl="{% url 'recruitment:first_name_validation' %}" />
+                            <c-input id="middle_name" placeholder="Middle Name" name="middle_name"
+                                     validationUrl="{% url 'recruitment:middle_name_validation' %}"
+                                     class="w-full rounded-lg border border-gray-200 p-3 text-sm" />
+                            <c-input id="last_name" placeholder="Last Name" name="last_name"
+                                     validationUrl="{% url 'recruitment:last_name_validation' %}" autocomplete required />
+                        </div>
 
-            </div>
-            <div class="block p-6 border border-gray-200 rounded-lg shadow dark:border-gray-700">
-                {% if vacancy.content %}
+                        <div class="grid grid-cols-3 gap-2">
+                            {% render_field form.gender type="select" class="bg-white w-full rounded-lg border border-gray-200 p-3 text-sm text-gray-700" %}
 
-                <div class="px-5">
-                    <p class="mb-6 font-light text-gray-500 md:text-lg dark:text-gray-400">
-                        {{ vacancy.content|safe }}</p>
-                </div>
-                {% endif %}
-                {% if vacancy.remarks %}
-                <div class="inline-flex items-center justify-center w-full md:my-10">
-                    <hr class="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
-                    <span
-                        class="absolute px-3 text-lg font-semibold text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">Remarks</span>
-                </div>
-                <div class="px-5">
-                    <p class="mb-6 font-light text-gray-500 md:text-lg dark:text-gray-400">
-                        {{ vacancy.remarks|safe }}</p>
-                </div>
-                {% endif %}
+                            <c-input id="email" placeholder="@Email" name="email"
+                                     validationUrl="{% url 'email_validation' %}" autocomplete required />
+                            <c-input id="date_of_irth" name="date_of_birth" type="date" autocomplete required />
+                        </div>
 
-                {% comment %}
-                {% if vacancy.requirements.all %}
+                        <div class="grid grid-cols-3 gap-2">
+                            <c-input id="primary_contact" placeholder="Primary Contact" name="primary_contact" type="tel"
+                                     validationUrl="{% url 'recruitment:primary_contact_validation' %}" autocomplete="false"
+                                     required />
 
-                <div class="inline-flex items-center justify-center w-full md:my-10">
-                    <hr class="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
-                    <span
-                        class="absolute px-3 text-lg font-semibold text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">Minimum
-                        Requirements</span>
+                            <c-input id="secondary_contact" placeholder="Secondary Contact" name="secondary_contact"
+                                     type="tel" validationUrl="{% url 'recruitment:secondary_contact_validation' %}"
+                                     autocomplete="false" />
+
+                            <c-input id="cv" name="cv" type="file" autocomplete required />
+                        </div>
+
+                        <div class="inline-flex items-center justify-center w-full md:my-10 col-span-2">
+                            <c-h4 title="Requirements" />
+                        </div>
+                        <div class="grid gap-2">
+                            {% if vacancy.requirements.all %}
+
+
+                                {% for field in form %}
+                                    {% if field.name|slice:":12" == "requirement_" %}
+
+                                        {% if field.field.widget.input_type == 'checkbox' %}
+                                            <div>
+                                                <c-dcc-checkbox id="{{ field.id }}" label="{{ field.label }}"
+                                                                name="{{ field.html_name }}" />
+                                            </div>
+                                        {% elif field.field.widget.input_type == 'text' %}
+                                            <div class="col-span-2">
+                                                <label for="{{ field.id }}">{{ field.label }}</label>
+                                                <c-input id="{{ field.id }}" placeholder="{{ field.label }}" name="{{ field.html_name }}" />
+                                            </div>
+
+                                        {% elif field.field.widget.input_type == 'date' %}
+                                            <div>
+                                                <c-input id="{{ field.id }}" type="date" name="{{ field.html_name }}" />
+                                            </div>
+
+                                        {% elif field.field.is_select %}
+                                            <div>
+                                                <label for="{{ field.id }}">{{ field.label }}</label>
+                                                <c-dcc-select id="{{ field.id }}" type="select" name="{{ field.html_name }}"
+                                                              :options="[{% for value, label in field.field.choices %}'{{ label }}'{% if not forloop.last %},{% endif %}{% endfor %}]" />
+                                                <script>console.log('{{ field.field.is_multiselect }}')</script>
+                                            </div>
+                                        {% elif field.field.is_multiselect %}
+                                            <div>
+                                                <label for="{{ field.id }}">{{ field.label }}</label>
+                                                <c-dcc-select-multiple id="{{ field.id }}" label="Choss" name="{{ field.html_name }}"
+                                                                       :options="[{% for value, label in field.field.choices %}'{{ label }}'{% if not forloop.last %},{% endif %}{% endfor %}]" />
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %} {% endif %}
+
+
+                            <div class="mt-4 grid-cols-2">
+                                <c-button label="Apply" type="submit" primary disabled />
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
-                    {% for requirement in vacancy.requirements.all %}
-                    <li>{{ requirement }}</li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-                {% endcomment %}
-                <br>
-                {#
-                <a href="{% url 'recruitment:apply' vacancy.slug %}"
-                    class="inline-flex items-center text-white bg-orange-500 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-orange-900">Apply
-                    <svg class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                </a>
-                #}
             </div>
         </div>
-    </div>
-</section>
+    </section>
+
 {% endblock content %}
 
 
 {% block scripts %}
-<script src="{% static 'js/tinymce.min.js' %}"></script>
+    <script src="{% static 'js/tinymce.min.js' %}"></script>
 {% endblock scripts %}

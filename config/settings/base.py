@@ -23,6 +23,7 @@ LOCAL_APPS = [
     # "apps.notification",
     "apps.api_v1",
     "apps.staff",
+    "apps.utils",
 ]
 THIRD_PARTY_APPS = [
     "django_extensions",

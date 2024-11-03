@@ -1,8 +1,36 @@
 from django.urls import path
 
-from . import views
+from . import validation, views
 
 app_name = "recruitment"
+
+validation_urls = [
+    path(
+        "first_name_validation",
+        validation.first_name_validation,
+        name="first_name_validation",
+    ),
+    path(
+        "middle_name_validation",
+        validation.middle_name_validation,
+        name="middle_name_validation",
+    ),
+    path(
+        "last_name_validation",
+        validation.last_name_validation,
+        name="last_name_validation",
+    ),
+    path(
+        "primary_contact_validation",
+        validation.primary_contact_validation,
+        name="primary_contact_validation",
+    ),
+    path(
+        "secondary_contact_validation",
+        validation.secondary_contact_validation,
+        name="secondary_contact_validation",
+    ),
+]
 
 urlpatterns = [
     path("", views.VacancyListView.as_view(), name="vacancy_list"),
@@ -26,3 +54,5 @@ urlpatterns = [
         name="interview_response_success",
     ),
 ]
+
+urlpatterns += validation_urls
