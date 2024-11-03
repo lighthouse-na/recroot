@@ -1,1 +1,4 @@
-<c-dcc-input class="w-full rounded-lg border-orange-200 p-3 text-sm" />
+{% if placeholder or id or name or type or value or attrs %}
+<c-dcc-input id="{{ id }}" name="{{ name }}" placeholder="{{ placeholder }}" type="{{ type }}" value="{{ value }}"
+    {{ attrs }} class="w-full rounded-lg border border-gray-200 p-3 text-sm" />
+{% endif %}

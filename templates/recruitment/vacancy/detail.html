@@ -1,17 +1,11 @@
 {% extends 'pages/base.html' %}
-{% load static widget_tweaks crispy_forms_tags %}
+{% load static widget_tweaks crispy_forms_tags test %}
 {% block head %}{{ form.media }}
 <link rel="stylesheet" href="{% static 'css/tinymce.min.css' %}">
 <script src="{% static 'js/tinymce.min.js' %}"></script>
 {% endblock head %}
 {% block title %}{{ vacancy.title }}{% endblock title %}
 {% block content %}
-<!--
-  Heads up! 👋
-
-  Plugins:
-    - @tailwindcss/forms
--->
 
 <section class="bg-gray-100">
     <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
@@ -20,9 +14,7 @@
                 <c-h3 title="{{ vacancy.title }}" />
 
                 <div class="mt-8">
-                    <a href="#" class="text-2xl font-bold text-pink-600"> 0151 475 4450 </a>
-
-                    <address class="mt-2 not-italic">282 Kevin Brook, Imogeneborough, CA 58517</address>
+                    <time datetime="{{ vacancy.deadline }}" class="text-red-500">{{ vacancy.deadline }}</time>
                 </div>
 
                 <p>
@@ -32,51 +24,80 @@
             </div>
 
             <div class="rounded-lg bg-white p-8 shadow-lg lg:col-span-3 lg:p-12">
-                <form action="#" class="space-y-4">
+                <form method="post" enctype="multipart/form-data" class="space-y-4">
+                    {% csrf_token %}
                     <div class="grid grid-cols-3 gap-2">
-                        <c-dcc-input id="first_name" placeholder="First Name" name="first_name"
-                            class="w-full rounded-lg border border-gray-200 p-3 text-sm" autocomplete required />
-                        <c-dcc-input id="middle_name" placeholder="Middle Name" name="middle_name"
+                        <c-input id="first_name" placeholder="First Name" name="first_name" autocomplete required />
+                        <c-input id="middle_name" placeholder="Middle Name" name="middle_name"
                             class="w-full rounded-lg border border-gray-200 p-3 text-sm" />
-                        <c-dcc-input id="last_name" placeholder="Last Name" name="last_name"
-                            class="w-full rounded-lg border border-gray-200 p-3 text-sm" autocomplete required />
+                        <c-input id="last_name" placeholder="Last Name" name="last_name" autocomplete required />
                     </div>
 
                     <div class="grid grid-cols-3 gap-2">
                         {% render_field form.gender type="select" class="bg-white w-full rounded-lg border border-gray-200 p-3 text-sm text-gray-700" %}
-                        <c-dcc-input id="email" placeholder="@Email" name="email"
+
+                        <c-input id="email" placeholder="@Email" name="email"
                             class="w-full rounded-lg border border-gray-200 p-3 text-sm" autocomplete required />
-                        <c-dcc-input id="date_of_irth" placeholder="Date of Birth" name="date_of_irth" type="date"
+                        <c-input id="date_of_irth" name="date_of_irth" type="date"
                             class="w-full rounded-lg border border-gray-200 p-3 text-sm" autocomplete required />
                     </div>
 
                     <div class="grid grid-cols-3 gap-2">
-                        <c-dcc-input id="primary_contact" placeholder="Primary Contact" name="primary_contact"
-                            type="tel" class="w-full rounded-lg border border-gray-200 p-3 text-sm" autocomplete
-                            required />
-                        <c-dcc-input id="secondary_contact" placeholder="Secondary Contact" name="secondary_contact"
+                        <c-input id="primary_contact" placeholder="Primary Contact" name="primary_contact" type="tel"
+                            class="w-full rounded-lg border border-gray-200 p-3 text-sm" autocomplete required />
+                        <c-input id="secondary_contact" placeholder="Secondary Contact" name="secondary_contact"
                             type="tel" class="w-full rounded-lg border border-gray-200 p-3 text-sm" autocomplete />
-                        <c-dcc-input id="cv" name="cv" type="file"
+                        <c-input id="cv" name="cv" type="file"
                             class="w-full rounded-lg border border-gray-200 p-3 text-sm" autocomplete required />
                     </div>
 
-                    <div>
+                    <div class="inline-flex items-center justify-center w-full md:my-10 col-span-2">
+                        <c-h4 title="Requirements" />
+                    </div>
+                    <div class="grid gap-2">
                         {% if vacancy.requirements.all %}
 
-                        <div class="inline-flex items-center justify-center w-full md:my-10">
-                            <c-h4 title="Requirements" />
+
+                        {% for field in form %}
+                        {% if field.name|slice:":12" == "requirement_" %}
+
+                        {% if field.field.widget.input_type == 'checkbox' %}
+                        <div>
+                            <c-dcc-checkbox id="{{ field.id }}" label="{{ field.label }}"
+                                name="{{ field.html_name }}" />
                         </div>
-                        <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
-                            {% for requirement in vacancy.requirements.all %}
-                            <li>{{ requirement }}</li>
-                            {% endfor %}
-                        </ul>
+                        {% elif field.field.widget.input_type == 'text' %}
+                        <div class="col-span-2">
+                            <label for="{{ field.id }}">{{ field.label }}</label>
+                            <c-input id="{{ field.id }}" placeholder="{{ field.label }}" name="{{ field.html_name }}" />
+                        </div>
+
+                        {% elif field.field.widget.input_type == 'date' %}
+                        <div>
+                            <c-input id="{{ field.id }}" type="date" name="{{ field.html_name }}" />
+                        </div>
+
+                        {% elif field.field.is_select %}
+                        <div>
+                            <label for="{{ field.id }}">{{ field.label }}</label>
+                            <c-dcc-select id="{{ field.id }}" type="select" name="{{ field.html_name }}"
+                                :options="[{% for value, label in field.field.choices %}'{{ label }}'{% if not forloop.last %},{% endif %}{% endfor %}]" />
+                            <script>console.log('{{ field.field.is_multiselect }}')</script>
+                        </div>
+                        {% elif field.field.is_multiselect %}
+                        <div>
+                            <label for="{{ field.id }}">{{ field.label }}</label>
+                            <c-dcc-select-multiple id="{{ field.id }}" label="Choss" name="{{ field.html_name }}"
+                                :options="[{% for value, label in field.field.choices %}'{{ label }}'{% if not forloop.last %},{% endif %}{% endfor %}]" />
+                        </div>
                         {% endif %}
-                    </div>
+                        {% endif %}
+                        {% endfor %} {% endif %}
 
 
-                    <div class="mt-4">
-                        <c-button label="Apply" type="submit" primary />
+                        <div class="mt-4 grid-cols-2">
+                            <c-button label="Apply" type="submit" primary />
+                        </div>
                     </div>
                 </form>
             </div>
