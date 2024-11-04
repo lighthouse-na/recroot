@@ -1,11 +1,15 @@
-{% extends 'pages/base.html' %}
+{% extends 'staff/base.html' %}
 {% load static widget_tweaks crispy_forms_tags %}
-{% block head %}{{ form.media }}
+{% block head %}{{ form.media }}{% endblock head %}
+{% block extracss %}
     <link rel="stylesheet" href="{% static 'css/tinymce.min.css' %}">
+{% endblock extracss %}
+{% block extrascripts %}
     <script src="{% static 'js/tinymce.min.js' %}"></script>
-{% endblock head %}
+{% endblock extrascripts %}
 {% block title %}{{ vacancy.title }}{% endblock title %}
 {% block content %}
+
 
     <section x-data="{submittable: false}" class="bg-gray-100">
         <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
@@ -108,7 +112,6 @@
                                                 <label for="{{ field.id }}">{{ field.label }}</label>
                                                 <c-dcc-select id="{{ field.id }}" type="select" name="{{ field.html_name }}"
                                                               :options="[{% for value, label in field.field.choices %}'{{ label }}'{% if not forloop.last %},{% endif %}{% endfor %}]" />
-                                                <script>console.log('{{ field.field.is_multiselect }}')</script>
                                             </div>
                                         {% elif field.field.is_multiselect %}
                                             <div>
@@ -122,7 +125,7 @@
 
 
                             <div class="mt-4 grid-cols-2">
-                                <c-button label="Apply" type="submit" primary disabled />
+                                <c-button label="Apply" type="submit" primary />
                             </div>
                         </div>
                     </form>
@@ -131,9 +134,5 @@
         </div>
     </section>
 
+
 {% endblock content %}
-
-
-{% block scripts %}
-    <script src="{% static 'js/tinymce.min.js' %}"></script>
-{% endblock scripts %}

@@ -44,6 +44,12 @@
         {% block scripts %}{% endblock scripts %}
 
     {# <script src="{% static 'js/flowbite.min.js' %}"></script> #}
+
+        <script>
+            htmx.on('htmx:load', function (event) {
+                Alpine.initTree(event.target);
+            });
+        </script>
     </body>
 
 </html>
