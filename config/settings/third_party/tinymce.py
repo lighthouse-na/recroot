@@ -1,3 +1,7 @@
+import os
+from config.env import BASE_DIR
+
+TINYMCE_JS_URL = os.path.join(BASE_DIR, "static/js/tinymce.min.js")
 TINYMCE_DEFAULT_CONFIG = {
     "height": "320px",
     "width": "960px",

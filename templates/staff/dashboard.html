@@ -1,10 +1,10 @@
-{% extends 'staff/base.html' %}
+{% extends 'base.html' %}
 {% block title %}Staff Dashboard{% endblock title %}
 {% block content %}
-    {% if vacancies %}
-        <c-h3 title="Vacancies" />
-        <div>
-            <c-vacancy.list />
-        </div>
-    {% endif %}
+{% if vacancies %}
+<c-h3 title="Vacancies" />
+<div>
+    <c-vacancy.list />
+</div>
+{% endif %}
 {% endblock content %}

@@ -1,98 +1,103 @@
 {% load static %}
-{% url 'home' as home_url %}
-{% if request.path == home_url %}
-    <nav id="home"
-         class="sticky bg-white dark:bg-gray-900 w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-            <a href="{% url 'home' %}" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <img src="{% static 'img/logo.png' %}" class="h-8" alt="Telecom Namibia Logo" />
-                <span class="text-transparent bg-clip-text bg-sky-800 dark:bg-orange-500">Telecom
-                    Namibia</span>
-            </a>
-        <!-- <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            <button data-collapse-toggle="navbar-sticky" type="button"
-                class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                aria-controls="navbar-sticky" aria-expanded="false">
-                <span class="sr-only">Open main menu</span>
-                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 17 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M1 1h15M1 7h15M1 13h15" />
-                </svg>
-            </button>
-        </div> -->
-        <!-- <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-            <ul
-                class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                {% if not request.path == home_url %}
-                <li>
-                    <a href="#"
-                        class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0 md:dark:hover:text-orange-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Home</a>
-                </li>
-                {% endif %}
+<nav id="{{ id }}" x-data="{ mobileMenuIsOpen: false, modalIsOpen: false }" @click.away="mobileMenuIsOpen = false"
+    class="sticky bg-white flex items-center justify-between px-6 py-4 z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600"
+    aria-label="navbar">
+    <!-- Brand Logo -->
+    <c-logo url="{% url 'home' %}" label="Telecom Namibia" />
 
-                <li>
-                    {% if user.is_authenticated %}
-                    <a href="/dashboard/staff/"
-                        class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0 md:dark:hover:text-orange-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                        <button type="button" class="">Dashboard</button>
-                    </a>
-                    {% else %}
-                    <a href="/dashboard/staff/"
-                        class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0 md:dark:hover:text-orange-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                        <button type="button" class="">For Employees</button>
-                    </a>
-                    {% endif %}
-                </li>
-            </ul>
-        </div> -->
+    <!-- Desktop Menu -->
+    <ul class="hidden items-center gap-4 sm:flex">
+        {% if user.is_authenticated %}
+        <c-navbar.link url="#" label="Pricing" />
+        <c-navbar.link url="#" label="Blog" />
+
+        <!-- User Pic -->
+        <c-navbar.user />
+
+        {% else %}
+
+        <button @click="modalIsOpen = true" type="button" hx-get="{% url 'account_login' %}" hx-trigger="click"
+            hx-swap="innerHtml" hx-target="#login"
+            class="block bg-neutral-50 px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-900/5 hover:text-neutral-900 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-none dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-50/5 dark:hover:text-white dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">Login</button>
+        <div x-cloak x-show="modalIsOpen" x-transition.opacity.duration.200ms x-trap.inert.noscroll="modalIsOpen"
+            @keydown.esc.window="modalIsOpen = false" @click.self="modalIsOpen = false"
+            class="fixed inset-0 z-30 flex items-end justify-center bg-black/20 p-4 pb-8 backdrop-blur-md sm:items-center lg:p-8"
+            role="dialog" aria-modal="true" aria-labelledby="defaultModalTitle">
+            <!-- Modal Dialog -->
+            <div x-show="modalIsOpen"
+                x-transition:enter="transition ease-out duration-200 delay-100 motion-reduce:transition-opacity"
+                x-transition:enter-start="opacity-0 scale-y-0" x-transition:enter-end="opacity-100 scale-y-100"
+                class="flex max-w-lg flex-col gap-4 overflow-hidden rounded-md border border-neutral-300 bg-white text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">
+                <!-- Dialog Header -->
+                <div
+                    class="flex items-center justify-between border-b border-neutral-300 bg-neutral-50/60 p-4 dark:border-neutral-700 dark:bg-neutral-950/20">
+                    <h3 id="defaultModalTitle" class="px-20">
+                        Login</h3>
+                    <button @click="modalIsOpen = false" aria-label="close modal">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"
+                            stroke="currentColor" fill="none" stroke-width="1.4" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <!-- Dialog Body -->
+                <div class="" id="login">
+                </div>
+            </div>
         </div>
-    </nav>
-{% else %}
-    <nav id="home"
-         class="sticky bg-white dark:bg-gray-900 w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-            <a href="{% url 'home' %}" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <img src="{% static 'img/logo.png' %}" class="h-8" alt="Telecom Namibia Logo" />
-                <span class="text-transparent bg-clip-text bg-sky-800 dark:bg-orange-500">Telecom
-                    Namibia</span>
-            </a>
-        <!-- <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-                <button data-collapse-toggle="navbar-sticky" type="button"
-                        class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                        aria-controls="navbar-sticky" aria-expanded="false">
-                    <span class="sr-only">Open main menu</span>
-                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                         viewBox="0 0 17 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M1 1h15M1 7h15M1 13h15" />
-                    </svg>
-                </button>
-            </div> -->
-        <!-- <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-            <ul
-                class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                <li>
-                    <a href="{% url 'home' %}"
-                        class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0 md:dark:hover:text-orange-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Home</a>
-                </li>
 
+        {% endif %}
+    </ul>
 
-                <li>
-                    {% if user.is_authenticated %}
-                    <a href="/dashboard/staff/"
-                        class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0 md:dark:hover:text-orange-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                        <button type="button" class="">Dashboard</button>
-                    </a>
-                    {% else %}
-                    <a href="/dashboard/staff/"
-                        class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-orange-700 md:p-0 md:dark:hover:text-orange-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                        <button type="button" class="">For Employees</button>
-                    </a>
-                    {% endif %}
-                </li>
-            </ul>
-        </div> -->
-        </div>
-    </nav>
-{% endif %}
+    <!-- Mobile Menu Button -->
+    <button @click="mobileMenuIsOpen = !mobileMenuIsOpen" :aria-expanded="mobileMenuIsOpen"
+        :class="mobileMenuIsOpen ? 'fixed top-6 right-6 z-20' : null" type="button"
+        class="flex text-neutral-600 dark:text-neutral-300 sm:hidden" aria-label="mobile menu"
+        aria-controls="mobileMenu">
+        <svg x-cloak x-show="!mobileMenuIsOpen" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true"
+            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+        <svg x-cloak x-show="mobileMenuIsOpen" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true"
+            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
+    </button>
+    <!-- Mobile Menu -->
+    <ul x-cloak x-show="mobileMenuIsOpen"
+        x-transition:enter="transition motion-reduce:transition-none ease-out duration-300"
+        x-transition:enter-start="-translate-y-full" x-transition:enter-end="translate-y-0"
+        x-transition:leave="transition motion-reduce:transition-none ease-out duration-300"
+        x-transition:leave-start="translate-y-0" x-transition:leave-end="-translate-y-full"
+        class="fixed max-h-svh overflow-y-auto inset-x-0 top-0 z-10 flex flex-col rounded-b-md border-b border-neutral-300 bg-neutral-50 px-8 pb-6 pt-10 dark:border-neutral-700 dark:bg-neutral-900 sm:hidden">
+        <li class="mb-4 border-none">
+            <div class="flex items-center gap-2 py-2">
+                <img src="https://penguinui.s3.amazonaws.com/component-assets/avatar-8.webp" alt="User Profile"
+                    class="size-12 rounded-full object-cover" />
+                <div>
+                    <span class="font-medium text-neutral-900 dark:text-white">Alice Brown</span>
+                    <p class="text-sm text-neutral-600 dark:text-neutral-300">alice.brown@gmail.com</p>
+                </div>
+            </div>
+        </li>
+        <li class="p-2"><a href="#" class="w-full text-lg font-bold text-black focus:underline dark:text-white"
+                aria-current="page">Products</a></li>
+        <li class="p-2"><a href="#"
+                class="w-full text-lg font-medium text-neutral-600 focus:underline dark:text-neutral-300">Pricing</a>
+        </li>
+        <li class="p-2"><a href="#"
+                class="w-full text-lg font-medium text-neutral-600 focus:underline dark:text-neutral-300">Blog</a></li>
+        <hr role="none" class="my-2 border-outline dark:border-neutral-700">
+        <li class="p-2"><a href="#" class="w-full text-neutral-600 focus:underline dark:text-neutral-300">Dashboard</a>
+        </li>
+        <li class="p-2"><a href="#"
+                class="w-full text-neutral-600 focus:underline dark:text-neutral-300">Subscription</a></li>
+        <li class="p-2"><a href="#" class="w-full text-neutral-600 focus:underline dark:text-neutral-300">Settings</a>
+        </li>
+        <!-- CTA Button -->
+        <li class="mt-4 w-full border-none"><a href="#"
+                class="rounded-md bg-black px-4 py-2 block text-center font-medium tracking-wide text-neutral-100 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:opacity-100 active:outline-offset-0 dark:bg-white dark:text-black dark:focus-visible:outline-white">Sign
+                Out</a></li>
+    </ul>
+</nav>
+<hr>

@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.utils.translation import gettext_lazy as _
 from django_recaptcha.fields import ReCaptchaField, ReCaptchaV3
 from django_recaptcha.widgets import ReCaptchaV2Invisible
-
+from . import models
 from config.env import env
 
 
@@ -54,7 +54,7 @@ class CustomLoginForm(LoginForm):
 #         return user
 
 
-# class ProfileUpdateForm(forms.ModelForm):
-#     class Meta:
-#         model = Profile
-#         exclude = ["user"]
+class ExperienceForm(forms.ModelForm):
+    class Meta:
+        model = models.Experience
+        fields = "__all__"

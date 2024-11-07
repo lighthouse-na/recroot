@@ -1,16 +1,15 @@
-{% extends 'base.html' %}
+{% extends '_base.html' %}
 
 {% block base_content %}
-{# {% include 'includes/navbar.html' %} #}
-    <c-navbar />
+{% include 'includes/navbar.html' %}
 
-    {% if user.is_authenticated %}
-        {% include 'unfold/partials/speed_dial.html' %}
-    {% endif %}
-
-
-    {% block content %}{% endblock content %}
+{% if user.is_authenticated %}
+{% include 'unfold/partials/speed_dial.html' %}
+{% endif %}
 
 
-    {% include 'includes/footer.html' %}
+{% block content %}{% endblock content %}
+
+
+{% include 'includes/footer.html' %}
 {% endblock base_content %}
