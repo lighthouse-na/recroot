@@ -4,12 +4,12 @@
 
 
     <button @click="userDropDownIsOpen = ! userDropDownIsOpen" :aria-expanded="userDropDownIsOpen"
-            @keydown.space.prevent="openWithKeyboard = true" @keydown.enter.prevent="openWithKeyboard = true"
-            @keydown.down.prevent="openWithKeyboard = true"
-            class="rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:focus-visible:outline-white"
-            aria-controls="userMenu">
+        @keydown.space.prevent="openWithKeyboard = true" @keydown.enter.prevent="openWithKeyboard = true"
+        @keydown.down.prevent="openWithKeyboard = true"
+        class="rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:focus-visible:outline-white"
+        aria-controls="userMenu">
         <img src="https://penguinui.s3.amazonaws.com/component-assets/avatar-8.webp" alt="User Profile"
-             class="size-10 rounded-full object-cover" />
+            class="size-10 rounded-full object-cover" />
     </button>
 
 
@@ -26,28 +26,32 @@
             </div>
         </li>
         <li><a href="{% url 'dashboard' %}"
-               class="block bg-neutral-50 px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-900/5 hover:text-neutral-900 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-none dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-50/5 dark:hover:text-white dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">MY
-            Dashboard</a>
+                class="block bg-neutral-50 px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-900/5 hover:text-neutral-900 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-none dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-50/5 dark:hover:text-white dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">My
+                Dashboard</a>
+        </li>
+        <li><a href="{% url 'dashboard' %}"
+                class="block bg-neutral-50 px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-900/5 hover:text-neutral-900 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-none dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-50/5 dark:hover:text-white dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">My
+                Profile</a>
         </li>
         {% if user.is_superuser %}
-            <li>
-                <c-link label="Superuser" url="/admin/" dropdown />
-            </li>
+        <li>
+            <c-link label="Superuser" url="/admin/" dropdown />
+        </li>
         {% endif %}
         {% if user|is_in_group:"admin" %}
-            <li>
-                <c-link label="Admin" url="/admin/" dropdown />
-            </li>
+        <li>
+            <c-link label="Admin" url="/admin/" dropdown />
+        </li>
         {% endif %}
         {% if user|is_in_group:"recruiter" %}
-            <li>
-                <c-link label="Recruiter" url="{% url 'Recruitment:index' %}" dropdown />
-            </li>
+        <li>
+            <c-link label="Recruiter" url="{% url 'Recruitment:index' %}" dropdown />
+        </li>
         {% endif %}
         {% if user|is_in_group:"finaid" %}
-            <li>
-                <c-link label="Financial Aid" url="{% url 'finaid_dashboard' %}" dropdown />
-            </li>
+        <li>
+            <c-link label="Financial Aid" url="{% url 'finaid_dashboard' %}" dropdown />
+        </li>
         {% endif %}
 
         <li @click="modalIsOpen = true" type="button" hx-get="{% url 'account_logout' %}" hx-trigger="click"
@@ -58,14 +62,14 @@
 
 
         <div x-cloak x-show="modalIsOpen" x-transition.opacity.duration.200ms x-trap.inert.noscroll="modalIsOpen"
-             @keydown.esc.window="modalIsOpen = false" @click.self="modalIsOpen = false"
-             class="fixed inset-0 z-30 flex items-end justify-center bg-black/20 p-4 pb-8 backdrop-blur-md sm:items-center lg:p-8"
-             role="dialog" aria-modal="true" aria-labelledby="defaultModalTitle">
+            @keydown.esc.window="modalIsOpen = false" @click.self="modalIsOpen = false"
+            class="fixed inset-0 z-30 flex items-end justify-center bg-black/20 p-4 pb-8 backdrop-blur-md sm:items-center lg:p-8"
+            role="dialog" aria-modal="true" aria-labelledby="defaultModalTitle">
             <!-- Modal Dialog -->
             <div x-show="modalIsOpen"
-                 x-transition:enter="transition ease-out duration-200 delay-100 motion-reduce:transition-opacity"
-                 x-transition:enter-start="opacity-0 scale-y-0" x-transition:enter-end="opacity-100 scale-y-100"
-                 class="flex max-w-lg flex-col gap-4 overflow-hidden rounded-md border border-neutral-300 bg-white text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">
+                x-transition:enter="transition ease-out duration-200 delay-100 motion-reduce:transition-opacity"
+                x-transition:enter-start="opacity-0 scale-y-0" x-transition:enter-end="opacity-100 scale-y-100"
+                class="flex max-w-lg flex-col gap-4 overflow-hidden rounded-md border border-neutral-300 bg-white text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">
                 <!-- Dialog Header -->
                 <div
                     class="flex items-center justify-between border-b border-neutral-300 bg-neutral-50/60 p-4 dark:border-neutral-700 dark:bg-neutral-950/20">
@@ -73,7 +77,7 @@
                         Are you sure you want to sign out?</h3>
                     <button @click="modalIsOpen = false" aria-label="close modal">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"
-                             stroke="currentColor" fill="none" stroke-width="1.4" class="w-5 h-5">
+                            stroke="currentColor" fill="none" stroke-width="1.4" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>

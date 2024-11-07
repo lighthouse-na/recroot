@@ -7,7 +7,7 @@
 #     "login": "apps.accounts.forms.CustomLoginForm",
 # }
 
-LOGIN_REDIRECT_URL = "/dashboard/staff/"
+LOGIN_REDIRECT_URL = "/staff/"
 ACCOUNT_ADAPTER = "apps.accounts.adapters.MyAccountAdapter"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False

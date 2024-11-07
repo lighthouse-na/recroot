@@ -2,11 +2,16 @@
 
 
 {% block base_content %}
-    <div id="staff-content">
-        <c-navbar />
-        <div class="p-5">
+<div class="">
+    <c-navbar />
+    <div class="p-5 justify-between">
+        <div class="fixed">
+            <c-sidebar />
+        </div>
+        <main class=" pl-20 scroll-smooth overflow-x-auto">
             {% block content %}
             {% endblock content %}
-        </div>
+        </main>
     </div>
+</div>
 {% endblock base_content %}
