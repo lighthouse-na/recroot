@@ -20,8 +20,12 @@ daphne==4.1.2
 diff-match-patch==20230430
 Django==5.1.1
 django-allauth==64.2.1
+django-appconf==1.0.6
 django-cleanup==9.0.0
+django-compressor==4.5.1
 django-cors-headers==4.4.0
+django-cotton==1.2.1
+django-cotton-components==0.1.5
 django-crispy-forms==2.3
 django-debug-toolbar==4.4.6
 django-environ==0.11.2
@@ -59,8 +63,10 @@ pycparser==2.22
 pyOpenSSL==24.2.1
 python-dateutil==2.9.0.post0
 pytz==2024.2
+rcssmin==1.1.2
 redis==5.0.8
 requests==2.32.3
+rjsmin==1.2.2
 service-identity==24.1.0
 setuptools==75.1.0
 six==1.16.0
