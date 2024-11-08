@@ -54,7 +54,35 @@ class CustomLoginForm(LoginForm):
 #         return user
 
 
+class QualificationForm(forms.ModelForm):
+    class Meta:
+        model = models.Qualification
+        fields = (
+            "qualification_type",
+            "title",
+            "institution",
+            "year_started",
+            "year_ended",
+            "file",
+        )
+
+
+class CertificationForm(forms.ModelForm):
+    class Meta:
+        model = models.Certification
+        fields = "__all__"
+
+
 class ExperienceForm(forms.ModelForm):
     class Meta:
         model = models.Experience
-        fields = "__all__"
+        fields = (
+            "job_title",
+            "company_name",
+            "url",
+            "company_reference",
+            "start_date",
+            "end_date",
+            "description",
+            "file",
+        )

@@ -1,5 +1,6 @@
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import CreateView, UpdateView
 from django.urls import reverse_lazy
 from . import forms, models
@@ -8,40 +9,88 @@ from . import forms, models
 def profile(request):
     template_name = "account/profile.html"
     user = request.user
-    experiences = models.Experience.objects.filter(user=user)
+    qualification_options = [
+        {"label": label, "value": value}
+        for value, label in models.Qualification.QUALIFICATION_TYPE
+    ]
     if request.user != user:
         raise PermissionDenied("You do not have permission to view this profile.")
 
     context = {
         "user": user,
-        "experiences": experiences,
+        "qualification_options": qualification_options,
     }
 
     return render(request, template_name, context)
 
 
-class CreateExperience(CreateView):
-    model = models.Experience
-    template_name = "account/experience/create.html"
-    form_class = forms.ExperienceForm
-    success_url = reverse_lazy("accounts:profile")
-
-    def form_valid(self, form):
-        experience = form.save(commit=False)
-        experience.user = self.request.user
-        experience.save()
-        return super().form_valid(form)
+# Experience
 
 
 def create_experience(request):
+
     if request.method == "POST":
         form = forms.ExperienceForm(request.POST)
         if form.is_valid():
             experience = form.save(commit=False)
-            experience.user = request.user  # assuming user is from the current session
+            experience.user = request.user
             experience.save()
-            return redirect(reverse_lazy("accounts:create_experience"))
+            return render(request, "account/experience/list.html")
     else:
         form = forms.ExperienceForm()
 
     return render(request, "account/experience/create.html", {"form": form})
+
+
+def delete_experience(request, experience_id):
+    experience = get_object_or_404(models.Experience, id=experience_id)
+    experience.delete()
+    return render(request, "account/experience/list.html")
+
+
+# Qualification
+
+
+def create_qualification(request):
+
+    if request.method == "POST":
+        form = forms.QualificationForm(request.POST)
+        if form.is_valid():
+            qualification = form.save(commit=False)
+            qualification.user = request.user
+            qualification.save()
+            return render(request, "account/qualification/list.html")
+    else:
+        form = forms.QualificationForm()
+
+    return render(request, "account/qualification/create.html", {"form": form})
+
+
+def delete_qualification(request, qualification_id):
+    qualification = get_object_or_404(models.Qualification, id=qualification_id)
+    qualification.delete()
+    return render(request, "account/qualification/list.html")
+
+
+# Certification
+
+
+def create_certification(request):
+
+    if request.method == "POST":
+        form = forms.CertificationForm(request.POST)
+        if form.is_valid():
+            certification = form.save(commit=False)
+            certification.user = request.user
+            certification.save()
+            return render(request, "account/certification/list.html")
+    else:
+        form = forms.CertificationForm()
+
+    return render(request, "account/certification/create.html", {"form": form})
+
+
+def delete_certification(request, certification_id):
+    certification = get_object_or_404(models.Certification, id=certification_id)
+    certification.delete()
+    return render(request, "account/certification/list.html")

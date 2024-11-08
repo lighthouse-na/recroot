@@ -1,0 +1,31 @@
+{% load static crispy_forms_tags %}
+<form class="flex justify-center px-5" enctype="multipart/form-data">
+    <div class="pb-5">
+        {% csrf_token %}
+        <c-select :data="{% for label, value in qualification_options %}{{label}},{{value}}{% endfor %}"
+                  name="qualification_type" label="Qualification Type" required />
+        <script>console.log('{% for label, value in qualification_options %}{{label}},{{value}}{% endfor %}')</script>
+        <br>
+        <c-input id="qualification-title" name="title" label="Qualification Name" placeholder="e.g Computer Science"
+                 placement='top' required />
+        <br>
+        <c-input id="qualification-institution" name="institution" label="Institute FULL NAME"
+                 placeholder="e.g University of Namibia" placement='top' required />
+        <br>
+        <div class="grid grid-cols-2 gap-3">
+            <c-input id="qualification-year_started" name="year_started" type="number" min="1950" max="2099"
+                     value="2024" step="1" label="Year Started" placement='top' required />
+            <c-input id="qualification-year_ended" name="year_ended" type="number" min="1950" max="2099"
+                     x-data="{ yearEnded: 2024, currentYear: new Date().getFullYear() }" x-model="yearEnded"
+                     x-on:input="yearEnded = yearEnded > currentYear ? currentYear : yearEnded" step="1"
+                     label="Year Completed" placement='top' required />
+        </div>
+        <br>
+        <c-input id="qualification-file" name="file" type="file" label="Certified Qualification" placement='top'
+                 required />
+        <br>
+        <c-button id="qualification-submit" type="submit" label="Add Qualification" primary
+                  hx-post="{% url 'accounts:create_qualification' %}" hx-target="#qualification-list" hx-swap="outerHtml" />
+    </div>
+
+</form>

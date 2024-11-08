@@ -1,4 +1,4 @@
-{% extends 'staff/base.html' %}
+{% extends 'base.html' %}
 {% load static widget_tweaks crispy_forms_tags %}
 {% block head %}{{ form.media }}{% endblock head %}
 {% block extracss %}
@@ -52,8 +52,8 @@
                     <form method="post" enctype="multipart/form-data" class="space-y-4">
                         {% csrf_token %}
                         <div class="grid grid-cols-3 gap-2">
-                            <c-input id="first_name" placeholder="First Name" name="first_name" autocomplete required
-                                     validationUrl="{% url 'recruitment:first_name_validation' %}" />
+                            <c-input id="first_name" label="First Name" placeholder="First Name" name="first_name"
+                                     autocomplete required validationUrl="{% url 'recruitment:first_name_validation' %}" />
                             <c-input id="middle_name" placeholder="Middle Name" name="middle_name"
                                      validationUrl="{% url 'recruitment:middle_name_validation' %}"
                                      class="w-full rounded-lg border border-gray-200 p-3 text-sm" />
@@ -109,9 +109,9 @@
 
                                         {% elif field.field.is_select %}
                                             <div>
-                                                <label for="{{ field.id }}">{{ field.label }}</label>
-                                                <c-dcc-select id="{{ field.id }}" type="select" name="{{ field.html_name }}"
-                                                              :options="[{% for value, label in field.field.choices %}'{{ label }}'{% if not forloop.last %},{% endif %}{% endfor %}]" />
+                                                <c-select id="{{ field.id }}" type="select" name="{{ field.html_name }}"
+                                                          label="{{ field.label }}"
+                                                          :options="[{% for value, label in field.field.choices %}'{{ label }}'{% if not forloop.last %},{% endif %}{% endfor %}]" />
                                             </div>
                                         {% elif field.field.is_multiselect %}
                                             <div>

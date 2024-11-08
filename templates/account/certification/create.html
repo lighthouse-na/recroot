@@ -1,0 +1,37 @@
+{% load static crispy_forms_tags %}
+{# <form class="flex justify-center px-5" hx-post="{% url 'accounts:create_experience' %}" hx-target="#experience-list"
+    hx-swap="outerHtml">#}
+<form class="flex justify-center px-5" method="post" action="{% url 'accounts:create_experience' %}"
+      enctype="multipart/form-data">
+    <div class="pb-5">
+        {% csrf_token %}
+        <c-input name="form.title" label="Certification Title" placeholder="e.g CCNA1" placement='top' required />
+        <br>
+        <c-input name="form.institution" label="Institute FULL NAME" placeholder="e.g Comptia" placement='top'
+                 required />
+        <br>
+        <c-input name="form.file" type="file" label="Certified Copy of Certificate" placement='top' required />
+        <br>
+        <div x-data="{ isLifetime: false }">
+            <div>
+                <c-toggle id="isLifetime" label="Is Lifetime" x-model="isLifetime" value="isLifetime"
+                          @click="isLifetime = true" />
+            </div>
+
+            <br>
+
+            <div class="grid grid-cols-2 gap-3">
+                <c-input name="form.obtained_date" type="date" label="Obtained Date" required />
+                <template x-if="!isLifetime">
+                    <div>
+                        <c-input name="form.expiry_date" type="date" label="Expiry Date" />
+                    </div>
+                </template>
+            </div>
+        </div>
+        <br>
+        <button type="submit">Add Cert</button>
+        <c-button id="certification-submit" type="submit" label="Add Certification" primary />
+    </div>
+
+</form>

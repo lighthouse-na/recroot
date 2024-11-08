@@ -83,8 +83,11 @@ class Qualification(models.Model):
     qualification_type = models.CharField(max_length=50, choices=QUALIFICATION_TYPE)
     title = models.CharField(max_length=255)
     institution = models.CharField(max_length=255)
-    date_completed = models.DateField()
+    year_started = models.PositiveSmallIntegerField()
+    year_ended = models.PositiveSmallIntegerField()
     file = models.FileField(upload_to="accounts/qualifications")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return f"{self.qualification_type} {self.title}"
@@ -100,6 +103,8 @@ class Certification(models.Model):
     expiry_date = models.DateField(blank=True, null=True)
     file = models.FileField(upload_to="accounts/certifications")
     certification_id = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return self.title
@@ -118,6 +123,7 @@ class Experience(models.Model):
         help_text="Job Description.",
     )
     url = models.URLField(blank=True, null=True)
+    file = models.FileField(upload_to="accounts/experience/", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -1,37 +1,48 @@
 {% load static crispy_forms_tags %}
-{# <form class="flex justify-center px-5" hx-post="{% url 'accounts:create_experience' %}" hx-target="#experience-list"
-    hx-swap="outerHtml">#}
-<form class="flex justify-center px-5" method="post" action="{% url 'accounts:create_experience' %}">
+<form class="flex justify-center px-5" enctype="multipart/form-data">
     <div class="pb-5">
         {% csrf_token %}
-        <c-input name="form.job_title" label="Job Title" placement='top' required />
+        <c-input name="job_title" label="Job Title" placement='top' required />
         <br>
-        <c-input name="form.company_name" label="Company Name" placement='top' required />
+        <c-input name="company_name" label="Company Name" placement='top' required />
         <br>
-        <c-input name="form.company_url" type="url" label="Company Url" placement='top' />
+        <c-input name="url" type="url" label="Company Url" placement='top' />
         <br>
-        <c-input name="form.company_reference" label="Company Reference Name and Contact" placement='top' />
+        <c-input name="company_reference" label="Company Reference Name and Contact" placement='top' />
         <br>
         <div x-data="{ isPresent: false }">
             <div>
-                <c-toggle id="isPresent" label="Currently employed here" x-model="isPresent" value="isPresent"
-                    @click="isPresent = true" />
+                <c-toggle id="is_Present" label="Currently employed here" x-model="isPresent" value="isPresent"
+                          @click="isPresent = true" />
             </div>
 
             <br>
 
             <div class="grid grid-cols-2 gap-3">
-                <c-input name="form.start_date" type="date" label="Start Date" required />
+                <c-input name="start_date" type="date" label="Start Date" required />
                 <template x-if="!isPresent">
                     <div>
-                        <c-input name="form.end_date" type="date" label="End Date" />
+                        <c-input name="end_date" type="date" label="End Date" />
                     </div>
                 </template>
             </div>
         </div>
         <br>
         <c-textarea name="description" label="Description" required />
-        <c-button type="submit" label="Add Experience" primary />
+        <br>
+        <c-input name="file" label="Testimonial" type="file" />
+        <br>
+        <c-button id="experience-submit" type="submit" label="Add Experience" primary @click="modalIsOpen = false"
+                  hx-post="{% url 'accounts:create_experience' %}" hx-target="#experience-list" hx-swap="outerHtml"
+                  hx-trigger="click" hx-on="htmx:afterRequest: resetForm" />
     </div>
 
 </form>
+
+
+<script>
+    function resetForm(event) {
+        const form = event.target.closest('form');
+        form.reset();
+    }
+</script>
