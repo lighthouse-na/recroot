@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.utils.translation import gettext_lazy as _
 from django_recaptcha.fields import ReCaptchaField, ReCaptchaV3
 from django_recaptcha.widgets import ReCaptchaV2Invisible
-
+from . import models
 from config.env import env
 
 
@@ -54,7 +54,35 @@ class CustomLoginForm(LoginForm):
 #         return user
 
 
-# class ProfileUpdateForm(forms.ModelForm):
-#     class Meta:
-#         model = Profile
-#         exclude = ["user"]
+class QualificationForm(forms.ModelForm):
+    class Meta:
+        model = models.Qualification
+        fields = (
+            "qualification_type",
+            "title",
+            "institution",
+            "year_started",
+            "year_ended",
+            "file",
+        )
+
+
+class CertificationForm(forms.ModelForm):
+    class Meta:
+        model = models.Certification
+        fields = "__all__"
+
+
+class ExperienceForm(forms.ModelForm):
+    class Meta:
+        model = models.Experience
+        fields = (
+            "job_title",
+            "company_name",
+            "url",
+            "company_reference",
+            "start_date",
+            "end_date",
+            "description",
+            "file",
+        )

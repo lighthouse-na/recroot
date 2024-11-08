@@ -1,39 +1,17 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends '_base.html' %}
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Telecom Namibia -
-            {% block title %}{% endblock title %}
-        </title>
 
-    <!-- Favicons -->
-        <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon" />
-
-    <!-- <link rel="stylesheet" href="{% static 'css/flowbite.min.css' %}"> -->
-        <link href="{% static 'css/output.css' %}" rel="stylesheet">
-        <script src="{% static 'js/htmx.min.js' %}"></script>
-        <script src="{% static 'js/tailwind.min.js' %}"></script>
-        {% block head %}{% endblock head %}
-    </head>
-
-    <body class="bg-white dark:bg-gray-900">
-        {% if announcements %}
-            {% include 'pages/announcements.html' %}
-        {% endif %}
+{% block base_content %}
+    <div class="">
         {% include 'includes/navbar.html' %}
-
-        {% if user.is_authenticated %}
-            {% include 'unfold/partials/speed_dial.html' %}
-        {% endif %}
-
-        {% block content %}{% endblock content %}
-    <!-- <hr> -->
-        {% include 'includes/footer.html' %}
-        {% block scripts %}{% endblock scripts %}
-        <script src="{% static 'js/flowbite.min.js' %}"></script>
-    </body>
-
-</html>
+        <div class="p-5 justify-between">
+            <div class="fixed">
+                {% include 'includes/sidebar.html' %}
+            </div>
+            <main class=" pl-20 scroll-smooth overflow-x-auto">
+                {% block content %}
+                {% endblock content %}
+            </main>
+        </div>
+    </div>
+{% endblock base_content %}

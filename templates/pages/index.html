@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "pages/base.html" %}
 {% load humanize %}
 {% load i18n static %}
 
@@ -8,9 +8,7 @@
     <section>
         <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
             <div class="max-w-screen-lg mb-8 lg:mb-16">
-                <h1 class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl">
-                    <span class="text-transparent bg-clip-text bg-sky-800 dark:bg-orange-500">Vacancies</span>
-                </h1>
+                <c-h1 title="Vacancies" />
                 <p class="text-gray-500 sm:text-xl dark:text-gray-400">
                     At Telecom Namibia, we pride ourselves on delivering exceptional service and staying ahead of global
                     trends. As a leading company in the telecommunications industry, we are committed to nurturing talented
@@ -24,10 +22,7 @@
             {% if vacancies %}
                 {% include 'recruitment/vacancy/list.html' %}
             {% else %}
-                <h1 class="mb-4 text-xl font-extrabold text-sky-800 dark:text-primary-500 md:text-3xl lg:text-3xl">
-                    No vacancies at
-                    the moment
-                </h1>
+                <c-h3 title="No vacancies at the moment" />
             {% endif %}
         </div>
     </section>

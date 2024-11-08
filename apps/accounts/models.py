@@ -1,6 +1,9 @@
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
+from tinymce.models import HTMLField
 
 from apps.organisation.models import CostCentre, Position
 
@@ -80,8 +83,11 @@ class Qualification(models.Model):
     qualification_type = models.CharField(max_length=50, choices=QUALIFICATION_TYPE)
     title = models.CharField(max_length=255)
     institution = models.CharField(max_length=255)
-    date_completed = models.DateField()
+    year_started = models.PositiveSmallIntegerField()
+    year_ended = models.PositiveSmallIntegerField()
     file = models.FileField(upload_to="accounts/qualifications")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return f"{self.qualification_type} {self.title}"
@@ -97,6 +103,46 @@ class Certification(models.Model):
     expiry_date = models.DateField(blank=True, null=True)
     file = models.FileField(upload_to="accounts/certifications")
     certification_id = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return self.title
+
+
+class Experience(models.Model):
+    user = models.ForeignKey(
+        get_user_model(), on_delete=models.CASCADE, related_name="experience"
+    )
+    start_date = models.DateField()
+    end_date = models.DateField(blank=True, null=True)
+    job_title = models.CharField(max_length=255)
+    company_name = models.CharField(max_length=255)
+    company_reference = models.CharField(max_length=255, blank=True, null=True)
+    description = HTMLField(
+        help_text="Job Description.",
+    )
+    url = models.URLField(blank=True, null=True)
+    file = models.FileField(upload_to="accounts/experience/", blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.job_title
+
+    # def clean(self):
+    #     super().clean()
+    #     if self.is_present:
+    #         if self.end_date is not None:
+    #             raise ValidationError(
+    #                 {
+    #                     "end_date": "End date should not be provided if the experience is marked as present."
+    #                 }
+    #             )
+    #     else:
+    #         if self.end_date is None:
+    #             raise ValidationError(
+    #                 {
+    #                     "end_date": "End date must be provided if the experience is not marked as present."
+    #                 }
+    #             )

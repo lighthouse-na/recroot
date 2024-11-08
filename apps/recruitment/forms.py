@@ -93,6 +93,11 @@ class ApplicationForm(forms.ModelForm):
         self.requirements = MinimumRequirement.objects.filter(vacancy=vacancy)
 
         for requirement in self.requirements:
+            field_info = {
+                "id": requirement.id,
+                "title": requirement.title,
+                "required": requirement.is_required,
+            }
             if requirement.question_type == MinimumRequirement.QuestionType.TEXT:
                 self.fields[f"requirement_{requirement.id}"] = forms.CharField(
                     label=requirement.title,
@@ -122,6 +127,7 @@ class ApplicationForm(forms.ModelForm):
                     ],
                     widget=forms.Select(),
                 )
+                self.fields[f"requirement_{requirement.id}"].is_select = True
 
             elif (
                 requirement.question_type == MinimumRequirement.QuestionType.MULTISELECT
@@ -135,6 +141,7 @@ class ApplicationForm(forms.ModelForm):
                     widget=forms.SelectMultiple(),
                     required=requirement.is_required,
                 )
+                self.fields[f"requirement_{requirement.id}"].is_multiselect = True
 
     def clean_date_of_birth(self):
         dob = self.cleaned_data["date_of_birth"]

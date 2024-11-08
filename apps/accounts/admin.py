@@ -52,7 +52,7 @@ from apps.recruitment.models import (
 )
 
 from .forms import CustomUserChangeForm, CustomUserCreationForm
-from .models import Certification, Qualification, User
+from .models import Certification, Qualification, User, Experience
 
 # admin.site.unregister(User)
 admin.site.unregister(Group)
@@ -225,3 +225,4 @@ superuser_dashboard_site.register(Announcement, ModelAdmin)
 superuser_dashboard_site.register(FAQ, ModelAdmin)
 superuser_dashboard_site.register(Division, DivisionAdmin)
 superuser_dashboard_site.register(MinimumRequirement, RequirementsAdmin)
+superuser_dashboard_site.register(Experience, ModelAdmin)
