@@ -1,10 +1,18 @@
-{% load static crispy_forms_tags %}
+{% load static crispy_forms_tags widget_tweaks %}
 <form class="flex justify-center px-5" enctype="multipart/form-data">
     <div class="pb-5">
         {% csrf_token %}
-        <c-select :data="{% for label, value in qualification_options %}{{label}},{{value}}{% endfor %}"
-                  name="qualification_type" label="Qualification Type" required />
-        <script>console.log('{% for label, value in qualification_options %}{{label}},{{value}}{% endfor %}')</script>
+
+        <label for="qualification_types">Qualification Type <span class="text-red-500">*</span></label>
+        <select name="qualification_type" id="qualification_types" required
+                class="border rounded-md bg-white focus:border-orange-500 p-2">
+            <option value="">Please select</option>
+            {% for value, label in types %}
+                <option value="{{ value }}">{{ label }}</option>
+            {% endfor %}
+        </select>
+
+        <br>
         <br>
         <c-input id="qualification-title" name="title" label="Qualification Name" placeholder="e.g Computer Science"
                  placement='top' required />
@@ -14,7 +22,9 @@
         <br>
         <div class="grid grid-cols-2 gap-3">
             <c-input id="qualification-year_started" name="year_started" type="number" min="1950" max="2099"
-                     value="2024" step="1" label="Year Started" placement='top' required />
+                     x-data="{ yearEnded: 2024, currentYear: new Date().getFullYear() }" x-model="yearEnded"
+                     x-on:input="yearEnded = yearEnded > currentYear ? currentYear : yearEnded" step="1" label="Year Started"
+                     placement='top' required />
             <c-input id="qualification-year_ended" name="year_ended" type="number" min="1950" max="2099"
                      x-data="{ yearEnded: 2024, currentYear: new Date().getFullYear() }" x-model="yearEnded"
                      x-on:input="yearEnded = yearEnded > currentYear ? currentYear : yearEnded" step="1"
@@ -24,8 +34,10 @@
         <c-input id="qualification-file" name="file" type="file" label="Certified Qualification" placement='top'
                  required />
         <br>
-        <c-button id="qualification-submit" type="submit" label="Add Qualification" primary
-                  hx-post="{% url 'accounts:create_qualification' %}" hx-target="#qualification-list" hx-swap="outerHtml" />
+        {#<c-button id="qualification-submit" type="submit" label="Add Qualification" primary />#}
+        <c-button id="qualification-submit" type="submit" label="Add Qualification" primary @click="modalIsOpen = false"
+                  hx-post="{% url 'accounts:create_qualification' %}" hx-target="#qualification-list" hx-swap="outerHtml"
+                  hx-trigger="click" hx-encoding='multipart/form-data' />
     </div>
 
 </form>

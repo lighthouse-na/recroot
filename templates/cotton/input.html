@@ -12,12 +12,12 @@
              showError: false,
              errorTimer: {% if errorTimer %}{{ errorTimer }}{% else %}null{% endif %}
              }" x-init="
-                    if ({% if field_errors %}true{% else %}false{% endif %}) {
-                    showError = true;
-                    errors = '{{ field_errors|join:', ' }}';
-                    if (errorTimer && errorTimer > 0) {
-                    setTimeout(() => { showError = false; }, errorTimer);
-                    }}">
+                             if ({% if field_errors %}true{% else %}false{% endif %}) {
+                             showError = true;
+                             errors = '{{ field_errors|join:', ' }}';
+                             if (errorTimer && errorTimer > 0) {
+                             setTimeout(() => { showError = false; }, errorTimer);
+                             }}">
 
 
     {% if label %}

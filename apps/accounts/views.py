@@ -3,22 +3,22 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import CreateView, UpdateView
 from django.urls import reverse_lazy
+from django.utils.safestring import mark_safe
+import json
 from . import forms, models
+from apps.utils.models import ChoicesQuerySet
 
 
 def profile(request):
     template_name = "account/profile.html"
     user = request.user
-    qualification_options = [
-        {"label": label, "value": value}
-        for value, label in models.Qualification.QUALIFICATION_TYPE
-    ]
+    types = models.Qualification.QualificationType.choices
     if request.user != user:
         raise PermissionDenied("You do not have permission to view this profile.")
 
     context = {
         "user": user,
-        "qualification_options": qualification_options,
+        "types": types,
     }
 
     return render(request, template_name, context)
@@ -30,7 +30,7 @@ def profile(request):
 def create_experience(request):
 
     if request.method == "POST":
-        form = forms.ExperienceForm(request.POST)
+        form = forms.ExperienceForm(request.POST, request.FILES)
         if form.is_valid():
             experience = form.save(commit=False)
             experience.user = request.user
@@ -52,9 +52,8 @@ def delete_experience(request, experience_id):
 
 
 def create_qualification(request):
-
     if request.method == "POST":
-        form = forms.QualificationForm(request.POST)
+        form = forms.QualificationForm(request.POST, request.FILES)
         if form.is_valid():
             qualification = form.save(commit=False)
             qualification.user = request.user
@@ -63,7 +62,11 @@ def create_qualification(request):
     else:
         form = forms.QualificationForm()
 
-    return render(request, "account/qualification/create.html", {"form": form})
+    return render(
+        request,
+        "account/qualification/create.html",
+        {"form": form},
+    )
 
 
 def delete_qualification(request, qualification_id):
@@ -78,7 +81,7 @@ def delete_qualification(request, qualification_id):
 def create_certification(request):
 
     if request.method == "POST":
-        form = forms.CertificationForm(request.POST)
+        form = forms.CertificationForm(request.POST, request.FILES)
         if form.is_valid():
             certification = form.save(commit=False)
             certification.user = request.user

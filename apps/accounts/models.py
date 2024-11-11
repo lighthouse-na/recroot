@@ -49,38 +49,45 @@ class User(AbstractUser):
 
 class Qualification(models.Model):
 
-    QUALIFICATION_TYPE = [
-        ("phd", "Doctorate(PHD)"),
-        ("md", "Doctor of Medicine (MD)"),
-        ("jd", "Juris Doctor (JD)"),
-        ("fellowship", "Fellowship"),
-        ("masters", "Masters"),
-        ("postgraduate_diploma", "Postgraduate Diploma"),
-        ("graduate_certificate", "Graduate Certificate"),
-        ("honours", "Honours"),
-        ("bachelors", "Bachelors"),
-        ("associate_degree", "Associate Degree"),
-        ("advanced_diploma", "Advanced Diploma"),
-        ("diploma", "Diploma"),
-        ("certificate", "Certificate"),
-        ("trade_certificate", "Trade Certificate"),
-        ("vocational_qualification", "Vocational Qualification"),
-        ("technical_diploma", "Technical Diploma"),
-        ("artisan", "Artisan"),
-        ("apprenticeship", "Apprenticeship"),
-        ("continuing_education", "Continuing Education"),
-        ("executive_education", "Executive Education"),
-        ("high_school_diploma", "High School Diploma"),
-        ("ged", "General Educational Development (GED)"),
-        ("professional_certification", "Professional Certification"),
-        ("licensure", "Licensure"),
-        ("grade12", "Grade 12"),
-    ]
+    class QualificationType(models.TextChoices):
+        PHD = "phd", "Doctorate(PHD)"
+        MD = "md", "Doctor of Medicine (MD)"
+        JD = "jd", "Juris Doctor (JD)"
+        FELLOWSHIP = "fellowship", "Fellowship"
+        MASTERS = "masters", "Masters"
+        POSTGRADUATE_DIPLOMA = "postgraduate_diploma", "Postgraduate Diploma"
+        GRADUATE_CERTIFICATE = "graduate_certificate", "Graduate Certificate"
+        HONOURS = "honours", "Honours"
+        BACHELORS = "bachelors", "Bachelors"
+        ASSOCIATE_DEGREE = "associate_degree", "Associate Degree"
+        ADVANCED_DIPLOMA = "advanced_diploma", "Advanced Diploma"
+        DIPLOMA = "diploma", "Diploma"
+        CERTIFICATE = "certificate", "Certificate"
+        TRADE_CERTIFICATE = "trade_certificate", "Trade Certificate"
+        VOCATIONAL_QUALIFICATION = (
+            "vocational_qualification",
+            "Vocational Qualification",
+        )
+        TECHNICAL_DIPLOMA = "technical_diploma", "Technical Diploma"
+        ARTISAN = "artisan", "Artisan"
+        APPRENTICESHIP = "apprenticeship", "Apprenticeship"
+        CONTINUING_EDUCATION = "continuing_education", "Continuing Education"
+        EXECUTIVE_EDUCATION = "executive_education", "Executive Education"
+        HIGH_SCHOOL_DIPLOMA = "high_school_diploma", "High School Diploma"
+        GED = "ged", "General Educational Development (GED)"
+        PROFESSIONAL_CERTIFICATION = (
+            "professional_certification",
+            "Professional Certification",
+        )
+        LICENSURE = "licensure", "Licensure"
+        GRADE_12 = "grade12", "Grade 12"
 
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="qualifications"
     )
-    qualification_type = models.CharField(max_length=50, choices=QUALIFICATION_TYPE)
+    qualification_type = models.CharField(
+        max_length=50, choices=QualificationType.choices
+    )
     title = models.CharField(max_length=255)
     institution = models.CharField(max_length=255)
     year_started = models.PositiveSmallIntegerField()
@@ -92,13 +99,19 @@ class Qualification(models.Model):
     def __str__(self) -> str:
         return f"{self.qualification_type} {self.title}"
 
+    # def save(self, *args, **kwargs):
+    #     self.title = self.title.lower()
+    #     self.institution = self.institution.lower()
+    #     super().save(*args, **kwargs)
+
 
 class Certification(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="certifications"
     )
     title = models.CharField(max_length=255)
-    institute = models.CharField(max_length=255)
+    institution = models.CharField(max_length=255)
+    institution_website = models.URLField()
     obtained_date = models.DateField()
     expiry_date = models.DateField(blank=True, null=True)
     file = models.FileField(upload_to="accounts/certifications")
@@ -108,6 +121,11 @@ class Certification(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.title = self.title.lower()
+        self.institution = self.institution.lower()
+        super().save(*args, **kwargs)
 
 
 class Experience(models.Model):
@@ -130,19 +148,8 @@ class Experience(models.Model):
     def __str__(self):
         return self.job_title
 
-    # def clean(self):
-    #     super().clean()
-    #     if self.is_present:
-    #         if self.end_date is not None:
-    #             raise ValidationError(
-    #                 {
-    #                     "end_date": "End date should not be provided if the experience is marked as present."
-    #                 }
-    #             )
-    #     else:
-    #         if self.end_date is None:
-    #             raise ValidationError(
-    #                 {
-    #                     "end_date": "End date must be provided if the experience is not marked as present."
-    #                 }
-    #             )
+    def save(self, *args, **kwargs):
+        self.job_title = self.job_title.lower()
+        self.company_name = self.company_name.lower()
+        self.company_reference = self.company_reference.lower()
+        super().save(*args, **kwargs)

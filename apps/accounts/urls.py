@@ -17,7 +17,7 @@ urlpatterns = [
     path(
         "qualification/<int:qualification_id>/delete/",
         views.delete_qualification,
-        name="delete_experience",
+        name="delete_qualification",
     ),
     path(
         "certification/create/", views.create_certification, name="create_certification"
@@ -25,6 +25,6 @@ urlpatterns = [
     path(
         "certification/<int:certification_id>/delete/",
         views.delete_certification,
-        name="delete_experience",
+        name="delete_certification",
     ),
 ]

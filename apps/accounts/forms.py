@@ -70,7 +70,15 @@ class QualificationForm(forms.ModelForm):
 class CertificationForm(forms.ModelForm):
     class Meta:
         model = models.Certification
-        fields = "__all__"
+        fields = (
+            "title",
+            "institution",
+            "institution_website",
+            "obtained_date",
+            "expiry_date",
+            "file",
+            "certification_id",
+        )
 
 
 class ExperienceForm(forms.ModelForm):
