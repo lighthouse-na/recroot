@@ -53,6 +53,11 @@ urlpatterns = [
         views.interview_response_success,
         name="interview_response_success",
     ),
+    path(
+        "applications/",
+        views.ApplicationsListView.as_view(),
+        name="applications_list",
+    ),
 ]
 
 urlpatterns += validation_urls

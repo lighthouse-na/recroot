@@ -9,6 +9,7 @@ from apps.organisation.models import CostCentre, Position
 
 
 class User(AbstractUser):
+    middle_name = models.CharField(max_length=255, blank=True, null=True)
     primary_contact = PhoneNumberField(
         region="NA",
         help_text="Enter a valid Namibian phone number",
@@ -18,7 +19,6 @@ class User(AbstractUser):
         blank=True,
         help_text="Enter a valid Namibian phone number",
     )
-
     salary_reference_number = models.PositiveIntegerField(blank=True, null=True)
     position = models.ForeignKey(
         Position,

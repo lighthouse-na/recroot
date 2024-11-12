@@ -22,7 +22,7 @@
 
     {% if label %}
         {% if not placement == "bottom" %}
-            <label for="{{ id }}" class="{{ labelClass }}">
+            <label for="{{ id }}" class="format dark:format-invert tracking-tight text-sky-900 {{ labelClass }}">
                 {{ label }}{% if required %}<span style="color:red">*</span>{% endif %}
             </label>
 

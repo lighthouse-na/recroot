@@ -43,22 +43,24 @@
              },
              }" x-init="
                              selectedOption = allOptions.find(option => option.value == {{ value|default:'null' }});
-                             options = allOptions" class="flex w-full max-w-xs flex-col gap-1" x-on:keydown="handleKeydownOnOptions($event)"
-     x-on:keydown.esc.window="isOpen = false, openedWithKeyboard = false" x-init="options = allOptions">
+                             options = allOptions" class="flex w-full max-w-xs flex-col"
+     x-on:keydown="handleKeydownOnOptions($event)" x-on:keydown.esc.window="isOpen = false, openedWithKeyboard = false"
+     x-init="options = allOptions">
 
-    <label for="{{ id }}" class="{{ labelClass }}">
+    <label for="{{ id }}" class="format dark:format-invert tracking-tight text-sky-900">
         {{ label }}{% if required %}<span style="color:red">*</span>{% endif %}
     </label>
-    <div class="relative">
+    <div class="relative flex">
 
         <!-- trigger button  -->
         <button type="button" style="display:inline-flex;"
-                class="inline-flex w-full items-center justify-between gap-2 border border-neutral-300 rounded-md bg-neutral-50 px-4 py-2 text-sm font-medium tracking-wide text-neutral-600 transition hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:border-neutral-700 dark:bg-neutral-900/50 dark:text-neutral-300 dark:focus-visible:outline-white"
+                class="inline-flex w-full items-center justify-between gap-2 border border-neutral-200 rounded-md bg-white px-4 py-2 text-sm font-medium tracking-wide text-neutral-600 transition hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:border-neutral-700 dark:bg-neutral-900/50 dark:text-neutral-300 dark:focus-visible:outline-white"
                 role="combobox" aria-controls="{{ id }}List" aria-haspopup="listbox" x-on:click="isOpen = ! isOpen"
                 x-on:keydown.down.prevent="openedWithKeyboard = true" x-on:keydown.enter.prevent="openedWithKeyboard = true"
                 x-on:keydown.space.prevent="openedWithKeyboard = true" x-bind:aria-expanded="isOpen || openedWithKeyboard"
                 x-bind:aria-label="selectedOption ? selectedOption.label : 'Please Select'">
-            <span class="text-sm font-normal" x-text="selectedOption ? selectedOption.label : 'Please Select'"></span>
+            <span class="flex text-sm font-normal"
+                  x-text="selectedOption ? selectedOption.label : 'Please Select'"></span>
             <!-- Chevron  -->
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5"
                  aria-hidden="true">
@@ -69,7 +71,8 @@
         </button>
 
         <!-- Hidden Input To Grab The Selected Value  -->
-        <input id="{{ id }}" name="{{ name}}" x-ref="hiddenTextField" hidden value="{{ value }}" {{ attrs }} />
+        <input id="{{ id }}" name="{{ name }}" x-ref="hiddenTextField" hidden value="{{ value }}" {{ attrs }}
+               {% if required %}required{% endif %} />
         <div x-show="isOpen || openedWithKeyboard" id="{{ id }}List"
              class="absolute left-0 top-11 z-10 w-full overflow-hidden rounded-md border border-neutral-300 bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900"
              role="listbox" aria-label="industries list" x-on:click.outside="isOpen = false, openedWithKeyboard = false"

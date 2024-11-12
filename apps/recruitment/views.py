@@ -186,3 +186,9 @@ def application_success(request):
 
 def interview_response_success(request):
     return render(request, "recruitment/interview/success.html")
+
+
+class ApplicationsListView(ListView):
+    model = Application
+    template_name = "recruitment/application/list.html"
+    context_object_name = "applications"
