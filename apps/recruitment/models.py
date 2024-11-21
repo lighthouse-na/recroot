@@ -67,6 +67,10 @@ class Vacancy(models.Model):
     is_public = models.BooleanField(default=False)
     is_published = models.BooleanField(default=False)
     slug = AutoSlugField(unique=True, populate_from=["title", "id"])
+    reviewers = models.ManyToManyField(
+        get_user_model(),
+        help_text="Reviewers will be able to see applications submitted for this vacancy.",
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -178,8 +182,20 @@ class Application(models.Model):
         help_text="Please upload a PDF/DOCX file, maximum size 10MB.",
     )
     is_internal = models.BooleanField(default=False)
+    user = models.ForeignKey(
+        get_user_model(),
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="applications",
+    )
+    reviewers = models.ManyToManyField(get_user_model())
     reviewed_by = models.ForeignKey(
-        get_user_model(), on_delete=models.PROTECT, blank=True, null=True
+        get_user_model(),
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name="reviewed_applications",
     )
     reviewed_at = models.DateTimeField(blank=True, null=True)
     review_comments = models.CharField(max_length=255, blank=True, null=True)

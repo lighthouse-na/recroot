@@ -125,7 +125,8 @@
                                             <div>
                                                 <c-select id="{{ field.id }}" type="select" name="{{ field.html_name }}"
                                                           label="{{ field.label }}"
-                                                          :options="[{% for value, label in field.field.choices %}'{{ label }}'{% if not forloop.last %},{% endif %}{% endfor %}]" />
+                                                          :options="[{% for value, label in field.field.choices %}'{{ label }}'{% if not forloop.last %},{% endif %}{% endfor %}]"
+                                                          required="{% if field.field.is_required %} true {% endif %}" />
                                             </div>
                                         {% elif field.field.is_multiselect %}
                                             <div>

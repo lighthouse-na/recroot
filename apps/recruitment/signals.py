@@ -108,3 +108,15 @@ def create_interview(sender, instance, **kwargs):
             application=instance,
             schedule_datetime=scheduled_time,
         )
+
+
+@receiver(post_save, sender=Application)
+def add_reviewers_to_application(sender, instance, created, **kwargs):
+    if created:
+        vacancy = instance.vacancy
+        reviewers = vacancy.reviewers.all()
+
+        for reviewer in reviewers:
+            instance.reviewed_by.add(reviewer)
+
+        instance.save()
