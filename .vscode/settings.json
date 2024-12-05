@@ -13,7 +13,8 @@
     "editor.formatOnSave": true,
     "editor.tabSize": 4,
     "black-formatter.importStrategy": "fromEnvironment",
+    "cSpell.language": "en-GB",
     "python.analysis.inlayHints.functionReturnTypes": true,
     "python.analysis.inlayHints.variableTypes": true,
-    "python.analysis.typeCheckingMode":"basic"
+    // "python.analysis.typeCheckingMode":"basic",
 }
