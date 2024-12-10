@@ -1,9 +1,28 @@
-### Setup steps
-1.  Create virtual environment and activate it.
-2.  Install the required packages by running `pip install -r requirements.txt` in your terminal
-3.  Create '.env.' file (A template with all the keys are provided)
-4.  Run `python manage.py makemigrations`
-5.  Run `python manage.py migrate`
-6.  Run `python manage.py createsuperuser`
-7.  Run `python manage.py runserver`
-8.  Open your browser and navigate to `http://127.0.0.1:8000
+# Telecom Recruitment System
+
+## Project Overview
+
+The Telecom Recruitment System is a web-based platform designed to streamline the recruitment process. It helps in managing job postings, candidate applications, and interview schedules.
+
+## Features
+
+- Job posting and management
+- Candidate application tracking
+- Interview scheduling
+- Notifications and reminders for recruiters and candidates
+- Admin panel for managing all aspects of the recruitment process
+
+## Development Requirements
+
+- Python 3.8 +
+- Docker (optional, for containerized setup)
+- SQLite3
+
+## Setup
+
+### Disclaimer
+
+- This script has not been fully tested on Windows or Mac systems so there might be challenges. Please use the internet and then contact [Sakaria Ndadi](https://www.linkedin.com/in/sakaria-ndadi/) if that is not sufficient.
+
+Windows: Run as administrator `python setup.py`
+Unix: `sudo python3 setup.py`
