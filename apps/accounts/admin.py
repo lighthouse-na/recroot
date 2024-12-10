@@ -144,7 +144,6 @@ class DepartmentInline(TabularInline):
     extra = 1
 
 
-@admin.register(Division)
 class DivisionAdmin(ModelAdmin):
     inlines = [DepartmentInline]
 
