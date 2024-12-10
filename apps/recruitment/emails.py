@@ -10,6 +10,16 @@ message = None
 def send_email_notification(
     subject, template_name, instance, recipient_name, recipient_list
 ):
+    """
+    Sends an email notification with the provided subject, template, and recipient details.
+
+    Args:
+        subject (str): The subject of the email.
+        template_name (str): The name of the email template to be used.
+        instance (object): The object instance to be passed to the template for rendering.
+        recipient_name (str): The name of the email recipient.
+        recipient_list (list): A list of email addresses to send the notification to.
+    """
     from_email = email
     template = env.get_template(template_name)
     message = template.render(instance=instance, recipient_name=recipient_name)
@@ -25,6 +35,13 @@ def send_email_notification(
 
 
 def send_vacancy_application_notification_email(instance, created):
+    """
+    Sends a vacancy application status notification email based on the application's status.
+
+    Args:
+        instance (object): The application instance to be used for rendering the email.
+        created (bool): A flag indicating whether the application was just created or updated.
+    """
     first_name = getattr(instance, "first_name", None)
     last_name = getattr(instance, "last_name", None)
     recipient_list = [instance.email]
@@ -60,7 +77,13 @@ def send_vacancy_application_notification_email(instance, created):
 
 
 def send_interview_notification_email(instance, created):
+    """
+    Sends an email notification for an interview invitation if the interview is scheduled.
 
+    Args:
+        instance (object): The interview instance to be used for rendering the email.
+        created (bool): A flag indicating whether the interview was just created or updated.
+    """
     subject = f"{instance.application.vacancy} Application Interview"
     from_email = email
 
@@ -73,7 +96,6 @@ def send_interview_notification_email(instance, created):
     )
 
     if not created and instance.status == "scheduled":
-
         invitation_link = reverse(
             "recruitment:interview_invitation", kwargs={"pk": instance.pk}
         ).lstrip("/")

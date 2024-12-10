@@ -77,23 +77,50 @@ class VacancyDetailView(DetailView):
 
 
 class ApplicationCreateView(CreateView):
+    """
+    View for creating a new application for a specific vacancy.
+
+    This view renders a form for users to apply for a job vacancy. It handles
+    saving the application along with associated minimum requirements answers
+    and user data. It also ensures that applications cannot be submitted after
+    the vacancy's deadline.
+    """
+
     model = Application
     form_class = ApplicationForm
     success_url = reverse_lazy("recruitment:application_success")
-    # template_name = "recruitment/application/create.html"
-    template_name = "recruitment/vacancy/detail.html"
+    template_name = (
+        "recruitment/vacancy/detail.html"  # Used the vacancy detail template
+    )
 
     def form_valid(self, form):
+        """
+        Handles the valid submission of the application form.
+
+        This method overrides the default `form_valid` to associate the application
+        with the selected vacancy and authenticated user, as well as save answers
+        to minimum requirements related to the vacancy.
+
+        Args:
+            form: The submitted form with valid data.
+
+        Returns:
+            HTTP response: A redirect to the `success_url` if the form is valid.
+        """
         slug = self.kwargs.get("slug")
-        vacancy = get_object_or_404(Vacancy, slug=slug)
+        vacancy = get_object_or_404(
+            Vacancy, slug=slug
+        )  # Fetch the vacancy based on the slug
         try:
-            # Wrap the entire save process in a transaction
+            # Wrap the entire save process in a transaction to ensure atomicity
             with transaction.atomic():
+                # Create the application without saving to the database yet
                 application = form.save(commit=False)
-                application.vacancy = vacancy
+                application.vacancy = vacancy  # Associate with the correct vacancy
                 user = self.request.user
 
                 if user.is_authenticated:
+                    # Fill in user-related fields if the user is authenticated
                     application.first_name = user.first_name
                     application.middle_name = user.middle_name
                     application.last_name = user.last_name
@@ -103,17 +130,21 @@ class ApplicationCreateView(CreateView):
                     application.date_of_birth = user.date_of_birth
                     application.gender = user.gender
 
-                application.save()
+                application.save()  # Save the application to the database
 
+                # Save answers to minimum requirements if any
                 requirements = MinimumRequirement.objects.filter(vacancy=vacancy)
                 for requirement in requirements:
                     answer = form.cleaned_data[f"requirement_{requirement.id}"]
                     MinimumRequirementAnswer.objects.create(
                         application=application, requirement=requirement, answer=answer
                     )
+
+                # Save many-to-many relationships
                 form.save_m2m()
 
         except IntegrityError:
+            # Handle the case where the user has already applied for the vacancy
             messages.add_message(
                 self.request,
                 messages.ERROR,
@@ -121,21 +152,44 @@ class ApplicationCreateView(CreateView):
             )
             return self.form_invalid(form)
 
-        return super().form_valid(form)
+        return super().form_valid(form)  # Proceed to the success URL
 
     def get_context_data(self, **kwargs):
+        """
+        Adds additional context to the template rendering.
+
+        This method ensures that the vacancy details are included in the context
+        and disables the application link if the current date is past the vacancy deadline.
+
+        Args:
+            kwargs: Any additional keyword arguments for context.
+
+        Returns:
+            dict: The context data to be passed to the template.
+        """
         context = super().get_context_data(**kwargs)
         slug = self.kwargs.get("slug")
         vacancy = get_object_or_404(Vacancy, slug=slug)
-        context["disable_link"] = timezone.now() > vacancy.deadline
-        context["vacancy"] = get_object_or_404(Vacancy, slug=slug)
+        context["disable_link"] = (
+            timezone.now() > vacancy.deadline
+        )  # Disable link if the deadline has passed
+        context["vacancy"] = vacancy  # Include the vacancy details in the context
         return context
 
     def get_form_kwargs(self):
+        """
+        Passes the vacancy to the form for further customization.
+
+        This method adds the vacancy to the form’s arguments so that it can be used
+        when creating the application instance and when saving minimum requirement answers.
+
+        Returns:
+            dict: The form keyword arguments, including the vacancy instance.
+        """
         kwargs = super().get_form_kwargs()
         slug = self.kwargs.get("slug")
         vacancy = get_object_or_404(Vacancy, slug=slug)
-        kwargs["vacancy"] = vacancy
+        kwargs["vacancy"] = vacancy  # Add the vacancy to the form arguments
         return kwargs
 
 

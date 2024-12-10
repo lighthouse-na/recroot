@@ -1,8 +1,5 @@
-# ACCOUNT_AUTHENTICATION_METHOD = "email"
 # ACCOUNT_CHANGE_EMAIL = True
 # ACCOUNT_EMAIL_NOTIFICATIONS = True
-# ACCOUNT_EMAIL_REQUIRED = True
-# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 # ACCOUNT_FORMS = {
 #     "login": "apps.accounts.forms.CustomLoginForm",
 # }

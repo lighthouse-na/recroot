@@ -1,23 +1,17 @@
 from allauth.account.forms import LoginForm
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.utils.translation import gettext_lazy as _
 from django_recaptcha.fields import ReCaptchaField, ReCaptchaV3
-from django_recaptcha.widgets import ReCaptchaV2Invisible
 from . import models
-from config.env import env
 
 
 class CustomUserCreationForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
-        # fields = "__all__"
         exclude = (
-            # "username",
             "date_joined",
             "last_login",
-            # "password",
             "is_superuser",
             "is_active",
             "is_staff",
@@ -27,12 +21,9 @@ class CustomUserCreationForm(forms.ModelForm):
 class CustomUserChangeForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
-        # fields = "__all__"
         exclude = (
-            # "username",
             "date_joined",
             "last_login",
-            # "password",
             "is_superuser",
             "is_staff",
         )

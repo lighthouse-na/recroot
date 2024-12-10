@@ -5,12 +5,10 @@ from allauth.account.models import EmailAddress
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
-from django.http import HttpRequest
 from django.urls import URLPattern, path
 from import_export.admin import ExportActionModelAdmin
-from unfold.admin import ModelAdmin, StackedInline, TabularInline
+from unfold.admin import ModelAdmin, TabularInline
 from unfold.sites import UnfoldAdminSite
 
 from apps.finaid.admin import (
@@ -54,7 +52,7 @@ from apps.recruitment.models import (
 from .forms import CustomUserChangeForm, CustomUserCreationForm
 from .models import Certification, Qualification, User, Experience
 
-# admin.site.unregister(User)
+# Unregister default admin configurations for Group and EmailAddress
 admin.site.unregister(Group)
 admin.site.unregister(EmailAddress)
 
@@ -69,7 +67,29 @@ class EmailAddressAdmin(BaseEmailAddressAdmin, ModelAdmin): ...
 
 @admin.register(Qualification)
 class QualificationAdmin(ModelAdmin, ExportActionModelAdmin):
+    """
+    Custom admin interface for the Qualification model.
+
+    This admin configuration restricts the displayed qualifications
+    based on the user's role:
+    - Superusers and users in the "admin" group can see all qualifications.
+    - Regular users see only qualifications associated with their account.
+    """
+
     def get_queryset(self, request):
+        """
+        Customises the queryset for the Qualification model.
+
+        Modifies the queryset based on the user's permissions:
+        - If the user is a superuser or in the "admin" group, return all qualifications.
+        - Otherwise, return qualifications linked to the current user.
+
+        Args:
+            request (HttpRequest): The HTTP request object.
+
+        Returns:
+            QuerySet: A filtered queryset of qualifications.
+        """
         qs = super().get_queryset(request)
 
         if (
@@ -84,7 +104,29 @@ class QualificationAdmin(ModelAdmin, ExportActionModelAdmin):
 
 @admin.register(Certification)
 class CertificationAdmin(ModelAdmin, ExportActionModelAdmin):
+    """
+    Custom admin interface for the Certification model.
+
+    This admin configuration restricts the displayed certifications
+    based on the user's role:
+    - Superusers and users in the "admin" group can see all certifications.
+    - Regular users see only certifications associated with their account.
+    """
+
     def get_queryset(self, request):
+        """
+        Customises the queryset for the Certification model.
+
+        Modifies the queryset based on the user's permissions:
+        - If the user is a superuser or in the "admin" group, return all certifications.
+        - Otherwise, return certifications linked to the current user.
+
+        Args:
+            request (HttpRequest): The HTTP request object.
+
+        Returns:
+            QuerySet: A filtered queryset of certifications.
+        """
         qs = super().get_queryset(request)
 
         if (
@@ -102,7 +144,7 @@ class DepartmentInline(TabularInline):
     extra = 1
 
 
-# @admin.register(Division)
+@admin.register(Division)
 class DivisionAdmin(ModelAdmin):
     inlines = [DepartmentInline]
 
@@ -119,6 +161,19 @@ class UserAdmin(ModelAdmin, ExportActionModelAdmin):
     ]
 
     def get_queryset(self, request):
+        """
+        Customises the queryset for the User model.
+
+        Modifies the queryset to display:
+        - All users if the requester is a superuser or a member of the "admin" group.
+        - Only their own user record for other users.
+
+        Args:
+            request (HttpRequest): The HTTP request object.
+
+        Returns:
+            QuerySet: A filtered queryset of users.
+        """
         qs = super().get_queryset(request)
 
         if (
@@ -129,6 +184,13 @@ class UserAdmin(ModelAdmin, ExportActionModelAdmin):
         return qs.filter(user=request.user)
 
     def has_add_permission(self, request):
+        """
+        Determines whether the user has permission to add new user records.
+
+        Returns:
+            bool: True if the requester is a superuser or in the "admin" group,
+                  otherwise False.
+        """
         if (
             request.user.is_superuser
             or request.user.groups.filter(name="admin").exists()
@@ -137,6 +199,13 @@ class UserAdmin(ModelAdmin, ExportActionModelAdmin):
         return False
 
     def has_delete_permission(self, request, obj=None):
+        """
+        Determines whether the user has permission to delete user records.
+
+        Returns:
+            bool: True if the requester is a superuser or in the "admin" group,
+                  otherwise False.
+        """
         if (
             request.user.is_superuser
             or request.user.groups.filter(name="admin").exists()
@@ -144,48 +213,38 @@ class UserAdmin(ModelAdmin, ExportActionModelAdmin):
             return True
         return False
 
-    # def get_inline_instances(self, request, obj=None):
-    #     if (
-    #         request.user.is_staff
-    #         and request.user.is_active
-    #         and request.user.is_authenticated
-    #     ):
-    #         return [
-    #             QualificationInline(self.model, self.admin_site),
-    #             CertificationInline(self.model, self.admin_site),
-    #         ]
-    #     return super().get_inline_instances(request, obj)
-
-    # def get_formsets(self, request, obj=None):
-
-    #     if (
-    #         request.user.is_staff
-    #         and request.user.is_active
-    #         and request.user.is_authenticated
-    #     ):
-
-    #         for inline in self.get_inline_instances(request, obj):
-
-    #             if isinstance(inline, (QualificationInline, CertificationInline)):
-
-    #                 yield inline.get_formset(request, obj)
-
-    #     else:
-
-    #         return super().get_formsets(request, obj)
-
 
 class SuperuserDashboard(UnfoldAdminSite):
+    """
+    Custom admin site for superusers.
+
+    This admin site is specifically designed for superuser access,
+    providing a customised interface for superusers to manage the site.
+    It includes custom templates for login, logout, and password change,
+    and has permissions restricted to superusers only.
+    """
+
     site_header = "SuperUser Dashboard"
     site_title = "SuperUser Dashboard"
     index_title = "SuperUser Dashboard"
-    # index_template = "admin/index.html"
+    # index_template = "admin/index.html"  # Custom index template can be enabled if needed
     enable_nav_sidebar = True
     login_template = "admin/login.html"
     logout_template = "admin/logout.html"
     password_change_template = "admin/password_change.html"
 
     def has_permission(self, request):
+        """
+        Checks if the current user has permission to access the admin site.
+
+        Only active, authenticated superusers are granted access.
+
+        Args:
+            request (HttpRequest): The HTTP request object.
+
+        Returns:
+            bool: True if the user is active, authenticated, and a superuser, otherwise False.
+        """
         return (
             request.user.is_active
             and request.user.is_authenticated
@@ -193,14 +252,28 @@ class SuperuserDashboard(UnfoldAdminSite):
         )
 
     def get_urls(self) -> List[URLPattern]:
-        urlpatterns = super().get_urls()  # include the original URLs
+        """
+        Returns the URL patterns for the superuser dashboard.
+
+        The custom URLs include the original admin site URLs, but with a
+        custom index page for superusers.
+
+        Returns:
+            List[URLPattern]: A list of URL patterns, including the default admin URLs.
+        """
+        urlpatterns = super().get_urls()  # Include the original URLs
         urlpatterns += [
-            path("", admin.site.urls),
+            path(
+                "", admin.site.urls
+            ),  # Ensure the original admin site URLs are included
         ]
         return urlpatterns
 
 
-superuser_dashboard_site = SuperuserDashboard(name="SupeUser")
+# Create an instance of the custom SuperuserDashboard
+superuser_dashboard_site = SuperuserDashboard(name="SuperUser")
+
+# Register models with the SuperuserDashboard instance.
 superuser_dashboard_site.register(User, UserAdmin)
 superuser_dashboard_site.register(Group, GroupAdmin)
 superuser_dashboard_site.register(EmailAddress, EmailAddressAdmin)

@@ -164,30 +164,62 @@ class MinimumRequirementAnswerForm(forms.ModelForm):
 #                                       INTERVIEW
 # **********************************************************************************************
 class InterviewForm(forms.ModelForm):
+    """
+    A form for scheduling interviews. It ensures that the scheduled date and time
+    meet the required criteria, such as not being in the past, not being on the same day,
+    and not falling on weekends or outside business hours.
+
+    Attributes:
+        Meta (class): Specifies the model and fields for the form.
+    """
+
     class Meta:
         model = Interview
         fields = ("application", "schedule_datetime", "description", "location")
 
     def clean_schedule_datetime(self):
+        """
+        Validates the 'schedule_datetime' field to ensure it meets the required conditions.
+
+        This method checks the following conditions:
+        - The scheduled datetime cannot be in the past.
+        - The scheduled datetime cannot be on the same day.
+        - The scheduled datetime cannot fall on weekends (Saturday or Sunday).
+        - The scheduled datetime must be at least one day in the future.
+        - The scheduled time must be between 8:00 AM and 5:00 PM.
+        - The scheduled time cannot be later than 5:00 PM or earlier than 8:00 AM.
+
+        Raises:
+            forms.ValidationError: If any of the conditions are not met.
+
+        Returns:
+            schedule_datetime (datetime): The validated scheduled datetime.
+        """
         schedule_datetime = self.cleaned_data["schedule_datetime"]
 
+        # Check if the scheduled datetime is in the past
         if schedule_datetime <= timezone.now():
             raise forms.ValidationError("Scheduled datetime cannot be in the past.")
 
+        # Check if the scheduled datetime is on the same day
         if schedule_datetime.date() == timezone.now().date():
             raise forms.ValidationError("Scheduled datetime cannot be on the same day.")
 
+        # Check if the scheduled datetime is on the weekend
         if schedule_datetime.weekday() >= 5:  # 5 = Saturday, 6 = Sunday
             raise forms.ValidationError("Scheduled datetime cannot be on weekends.")
 
+        # Check if the scheduled datetime is less than one day in the future
         if schedule_datetime.date() - timezone.now().date() < timedelta(days=1):
             raise forms.ValidationError(
                 "Scheduled datetime must be at least one day in the future."
             )
 
+        # Check if the scheduled time is within working hours (8 AM to 5 PM)
         if schedule_datetime.hour < 8 or schedule_datetime.hour > 16:
             raise forms.ValidationError("Scheduled time must be between 8am and 5pm.")
 
+        # Check if the scheduled time is exactly at 5 PM or earlier than 8 AM
         if schedule_datetime.hour == 17:
             raise forms.ValidationError("Scheduled time cannot be later than 5pm.")
 

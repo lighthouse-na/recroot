@@ -1,11 +1,10 @@
-from django.conf import settings
 from django.db import models
 
 
 class Region(models.Model):
     name = models.CharField(max_length=20, unique=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -13,14 +12,14 @@ class Town(models.Model):
     region = models.ForeignKey(Region, on_delete=models.CASCADE, related_name="towns")
     name = models.CharField(max_length=20, unique=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
 class Division(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -30,14 +29,14 @@ class Department(models.Model):
     )
     name = models.CharField(max_length=255, unique=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
 class CostCentre(models.Model):
     number = models.PositiveIntegerField(unique=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.number}"
 
 
@@ -64,10 +63,10 @@ class Position(models.Model):
             )
         ]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name} - {self.department}"
 
-    def clean(self):
+    def clean(self) -> None:
         return super().clean()
 
 
@@ -78,5 +77,5 @@ class Location(models.Model):
         Town, on_delete=models.CASCADE, related_name="locations", default=None
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title

@@ -20,6 +20,19 @@ from .tasks import (
 
 @receiver(post_save, sender=Application)
 def send_application_notification_tasks(sender, instance, created, **kwargs):
+    """
+    Sends notification tasks (email and text) when an application is saved.
+
+    This receiver listens for the post_save signal on the Application model
+    and triggers email and text message notifications about the application
+    status.
+
+    Args:
+        sender: The model class (Application).
+        instance: The instance of the model (Application).
+        created: Boolean flag indicating whether the instance was created or updated.
+        kwargs: Additional keyword arguments.
+    """
     transaction.on_commit(
         lambda: (
             send_vacancy_application_notification_email_task.delay(
@@ -32,6 +45,19 @@ def send_application_notification_tasks(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=Interview)
 def send_interview_notification_tasks(sender, instance, created, **kwargs):
+    """
+    Sends notification tasks (email and text) when an interview is saved.
+
+    This receiver listens for the post_save signal on the Interview model
+    and triggers email and text message notifications about the interview
+    status.
+
+    Args:
+        sender: The model class (Interview).
+        instance: The instance of the model (Interview).
+        created: Boolean flag indicating whether the instance was created or updated.
+        kwargs: Additional keyword arguments.
+    """
     transaction.on_commit(
         lambda: (
             send_interview_notification_email_task.delay(instance.id, created),
@@ -42,6 +68,19 @@ def send_interview_notification_tasks(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=Application)
 def create_application_permissions(sender, instance, created, **kwargs):
+    """
+    Creates permissions for users and groups based on vacancy permissions.
+
+    When a new application is created, this receiver assigns the appropriate
+    permissions (view, change, delete) to users and groups who have permissions
+    on the related vacancy.
+
+    Args:
+        sender: The model class (Application).
+        instance: The instance of the model (Application).
+        created: Boolean flag indicating whether the instance was created or updated.
+        kwargs: Additional keyword arguments.
+    """
     if created:
         vacancy = instance.vacancy
         users_with_perms = get_users_with_perms(vacancy, attach_perms=True)
@@ -66,6 +105,19 @@ def create_application_permissions(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=Interview)
 def create_interview_permissions(sender, instance, created, **kwargs):
+    """
+    Creates permissions for users and groups on the Interview instance.
+
+    When a new interview is created, this receiver assigns the appropriate
+    permissions (view, change, delete) for the interview to the users and
+    groups who have permissions on the related application.
+
+    Args:
+        sender: The model class (Interview).
+        instance: The instance of the model (Interview).
+        created: Boolean flag indicating whether the instance was created or updated.
+        kwargs: Additional keyword arguments.
+    """
     if created:
         content_type = ContentType.objects.get_for_model(Interview)
         view_perm = Permission.objects.get(
@@ -93,6 +145,17 @@ def create_interview_permissions(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=Application)
 def create_interview(sender, instance, **kwargs):
+    """
+    Creates an interview when an application is accepted.
+
+    When an application is marked as accepted, this receiver schedules an interview
+    by creating an Interview instance with a default schedule time.
+
+    Args:
+        sender: The model class (Application).
+        instance: The instance of the model (Application).
+        kwargs: Additional keyword arguments.
+    """
     if instance.status == Application.STATUS.ACCEPTED:
         scheduled_time = timezone.now() + timedelta(days=2)
 
@@ -112,6 +175,18 @@ def create_interview(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Application)
 def add_reviewers_to_application(sender, instance, created, **kwargs):
+    """
+    Adds reviewers to an application upon creation.
+
+    When a new application is created, this receiver automatically adds the
+    reviewers from the related vacancy to the application's `reviewed_by` field.
+
+    Args:
+        sender: The model class (Application).
+        instance: The instance of the model (Application).
+        created: Boolean flag indicating whether the instance was created or updated.
+        kwargs: Additional keyword arguments.
+    """
     if created:
         vacancy = instance.vacancy
         reviewers = vacancy.reviewers.all()

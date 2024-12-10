@@ -1,10 +1,5 @@
-import os
-
 import requests
-
-from config.env import BASE_DIR, env
-
-# env.read_env(os.path.join(BASE_DIR, ".env"))
+from config.env import env
 
 # This URL is used for sending messages
 my_uri = env("SMS_URI")
@@ -15,9 +10,21 @@ my_password = str(env("SMS_PASSWORD"))
 
 
 def send_vacancy_application_notification_text(instance, created):
+    """
+    Sends a vacancy application notification as an SMS to the primary contact
+    of the applicant based on the application status.
+
+    Args:
+        instance (Application): The application instance related to the vacancy.
+        created (bool): A flag indicating whether the application was just created or updated.
+
+    Sends the following messages:
+        - If the application is created and status is "submitted", a confirmation message is sent.
+        - If the application status is "accepted", a success message is sent.
+        - If the application status is "rejected", a rejection message with review comments is sent.
+    """
     if created and instance.status == "submitted":
         recipient = str(instance.primary_contact)
-        # message_body = f"Your application for the {instance.vacancy.title} position at Telecom Namibia has been received. Thank you for choosing Telecom Namibia."
         message_body = f"Thank you for submitting your application for the {instance.vacancy.title} opportunity at Telecom Namibia. We acknowledge receipt of your application and will carefully assess your qualifications. You will be notified once the review process has been completed.Thank you for your interest in joining Telecom Namibia."
         http_req = (
             f"{my_uri}/api?action=sendmessage"
@@ -39,7 +46,6 @@ def send_vacancy_application_notification_text(instance, created):
 
     if not created and instance.status == "accepted":
         recipient = str(instance.primary_contact)
-        # message_body = f"Congratulations! Your application for the {instance.vacancy.title} position at Telecom Namibia has been successful. We'll be in touch soon with more details. Thank you for choosing Telecom Namibia."
         message_body = f"Thank you for submitting your application for the {instance.vacancy.title} opportunity at Telecom Namibia. Your application has successfully met the minimum criteria for further assessment. We will review your submission and inform you of the next steps in due course. We appreciate your interest in a career with Telecom Namibia."
         http_req = (
             f"{my_uri}/api?action=sendmessage"
@@ -61,8 +67,7 @@ def send_vacancy_application_notification_text(instance, created):
 
     if not created and instance.status == "rejected":
         recipient = str(instance.primary_contact)
-        # message_body = f"Unfortunately, your application for the {instance.vacancy.title} position hasn't been selected. We appreciate you considering Telecom Namibia. We wish you all the best in your job search."
-        message_body = f"Thank you for your application for the {instance.vacancy.title} opportunity at Telecom Namibia. After a thorough review, we regret to inform you that your application does not meet the minimum criteria. Reason: { instance.review_comments } We value your interest in Telecom Namibia and encourage you to apply for future opportunities. Wishing you success in your job search."
+        message_body = f"Thank you for your application for the {instance.vacancy.title} opportunity at Telecom Namibia. After a thorough review, we regret to inform you that your application does not meet the minimum criteria. Reason: {instance.review_comments} We value your interest in Telecom Namibia and encourage you to apply for future opportunities. Wishing you success in your job search."
         http_req = (
             f"{my_uri}/api?action=sendmessage"
             f"&username={my_username}"
@@ -83,6 +88,16 @@ def send_vacancy_application_notification_text(instance, created):
 
 
 def send_vacancy_interview_notification_text(instance, created):
+    """
+    Sends an interview invitation notification as an SMS to the primary contact
+    of the applicant when an interview is scheduled.
+
+    Args:
+        instance (Interview): The interview instance related to the application.
+        created (bool): A flag indicating whether the interview was just created or updated.
+
+    Sends a message with an interview invitation link if the interview status is "scheduled".
+    """
     if created and instance.status == "scheduled":
         recipient = str(instance.primary_contact)
         message_body = f"Telecom Namibia invites you for a {instance.application.vacancy.title} interview, please check your email inbox or spam folder for more information."
