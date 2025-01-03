@@ -1,4 +1,4 @@
-{% load static compress %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,25 +9,20 @@
             {% block title %}{% endblock title %}
         </title>
 
-        {% compress css %}
 
-            <link href="{% static 'css/output.css' %}" rel="stylesheet">
+        <link href="{% static 'css/output.css' %}" rel="stylesheet">
 
-            {% block extracss %}{% endblock extracss %}
+        {% block extracss %}{% endblock extracss %}
 
-        {% endcompress %}
 
-        {% compress js %}
+        <script src="{% static 'js/alpine.focus.js' %}" defer></script>
+        <script src="{% static 'js/alpine.js' %}" defer></script>
 
-            <script src="{% static 'js/alpine.focus.js' %}" defer></script>
-            <script src="{% static 'js/alpine.js' %}" defer></script>
+        <script src="{% static 'js/htmx.min.js' %}"></script>
+        <script src="{% static 'js/tailwind.min.js' %}"></script>
 
-            <script src="{% static 'js/htmx.min.js' %}"></script>
-            <script src="{% static 'js/tailwind.min.js' %}"></script>
+        {% block extrascripts %}{% endblock extrascripts %}
 
-            {% block extrascripts %}{% endblock extrascripts %}
-
-        {% endcompress %}
 
         <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon" />
 

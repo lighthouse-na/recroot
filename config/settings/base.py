@@ -41,7 +41,6 @@ THIRD_PARTY_APPS = [
     "django_recaptcha",
     "django_cotton",
     "django_cotton_components",
-    "compressor",
 ]
 INSTALLED_APPS = (
     [
@@ -143,7 +142,6 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-    "compressor.finders.CompressorFinder",
 )
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
