@@ -222,12 +222,12 @@ class Application(models.Model):
         #         {"submitted_at": "Applications cannot be accepted past the deadline."}
         #     )
 
-    def save(self, *args, **kwargs):
-        if timezone.now() > self.vacancy.deadline:
-            raise ValidationError(
-                {"submitted_at": "Applications cannot be accepted past the deadline."}
-            )
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if timezone.now() > self.vacancy.deadline:
+    #         raise ValidationError(
+    #             {"submitted_at": "Applications cannot be accepted past the deadline."}
+    #         )
+    #     super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("application_detail", kwargs={"pk": self.pk})

@@ -1,12 +1,12 @@
 {% load static %}
 <nav id="{{ id }}" x-data="{ mobileMenuIsOpen: false, modalIsOpen: false }" @click.away="mobileMenuIsOpen = false"
-     class="sticky bg-white flex items-center justify-between px-6 py-4 z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600"
-     aria-label="navbar">
+    class="sticky bg-white flex items-center justify-between px-6 py-4 z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600"
+    aria-label="navbar">
     <!-- Brand Logo -->
     <c-logo url="{% url 'home' %}" label="Telecom Namibia" />
 
     <!-- Desktop Menu -->
-    <ul class="hidden items-center gap-4 sm:flex">
+    {#<ul class="hidden items-center gap-4 sm:flex">
         {% if user.is_authenticated %}
             <c-navbar.link url="#" label="Pricing" />
             <c-navbar.link url="#" label="Blog" />
@@ -47,10 +47,10 @@
             </div>
 
         {% endif %}
-    </ul>
+    </ul>#}
 
     <!-- Mobile Menu Button -->
-    <button @click="mobileMenuIsOpen = !mobileMenuIsOpen" :aria-expanded="mobileMenuIsOpen"
+    {#<button @click="mobileMenuIsOpen = !mobileMenuIsOpen" :aria-expanded="mobileMenuIsOpen"
             :class="mobileMenuIsOpen ? 'fixed top-6 right-6 z-20' : null" type="button"
             class="flex text-neutral-600 dark:text-neutral-300 sm:hidden" aria-label="mobile menu"
             aria-controls="mobileMenu">
@@ -62,9 +62,9 @@
              viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
         </svg>
-    </button>
+    </button>#}
     <!-- Mobile Menu -->
-    <ul x-cloak x-show="mobileMenuIsOpen"
+    {#<ul x-cloak x-show="mobileMenuIsOpen"
         x-transition:enter="transition motion-reduce:transition-none ease-out duration-300"
         x-transition:enter-start="-translate-y-full" x-transition:enter-end="translate-y-0"
         x-transition:leave="transition motion-reduce:transition-none ease-out duration-300"
@@ -98,6 +98,6 @@
         <li class="mt-4 w-full border-none"><a href="#"
                                                class="rounded-md bg-black px-4 py-2 block text-center font-medium tracking-wide text-neutral-100 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:opacity-100 active:outline-offset-0 dark:bg-white dark:text-black dark:focus-visible:outline-white">Sign
             Out</a></li>
-    </ul>
+    </ul>#}
 </nav>
 <hr>
