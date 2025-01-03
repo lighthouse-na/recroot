@@ -192,6 +192,6 @@ def add_reviewers_to_application(sender, instance, created, **kwargs):
         reviewers = vacancy.reviewers.all()
 
         for reviewer in reviewers:
-            instance.reviewed_by.add(reviewer)
+            instance.reviewers.add(reviewer)
 
         instance.save()
