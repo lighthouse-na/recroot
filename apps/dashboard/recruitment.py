@@ -12,7 +12,7 @@ from apps.recruitment.models import Application, Interview, Subscriber, Vacancy
 from .views import RecruiterLoginView
 
 
-class RecruitmentAdminArea(admin.AdminSite):
+class RecruitmentAdminArea(UnfoldAdminSite):
     site_header = "Recruitment Admin"
     site_title = "Recruitment"
     index_title = "Recruitment Dashboard"
