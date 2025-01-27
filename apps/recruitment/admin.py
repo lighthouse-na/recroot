@@ -523,7 +523,7 @@ class ApplicationAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
         """
         if (
             request.user.is_superuser
-            or request.user.groups.filter(name="admin").exists()
+            or request.user.groups.filter(name__in=["admin", "recruiter"]).exists()
         ):
             return True
         return False

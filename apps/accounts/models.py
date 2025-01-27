@@ -48,7 +48,6 @@ class User(AbstractUser):
 
 
 class Qualification(models.Model):
-
     class QualificationType(models.TextChoices):
         PHD = "phd", "Doctorate(PHD)"
         MD = "md", "Doctor of Medicine (MD)"

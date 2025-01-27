@@ -163,7 +163,6 @@ class FinancialAssistanceAdvert(models.Model):
 
 
 class FinancialAssistanceApplication(models.Model):
-
     class STATUS(models.TextChoices):
         PENDING = "pending"
         RECOMMENDED = "recommended"
