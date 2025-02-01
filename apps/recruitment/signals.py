@@ -1,12 +1,9 @@
 from datetime import timedelta
 
-from django.contrib.auth.models import Permission
-from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
-from guardian.shortcuts import assign_perm, get_groups_with_perms, get_users_with_perms
 
 from .models import Application, Interview
 from .tasks import (
@@ -63,75 +60,123 @@ def send_interview_notification_tasks(sender, instance, created, **kwargs):
     )
 
 
-@receiver(post_save, sender=Application)
-def create_application_permissions(sender, instance, created, **kwargs):
-    """
-    Creates permissions for users and groups based on vacancy permissions.
-
-    When a new application is created, this receiver assigns the appropriate
-    permissions (view, change, delete) to users and groups who have permissions
-    on the related vacancy.
-
-    Args:
-        sender: The model class (Application).
-        instance: The instance of the model (Application).
-        created: Boolean flag indicating whether the instance was created or updated.
-        kwargs: Additional keyword arguments.
-    """
-    if created:
-        vacancy = instance.vacancy
-        users_with_perms = get_users_with_perms(vacancy, attach_perms=True)
-        groups_with_perms = get_groups_with_perms(vacancy, attach_perms=True)
-
-        for user, perms in users_with_perms.items():
-            if "view_vacancy" in perms:
-                assign_perm("view_application", user, instance)
-            if "change_vacancy" in perms:
-                assign_perm("change_application", user, instance)
-            if "delete_vacancy" in perms:
-                assign_perm("delete_application", user, instance)
-
-        for group, perms in groups_with_perms.items():
-            if "view_vacancy" in perms:
-                assign_perm("view_application", group, instance)
-            if "change_vacancy" in perms:
-                assign_perm("change_application", group, instance)
-            if "delete_vacancy" in perms:
-                assign_perm("delete_application", group, instance)
+# ***************************************************************************************************
+#                                           PERMISSIONS
+# ***************************************************************************************************
+# def get_permission(codename, model):
+#     """Helper function to get a permission object."""
+#     content_type = ContentType.objects.get_for_model(model)
+#     try:
+#         return Permission.objects.get(content_type=content_type, codename=codename)
+#     except Permission.DoesNotExist:
+#         return None
 
 
-@receiver(post_save, sender=Interview)
-def create_interview_permissions(sender, instance, created, **kwargs):
-    """
-    Creates permissions for users and groups on the Interview instance.
+# @receiver(post_save, sender=Vacancy)
+# def create_recruitment_permissions(sender, instance, created, **kwargs):
+#     """
+#     Assigns necessary permissions to reviewers of a Vacancy when it is created or updated.
+#     """
+#     # Get required permissions
+#     permissions_list = [
+#         get_permission("view_vacancy", Vacancy),
+#         get_permission("view_application", Application),
+#         get_permission("change_application", Application),
+#         get_permission("view_interview", Interview),
+#         get_permission("change_interview", Interview),
+#     ]
+#     permissions_list = [p for p in permissions_list if p]  # Remove None values
 
-    When a new interview is created, this receiver assigns the appropriate
-    permissions (view, change, delete) for the interview to the users and
-    groups who have permissions on the related application.
+#     for reviewer in instance.reviewers.all():
+#         reviewer.user_permissions.add(*permissions_list)
 
-    Args:
-        sender: The model class (Interview).
-        instance: The instance of the model (Interview).
-        created: Boolean flag indicating whether the instance was created or updated.
-        kwargs: Additional keyword arguments.
-    """
-    if created:
-        content_type = ContentType.objects.get_for_model(Interview)
-        view_perm = Permission.objects.get(codename="view_interview", content_type=content_type)
-        change_perm = Permission.objects.get(codename="change_interview", content_type=content_type)
-        delete_perm = Permission.objects.get(codename="delete_interview", content_type=content_type)
 
-        for user in get_users_with_perms(instance.application):
-            user.user_permissions.add(view_perm, change_perm, delete_perm)
-            assign_perm("view_interview", user, instance)
-            assign_perm("change_interview", user, instance)
-            assign_perm("delete_interview", user, instance)
+# @receiver(m2m_changed, sender=Vacancy.reviewers.through)
+# def update_recruitment_permissions(sender, instance, action, pk_set, **kwargs):
+#     """
+#     Updates permissions when reviewers are added or removed from a Vacancy.
+#     """
 
-        for group in get_groups_with_perms(instance.application):
-            group.permissions.add(view_perm, change_perm, delete_perm)
-            assign_perm("view_interview", group, instance)
-            assign_perm("change_interview", group, instance)
-            assign_perm("delete_interview", group, instance)
+#     # Fetch permissions once to avoid multiple queries
+#     permissions_list = [
+#         get_permission("view_vacancy", Vacancy),
+#         get_permission("view_application", Application),
+#         get_permission("change_application", Application),
+#         get_permission("view_interview", Interview),
+#         get_permission("change_interview", Interview),
+#     ]
+#     permissions_list = [p for p in permissions_list if p]  # Remove None values
+
+#     if action == "post_add":
+#         # Assign permissions to newly added reviewers
+#         for reviewer_id in pk_set:
+#             reviewer = instance.reviewers.model.objects.get(pk=reviewer_id)
+#             reviewer.user_permissions.add(*permissions_list)
+
+#     elif action in ["post_remove", "post_clear"]:
+#         # Remove permissions from reviewers
+#         for reviewer_id in pk_set:
+#             reviewer = instance.reviewers.model.objects.get(pk=reviewer_id)
+#             reviewer.user_permissions.remove(*permissions_list)
+
+
+# @receiver(post_save, sender=Application)
+# def create_application_permissions(sender, instance, created, **kwargs):
+#     """
+#     Assigns 'view_application' and 'change_application' permissions to reviewers.
+
+#     When an application is created, all users listed as reviewers for that application
+#     will be given 'view_application' and 'change_application' permissions.
+
+#     Args:
+#         sender: The model class (Application).
+#         instance: The instance of the model (Application).
+#         created: Boolean flag indicating whether the instance was created or updated.
+#         kwargs: Additional keyword arguments.
+#     """
+#     if created:
+#         for reviewer in instance.reviewers.all():
+#             assign_perm("view_application", reviewer, instance)
+#             assign_perm("change_application", reviewer, instance)
+
+
+# @receiver(post_save, sender=Interview)
+# def create_interview_permissions(sender, instance, created, **kwargs):
+#     """
+#     Creates permissions for users and groups on the Interview instance.
+
+#     When a new interview is created, this receiver assigns the appropriate
+#     permissions (view, change, delete) for the interview to the users and
+#     groups who have permissions on the related application.
+
+#     Args:
+#         sender: The model class (Interview).
+#         instance: The instance of the model (Interview).
+#         created: Boolean flag indicating whether the instance was created or updated.
+#         kwargs: Additional keyword arguments.
+#     """
+#     if created:
+#         content_type = ContentType.objects.get_for_model(Interview)
+#         view_perm = Permission.objects.get(codename="view_interview", content_type=content_type)
+#         change_perm = Permission.objects.get(codename="change_interview", content_type=content_type)
+#         delete_perm = Permission.objects.get(codename="delete_interview", content_type=content_type)
+
+#         for user in get_users_with_perms(instance.application):
+#             user.user_permissions.add(view_perm, change_perm, delete_perm)
+#             assign_perm("view_interview", user, instance)
+#             assign_perm("change_interview", user, instance)
+#             assign_perm("delete_interview", user, instance)
+
+#         for group in get_groups_with_perms(instance.application):
+#             group.permissions.add(view_perm, change_perm, delete_perm)
+#             assign_perm("view_interview", group, instance)
+#             assign_perm("change_interview", group, instance)
+#             assign_perm("delete_interview", group, instance)
+
+
+# ***************************************************************************************************
+#                                           END PERMISSIONS
+# ***************************************************************************************************
 
 
 @receiver(post_save, sender=Application)
@@ -162,27 +207,3 @@ def create_interview(sender, instance, **kwargs):
             application=instance,
             schedule_datetime=scheduled_time,
         )
-
-
-@receiver(post_save, sender=Application)
-def add_reviewers_to_application(sender, instance, created, **kwargs):
-    """
-    Adds reviewers to an application upon creation.
-
-    When a new application is created, this receiver automatically adds the
-    reviewers from the related vacancy to the application's `reviewed_by` field.
-
-    Args:
-        sender: The model class (Application).
-        instance: The instance of the model (Application).
-        created: Boolean flag indicating whether the instance was created or updated.
-        kwargs: Additional keyword arguments.
-    """
-    if created:
-        vacancy = instance.vacancy
-        reviewers = vacancy.reviewers.all()
-
-        for reviewer in reviewers:
-            instance.reviewers.add(reviewer)
-
-        instance.save()
