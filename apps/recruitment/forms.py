@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 
 from django import forms
+from django.contrib import messages
 from django.utils import timezone
 from phonenumber_field.formfields import PhoneNumberField
 from tinymce.widgets import TinyMCE
@@ -83,9 +84,10 @@ class ApplicationForm(forms.ModelForm):
         )
 
     def __init__(self, vacancy, *args, **kwargs):
-        super().__init__(*args, **kwargs)
         self.vacancy = vacancy
         self.requirements = MinimumRequirement.objects.filter(vacancy=vacancy)
+        self.request = kwargs.pop("request", None)
+        super().__init__(*args, **kwargs)
 
         for requirement in self.requirements:
             field_info = {
@@ -136,7 +138,7 @@ class ApplicationForm(forms.ModelForm):
         age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
 
         if age < 18:
-            raise forms.ValidationError("You must be at least 18 years old to apply.")
+            messages.error(self.request, "You must be at least 18 years old to apply.")
 
         return dob
 
