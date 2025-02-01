@@ -16,9 +16,6 @@ class RecruitmentAdminArea(UnfoldAdminSite):
     index_title = "Recruitment Dashboard"
     index_template = "admin/index.html"
     enable_nav_sidebar = False
-    # login_template = "admin/login.html"
-    # logout_template = "admin/logout.html"
-    # password_change_template = "admin/password_change.html"
 
     def login(self, request, extra_context=None):
         return RecruiterLoginView.as_view()(request)
@@ -35,4 +32,3 @@ recruitment_admin_site = RecruitmentAdminArea(name="Recruitment")
 recruitment_admin_site.register(Application, ApplicationAdmin)
 recruitment_admin_site.register(Vacancy, VacancyAdmin)
 recruitment_admin_site.register(Interview, InterviewAdmin)
-# recruitment_admin_site.register(Subscriber, SubscriberAdmin)
