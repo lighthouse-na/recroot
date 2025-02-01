@@ -62,39 +62,37 @@
                     <form method="post" enctype="multipart/form-data" class="space-y-4" id="qualificationForm">
                         {% csrf_token %}
 
-                        {% if not user.is_authenticated %}
 
-                            <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
-                                <c-input id="first_name" label="First Name" placeholder="First Name" name="first_name"
-                                         autocomplete required validationUrl="{% url 'recruitment:first_name_validation' %}" />
-                                <c-input id="middle_name" label="Middle Name" placeholder="Middle Name" name="middle_name"
-                                         validationUrl="{% url 'recruitment:middle_name_validation' %}"
-                                         class="w-full rounded-lg border border-gray-200 p-3 text-sm" />
-                                <c-input id="last_name" label="Last Name" placeholder="Last Name" name="last_name"
-                                         validationUrl="{% url 'recruitment:last_name_validation' %}" autocomplete required />
-                            </div>
+                        <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
+                            <c-input id="first_name" label="First Name" placeholder="First Name" name="first_name"
+                                     autocomplete required validationUrl="{% url 'recruitment:first_name_validation' %}" />
+                            <c-input id="middle_name" label="Middle Name" placeholder="Middle Name" name="middle_name"
+                                     validationUrl="{% url 'recruitment:middle_name_validation' %}"
+                                     class="w-full rounded-lg border border-gray-200 p-3 text-sm" />
+                            <c-input id="last_name" label="Last Name" placeholder="Last Name" name="last_name"
+                                     validationUrl="{% url 'recruitment:last_name_validation' %}" autocomplete required />
+                        </div>
 
-                            <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
-                                <c-select id="gender-select" name="gender" label="Gender" :options="['female','male']"
-                                          required />
-                                <c-input id="email" label="Email" placeholder="@Email" name="email"
-                                         validationUrl="{% url 'email_validation' %}" autocomplete required />
-                                <c-input label="Date of Birth" id="date_of_irth" name="date_of_birth" type="date" autocomplete
-                                         required />
-                            </div>
+                        <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
+                            <c-select id="gender-select" name="gender" label="Gender" :options="['female','male']"
+                                      required />
+                            <c-input id="email" label="Email" placeholder="@Email" name="email"
+                                     validationUrl="{% url 'email_validation' %}" autocomplete required />
+                            <c-input label="Date of Birth" id="date_of_irth" name="date_of_birth" type="date" autocomplete
+                                     required />
+                        </div>
 
-                            <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
-                                <c-input id="primary_contact" label="Primary Contact Number" placeholder="+264 ... ...."
-                                         name="primary_contact" type="tel"
-                                         validationUrl="{% url 'recruitment:primary_contact_validation' %}" autocomplete="false"
-                                         required />
+                        <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
+                            <c-input id="primary_contact" label="Primary Contact Number" placeholder="+264 ... ...."
+                                     name="primary_contact" type="tel"
+                                     validationUrl="{% url 'recruitment:primary_contact_validation' %}" autocomplete="false"
+                                     required />
 
-                                <c-input id="secondary_contact" label="Secondary Contact Number" placeholder="Secondary Contact"
-                                         name="secondary_contact" type="tel"
-                                         validationUrl="{% url 'recruitment:secondary_contact_validation' %}" autocomplete="false" />
-                            </div>
+                            <c-input id="secondary_contact" label="Secondary Contact Number" placeholder="Secondary Contact"
+                                     name="secondary_contact" type="tel"
+                                     validationUrl="{% url 'recruitment:secondary_contact_validation' %}" autocomplete="false" />
+                        </div>
 
-                        {% endif %}
 
                         <c-input id="cv" label="Documents" name="cv" type="file" autocomplete required />
 

@@ -5,12 +5,12 @@
     <div class="">
         {% include 'includes/navbar.html' %}
         <div class="p-5 justify-between">
-            {% if user.is_authenticated %}
+        {#{% if user.is_authenticated %}
                 <div class="fixed">
                     {% include 'includes/sidebar.html' %}
                 </div>
-            {% endif %}
-            <main class="{% if user.is_authenticated %}pl-20{% endif %} scroll-smooth overflow-x-auto">
+            {% endif %}#}
+            <main class=" scroll-smooth overflow-x-auto">
                 {% block content %}
                 {% endblock content %}
             </main>
