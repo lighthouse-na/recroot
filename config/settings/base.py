@@ -34,10 +34,10 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "django_recaptcha",
     "django_cotton",
+    "django_browser_reload",
 ]
 INSTALLED_APPS = (
     [
-        # "daphne",
         "unfold",
         "unfold.contrib.import_export",
         "unfold.contrib.guardian",
@@ -53,7 +53,6 @@ INSTALLED_APPS = (
         "django.contrib.humanize",
         "allauth",
         "allauth.account",
-        # "channels",
     ]
     + LOCAL_APPS
     + THIRD_PARTY_APPS
@@ -70,6 +69,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",  # allauth
     "debug_toolbar.middleware.DebugToolbarMiddleware",  # debug toolbar
+    "django_browser_reload.middleware.BrowserReloadMiddleware",  # browser reload
 ]
 
 ROOT_URLCONF = "config.urls"
