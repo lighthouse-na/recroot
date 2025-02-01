@@ -1,6 +1,4 @@
 from allauth.account.views import LoginView
-from django.shortcuts import render
-from django.urls import reverse_lazy
 
 
 # Create your views here.
@@ -18,7 +16,3 @@ class StaffLoginView(CustomLoginView):
 
 class RecruiterLoginView(CustomLoginView):
     success_url = "/dashboard/recruiter/"
-
-
-class FinaidLoginView(CustomLoginView):
-    success_url = "/dashboard/finaid/"

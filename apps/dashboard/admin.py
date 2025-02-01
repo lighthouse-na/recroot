@@ -1,23 +1,10 @@
 from allauth.account.models import EmailAddress
-from django.contrib import admin
 from django.contrib.auth.models import Group, User
 from unfold.admin import ModelAdmin
 from unfold.sites import UnfoldAdminSite
 
 from apps.accounts.admin import EmailAddressAdmin, GroupAdmin, UserAdmin
 from apps.accounts.models import User
-from apps.finaid.admin import (
-    BursaryAdvertAdmin,
-    BursaryApplicationsAdmin,
-    FinancialAssistanceAdmin,
-    FinancialAssistanceAdvertAdmin,
-)
-from apps.finaid.models import (
-    BursaryAdvert,
-    BursaryApplication,
-    FinancialAssistanceAdvert,
-    FinancialAssistanceApplication,
-)
 from apps.organisation.admin import CostCentreAdmin, PositionAdmin, RegionAdmin
 from apps.organisation.models import CostCentre, Position, Region
 from apps.pages.models import FAQ, Announcement
@@ -73,9 +60,5 @@ admin_dashboard_site.register(VacancyType, ModelAdmin)
 admin_dashboard_site.register(Subscriber, SubscriberAdmin)
 admin_dashboard_site.register(Position, PositionAdmin)
 admin_dashboard_site.register(CostCentre, CostCentreAdmin)
-admin_dashboard_site.register(BursaryAdvert, BursaryAdvertAdmin)
-admin_dashboard_site.register(BursaryApplication, BursaryApplicationsAdmin)
-admin_dashboard_site.register(FinancialAssistanceApplication, FinancialAssistanceAdmin)
-admin_dashboard_site.register(FinancialAssistanceAdvert, FinancialAssistanceAdvertAdmin)
 admin_dashboard_site.register(Announcement, ModelAdmin)
 admin_dashboard_site.register(FAQ, ModelAdmin)

@@ -106,20 +106,6 @@ UNFOLD = {
                             "view_application"
                         ),
                     },
-                    {
-                        "title": _("Financial Aid"),
-                        "icon": "request_quote",
-                        "link": "/"
-                        + (
-                            "admin/"
-                            if module == "config.settings.development"
-                            else "oshimashakula/"
-                        )
-                        + "finaid",
-                        "permission": lambda request: request.user.has_perm(
-                            "view_application"
-                        ),
-                    },
                     # -----------------------------------------------------------------------
                     # Admin Dashboard Urls
                     # -----------------------------------------------------------------------
@@ -171,21 +157,6 @@ UNFOLD = {
                     {
                         "title": _("Recruitment"),
                         "icon": "people",
-                        "link": "/"
-                        + (
-                            "dashboard/admin/"
-                            if module == "config.settings.development"
-                            else "dashboard/telecom/administrator/"
-                        )
-                        + "accounts/user",
-                        "permission": lambda request: request.user.groups.filter(
-                            name="admin"
-                        ).exists()
-                        and request.path.startswith("/dashboard/admin/"),
-                    },
-                    {
-                        "title": _("Financial Aid"),
-                        "icon": "request_quote",
                         "link": "/"
                         + (
                             "dashboard/admin/"

@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib import admin
 from django.urls import include, path
 
 from apps.accounts.admin import superuser_dashboard_site
@@ -15,7 +14,6 @@ urlpatterns = (
         path("", include("apps.pages.urls")),
         path("recruitment/", include("apps.recruitment.urls")),
         path("dashboard/", include("apps.dashboard.urls")),
-        path("finaid/", include("apps.finaid.urls")),
         path("utils/", include("apps.utils.urls")),
     ]
     # + debug_toolbar_urls()

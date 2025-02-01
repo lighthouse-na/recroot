@@ -1,13 +1,11 @@
-from django.contrib import admin
 from unfold.sites import UnfoldAdminSite
 
 from apps.recruitment.admin import (
     ApplicationAdmin,
     InterviewAdmin,
-    SubscriberAdmin,
     VacancyAdmin,
 )
-from apps.recruitment.models import Application, Interview, Subscriber, Vacancy
+from apps.recruitment.models import Application, Interview, Vacancy
 
 from .views import RecruiterLoginView
 

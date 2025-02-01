@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import List
 
 from allauth.account.admin import EmailAddressAdmin as BaseEmailAddressAdmin
 from allauth.account.models import EmailAddress
@@ -11,18 +11,6 @@ from import_export.admin import ExportActionModelAdmin
 from unfold.admin import ModelAdmin, TabularInline
 from unfold.sites import UnfoldAdminSite
 
-from apps.finaid.admin import (
-    BursaryAdvertAdmin,
-    BursaryApplicationsAdmin,
-    FinancialAssistanceAdmin,
-    FinancialAssistanceAdvertAdmin,
-)
-from apps.finaid.models import (
-    BursaryAdvert,
-    BursaryApplication,
-    FinancialAssistanceAdvert,
-    FinancialAssistanceApplication,
-)
 from apps.organisation.admin import CostCentreAdmin, PositionAdmin, RegionAdmin
 from apps.organisation.models import (
     CostCentre,
@@ -285,14 +273,6 @@ superuser_dashboard_site.register(VacancyType, ModelAdmin)
 superuser_dashboard_site.register(Subscriber, SubscriberAdmin)
 superuser_dashboard_site.register(Position, PositionAdmin)
 superuser_dashboard_site.register(CostCentre, CostCentreAdmin)
-superuser_dashboard_site.register(BursaryAdvert, BursaryAdvertAdmin)
-superuser_dashboard_site.register(BursaryApplication, BursaryApplicationsAdmin)
-superuser_dashboard_site.register(
-    FinancialAssistanceApplication, FinancialAssistanceAdmin
-)
-superuser_dashboard_site.register(
-    FinancialAssistanceAdvert, FinancialAssistanceAdvertAdmin
-)
 superuser_dashboard_site.register(Announcement, ModelAdmin)
 superuser_dashboard_site.register(FAQ, ModelAdmin)
 superuser_dashboard_site.register(Division, DivisionAdmin)

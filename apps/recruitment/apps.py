@@ -7,4 +7,4 @@ class RecruitmentConfig(AppConfig):
     label = "recruitment"
 
     def ready(self):
-        from . import signals
+        pass

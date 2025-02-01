@@ -1,7 +1,6 @@
 from allauth.account.forms import LoginForm
 from django import forms
 from django.contrib.auth import get_user_model
-from django.utils.translation import gettext_lazy as _
 from django_recaptcha.fields import ReCaptchaField, ReCaptchaV3
 from . import models
 

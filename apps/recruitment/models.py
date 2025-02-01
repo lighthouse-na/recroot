@@ -3,7 +3,7 @@ from datetime import date, datetime, timedelta
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
-from django.core.validators import FileExtensionValidator, MaxValueValidator
+from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.db.models import UniqueConstraint
 from django.urls import reverse

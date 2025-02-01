@@ -6,7 +6,6 @@ from django.db import transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
 from guardian.shortcuts import assign_perm, get_groups_with_perms, get_users_with_perms
 
 from .models import Application, Interview

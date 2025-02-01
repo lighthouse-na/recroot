@@ -1,19 +1,12 @@
 from datetime import datetime
-from typing import Dict, List
 
-from django.contrib import admin
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest
 from unfold.admin import ModelAdmin
 from unfold.sites import UnfoldAdminSite
 
 from apps.accounts.admin import CertificationAdmin, QualificationAdmin
 from apps.accounts.models import Certification, Qualification
-from apps.finaid.admin import FinancialAssistanceAdmin
-from apps.finaid.models import (
-    BursaryAdvert,
-    FinancialAssistanceAdvert,
-    FinancialAssistanceApplication,
-)
+
 from apps.pages.models import Announcement
 from apps.recruitment.models import Application, Interview, Vacancy
 
@@ -115,18 +108,10 @@ class StaffDashboard(UnfoldAdminSite):
         vacancies = Vacancy.objects.filter(
             is_published=True, deadline__gt=datetime.now()
         ).order_by("-created_at")
-        bursaries = BursaryAdvert.objects.filter(
-            is_visible=True, deadline__gt=datetime.now()
-        ).order_by("-created_at")
-        financial_assistance_adverts = FinancialAssistanceAdvert.objects.filter(
-            is_visible=True, deadline__gt=datetime.now()
-        ).order_by("-created_at")
         extra_context = {
             **self.each_context(request),
             "announcements": announcements,
             "vacancies": vacancies,
-            "bursaries": bursaries,
-            "financial_assistance_adverts": financial_assistance_adverts,
             "title": request.user,
         }
         return super().index(request, extra_context)
@@ -147,4 +132,3 @@ staff_dashboard_site.register(Certification, CertificationAdmin)
 # staff_dashboard_site.register(Vacancy, VacancyAdmin)
 staff_dashboard_site.register(Application, ApplicationAdmin)
 staff_dashboard_site.register(Interview, InterviewAdmin)
-staff_dashboard_site.register(FinancialAssistanceApplication, FinancialAssistanceAdmin)

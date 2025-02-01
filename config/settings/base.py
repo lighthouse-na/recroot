@@ -1,6 +1,5 @@
 import os
 
-from django.utils.translation import gettext_lazy as _
 
 from config.env import BASE_DIR, env
 
@@ -35,7 +34,6 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "django_recaptcha",
     "django_cotton",
-    "django_cotton_components",
 ]
 INSTALLED_APPS = (
     [
