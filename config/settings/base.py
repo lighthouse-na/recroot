@@ -18,11 +18,7 @@ LOCAL_APPS = [
     "apps.organisation",
     "apps.recruitment",
     "apps.pages",
-    "apps.finaid",
     "apps.dashboard",
-    # "apps.notification",
-    "apps.api_v1",
-    "apps.staff",
     "apps.utils",
 ]
 THIRD_PARTY_APPS = [
@@ -36,7 +32,6 @@ THIRD_PARTY_APPS = [
     "debug_toolbar",
     "import_export",
     "django_cleanup.apps.CleanupConfig",
-    "corsheaders",
     "rest_framework",
     "django_recaptcha",
     "django_cotton",
@@ -67,7 +62,6 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",  # cors-headers
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",  # whitenoise
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -175,9 +169,7 @@ SITE_ID = 1
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
 # ANONYMOUS_USER_NAME = None  # guardian
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000",
-]
+
 UBLOCK_ORIGIN_EXCEPTIONS = [
     "http://localhost:8000/*",
     # Add your domain here
