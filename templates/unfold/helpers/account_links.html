@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n group_filter %}
 
 <div class="relative" x-data="{ openUserLinks: false, openProfile: false }">
     <a class="block cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
@@ -23,11 +23,32 @@
         {% endif %}
 
         <!-- <a href="{% url 'accounts:profile' %}" -->
-        <a @click="openProfile = !openProfile" data-drawer-target="profile-drawer" data-drawer-show="profile-drawer"
-           data-drawer-placement="left"
-           class="block cursor-pointer mx-1 px-3 py-2 rounded hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-200">
+        {#<a @click="openProfile = !openProfile" data-drawer-target="profile-drawer" data-drawer-show="profile-drawer"
+            data-drawer-placement="left"
+            class="block cursor-pointer mx-1 px-3 py-2 rounded hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-200">
             {% translate 'Profile' %}
-        </a>
+        </a>#}
+
+        {% if user.is_superuser %}
+            <a href="{% url 'SuperUser:index' %}"
+               class="mx-1 px-3 py-2 rounded hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-200">
+                {% translate 'Superuser Dashboard' %}
+            </a>
+        {% endif %}
+
+        {% if user|is_in_group:"admin" %}
+            <a href="{% url 'admin:index' %}"
+               class="mx-1 px-3 py-2 rounded hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-200">
+                {% translate 'Admin Dashboard' %}
+            </a>
+        {% endif %}
+
+        {% if user|is_in_group:"recruiter" %}
+            <a href="{% url 'Recruitment:index' %}"
+               class="mx-1 px-3 py-2 rounded hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-200">
+                {% translate 'Recruiter Dashboard' %}
+            </a>
+        {% endif %}
 
         {% if user.has_usable_password %}
             <a href="{% url 'admin:password_change' %}"
