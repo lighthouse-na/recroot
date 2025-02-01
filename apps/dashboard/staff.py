@@ -4,9 +4,6 @@ from django.http import HttpRequest
 from unfold.admin import ModelAdmin
 from unfold.sites import UnfoldAdminSite
 
-from apps.accounts.admin import CertificationAdmin, QualificationAdmin
-from apps.accounts.models import Certification, Qualification
-
 from apps.pages.models import Announcement
 from apps.recruitment.models import Application, Interview, Vacancy
 
@@ -127,8 +124,5 @@ class StaffDashboard(UnfoldAdminSite):
 
 
 staff_dashboard_site = StaffDashboard(name="Staff")
-staff_dashboard_site.register(Qualification, QualificationAdmin)
-staff_dashboard_site.register(Certification, CertificationAdmin)
-# staff_dashboard_site.register(Vacancy, VacancyAdmin)
 staff_dashboard_site.register(Application, ApplicationAdmin)
 staff_dashboard_site.register(Interview, InterviewAdmin)

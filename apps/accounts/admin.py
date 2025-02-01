@@ -38,7 +38,7 @@ from apps.recruitment.models import (
 )
 
 from .forms import CustomUserChangeForm, CustomUserCreationForm
-from .models import Certification, Qualification, User, Experience
+from .models import User
 
 # Unregister default admin configurations for Group and EmailAddress
 admin.site.unregister(Group)
@@ -51,80 +51,6 @@ class GroupAdmin(BaseGroupAdmin, ModelAdmin): ...
 
 @admin.register(EmailAddress)
 class EmailAddressAdmin(BaseEmailAddressAdmin, ModelAdmin): ...
-
-
-@admin.register(Qualification)
-class QualificationAdmin(ModelAdmin, ExportActionModelAdmin):
-    """
-    Custom admin interface for the Qualification model.
-
-    This admin configuration restricts the displayed qualifications
-    based on the user's role:
-    - Superusers and users in the "admin" group can see all qualifications.
-    - Regular users see only qualifications associated with their account.
-    """
-
-    def get_queryset(self, request):
-        """
-        Customises the queryset for the Qualification model.
-
-        Modifies the queryset based on the user's permissions:
-        - If the user is a superuser or in the "admin" group, return all qualifications.
-        - Otherwise, return qualifications linked to the current user.
-
-        Args:
-            request (HttpRequest): The HTTP request object.
-
-        Returns:
-            QuerySet: A filtered queryset of qualifications.
-        """
-        qs = super().get_queryset(request)
-
-        if (
-            request.user.is_superuser
-            or request.user.groups.filter(name="admin").exists()
-        ):
-            return qs
-
-        user = get_user_model().objects.get(user=request.user)
-        return qs.filter(user=user)
-
-
-@admin.register(Certification)
-class CertificationAdmin(ModelAdmin, ExportActionModelAdmin):
-    """
-    Custom admin interface for the Certification model.
-
-    This admin configuration restricts the displayed certifications
-    based on the user's role:
-    - Superusers and users in the "admin" group can see all certifications.
-    - Regular users see only certifications associated with their account.
-    """
-
-    def get_queryset(self, request):
-        """
-        Customises the queryset for the Certification model.
-
-        Modifies the queryset based on the user's permissions:
-        - If the user is a superuser or in the "admin" group, return all certifications.
-        - Otherwise, return certifications linked to the current user.
-
-        Args:
-            request (HttpRequest): The HTTP request object.
-
-        Returns:
-            QuerySet: A filtered queryset of certifications.
-        """
-        qs = super().get_queryset(request)
-
-        if (
-            request.user.is_superuser
-            or request.user.groups.filter(name="admin").exists()
-        ):
-            return qs
-
-        user = get_user_model().objects.get(user=request.user)
-        return qs.filter(user=user)
 
 
 class DepartmentInline(TabularInline):
@@ -277,6 +203,3 @@ superuser_dashboard_site.register(Announcement, ModelAdmin)
 superuser_dashboard_site.register(FAQ, ModelAdmin)
 superuser_dashboard_site.register(Division, DivisionAdmin)
 superuser_dashboard_site.register(MinimumRequirement, RequirementsAdmin)
-superuser_dashboard_site.register(Experience, ModelAdmin)
-superuser_dashboard_site.register(Qualification, ModelAdmin)
-superuser_dashboard_site.register(Certification, ModelAdmin)
