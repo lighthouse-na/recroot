@@ -29,7 +29,6 @@ dependencies = [
     "django-allauth==65.3.1",
     "django-appconf==1.0.6",
     "django-cleanup==9.0.0",
-    "django-cors-headers==4.6.0",
     "django-cotton==1.5.1",
     "django-crispy-forms==2.3",
     "django-debug-toolbar==4.4.6",
