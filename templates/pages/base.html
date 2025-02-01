@@ -3,11 +3,6 @@
 {% block base_content %}
     {% include 'includes/navbar.html' %}
 
-    {% if user.is_authenticated %}
-        {% include 'unfold/partials/speed_dial.html' %}
-    {% endif %}
-
-
     {% block content %}{% endblock content %}
 
 
