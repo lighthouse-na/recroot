@@ -1,6 +1,6 @@
 {% load static %}
 <nav id="{{ id }}" x-data="{ mobileMenuIsOpen: false, modalIsOpen: false }" @click.away="mobileMenuIsOpen = false"
-     class="sticky bg-white flex items-center justify-between px-6 py-4 z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600"
+     class="sticky bg-white dark:bg-gray-900 flex items-center justify-between px-6 py-4 z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600"
      aria-label="navbar">
     <!-- Brand Logo -->
     <c-logo url="{% url 'home' %}" label="Telecom Namibia" />
