@@ -2,6 +2,8 @@ from allauth.account.forms import LoginForm
 from django import forms
 from django.contrib.auth import get_user_model
 from django_recaptcha.fields import ReCaptchaField, ReCaptchaV3
+
+from unfold.widgets import UnfoldAdminPasswordInput
 from . import models
 
 
@@ -14,6 +16,7 @@ class CustomUserCreationForm(forms.ModelForm):
             "is_superuser",
             "is_active",
             "is_staff",
+            "password",
         )
 
 
@@ -25,6 +28,7 @@ class CustomUserChangeForm(forms.ModelForm):
             "last_login",
             "is_superuser",
             "is_staff",
+            "password",
         )
 
 
