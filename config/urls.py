@@ -8,8 +8,6 @@ urlpatterns = (
     [
         path("accounts/", include("allauth.urls")),
         path("accounts/", include("apps.accounts.urls")),
-        # path("admin/", admin.site.urls),
-        # path("admin/", superuser_dashboard_site.urls),
         path("tinymce/", include("tinymce.urls")),
         path("", include("apps.pages.urls")),
         path("recruitment/", include("apps.recruitment.urls")),
@@ -23,7 +21,7 @@ urlpatterns = (
 if settings.DEBUG:
     import debug_toolbar
 
-    urlpatterns += [path("__debug__/", include(debug_toolbar.urls))]
-    urlpatterns += [path("admin/", superuser_dashboard_site.urls)]
+    urlpatterns.append(path("__debug__/", include(debug_toolbar.urls)))
+    urlpatterns.append(path("admin/", superuser_dashboard_site.urls, name="superuser"))
 else:
-    urlpatterns += [path("oshimashakula/", superuser_dashboard_site.urls)]
+    urlpatterns.append(path("oshimashakula/", superuser_dashboard_site.urls, name="superuser"))
