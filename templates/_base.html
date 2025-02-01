@@ -29,7 +29,7 @@
         {% block head %}{% endblock head %}
     </head>
 
-    <body class="bg-white dark:bg-gray-900" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <body class="bg-white dark:bg-gray-900 select-none" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
         {% if announcements %}
             {% include 'pages/announcements.html' %}
         {% endif %}
