@@ -4,13 +4,11 @@ from allauth.account.admin import EmailAddressAdmin as BaseEmailAddressAdmin
 from allauth.account.models import EmailAddress
 from django.contrib import admin
 from django.contrib.auth import get_user_model
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
 from django.contrib.auth.models import Group
 from django.urls import URLPattern, path
 from import_export.admin import ExportActionModelAdmin
 from unfold.admin import ModelAdmin, TabularInline
-from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationForm
 from unfold.sites import UnfoldAdminSite
 
 # from apps.accounts.models import User
@@ -91,10 +89,10 @@ class UserAdmin(ModelAdmin, ExportActionModelAdmin):
         Returns:
             QuerySet: A filtered queryset of users.
         """
-        qs = super().get_queryset(request)
+        qs = super().get_queryset(request).exclude(is_superuser=True)
 
         if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
-            return qs
+            return qs.exclude(email="AnonymousUser")
         return qs.filter(user=request.user)
 
     def has_add_permission(self, request):
