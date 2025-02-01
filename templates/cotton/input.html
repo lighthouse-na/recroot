@@ -49,13 +49,14 @@
 
     <!-- form-errors -->
     <template x-if="showError">
-        <div class="{{ errorDivClass }}" x-text="errors"></div>
-    </template>
+        <div class="{% if errorDivClass %}{{ errorDivClass }}{% else %}border border-red-500 bg-red-100 text-red-800 text-xs p-2 mt-1 rounded-lg"
+                 x-text="errors"></div>
+            </template>
     <!-- form-errors end -->
 
     <!-- validationUrl-error -->
-    {% if validationUrl %}
-        <div id="{{ id }}-error"></div>
-    {% endif %}
+            {% if validationUrl %}
+                <div id="{{ id }}-error"></div>
+            {% endif %}
     <!-- validationUrl-error end -->
-</div>
+            </div>
