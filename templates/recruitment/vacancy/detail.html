@@ -11,11 +11,11 @@
 {% block content %}
 
 
-    <section x-data="{submittable: false}" class="bg-gray-100">
-        <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
+    <section x-data="{submittable: false}" class="bg-gray-100 dark:bg-gray-900">
+        <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-4">
+            <div class="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-5">
             <!-- Vacancy Detail -->
-                <div class="lg:col-span-2 lg:py-12 overflow-y-auto">
+                <div class="lg:col-span-2 lg:py-4 h-screen overflow-y-auto">
                     <c-h3 title="{{ vacancy.title }}" />
                     {% if vacancy.advert and vacancy.advert.url %}
                         <a href="{{ vacancy.advert.url }}" target="_blank">
@@ -37,20 +37,21 @@
                         <time datetime="{{ vacancy.deadline }}" class="text-red-500">{{ vacancy.deadline }}</time>
                     </div>
 
-                    <p>
+                    <p class="text-gray-900 dark:text-gray-200">
                         {{ vacancy.content|safe }}
                         {% lorem %}
                     </p>
+                    <br>
                 <!-- Remarks -->
-                    <p>
+                    <p class="text-gray-900 dark:text-gray-200">
                         <strong>Remarks:</strong>
                         {{ vacancy.remarks|safe }}
-                        {% lorem %}
+                        {% lorem 500 %}
                     </p>
                 </div>
             <!-- VacancyDetail End -->
 
-                <div class="rounded-lg bg-white p-8 shadow-lg lg:col-span-3 lg:p-12">
+                <div class="rounded-lg bg-white dark:bg-gray-800 p-8 shadow-lg lg:col-span-3 lg:p-12">
 
                     {% if messages %}
                         {% for message in messages %}
