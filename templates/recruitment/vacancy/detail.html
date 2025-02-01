@@ -15,7 +15,7 @@
         <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
             <!-- Vacancy Detail -->
-                <div class="lg:col-span-2 lg:py-12">
+                <div class="lg:col-span-2 lg:py-12 overflow-y-auto">
                     <c-h3 title="{{ vacancy.title }}" />
                     {% if vacancy.advert and vacancy.advert.url %}
                         <a href="{{ vacancy.advert.url }}" target="_blank">
@@ -114,18 +114,20 @@
                                     {% if field.name|slice:":12" == "requirement_" %}
                                         {% if field.field.widget.input_type == 'checkbox' %}
                                             <div>
-                                                <c-dcc-checkbox id="{{ field.id }}" label="{{ field.label }}"
-                                                                name="{{ field.html_name }}" />
+                                                <c-dcc-checkbox id="{{ field.id }}" label="{{ field.label }}" name="{{ field.html_name }}"
+                                                                required="{% if field.field.required %} true {% endif %}" />
                                             </div>
                                         {% elif field.field.widget.input_type == 'text' %}
                                             <div class="col-span-2">
-                                                <label for="{{ field.id }}">{{ field.label }}</label>
-                                                <c-input id="{{ field.id }}" placeholder="{{ field.label }}" name="{{ field.html_name }}" />
+                                                <c-input id="{{ field.id }}" label="{{ field.label }}" placeholder="{{ field.label }}"
+                                                         name="{{ field.html_name }}"
+                                                         required="{% if field.field.required %} true {% endif %}" />
                                             </div>
 
                                         {% elif field.field.widget.input_type == 'date' %}
                                             <div>
-                                                <c-input id="{{ field.id }}" type="date" name="{{ field.html_name }}" />
+                                                <c-input id="{{ field.id }}" type="date" name="{{ field.html_name }}"
+                                                         required="{% if field.field.required %} true {% endif %}" />
                                             </div>
 
                                         {% elif field.field.is_select %}
@@ -133,7 +135,7 @@
                                                 <c-select id="{{ field.id }}" type="select" name="{{ field.html_name }}"
                                                           label="{{ field.label }}"
                                                           :options="[{% for value, label in field.field.choices %}'{{ label }}'{% if not forloop.last %},{% endif %}{% endfor %}]"
-                                                          required="{% if field.field.is_required %} true {% endif %}" />
+                                                          required="{% if field.field.required %} true {% endif %}" />
                                             </div>
                                         {% elif field.field.is_multiselect %}
                                             <div>
