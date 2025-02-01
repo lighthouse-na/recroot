@@ -19,12 +19,12 @@
                         <div class="inline-flex items-center justify-center w-full">
                             <hr class="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                             <span
-                                class="absolute px-3 text-2xl font-semibold text-gray-900 -translate-x-1/2 bg-white left-1/2 text-gray-100 dark:bg-gray-900">Applicant
+                                class="absolute px-3 text-2xl font-semibold text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-gray-200 dark:bg-gray-900">Applicant
                                 Details</span>
                         </div>
                         {% if messages %}
                             {% for message in messages %}
-                                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-gray-100"
+                                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:dark:text-gray-200"
                                      role="alert">{{ message }}
                                 </div>
                             {% endfor %}
@@ -35,9 +35,9 @@
                                 <div>
                                     {{ form.first_name.errors }}
                                     <label for="{{ form.first_name.id_for_label }}"
-                                           class="block mb-2 text-sm font-medium text-gray-900 text-gray-100">First Name
+                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">First Name
                                         <span class="text-orange-500">*</span></label>
-                                    {% render_field form.first_name type="text" placeholder="eg. Jane" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 text-gray-100 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+                                    {% render_field form.first_name type="text" placeholder="eg. Jane" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
 
                                     {% if form.first_name.errors %}
                                         <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
@@ -48,9 +48,9 @@
 
                                 <div>
                                     <label for="{{ form.middle_name.id_for_label }}"
-                                           class="block mb-2 text-sm font-medium text-gray-900 text-gray-100">Middle Name
+                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Middle Name
                                     </label>
-                                    {% render_field form.middle_name type="text" placeholder="eg. Jane" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 text-gray-100 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+                                    {% render_field form.middle_name type="text" placeholder="eg. Jane" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
 
                                     {% if form.middle_name.errors %}
                                         <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
@@ -61,9 +61,9 @@
 
                                 <div>
                                     <label for="{{ form.last_name.id_for_label }}"
-                                           class="block mb-2 text-sm font-medium text-gray-900 text-gray-100">Last Name
+                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Last Name
                                         <span class="text-orange-500">*</span></label>
-                                    {% render_field form.last_name type="text" placeholder="eg. Doe" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 text-gray-100 dark:focus:ring-orange-500 dark:focus:border-orange-500" autocomplete="last_name" %}
+                                    {% render_field form.last_name type="text" placeholder="eg. Doe" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" autocomplete="last_name" %}
 
                                     {% if form.last_name.errors %}
                                         <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
@@ -74,9 +74,9 @@
 
                                 <div>
                                     <label for="{{ form.email.id_for_label }}"
-                                           class="block mb-2 text-sm font-medium text-gray-900 text-gray-100">Email
+                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Email
                                         <span class="text-orange-500">*</span></label>
-                                    {% render_field form.email type="email" placeholder="eg. janedoe@email.com" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 text-gray-100 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+                                    {% render_field form.email type="email" placeholder="eg. janedoe@email.com" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
 
                                     {% if form.email.errors %}
                                         <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
@@ -87,10 +87,10 @@
 
                                 <div>
                                     <label for="{{ form.primary_contact.id_for_label }}"
-                                           class="block mb-2 text-sm font-medium text-gray-900 text-gray-100">Primary Contact
+                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Primary Contact
                                         Number
                                         <span class="text-orange-500">*</span></label>
-                                    {% render_field form.primary_contact type="tel" placeholder="eg. 081 123 4567" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 text-gray-100 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+                                    {% render_field form.primary_contact type="tel" placeholder="eg. 081 123 4567" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
 
                                     {% if form.primary_contact.errors %}
                                         <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
@@ -101,10 +101,10 @@
 
                                 <div>
                                     <label for="{{ form.secondary_contact.id_for_label }}"
-                                           class="block mb-2 text-sm font-medium text-gray-900 text-gray-100">Secondary Contact
+                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Secondary Contact
                                         Number
                                     </label>
-                                    {% render_field form.secondary_contact type="tel" placeholder="eg. 083 765 4321" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 text-gray-100 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+                                    {% render_field form.secondary_contact type="tel" placeholder="eg. 083 765 4321" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
 
                                     {% if form.secondary_contact.errors %}
                                         <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
@@ -115,9 +115,9 @@
 
                                 <div>
                                     <label for="{{ form.date_of_birth.id_for_label }}"
-                                           class="block mb-2 text-sm font-medium text-gray-900 text-gray-100">Date of Birth
+                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Date of Birth
                                         <span class="text-orange-500">*</span></label>
-                                    {% render_field form.date_of_birth type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 text-gray-100 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+                                    {% render_field form.date_of_birth type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
 
                                     {% if form.date_of_birth.errors %}
                                         <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
@@ -128,9 +128,9 @@
 
                                 <div>
                                     <label for="{{ form.gender.id_for_label }}"
-                                           class="block mb-2 text-sm font-medium text-gray-900 text-gray-100">Gender
+                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Gender
                                         <span class="text-orange-500">*</span></label>
-                                    {% render_field form.gender type="select" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 text-gray-100 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+                                    {% render_field form.gender type="select" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
 
                                     {% if form.gender.errors %}
                                         <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
@@ -143,9 +143,9 @@
 
                             <div>
                                 <label for="{{ form.cv.id_for_label }}"
-                                       class="block mb-2 text-sm font-medium text-gray-900 text-gray-100">CV
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">CV
                                     <span class="text-orange-500">*</span></label>
-                                {% render_field form.cv type="file" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 text-gray-100 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+                                {% render_field form.cv type="file" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
 
                                 {% if form.cv.errors %}
                                     <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
@@ -163,7 +163,7 @@
                             <div class="inline-flex items-center justify-center w-full">
                                 <hr class="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                                 <span
-                                    class="absolute px-3 text-2xl font-semibold text-gray-900 -translate-x-1/2 bg-white left-1/2 text-gray-100 dark:bg-gray-900">Minimum
+                                    class="absolute px-3 text-2xl font-semibold text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-gray-200 dark:bg-gray-900">Minimum
                                     Requirements</span>
                             </div>
                 <!-- <div class="relative flex w-full max-w-xl flex-col gap-1 text-neutral-600 dark:text-neutral-300"> -->
@@ -194,16 +194,16 @@
                                                     <label for="{{ field.id_for_label }}" class="w-fit pl-0.5 text-sm">{{ field.label_tag }}
                                                         {% if field.field.required %}<span class="text-orange-500">*</span>{% endif %}
                                                     </label>
-                                                    {% render_field field type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 text-gray-100 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+                                                    {% render_field field type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
                                                 </div>
                                             {% elif field.field.widget.input_type == 'date' %}
                                                 <div class="mb-4">
                                                     {{ field.errors }}
                                                     <label for="{{ field.id_for_label }}"
-                                                           class="block mb-2 text-sm font-medium text-gray-900 text-gray-100">{{ field.label_tag }}
+                                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">{{ field.label_tag }}
                                                         {% if field.field.is_required %}<span class="text-orange-500">*</span>{% endif %}
                                                     </label>
-                                                    {% render_field field type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 text-gray-100 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+                                                    {% render_field field type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
                                                 </div>
 
 
@@ -240,7 +240,7 @@
 
                             <!-- <div class="mb-4">
                                 <label for="{{ field.id_for_label }}"
-                                    class="block mb-2 text-sm font-medium text-gray-900 text-gray-100">{{ field.label_tag }}
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">{{ field.label_tag }}
                                     {% if field.field.required %}<span class="text-orange-500">*</span>{% endif %}
                                 </label>
                                 {% render_field field type="select" class="w-full appearance-none rounded-md border border-neutral-300 bg-neutral-50 px-4 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black disabled:cursor-not-allowed disabled:opacity-75 dark:border-neutral-700 dark:bg-neutral-900/50 dark:focus-visible:outline-white" %}
