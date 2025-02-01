@@ -2,8 +2,6 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.utils.html import format_html
-from guardian.admin import GuardedModelAdmin
-from guardian.shortcuts import get_objects_for_user
 from import_export.admin import ExportActionModelAdmin
 from unfold.admin import ModelAdmin, StackedInline, TabularInline
 from unfold.contrib.filters.admin import RangeDateFilter
@@ -119,22 +117,7 @@ class MinimumRequirementsAddInline(TabularInline):
 
 
 @admin.register(Vacancy)
-class VacancyAdmin(ModelAdmin, GuardedModelAdmin):
-    """
-    Custom admin interface for managing Vacancy models.
-
-    This class customises the admin interface for managing Vacancy objects.
-    It provides functionality for filtering, permissions, and accessing the
-    Vacancy data based on user permissions.
-
-    Attributes:
-        form: The form used for the Vacancy model in the admin interface.
-        list_display: The fields to display in the Vacancy model list view.
-        list_filter: The fields to filter Vacancy objects by in the list view.
-        filter_horizontal: The fields to display with a horizontal filter widget.
-        inlines: Inline models (MinimumRequirementsAddInline) to be displayed.
-    """
-
+class VacancyAdmin(ModelAdmin):
     form = VacancyForm
     list_display = [
         "title",
@@ -148,149 +131,36 @@ class VacancyAdmin(ModelAdmin, GuardedModelAdmin):
         "deadline",
         "is_public",
     ]
-    # list_editable = ["is_published"]
-    filter_horizontal = ["town"]
+    filter_horizontal = ["town", "reviewers"]
     inlines = [MinimumRequirementsAddInline]
 
-    def get_model_objects(self, request, action=None, klass=None):
-        """
-        Retrieves the objects for a user based on permissions and actions.
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
 
-        This method returns objects for the model that a user has permissions to view,
-        change, or delete. It checks the permissions for the specified action and model.
+        # Allow superusers and admins to see all vacancies
+        if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
+            return qs
 
-        Args:
-            request (HttpRequest): The HTTP request object.
-            action (str): The action to check permissions for (e.g., "view").
-            klass (Model): The model class to check permissions for.
-
-        Returns:
-            queryset: A queryset of model objects that the user has permission to access.
-        """
-        opts = self.opts
-        actions = [action] if action else ["view"]
-        klass = klass if klass else opts.model
-        model_name = klass._meta.model_name
-        return get_objects_for_user(
-            user=request.user,
-            perms=[f"{perm}_{model_name}" for perm in actions],
-            klass=klass,
-            any_perm=True,
-        )
-
-    def has_permission(self, request, obj, action):
-        """
-        Checks if a user has permission to perform a specific action on a model object.
-
-        This method checks whether a user has the required permission for a specific
-        action (e.g., "view", "change", "delete") on a given model object.
-
-        Args:
-            request (HttpRequest): The HTTP request object.
-            obj (Model): The model object to check permissions on.
-            action (str): The action to check permission for (e.g., "view").
-
-        Returns:
-            bool: True if the user has permission for the specified action, False otherwise.
-        """
-        opts = self.opts
-        code_name = f"{action}_{opts.model_name}"
-        if obj:
-            return request.user.has_perm(f"{opts.app_label}.{code_name}", obj)
-        return self.get_model_objects(request).exists()
+        # Filter vacancies where the user is a reviewer
+        return qs.filter(reviewers=request.user)
 
     def has_view_permission(self, request, obj=None):
-        """
-        Checks if a user has permission to view a model object.
-
-        This method checks if a user has permission to view the specified model object,
-        either by being a superuser or by checking specific permissions for the object.
-
-        Args:
-            request (HttpRequest): The HTTP request object.
-            obj (Model, optional): The model object to check permissions for.
-
-        Returns:
-            bool: True if the user has permission to view the object, False otherwise.
-        """
-        if request.user.is_superuser or request.user.groups.filter(name="admin"):
+        """Users can only view applications for vacancies they are reviewers of."""
+        if obj is None:
             return True
-        return self.has_permission(request, obj, "view")
+        return request.user.is_superuser or request.user in obj.reviewers.all()
 
     def has_change_permission(self, request, obj=None):
-        """
-        Checks if a user has permission to change a model object.
-
-        This method checks if a user has permission to change the specified model object,
-        either by being a superuser, belonging to the "admin" group, or if the object
-        is not published.
-
-        Args:
-            request (HttpRequest): The HTTP request object.
-            obj (Model, optional): The model object to check permissions for.
-
-        Returns:
-            bool: True if the user has permission to change the object, False otherwise.
-        """
-        if request.user.is_superuser or request.user.groups.filter(name="admin"):
-            return super().has_change_permission(request, obj)
-        if obj is not None and obj.is_published:
-            return False
-        return self.has_permission(request, obj, "change")
+        """Users can only change applications for vacancies they are reviewers of."""
+        if obj is None:
+            return True
+        return request.user.is_superuser or request.user.groups.filter(name="admin").exists()
 
     def has_delete_permission(self, request, obj=None):
-        """
-        Checks if a user has permission to delete a model object.
-
-        This method checks if a user has permission to delete the specified model object,
-        either by being a superuser, belonging to the "admin" group, or if the user
-        has the required delete permission for the object.
-
-        Args:
-            request (HttpRequest): The HTTP request object.
-            obj (Model, optional): The model object to check permissions for.
-
-        Returns:
-            bool: True if the user has permission to delete the object, False otherwise.
-        """
+        """Users can only delete applications for vacancies they are reviewers of."""
         if request.user.is_superuser or request.user.groups.filter(name="admin"):
-            return super().has_delete_permission(request, obj)
-        return self.has_permission(request, obj, "delete")
-
-    def has_module_permission(self, request):
-        """
-        Checks if the user has permission to view the Vacancy model module.
-
-        This method checks whether a user has permission to access the Vacancy module
-        based on their permissions for the Vacancy objects.
-
-        Args:
-            request (HttpRequest): The HTTP request object.
-
-        Returns:
-            bool: True if the user has permission to access the module, False otherwise.
-        """
-        if super().has_module_permission(request):
             return True
-        return self.get_model_objects(request).exists()
-
-    def get_queryset(self, request):
-        """
-        Returns the queryset of Vacancy objects based on user permissions.
-
-        This method overrides the default `get_queryset` to return only the Vacancy
-        objects the user has permission to access, depending on their user role.
-
-        Args:
-            request (HttpRequest): The HTTP request object.
-
-        Returns:
-            queryset: A queryset of Vacancy objects based on the user's permissions.
-        """
-        if request.user.is_superuser:
-            return super().get_queryset(request)
-        data = self.get_model_objects(request)
-        return data
+        return False
 
 
 # **********************************************************************************************
@@ -313,54 +183,6 @@ class ApplicantResponseInline(TabularInline):
     model = MinimumRequirementAnswer
     fields = ["answer"]
     tab = True
-
-    def has_add_permission(self, request, obj=None):
-        """
-        Determines whether the user has permission to add a new MinimumRequirementAnswer.
-
-        This method returns False, preventing the addition of new answers through
-        the admin interface. The answers are assumed to be pre-populated.
-
-        Args:
-            request (HttpRequest): The HTTP request object.
-            obj (Model, optional): The object being edited, if any.
-
-        Returns:
-            bool: False (users cannot add new answers).
-        """
-        return False
-
-    def has_delete_permission(self, request, obj=None):
-        """
-        Determines whether the user has permission to delete a MinimumRequirementAnswer.
-
-        This method returns False, preventing the deletion of answers through the
-        admin interface.
-
-        Args:
-            request (HttpRequest): The HTTP request object.
-            obj (Model, optional): The object being edited, if any.
-
-        Returns:
-            bool: False (users cannot delete answers).
-        """
-        return False
-
-    def has_change_permission(self, request, obj=None):
-        """
-        Determines whether the user has permission to change a MinimumRequirementAnswer.
-
-        This method returns False, preventing changes to the answers through the
-        admin interface.
-
-        Args:
-            request (HttpRequest): The HTTP request object.
-            obj (Model, optional): The object being edited, if any.
-
-        Returns:
-            bool: False (users cannot change answers).
-        """
-        return False
 
     def get_queryset(self, request):
         """
@@ -417,7 +239,7 @@ class ApplicantResponseInline(TabularInline):
 
 
 @admin.register(Application)
-class ApplicationAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
+class ApplicationAdmin(ModelAdmin, ExportActionModelAdmin):
     """
     Admin interface for managing Application objects.
 
@@ -441,6 +263,7 @@ class ApplicationAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
         "gender",
         "cv",
         "reviewed_by",
+        "reviewers",
         "reviewed_at",
         "submitted_at",
     ]
@@ -459,129 +282,48 @@ class ApplicationAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
     ordering = ("submitted_at",)
     inlines = [ApplicantResponseInline]
 
-    def get_model_objects(self, request, action=None, klass=None):
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser or request.user.groups.filter(name="admin"):
+            return qs
+        vacancies_user_can_review = Vacancy.objects.filter(reviewers=request.user)
+        return qs.filter(vacancy__in=vacancies_user_can_review)
+
+    def has_view_permission(self, request, obj=None):
+        """Users can only view applications for vacancies they are reviewers of."""
+        if obj is None:
+            return True
+        return request.user.is_superuser or request.user in obj.vacancy.reviewers.all()
+
+    def has_change_permission(self, request, obj=None):
+        """Users can only change applications for vacancies they are reviewers of."""
+        if obj is None:
+            return True
+        return request.user.is_superuser or request.user in obj.vacancy.reviewers.all()
+
+    def has_delete_permission(self, request, obj=None):
+        """Users can only delete applications for vacancies they are reviewers of."""
+        if request.user.is_superuser or request.user.groups.filter(name="admin"):
+            return True
+        return False
+
+    def get_formset(self, request, obj=None, **kwargs):
         """
-        Retrieves model objects for the current user with the required permissions.
+        Retrieves the formset for MinimumRequirementAnswer objects in the admin inline.
 
-        Custom method to fetch application objects that the current user has permission
-        to view or modify, based on the action (e.g., "view", "change").
-
-        Args:
-            request (HttpRequest): The HTTP request object.
-            action (str): The action to check for permissions (optional).
-            klass (Model): The model class for the object (optional).
-
-        Returns:
-            queryset: A filtered queryset of model objects.
-        """
-        opts = self.opts
-        actions = [action] if action else ["view"]
-        klass = klass if klass else opts.model
-        model_name = klass._meta.model_name
-        return get_objects_for_user(
-            user=request.user,
-            perms=[f"{perm}_{model_name}" for perm in actions],
-            klass=klass,
-            any_perm=True,
-        )
-
-    def has_permission(self, request, obj, action):
-        """
-        Checks if the user has permission to perform an action on the object.
+        This method ensures that the parent object (the Application) is set for the
+        formset, allowing the correct filtering of answers in the formset.
 
         Args:
             request (HttpRequest): The HTTP request object.
             obj (Model, optional): The object being edited, if any.
-            action (str): The action (view, change, delete, etc.).
+            kwargs (dict): Additional arguments passed to the formset.
 
         Returns:
-            bool: True if the user has permission, otherwise False.
+            FormSet: The formset for MinimumRequirementAnswer objects.
         """
-        opts = self.opts
-        code_name = f"{action}_{opts.model_name}"
-        if obj:
-            return request.user.has_perm(f"{opts.app_label}.{code_name}", obj)
-        return self.get_model_objects(request).exists()
-
-    def has_view_permission(self, request, obj=None):
-        """
-        Determines if the user has permission to view the application.
-
-        Superusers and admin group members can always view. Other users can be restricted.
-
-        Args:
-            request (HttpRequest): The HTTP request object.
-            obj (Model, optional): The object being viewed.
-
-        Returns:
-            bool: True if the user has permission to view the application.
-        """
-        if request.user.is_superuser or request.user.groups.filter(name__in=["admin", "recruiter"]).exists():
-            return True
-        return False
-
-    def has_add_permission(self, request):
-        """
-        Prevents adding new Application objects.
-
-        Args:
-            request (HttpRequest): The HTTP request object.
-
-        Returns:
-            bool: False (users cannot add new applications).
-        """
-        return False
-
-    def has_change_permission(self, request, obj=None):
-        """
-        Checks if the user can change an existing Application.
-
-        - Superusers can change any application.
-        - Admins can change applications, except those already submitted.
-        - Users cannot change applications after submission if not the user who submitted it.
-
-        Args:
-            request (HttpRequest): The HTTP request object.
-            obj (Model, optional): The object being changed.
-
-        Returns:
-            bool: True if the user can change the application, otherwise False.
-        """
-        if request.user.is_superuser:
-            return super().has_change_permission(request, obj)
-        self.has_permission(request, obj, "change")
-        if obj is not None and obj.status != "submitted":
-            return False
-        return True
-
-    def has_module_permission(self, request):
-        """
-        Checks if the user has permission to access the Application model.
-
-        Returns:
-            bool: True if the user has permission, otherwise False.
-        """
-        if super().has_module_permission(request):
-            return True
-        return self.get_model_objects(request).exists()
-
-    def get_queryset(self, request):
-        """
-        Custom queryset to filter applications based on the user's permissions.
-
-        Superusers get all applications. Non-superusers only see applications they have
-        permission to view.
-
-        Args:
-            request (HttpRequest): The HTTP request object.
-
-        Returns:
-            queryset: A filtered queryset of applications.
-        """
-        if request.user.is_superuser:
-            return super().get_queryset(request)
-        data = self.get_model_objects(request)
-        return data
+        self.parent_obj = obj
+        return super().get_formset(request, obj, **kwargs)
 
     def view_cv(self, obj):
         """
@@ -628,7 +370,7 @@ admin.site.register(Location, ModelAdmin)
 
 
 @admin.register(Interview)
-class InterviewAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
+class InterviewAdmin(ModelAdmin, ExportActionModelAdmin):
     """
     Custom admin interface for the Interview model.
     Handles permissions, read-only fields, list display, and custom save behaviour.
@@ -641,94 +383,29 @@ class InterviewAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
     list_filter = ["status", ("schedule_datetime", RangeDateFilter)]
     list_filter_submit = True
 
-    def get_model_objects(self, request, action=None, klass=None):
-        """
-        Returns the queryset of objects the user has permission to access.
-
-        Args:
-            request: The HTTP request object.
-            action: The action (view, change, delete).
-            klass: The model class to filter the queryset by. If None, defaults to the current model.
-
-        Returns:
-            Queryset of objects the user has permission to access.
-        """
-        opts = self.opts
-        actions = [action] if action else ["view"]
-        klass = klass if klass else opts.model
-        model_name = klass._meta.model_name
-        return get_objects_for_user(
-            user=request.user,
-            perms=[f"{perm}_{model_name}" for perm in actions],
-            klass=klass,
-            any_perm=True,
-        )
-
-    def has_permission(self, request, obj, action):
-        """
-        Checks if the user has the specified permission on the given object.
-
-        Args:
-            request: The HTTP request object.
-            obj: The object for which the permission is being checked.
-            action: The action (view, change, delete).
-
-        Returns:
-            True if the user has permission; False otherwise.
-        """
-        opts = self.opts
-        code_name = f"{action}_{opts.model_name}"
-        if obj:
-            return request.user.has_perm(f"{opts.app_label}.{code_name}", obj)
-        return self.get_model_objects(request).exists()
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser or request.user.groups.filter(name="admin"):
+            return qs
+        return qs.filter(application__vacancy__reviewers=request.user)
 
     def has_view_permission(self, request, obj=None):
-        """
-        Determines if the user has view permission on the given object.
-
-        Args:
-            request: The HTTP request object.
-            obj: The object for which the permission is being checked.
-
-        Returns:
-            True if the user has view permission; False otherwise.
-        """
-        return self.has_permission(request, obj, "view")
-
-    def has_delete_permission(self, request, obj=None):
-        """
-        Determines if the user has delete permission on the given object.
-
-        Args:
-            request: The HTTP request object.
-            obj: The object for which the permission is being checked.
-
-        Returns:
-            True if the user has delete permission; False otherwise.
-        """
-        if request.user.is_superuser:
-            return super().has_change_permission(request, obj)
-        return False
+        """Users can only view applications for vacancies they are reviewers of."""
+        if obj is None:
+            return True
+        return request.user.is_superuser or obj.application.vacancy.reviewers.filter(id=request.user.id).exists()
 
     def has_change_permission(self, request, obj=None):
-        """
-        Determines if the user has change permission on the given object.
+        """Users can only change applications for vacancies they are reviewers of."""
+        if obj is None:
+            return True
+        return request.user.is_superuser or request.user in obj.vacancy.reviewers.all()
 
-        Args:
-            request: The HTTP request object.
-            obj: The object for which the permission is being checked.
-
-        Returns:
-            True if the user has change permission; False otherwise.
-        """
-        if request.user.is_superuser:
-            return super().has_change_permission(request, obj)
-        if obj is not None and obj.status in [
-            Interview.STATUS.ACCEPTED,
-            Interview.STATUS.REJECTED,
-        ]:
-            return False  # Deny changes if status is ACCEPTED or REJECTED
-        return self.has_permission(request, obj, "change")
+    def has_delete_permission(self, request, obj=None):
+        """Users can only delete applications for vacancies they are reviewers of."""
+        if request.user.is_superuser or request.user.groups.filter(name="admin"):
+            return True
+        return False
 
     def get_readonly_fields(self, request, obj=None):
         """
@@ -747,35 +424,6 @@ class InterviewAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
         ]:
             return [field.name for field in self.model._meta.fields]
         return super().get_readonly_fields(request, obj)
-
-    def has_module_permission(self, request):
-        """
-        Determines if the user has permission to access the module.
-
-        Args:
-            request: The HTTP request object.
-
-        Returns:
-            True if the user has module permission; False otherwise.
-        """
-        if super().has_module_permission(request):
-            return True
-        return self.get_model_objects(request).exists()
-
-    def get_queryset(self, request):
-        """
-        Returns the queryset of interviews based on the user's permissions.
-
-        Args:
-            request: The HTTP request object.
-
-        Returns:
-            A filtered queryset of interviews the user can access.
-        """
-        if request.user.is_superuser:
-            return super().get_queryset(request)
-        data = self.get_model_objects(request)
-        return data
 
     def save_model(self, request, obj, form, change):
         """
