@@ -18,8 +18,4 @@ class ChoicesQuerySet:
 
     def filter(self, **kwargs):
         # Optionally implement filters based on kwargs if needed
-        return [
-            choice
-            for choice in self.choices
-            if all(getattr(choice, k) == v for k, v in kwargs.items())
-        ]
+        return [choice for choice in self.choices if all(getattr(choice, k) == v for k, v in kwargs.items())]

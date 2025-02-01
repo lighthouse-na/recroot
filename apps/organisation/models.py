@@ -24,9 +24,7 @@ class Division(models.Model):
 
 
 class Department(models.Model):
-    division = models.ForeignKey(
-        Division, on_delete=models.CASCADE, related_name="departments"
-    )
+    division = models.ForeignKey(Division, on_delete=models.CASCADE, related_name="departments")
     name = models.CharField(max_length=255, unique=True)
 
     def __str__(self) -> str:
@@ -41,9 +39,7 @@ class CostCentre(models.Model):
 
 
 class Position(models.Model):
-    department = models.ForeignKey(
-        Department, on_delete=models.PROTECT, related_name="positions"
-    )
+    department = models.ForeignKey(Department, on_delete=models.PROTECT, related_name="positions")
     line_manager = models.ForeignKey(
         "self",
         on_delete=models.PROTECT,
@@ -73,9 +69,7 @@ class Position(models.Model):
 class Location(models.Model):
     title = models.CharField(max_length=255, unique=True)
     address = models.CharField(max_length=255)
-    town = models.ForeignKey(
-        Town, on_delete=models.CASCADE, related_name="locations", default=None
-    )
+    town = models.ForeignKey(Town, on_delete=models.CASCADE, related_name="locations", default=None)
 
     def __str__(self) -> str:
         return self.title

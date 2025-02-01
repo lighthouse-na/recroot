@@ -60,23 +60,14 @@ UNFOLD = {
                     {
                         "title": _("Dashboard"),
                         "icon": "dashboard",
-                        "link": "/"
-                        + (
-                            "admin/"
-                            if module == "config.settings.development"
-                            else "oshimashakula/"
-                        ),
+                        "link": "/" + ("admin/" if module == "config.settings.development" else "oshimashakula/"),
                         "permission": lambda request: request.user.is_superuser,
                     },
                     {
                         "title": _("Auth"),
                         "icon": "people",
                         "link": "/"
-                        + (
-                            "admin/"
-                            if module == "config.settings.development"
-                            else "oshimashakula/"
-                        )
+                        + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                         + "accounts/user",
                         "permission": lambda request: request.user.is_superuser,
                     },
@@ -84,11 +75,7 @@ UNFOLD = {
                         "title": _("Organisation"),
                         "icon": "home",
                         "link": "/"
-                        + (
-                            "admin/"
-                            if module == "config.settings.development"
-                            else "oshimashakula/"
-                        )
+                        + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                         + "organisation",
                         "permission": lambda request: request.user.is_superuser,
                     },
@@ -96,15 +83,9 @@ UNFOLD = {
                         "title": _("Recruitment"),
                         "icon": "people",
                         "link": "/"
-                        + (
-                            "admin/"
-                            if module == "config.settings.development"
-                            else "oshimashakula/"
-                        )
+                        + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                         + "recruitment",
-                        "permission": lambda request: request.user.has_perm(
-                            "view_application"
-                        ),
+                        "permission": lambda request: request.user.has_perm("view_application"),
                     },
                     # -----------------------------------------------------------------------
                     # Admin Dashboard Urls
@@ -119,9 +100,7 @@ UNFOLD = {
                             else "dashboard/telecom/administrator/"
                         )
                         + "accounts/user",
-                        "permission": lambda request: request.user.groups.filter(
-                            name="admin"
-                        ).exists()
+                        "permission": lambda request: request.user.groups.filter(name="admin").exists()
                         and request.path.startswith("/dashboard/admin/"),
                     },
                     {
@@ -134,9 +113,7 @@ UNFOLD = {
                             else "dashboard/telecom/administrator/"
                         )
                         + "accounts/user",
-                        "permission": lambda request: request.user.groups.filter(
-                            name="admin"
-                        ).exists()
+                        "permission": lambda request: request.user.groups.filter(name="admin").exists()
                         and request.path.startswith("/dashboard/admin/"),
                     },
                     {
@@ -149,9 +126,7 @@ UNFOLD = {
                             else "dashboard/telecom/administrator/"
                         )
                         + "accounts/user",
-                        "permission": lambda request: request.user.groups.filter(
-                            name="admin"
-                        ).exists()
+                        "permission": lambda request: request.user.groups.filter(name="admin").exists()
                         and request.path.startswith("/dashboard/admin/"),
                     },
                     {
@@ -164,9 +139,7 @@ UNFOLD = {
                             else "dashboard/telecom/administrator/"
                         )
                         + "accounts/user",
-                        "permission": lambda request: request.user.groups.filter(
-                            name="admin"
-                        ).exists()
+                        "permission": lambda request: request.user.groups.filter(name="admin").exists()
                         and request.path.startswith("/dashboard/admin/"),
                     },
                     # -----------------------------------------------------------------------
@@ -176,21 +149,15 @@ UNFOLD = {
                         "title": _("Dashboard"),
                         "icon": "dashboard",
                         "link": reverse_lazy("Staff:index"),
-                        "permission": lambda request: request.path.startswith(
-                            "/dashboard/staff/"
-                        ),
-                        "permission": lambda request: request.user.groups.filter(
-                            name="staff"
-                        ).exists()
+                        "permission": lambda request: request.path.startswith("/dashboard/staff/"),
+                        "permission": lambda request: request.user.groups.filter(name="staff").exists()
                         and request.path.startswith("/dashboard/staff/"),
                     },
                     {
                         "title": _("Recruitment"),
                         "icon": "people",
                         "link": "/dashboard/staff/recruitment",
-                        "permission": lambda request: request.user.groups.filter(
-                            name="staff"
-                        ).exists()
+                        "permission": lambda request: request.user.groups.filter(name="staff").exists()
                         and request.path.startswith("/dashboard/staff/"),
                     },
                 ],
@@ -208,35 +175,21 @@ UNFOLD = {
                 {
                     "title": _("Users"),
                     "link": "/"
-                    + (
-                        "admin/"
-                        if module == "config.settings.development"
-                        else "oshimashakula/"
-                    )
+                    + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "accounts/user",
-                    "permission": lambda request: request.user.is_superuser
-                    or request.user.has_perm("view_user"),
+                    "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_user"),
                 },
                 {
                     "title": _("Groups"),
                     "link": "/"
-                    + (
-                        "admin/"
-                        if module == "config.settings.development"
-                        else "oshimashakula/"
-                    )
+                    + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "auth/group",
-                    "permission": lambda request: request.user.is_superuser
-                    or request.user.has_perm("view_group"),
+                    "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_group"),
                 },
                 {
                     "title": _("Emails"),
                     "link": "/"
-                    + (
-                        "admin/"
-                        if module == "config.settings.development"
-                        else "oshimashakula/"
-                    )
+                    + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "account/emailaddress",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_emailaddress"),
@@ -255,62 +208,37 @@ UNFOLD = {
                 {
                     "title": _("Divisions"),
                     "link": "/"
-                    + (
-                        "admin/"
-                        if module == "config.settings.development"
-                        else "oshimashakula/"
-                    )
+                    + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "organisation/division",
-                    "permission": lambda request: request.user.is_superuser
-                    or request.user.has_perm("view_division"),
+                    "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_division"),
                 },
                 {
                     "title": _("Positions"),
                     "link": "/"
-                    + (
-                        "admin/"
-                        if module == "config.settings.development"
-                        else "oshimashakula/"
-                    )
+                    + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "organisation/position",
-                    "permission": lambda request: request.user.is_superuser
-                    or request.user.has_perm("view_position"),
+                    "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_position"),
                 },
                 {
                     "title": _("Locations"),
                     "link": "/"
-                    + (
-                        "admin/"
-                        if module == "config.settings.development"
-                        else "oshimashakula/"
-                    )
+                    + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "organisation/location",
-                    "permission": lambda request: request.user.is_superuser
-                    or request.user.has_perm("view_location"),
+                    "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_location"),
                 },
                 {
                     "title": _("Cost Centres"),
                     "link": "/"
-                    + (
-                        "admin/"
-                        if module == "config.settings.development"
-                        else "oshimashakula/"
-                    )
+                    + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "organisation/costcentre",
-                    "permission": lambda request: request.user.is_superuser
-                    or request.user.has_perm("view_costcentre"),
+                    "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_costcentre"),
                 },
                 {
                     "title": _("Regions"),
                     "link": "/"
-                    + (
-                        "admin/"
-                        if module == "config.settings.development"
-                        else "oshimashakula/"
-                    )
+                    + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "organisation/region",
-                    "permission": lambda request: request.user.is_superuser
-                    or request.user.has_perm("view_region"),
+                    "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_region"),
                 },
             ],
         },
@@ -324,11 +252,7 @@ UNFOLD = {
                 {
                     "title": _("Applications"),
                     "link": "/"
-                    + (
-                        "admin/"
-                        if module == "config.settings.development"
-                        else "oshimashakula/"
-                    )
+                    + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "recruitment/application",
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_application"),
@@ -336,26 +260,16 @@ UNFOLD = {
                 {
                     "title": _("Vacancies"),
                     "link": "/"
-                    + (
-                        "admin/"
-                        if module == "config.settings.development"
-                        else "oshimashakula/"
-                    )
+                    + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "recruitment/vacancy",
-                    "permission": lambda request: request.user.is_superuser
-                    or request.user.has_perm("view_vacancy"),
+                    "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_vacancy"),
                 },
                 {
                     "title": _("Interviews"),
                     "link": "/"
-                    + (
-                        "admin/"
-                        if module == "config.settings.development"
-                        else "oshimashakula/"
-                    )
+                    + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "recruitment/interview",
-                    "permission": lambda request: request.user.is_superuser
-                    or request.user.has_perm("view_interview"),
+                    "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_interview"),
                 },
             ],
         },

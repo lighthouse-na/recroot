@@ -46,10 +46,7 @@ class ApplicationAdmin(ModelAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
 
-        if (
-            request.user.is_superuser
-            or request.user.groups.filter(name="admin").exists()
-        ):
+        if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
             return qs
         return qs.filter(email=request.user.email)
 
@@ -102,9 +99,7 @@ class StaffDashboard(UnfoldAdminSite):
             deadline__gt=datetime.now(),
             is_visible=True,
         )
-        vacancies = Vacancy.objects.filter(
-            is_published=True, deadline__gt=datetime.now()
-        ).order_by("-created_at")
+        vacancies = Vacancy.objects.filter(is_published=True, deadline__gt=datetime.now()).order_by("-created_at")
         extra_context = {
             **self.each_context(request),
             "announcements": announcements,

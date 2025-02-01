@@ -117,23 +117,15 @@ class ApplicationForm(forms.ModelForm):
                 self.fields[f"requirement_{requirement.id}"] = forms.ChoiceField(
                     label=requirement.title,
                     required=requirement.is_required,
-                    choices=[
-                        (str(option.option), str(option.option))
-                        for option in requirement.options.all()
-                    ],
+                    choices=[(str(option.option), str(option.option)) for option in requirement.options.all()],
                     widget=forms.Select(),
                 )
                 self.fields[f"requirement_{requirement.id}"].is_select = True
 
-            elif (
-                requirement.question_type == MinimumRequirement.QuestionType.MULTISELECT
-            ):
+            elif requirement.question_type == MinimumRequirement.QuestionType.MULTISELECT:
                 self.fields[f"requirement_{requirement.id}"] = forms.ChoiceField(
                     label=requirement.title,
-                    choices=[
-                        (option.id, str(option.option))
-                        for option in requirement.options.all()
-                    ],
+                    choices=[(option.id, str(option.option)) for option in requirement.options.all()],
                     widget=forms.SelectMultiple(),
                     required=requirement.is_required,
                 )
@@ -207,9 +199,7 @@ class InterviewForm(forms.ModelForm):
 
         # Check if the scheduled datetime is less than one day in the future
         if schedule_datetime.date() - timezone.now().date() < timedelta(days=1):
-            raise forms.ValidationError(
-                "Scheduled datetime must be at least one day in the future."
-            )
+            raise forms.ValidationError("Scheduled datetime must be at least one day in the future.")
 
         # Check if the scheduled time is within working hours (8 AM to 5 PM)
         if schedule_datetime.hour < 8 or schedule_datetime.hour > 16:

@@ -16,9 +16,7 @@ from apps.recruitment.models import Vacancy, VacancyType
 class VacancyTypeTestCase(TestCase):
     def test_vacancy_type_creation(self):
         # Test creating a new VacancyType instance
-        vacancy_type = VacancyType.objects.create(
-            type=VacancyType.VACANCY_TYPE.INTERNSHIP
-        )
+        vacancy_type = VacancyType.objects.create(type=VacancyType.VACANCY_TYPE.INTERNSHIP)
         self.assertEqual(vacancy_type.type, VacancyType.VACANCY_TYPE.INTERNSHIP)
 
     def test_vacancy_type_choices(self):
@@ -34,9 +32,7 @@ class VacancyTypeTestCase(TestCase):
 
     def test_vacancy_type_str(self):
         # Test the __str__ method
-        vacancy_type = VacancyType.objects.create(
-            type=VacancyType.VACANCY_TYPE.INTERNSHIP
-        )
+        vacancy_type = VacancyType.objects.create(type=VacancyType.VACANCY_TYPE.INTERNSHIP)
         self.assertEqual(str(vacancy_type), VacancyType.VACANCY_TYPE.INTERNSHIP.upper())
 
     def test_vacancy_type_unique(self):
@@ -58,9 +54,7 @@ class VacancyModelTest(TestCase):
         self.user = get_user_model().objects.create_user(
             username="username", email="testuser@email.com", password="password"
         )
-        self.vacancy_type = VacancyType.objects.create(
-            type=VacancyType.VACANCY_TYPE.INTERNSHIP
-        )
+        self.vacancy_type = VacancyType.objects.create(type=VacancyType.VACANCY_TYPE.INTERNSHIP)
         self.region = Region.objects.create(name="Test Region")
         self.town = Town.objects.create(region=self.region, name="Test Town")
 
@@ -86,9 +80,7 @@ class VacancyModelTest(TestCase):
         file_path = os.path.join(os.path.dirname(__file__), "test.pdf")
 
         with open(file_path, "rb") as f:
-            file = SimpleUploadedFile(
-                "test.pdf", f.read(), content_type="application/pdf"
-            )
+            file = SimpleUploadedFile("test.pdf", f.read(), content_type="application/pdf")
             vacancy = Vacancy.objects.create(
                 title="Test Vacancy",
                 advert=file,

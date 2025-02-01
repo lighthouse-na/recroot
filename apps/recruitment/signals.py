@@ -34,9 +34,7 @@ def send_application_notification_tasks(sender, instance, created, **kwargs):
     """
     transaction.on_commit(
         lambda: (
-            send_vacancy_application_notification_email_task.delay(
-                instance.id, created
-            ),
+            send_vacancy_application_notification_email_task.delay(instance.id, created),
             send_vacancy_application_notification_text_task.delay(instance.id, created),
         )
     )
@@ -119,15 +117,9 @@ def create_interview_permissions(sender, instance, created, **kwargs):
     """
     if created:
         content_type = ContentType.objects.get_for_model(Interview)
-        view_perm = Permission.objects.get(
-            codename="view_interview", content_type=content_type
-        )
-        change_perm = Permission.objects.get(
-            codename="change_interview", content_type=content_type
-        )
-        delete_perm = Permission.objects.get(
-            codename="delete_interview", content_type=content_type
-        )
+        view_perm = Permission.objects.get(codename="view_interview", content_type=content_type)
+        change_perm = Permission.objects.get(codename="change_interview", content_type=content_type)
+        delete_perm = Permission.objects.get(codename="delete_interview", content_type=content_type)
 
         for user in get_users_with_perms(instance.application):
             user.user_permissions.add(view_perm, change_perm, delete_perm)

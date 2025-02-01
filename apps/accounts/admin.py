@@ -4,13 +4,16 @@ from allauth.account.admin import EmailAddressAdmin as BaseEmailAddressAdmin
 from allauth.account.models import EmailAddress
 from django.contrib import admin
 from django.contrib.auth import get_user_model
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
 from django.contrib.auth.models import Group
 from django.urls import URLPattern, path
 from import_export.admin import ExportActionModelAdmin
 from unfold.admin import ModelAdmin, TabularInline
+from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationForm
 from unfold.sites import UnfoldAdminSite
 
+# from apps.accounts.models import User
 from apps.organisation.admin import CostCentreAdmin, PositionAdmin, RegionAdmin
 from apps.organisation.models import (
     CostCentre,
@@ -64,8 +67,9 @@ class DivisionAdmin(ModelAdmin):
 
 @admin.register(get_user_model())
 class UserAdmin(ModelAdmin, ExportActionModelAdmin):
-    form = CustomUserChangeForm
-    form_add = CustomUserCreationForm
+    form = CustomUserCreationForm
+    form_add = CustomUserChangeForm
+
     filter_horizontal = ["groups", "user_permissions"]
     list_display = [
         "first_name",
@@ -89,10 +93,7 @@ class UserAdmin(ModelAdmin, ExportActionModelAdmin):
         """
         qs = super().get_queryset(request)
 
-        if (
-            request.user.is_superuser
-            or request.user.groups.filter(name="admin").exists()
-        ):
+        if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
             return qs
         return qs.filter(user=request.user)
 
@@ -104,10 +105,7 @@ class UserAdmin(ModelAdmin, ExportActionModelAdmin):
             bool: True if the requester is a superuser or in the "admin" group,
                   otherwise False.
         """
-        if (
-            request.user.is_superuser
-            or request.user.groups.filter(name="admin").exists()
-        ):
+        if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
             return True
         return False
 
@@ -119,10 +117,7 @@ class UserAdmin(ModelAdmin, ExportActionModelAdmin):
             bool: True if the requester is a superuser or in the "admin" group,
                   otherwise False.
         """
-        if (
-            request.user.is_superuser
-            or request.user.groups.filter(name="admin").exists()
-        ):
+        if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
             return True
         return False
 
@@ -158,11 +153,7 @@ class SuperuserDashboard(UnfoldAdminSite):
         Returns:
             bool: True if the user is active, authenticated, and a superuser, otherwise False.
         """
-        return (
-            request.user.is_active
-            and request.user.is_authenticated
-            and request.user.is_superuser
-        )
+        return request.user.is_active and request.user.is_authenticated and request.user.is_superuser
 
     def get_urls(self) -> List[URLPattern]:
         """
@@ -176,9 +167,7 @@ class SuperuserDashboard(UnfoldAdminSite):
         """
         urlpatterns = super().get_urls()  # Include the original URLs
         urlpatterns += [
-            path(
-                "", admin.site.urls
-            ),  # Ensure the original admin site URLs are included
+            path("", admin.site.urls),  # Ensure the original admin site URLs are included
         ]
         return urlpatterns
 

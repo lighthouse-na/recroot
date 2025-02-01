@@ -7,9 +7,7 @@ def is_docker_running():
     """Check if Docker is installed and running."""
     try:
         # Try to get the Docker version to confirm Docker is installed and running
-        subprocess.check_call(
-            ["docker", "info"], stdout=subprocess.PIPE, stderr=subprocess.PIPE
-        )
+        subprocess.check_call(["docker", "info"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         return True
     except subprocess.CalledProcessError:
         return False
@@ -19,9 +17,7 @@ def is_wsl2_running():
     """Check if WSL2 is running on Windows."""
     try:
         # Check if WSL2 is installed by running `wsl --list` and verifying Docker is installed in WSL2
-        subprocess.check_call(
-            ["wsl", "--list"], stdout=subprocess.PIPE, stderr=subprocess.PIPE
-        )
+        subprocess.check_call(["wsl", "--list"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         return True
     except subprocess.CalledProcessError:
         return False
@@ -37,9 +33,7 @@ def check_docker():
 
         # Check if Docker is installed and running within WSL2
         if not is_docker_running():
-            print(
-                "Docker is not installed or running. Please install Docker in your WSL2 environment."
-            )
+            print("Docker is not installed or running. Please install Docker in your WSL2 environment.")
             sys.exit(1)
     elif sys.platform == "darwin" or sys.platform == "linux":
         # On macOS/Linux, check if Docker is installed and running
@@ -81,17 +75,13 @@ def activate_virtualenv():
 def install_requirements():
     """Install the requirements from the requirements.txt file."""
     print("Installing dependencies from requirements.txt...")
-    subprocess.check_call(
-        [os.path.join(".venv", "bin", "pip"), "install", "-r", "requirements.txt"]
-    )
+    subprocess.check_call([os.path.join(".venv", "bin", "pip"), "install", "-r", "requirements.txt"])
 
 
 def run_migrations():
     """Run Django migrations."""
     print("Running migrations...")
-    subprocess.check_call(
-        [os.path.join(".venv", "bin", "python"), "manage.py", "migrate"]
-    )
+    subprocess.check_call([os.path.join(".venv", "bin", "python"), "manage.py", "migrate"])
 
 
 def setup_env_file():
@@ -100,9 +90,7 @@ def setup_env_file():
         print(".env file already exists. Proceeding with setup.")
     elif os.path.exists("template.env"):
         configure_env = (
-            input(
-                "Do you have your .env file configured? If not, do you want to use the template.env (y/n)? "
-            )
+            input("Do you have your .env file configured? If not, do you want to use the template.env (y/n)? ")
             .strip()
             .lower()
         )
@@ -112,9 +100,7 @@ def setup_env_file():
         else:
             print("You can manually configure your .env file later.")
     else:
-        print(
-            "No .env or template.env file found! Please ensure to set up your environment variables."
-        )
+        print("No .env or template.env file found! Please ensure to set up your environment variables.")
 
 
 def setup_docker():
@@ -130,17 +116,11 @@ def setup_docker():
 
 def create_or_switch_git_branch():
     """Ask user if they already have a branch or want to create a new one."""
-    current_branch = (
-        subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"])
-        .strip()
-        .decode()
-    )
+    current_branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).strip().decode()
     print(f"Current branch is: {current_branch}")
 
     choice = (
-        input(
-            "Do you already have a branch or do you want to create a new one? (existing(e)/create(c)): "
-        )
+        input("Do you already have a branch or do you want to create a new one? (existing(e)/create(c)): ")
         .strip()
         .lower()
     )
@@ -175,11 +155,7 @@ def run():
 
     # Option for Docker or traditional setup
     if os.path.exists("docker-compose.yml") and os.path.exists("Dockerfile"):
-        use_docker = (
-            input("Docker setup detected. Do you want to use Docker (y/n)? ")
-            .strip()
-            .lower()
-        )
+        use_docker = input("Docker setup detected. Do you want to use Docker (y/n)? ").strip().lower()
         if use_docker == "y":
             setup_docker()
         else:

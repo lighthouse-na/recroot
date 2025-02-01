@@ -66,13 +66,9 @@ def create_experience(request) -> HttpResponse:
         if form.is_valid():
             # Save the form data, but don't commit to the database yet
             experience = form.save(commit=False)
-            experience.user = (
-                request.user
-            )  # Associate the experience with the logged-in user
+            experience.user = request.user  # Associate the experience with the logged-in user
             experience.save()  # Save the experience to the database
-            return render(
-                request, "account/experience/list.html"
-            )  # Redirect to the experience list page
+            return render(request, "account/experience/list.html")  # Redirect to the experience list page
     else:
         form = forms.ExperienceForm()  # Display an empty form for GET requests
 
@@ -98,9 +94,7 @@ def delete_experience(request, experience_id) -> HttpResponse:
     """
     experience = get_object_or_404(models.Experience, id=experience_id)
     experience.delete()  # Delete the experience from the database
-    return render(
-        request, "account/experience/list.html"
-    )  # Redirect to the experience list page
+    return render(request, "account/experience/list.html")  # Redirect to the experience list page
 
 
 # ***************************************************************************************************
@@ -131,13 +125,9 @@ def create_qualification(request) -> HttpResponse:
         if form.is_valid():
             # Save the form data but don't commit it to the database yet
             qualification = form.save(commit=False)
-            qualification.user = (
-                request.user
-            )  # Associate the qualification with the logged-in user
+            qualification.user = request.user  # Associate the qualification with the logged-in user
             qualification.save()  # Save the qualification to the database
-            return render(
-                request, "account/qualification/list.html"
-            )  # Redirect to the qualification list page
+            return render(request, "account/qualification/list.html")  # Redirect to the qualification list page
     else:
         form = forms.QualificationForm()  # Display an empty form for GET requests
 
@@ -167,9 +157,7 @@ def delete_qualification(request, qualification_id) -> HttpResponse:
     """
     qualification = get_object_or_404(models.Qualification, id=qualification_id)
     qualification.delete()  # Delete the qualification from the database
-    return render(
-        request, "account/qualification/list.html"
-    )  # Redirect to the qualification list page
+    return render(request, "account/qualification/list.html")  # Redirect to the qualification list page
 
 
 # ***************************************************************************************************
@@ -200,13 +188,9 @@ def create_certification(request) -> HttpResponse:
         if form.is_valid():
             # Save the form data, but don't commit to the database yet
             certification = form.save(commit=False)
-            certification.user = (
-                request.user
-            )  # Associate the certification with the logged-in user
+            certification.user = request.user  # Associate the certification with the logged-in user
             certification.save()  # Save the certification to the database
-            return render(
-                request, "account/certification/list.html"
-            )  # Redirect to the certification list page
+            return render(request, "account/certification/list.html")  # Redirect to the certification list page
     else:
         form = forms.CertificationForm()  # Display an empty form for GET requests
 
@@ -234,6 +218,4 @@ def delete_certification(request, certification_id) -> HttpResponse:
     """
     certification = get_object_or_404(models.Certification, id=certification_id)
     certification.delete()  # Delete the certification from the database
-    return render(
-        request, "account/certification/list.html"
-    )  # Redirect to the certification list page
+    return render(request, "account/certification/list.html")  # Redirect to the certification list page

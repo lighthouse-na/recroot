@@ -51,9 +51,7 @@ class VacancyListView(ListView):
             A queryset of Vacancy instances that are public and have not passed their deadline, ordered by creation date in descending order.
 
         """
-        return Vacancy.objects.filter(
-            is_public=True, deadline__gt=datetime.now()
-        ).order_by("-created_at")
+        return Vacancy.objects.filter(is_public=True, deadline__gt=datetime.now()).order_by("-created_at")
 
 
 class VacancyDetailView(DetailView):
@@ -89,9 +87,7 @@ class ApplicationCreateView(CreateView):
     model = Application
     form_class = ApplicationForm
     success_url = reverse_lazy("recruitment:application_success")
-    template_name = (
-        "recruitment/vacancy/detail.html"  # Used the vacancy detail template
-    )
+    template_name = "recruitment/vacancy/detail.html"  # Used the vacancy detail template
 
     def form_valid(self, form):
         """
@@ -108,9 +104,7 @@ class ApplicationCreateView(CreateView):
             HTTP response: A redirect to the `success_url` if the form is valid.
         """
         slug = self.kwargs.get("slug")
-        vacancy = get_object_or_404(
-            Vacancy, slug=slug
-        )  # Fetch the vacancy based on the slug
+        vacancy = get_object_or_404(Vacancy, slug=slug)  # Fetch the vacancy based on the slug
         try:
             # Wrap the entire save process in a transaction to ensure atomicity
             with transaction.atomic():
@@ -170,9 +164,7 @@ class ApplicationCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         slug = self.kwargs.get("slug")
         vacancy = get_object_or_404(Vacancy, slug=slug)
-        context["disable_link"] = (
-            timezone.now() > vacancy.deadline
-        )  # Disable link if the deadline has passed
+        context["disable_link"] = timezone.now() > vacancy.deadline  # Disable link if the deadline has passed
         context["vacancy"] = vacancy  # Include the vacancy details in the context
         return context
 

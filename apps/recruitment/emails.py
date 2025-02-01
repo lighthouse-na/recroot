@@ -7,9 +7,7 @@ email = "training@telecom.na"
 message = None
 
 
-def send_email_notification(
-    subject, template_name, instance, recipient_name, recipient_list
-):
+def send_email_notification(subject, template_name, instance, recipient_name, recipient_list):
     """
     Sends an email notification with the provided subject, template, and recipient details.
 
@@ -46,9 +44,7 @@ def send_vacancy_application_notification_email(instance, created):
     last_name = getattr(instance, "last_name", None)
     recipient_list = [instance.email]
 
-    recipient_name = (
-        f"{first_name} {last_name}" if first_name and last_name else "Applicant"
-    )
+    recipient_name = f"{first_name} {last_name}" if first_name and last_name else "Applicant"
 
     if created and instance.status == "submitted":
         send_email_notification(
@@ -91,14 +87,10 @@ def send_interview_notification_email(instance, created):
     last_name = getattr(instance.application, "last_name", None)
     recipient_list = [instance.application.email]
 
-    recipient_name = (
-        f"{first_name} {last_name}" if first_name and last_name else "Applicant"
-    )
+    recipient_name = f"{first_name} {last_name}" if first_name and last_name else "Applicant"
 
     if not created and instance.status == "scheduled":
-        invitation_link = reverse(
-            "recruitment:interview_invitation", kwargs={"pk": instance.pk}
-        ).lstrip("/")
+        invitation_link = reverse("recruitment:interview_invitation", kwargs={"pk": instance.pk}).lstrip("/")
         invitation_url = f"http://training.telecom.na/{invitation_link}"
 
         template = env.get_template("interview.html")

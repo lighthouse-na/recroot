@@ -47,9 +47,7 @@ class Vacancy(models.Model):
         blank=True,
         help_text="Please upload a PDF file, maximum size 10MB.",
     )
-    title = models.CharField(
-        max_length=255, help_text="Enter the title of the vacancy."
-    )
+    title = models.CharField(max_length=255, help_text="Enter the title of the vacancy.")
     vacancy_type = models.ForeignKey(VacancyType, on_delete=models.SET_NULL, null=True)
     pay_grade = models.CharField(max_length=3, blank=True)
     content = HTMLField(
@@ -60,9 +58,7 @@ class Vacancy(models.Model):
         Town,
         help_text="Select the town(s) where the vacancy is located.",
     )
-    remarks = HTMLField(
-        blank=True, help_text="Enter any additional remarks about the vacancy."
-    )
+    remarks = HTMLField(blank=True, help_text="Enter any additional remarks about the vacancy.")
     deadline = models.DateTimeField(help_text="Enter the deadline for the vacancy.")
     is_public = models.BooleanField(default=False)
     is_published = models.BooleanField(default=False)
@@ -96,13 +92,9 @@ class MinimumRequirement(models.Model):
         SELECT = "select"
         MULTISELECT = "multiselect"
 
-    vacancy = models.ForeignKey(
-        Vacancy, on_delete=models.CASCADE, related_name="requirements"
-    )
+    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, related_name="requirements")
     title = models.CharField(max_length=255, verbose_name="Requirement")
-    question_type = models.CharField(
-        max_length=50, choices=QuestionType.choices, default=QuestionType.BOOL
-    )
+    question_type = models.CharField(max_length=50, choices=QuestionType.choices, default=QuestionType.BOOL)
     is_internal = models.BooleanField(default=False)
     is_required = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -113,9 +105,7 @@ class MinimumRequirement(models.Model):
 
 
 class SelectQuestionTypeOptions(models.Model):
-    requirement = models.ForeignKey(
-        MinimumRequirement, on_delete=models.CASCADE, related_name="options"
-    )
+    requirement = models.ForeignKey(MinimumRequirement, on_delete=models.CASCADE, related_name="options")
     option = models.CharField(max_length=255)
 
     def __str__(self):
@@ -124,12 +114,9 @@ class SelectQuestionTypeOptions(models.Model):
     def clean(self):
         if (
             self.requirement.question_type != MinimumRequirement.QuestionType.SELECT
-            and self.requirement.question_type
-            != MinimumRequirement.QuestionType.MULTISELECT
+            and self.requirement.question_type != MinimumRequirement.QuestionType.MULTISELECT
         ):
-            raise ValidationError(
-                "This field is only available for select type questions."
-            )
+            raise ValidationError("This field is only available for select type questions.")
         return super().clean()
 
 
@@ -143,17 +130,11 @@ class Application(models.Model):
         REJECTED = "rejected"
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    vacancy = models.ForeignKey(
-        Vacancy, on_delete=models.PROTECT, related_name="applications"
-    )
-    status = models.CharField(
-        max_length=20, choices=STATUS.choices, default=STATUS.SUBMITTED
-    )
+    vacancy = models.ForeignKey(Vacancy, on_delete=models.PROTECT, related_name="applications")
+    status = models.CharField(max_length=20, choices=STATUS.choices, default=STATUS.SUBMITTED)
     submitted_at = models.DateTimeField(auto_now_add=True)
     first_name = models.CharField(max_length=255, help_text="Enter your first name")
-    middle_name = models.CharField(
-        max_length=255, blank=True, null=True, help_text="Enter your middle name"
-    )
+    middle_name = models.CharField(max_length=255, blank=True, null=True, help_text="Enter your middle name")
     last_name = models.CharField(max_length=255, help_text="Enter your last name")
     email = models.EmailField(help_text="Enter your email address")
     primary_contact = PhoneNumberField(
@@ -209,10 +190,7 @@ class Application(models.Model):
             age = (
                 today.year
                 - self.date_of_birth.year
-                - (
-                    (today.month, today.day)
-                    < (self.date_of_birth.month, self.date_of_birth.day)
-                )
+                - ((today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
             )
             if age < 18:
                 raise ValidationError("Applicant must be at least 18 years old")
@@ -268,21 +246,15 @@ class Interview(models.Model):
     class INTERVIEW_TYPE(models.TextChoices): ...
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    application = models.ForeignKey(
-        Application, on_delete=models.CASCADE, related_name="interviews"
-    )
+    application = models.ForeignKey(Application, on_delete=models.CASCADE, related_name="interviews")
     schedule_datetime = models.DateTimeField(
-        help_text=_(
-            "Please select a date and time at least one day in the future, excluding weekends."
-        ),
+        help_text=_("Please select a date and time at least one day in the future, excluding weekends."),
         blank=True,
     )
     status = models.CharField(max_length=20, choices=STATUS.choices, blank=True)
     description = models.TextField(
         blank=True,
-        help_text=_(
-            "What do you want the interviewee to know before attending the interview?"
-        ),
+        help_text=_("What do you want the interviewee to know before attending the interview?"),
         null=True,
     )
     created_at = models.DateTimeField(auto_now_add=True)

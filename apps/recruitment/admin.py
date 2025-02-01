@@ -521,10 +521,7 @@ class ApplicationAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
         Returns:
             bool: True if the user has permission to view the application.
         """
-        if (
-            request.user.is_superuser
-            or request.user.groups.filter(name__in=["admin", "recruiter"]).exists()
-        ):
+        if request.user.is_superuser or request.user.groups.filter(name__in=["admin", "recruiter"]).exists():
             return True
         return False
 
