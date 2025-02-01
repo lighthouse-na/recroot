@@ -111,19 +111,6 @@ class ApplicationCreateView(CreateView):
                 # Create the application without saving to the database yet
                 application = form.save(commit=False)
                 application.vacancy = vacancy  # Associate with the correct vacancy
-                user = self.request.user
-
-                if user.is_authenticated:
-                    # Fill in user-related fields if the user is authenticated
-                    application.first_name = user.first_name
-                    application.middle_name = user.middle_name
-                    application.last_name = user.last_name
-                    application.email = user.email
-                    application.primary_contact = user.primary_contact
-                    application.secondary_contact = user.secondary_contact
-                    application.date_of_birth = user.date_of_birth
-                    application.gender = user.gender
-
                 application.save()  # Save the application to the database
 
                 # Save answers to minimum requirements if any
@@ -181,7 +168,8 @@ class ApplicationCreateView(CreateView):
         kwargs = super().get_form_kwargs()
         slug = self.kwargs.get("slug")
         vacancy = get_object_or_404(Vacancy, slug=slug)
-        kwargs["vacancy"] = vacancy  # Add the vacancy to the form arguments
+        kwargs["vacancy"] = vacancy
+        kwargs["request"] = self.request
         return kwargs
 
 

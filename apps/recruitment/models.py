@@ -195,18 +195,6 @@ class Application(models.Model):
             if age < 18:
                 raise ValidationError("Applicant must be at least 18 years old")
 
-        # if timezone.now() > self.vacancy.deadline:
-        #     raise ValidationError(
-        #         {"submitted_at": "Applications cannot be accepted past the deadline."}
-        #     )
-
-    # def save(self, *args, **kwargs):
-    #     if timezone.now() > self.vacancy.deadline:
-    #         raise ValidationError(
-    #             {"submitted_at": "Applications cannot be accepted past the deadline."}
-    #         )
-    #     super().save(*args, **kwargs)
-
     def get_absolute_url(self):
         return reverse("application_detail", kwargs={"pk": self.pk})
 
