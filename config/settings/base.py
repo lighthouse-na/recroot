@@ -33,6 +33,7 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "django_recaptcha",
     "django_cotton",
+    "django_cotton_components",
     "django_browser_reload",
 ]
 INSTALLED_APPS = (
