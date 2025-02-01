@@ -15,38 +15,47 @@
         <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-4">
             <div class="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-5">
             <!-- Vacancy Detail -->
-                <div class="lg:col-span-2 lg:py-4 h-screen overflow-y-auto">
-                    <c-h3 title="{{ vacancy.title }}" />
-                    {% if vacancy.advert and vacancy.advert.url %}
-                        <a href="{{ vacancy.advert.url }}" target="_blank">
-                            <button type="button"
-                                    class="border text-sky-800 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <div class="lg:col-span-2 lg:py-2 h-screen overflow-y-auto">
+                    <div class="lg:inline-flex gap-x-6">
+                        <c-h3 title="{{ vacancy.title }}" />
+                        {% if vacancy.advert and vacancy.advert.url %}
+                            <a href="{{ vacancy.advert.url }}" target="_blank">
+                                <button type="button"
+                                        class="border border-gray-700 dark:border-gray-100 text-sky-800 dark:text-orange-500/80 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:hover:bg-gray-800 dark:focus:ring-gray-800 hover:bg-gray-300">
 
-                                <svg class="w-4 h-4 me-2 animate-bounce duration-75" aria-hidden="true"
-                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4" />
-                                </svg>
+                                    <svg class="w-4 h-4 me-2 animate-bounce duration-75" aria-hidden="true"
+                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                         viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                              stroke-width="2"
+                                              d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4" />
+                                    </svg>
 
-                                Download Advert
-                            </button>
-                        </a>
-                    {% endif %}
-
+                                    Download Advert
+                                </button>
+                            </a>
+                        {% endif %}
+                    </div>
                     <div class="mt-8">
                         <time datetime="{{ vacancy.deadline }}" class="text-red-500">{{ vacancy.deadline }}</time>
                     </div>
-
+                    <br>
                     <p class="text-gray-900 dark:text-gray-200">
                         {{ vacancy.content|safe }}
-                        {% lorem %}
                     </p>
-                    <br>
+                    <span class="relative flex justify-center">
+                        <div
+                            class="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-transparent bg-gradient-to-r from-transparent via-gray-500 to-transparent opacity-75">
+                        </div>
+
+                        <span class="relative z-10 bg-gray-100 px-6 mt-2 mb-2"><strong
+                            class="text-gray-500">Remarks:</strong></span>
+                    </span>
+
                 <!-- Remarks -->
                     <p class="text-gray-900 dark:text-gray-200">
-                        <strong>Remarks:</strong>
+
                         {{ vacancy.remarks|safe }}
-                        {% lorem 500 %}
                     </p>
                 </div>
             <!-- VacancyDetail End -->
