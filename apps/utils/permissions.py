@@ -6,8 +6,7 @@ def has_permission(self, request, obj, action):
     code_name = f"{action}_{opts.model_name}"
     if obj:
         return request.user.has_perm(f"{opts.app_label}.{code_name}", obj)
-    else:
-        return self.get_model_objects(request).exists()
+    return self.get_model_objects(request).exists()
 
 
 def get_model_objects(self, request, action=None, klass=None):

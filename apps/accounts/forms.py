@@ -3,9 +3,6 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django_recaptcha.fields import ReCaptchaField, ReCaptchaV3
 
-from unfold.widgets import UnfoldAdminPasswordInput
-from . import models
-
 
 class CustomUserCreationForm(forms.ModelForm):
     class Meta:

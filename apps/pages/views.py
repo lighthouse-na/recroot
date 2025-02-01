@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from django.shortcuts import render
 
 from apps.pages.models import FAQ, Announcement

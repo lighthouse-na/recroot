@@ -1,4 +1,5 @@
 import requests
+
 from config.env import env
 
 # This URL is used for sending messages

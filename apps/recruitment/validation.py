@@ -1,5 +1,6 @@
-from apps.utils import validators
 from django.http import HttpResponse
+
+from apps.utils import validators
 
 
 # Name validations

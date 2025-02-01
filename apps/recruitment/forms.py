@@ -6,7 +6,6 @@ from phonenumber_field.formfields import PhoneNumberField
 from tinymce.widgets import TinyMCE
 from unfold.widgets import UnfoldAdminSelectWidget
 
-
 from .models import (
     Application,
     Interview,

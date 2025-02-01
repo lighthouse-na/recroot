@@ -197,8 +197,7 @@ class VacancyAdmin(ModelAdmin, GuardedModelAdmin):
         code_name = f"{action}_{opts.model_name}"
         if obj:
             return request.user.has_perm(f"{opts.app_label}.{code_name}", obj)
-        else:
-            return self.get_model_objects(request).exists()
+        return self.get_model_objects(request).exists()
 
     def has_view_permission(self, request, obj=None):
         """
@@ -235,10 +234,9 @@ class VacancyAdmin(ModelAdmin, GuardedModelAdmin):
         """
         if request.user.is_superuser or request.user.groups.filter(name="admin"):
             return super().has_change_permission(request, obj)
-        elif obj is not None and obj.is_published:
+        if obj is not None and obj.is_published:
             return False
-        else:
-            return self.has_permission(request, obj, "change")
+        return self.has_permission(request, obj, "change")
 
     def has_delete_permission(self, request, obj=None):
         """
@@ -257,8 +255,7 @@ class VacancyAdmin(ModelAdmin, GuardedModelAdmin):
         """
         if request.user.is_superuser or request.user.groups.filter(name="admin"):
             return super().has_delete_permission(request, obj)
-        else:
-            return self.has_permission(request, obj, "delete")
+        return self.has_permission(request, obj, "delete")
 
     def has_module_permission(self, request):
         """
@@ -292,9 +289,8 @@ class VacancyAdmin(ModelAdmin, GuardedModelAdmin):
         """
         if request.user.is_superuser:
             return super().get_queryset(request)
-        else:
-            data = self.get_model_objects(request)
-            return data
+        data = self.get_model_objects(request)
+        return data
 
 
 # **********************************************************************************************
@@ -505,8 +501,7 @@ class ApplicationAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
         code_name = f"{action}_{opts.model_name}"
         if obj:
             return request.user.has_perm(f"{opts.app_label}.{code_name}", obj)
-        else:
-            return self.get_model_objects(request).exists()
+        return self.get_model_objects(request).exists()
 
     def has_view_permission(self, request, obj=None):
         """
@@ -554,11 +549,10 @@ class ApplicationAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
         """
         if request.user.is_superuser:
             return super().has_change_permission(request, obj)
-        else:
-            self.has_permission(request, obj, "change")
-            if obj is not None and obj.status != "submitted":
-                return False
-            return True
+        self.has_permission(request, obj, "change")
+        if obj is not None and obj.status != "submitted":
+            return False
+        return True
 
     def has_module_permission(self, request):
         """
@@ -586,9 +580,8 @@ class ApplicationAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
         """
         if request.user.is_superuser:
             return super().get_queryset(request)
-        else:
-            data = self.get_model_objects(request)
-            return data
+        data = self.get_model_objects(request)
+        return data
 
     def view_cv(self, obj):
         """
@@ -687,8 +680,7 @@ class InterviewAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
         code_name = f"{action}_{opts.model_name}"
         if obj:
             return request.user.has_perm(f"{opts.app_label}.{code_name}", obj)
-        else:
-            return self.get_model_objects(request).exists()
+        return self.get_model_objects(request).exists()
 
     def has_view_permission(self, request, obj=None):
         """
@@ -731,7 +723,7 @@ class InterviewAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
         """
         if request.user.is_superuser:
             return super().has_change_permission(request, obj)
-        elif obj is not None and obj.status in [
+        if obj is not None and obj.status in [
             Interview.STATUS.ACCEPTED,
             Interview.STATUS.REJECTED,
         ]:
@@ -782,9 +774,8 @@ class InterviewAdmin(ModelAdmin, GuardedModelAdmin, ExportActionModelAdmin):
         """
         if request.user.is_superuser:
             return super().get_queryset(request)
-        else:
-            data = self.get_model_objects(request)
-            return data
+        data = self.get_model_objects(request)
+        return data
 
     def save_model(self, request, obj, form, change):
         """

@@ -1,6 +1,5 @@
 import os
 
-
 from config.env import BASE_DIR, env
 
 ADMINS = [("Sakaria Ndadi", "sakariandadi@gmail.com")]
