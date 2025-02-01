@@ -22,7 +22,8 @@
 
     {% if label %}
         {% if not placement == "bottom" %}
-            <label for="{{ id }}" class="format dark:format-invert tracking-tight text-sky-900 {{ labelClass }}">
+            <label for="{{ id }}"
+                   class="{% if labelClass %}{{ labelClass }} {% else %}format dark:format-invert tracking-tight text-sky-900 dark:text-orange-500/90{% endif %}">
                 {{ label }}{% if required %}<span style="color:red">*</span>{% endif %}
             </label>
 
@@ -32,7 +33,8 @@
         {% endif %}
     {% endif %}
 
-    <input id="{{ id }}" type="{{ type }}" class="w-full rounded-md border text-sm focus:border-orange-500 p-2"
+    <input id="{{ id }}" type="{{ type }}"
+           class="w-full rounded-md border text-sm focus:border-orange-500 p-2 dark:bg-gray-800 dark:border-gray-700"
            {{ attrs }} :class="{ 'border-red-500 focus-visible:outline-red-500': showError }" {% if validationUrl %}
                hx-post="{{ validationUrl }}" hx-target="#{{ id }}-error" hx-trigger="keyup delay:500ms" {% endif %} />
 
@@ -42,21 +44,22 @@
     {% if label %}
         {% if placement == "bottom" %}
             <br>
-            <label for="{{ id }}" class="{{ labelClass }}">{{ label }}{% if required %}<span
+            <label for="{{ id }}"
+                   class="{% if labelClass %}{{ labelClass }} {% else %}format dark:format-invert tracking-tight text-sky-900{% endif %}">{{ label }}{% if required %}<span
                 style="color:red">*</span>{% endif %}</label>
         {% endif %}
     {% endif %}
 
     <!-- form-errors -->
     <template x-if="showError">
-        <div class="{% if errorDivClass %}{{ errorDivClass }}{% else %}border border-red-500 bg-red-100 text-red-800 text-xs p-2 mt-1 rounded-lg"
-                 x-text="errors"></div>
-            </template>
+        <div class="{% if errorDivClass %}{{ errorDivClass }}{% else %}border border-red-500 bg-red-100 text-red-800 text-xs p-2 mt-1 rounded-lg{% endif %}"
+             x-text="errors"></div>
+    </template>
     <!-- form-errors end -->
 
     <!-- validationUrl-error -->
-            {% if validationUrl %}
-                <div id="{{ id }}-error"></div>
-            {% endif %}
+    {% if validationUrl %}
+        <div id="{{ id }}-error"></div>
+    {% endif %}
     <!-- validationUrl-error end -->
-            </div>
+</div>
