@@ -4,6 +4,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.db.models import Case, IntegerField, Value, When
 from django.utils import timezone
 from django.utils.html import format_html
+from django.utils.translation import gettext_lazy as _
 from import_export.admin import ExportActionModelAdmin
 from unfold.admin import ModelAdmin, StackedInline, TabularInline
 from unfold.contrib.filters.admin import RangeDateFilter
@@ -28,6 +29,7 @@ from .models import (
 )
 
 User = get_user_model()
+
 
 # **********************************************************************************************
 #                                       VACANCY
@@ -147,6 +149,26 @@ class ApplicantResponseInline(TabularInline):
             return False
 
 
+class VacancyFilter(admin.SimpleListFilter):
+    title = _("Vacancy")  # Filter title in admin panel
+    parameter_name = "vacancy"  # URL query parameter name
+
+    def lookups(self, request, model_admin):
+        """Return a list of (value, label) tuples for the filter choices."""
+        if request.user.is_superuser or request.user.groups.filter(name="admin"):
+            vacancies = Vacancy.objects.all()  # Superusers & admins see all vacancies
+        else:
+            vacancies = Vacancy.objects.filter(reviewers=request.user).distinct()  # Restricted for normal users
+
+        return [(vac.id, vac.title) for vac in vacancies]
+
+    def queryset(self, request, queryset):
+        """Filter the queryset based on selected vacancy."""
+        if self.value():
+            return queryset.filter(vacancy__id=self.value())
+        return queryset
+
+
 @admin.register(Application)
 class ApplicationAdmin(ModelAdmin, ExportActionModelAdmin):
     model = Application
@@ -178,7 +200,7 @@ class ApplicationAdmin(ModelAdmin, ExportActionModelAdmin):
         "is_internal",
         "submitted_at",
     ]
-    list_filter = ("vacancy", "status", "submitted_at")
+    list_filter = (VacancyFilter, "status", "submitted_at")
     search_fields = ("first_name", "last_name", "email")
     inlines = [ApplicantResponseInline]
 
