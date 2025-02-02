@@ -161,15 +161,6 @@ class MinimumRequirementAnswerForm(forms.ModelForm):
 #                                       INTERVIEW
 # **********************************************************************************************
 class InterviewForm(forms.ModelForm):
-    """
-    A form for scheduling interviews. It ensures that the scheduled date and time
-    meet the required criteria, such as not being in the past, not being on the same day,
-    and not falling on weekends or outside business hours.
-
-    Attributes:
-        Meta (class): Specifies the model and fields for the form.
-    """
-
     class Meta:
         model = Interview
         fields = ("application", "schedule_datetime", "description", "location")
@@ -193,6 +184,10 @@ class InterviewForm(forms.ModelForm):
             schedule_datetime (datetime): The validated scheduled datetime.
         """
         schedule_datetime = self.cleaned_data["schedule_datetime"]
+
+        # Check if the scheduled datetime is empty
+        if not schedule_datetime:
+            raise forms.ValidationError("Scheduled datetime cannot be empty.")
 
         # Check if the scheduled datetime is in the past
         if schedule_datetime <= timezone.now():

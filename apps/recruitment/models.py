@@ -263,6 +263,9 @@ class Interview(models.Model):
         return f"{self.application.vacancy.title} - {self.application.first_name} {self.application.last_name}"
 
     def clean(self):
+        if not self.schedule_datetime:
+            raise ValidationError("Scheduled datetime cannot be empty.")
+
         if self.schedule_datetime <= timezone.now():
             raise ValidationError("Scheduled datetime cannot be in the past.")
 
