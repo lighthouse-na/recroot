@@ -275,6 +275,7 @@ class ApplicationAdmin(ModelAdmin, ExportActionModelAdmin):
         "email",
         "vacancy",
         "status",
+        "is_internal",
         "submitted_at",
     ]
     list_filter = ("vacancy", "status", "submitted_at")

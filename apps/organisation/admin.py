@@ -1,5 +1,4 @@
 from django.contrib import admin
-from guardian.admin import GuardedModelAdmin
 from import_export.admin import ImportExportActionModelAdmin
 from unfold.admin import ModelAdmin, TabularInline
 from unfold.contrib.import_export.forms import ImportForm, SelectableFieldsExportForm
@@ -14,7 +13,7 @@ class TownInline(TabularInline):
 
 
 @admin.register(Region)
-class RegionAdmin(ModelAdmin, GuardedModelAdmin):
+class RegionAdmin(ModelAdmin):
     inlines = [TownInline]
 
 
@@ -25,12 +24,12 @@ class DepartmentInline(TabularInline):
 
 
 @admin.register(Division)
-class DivisionAdmin(ModelAdmin, GuardedModelAdmin):
+class DivisionAdmin(ModelAdmin):
     inlines = [DepartmentInline]
 
 
 @admin.register(CostCentre)
-class CostCentreAdmin(ModelAdmin, GuardedModelAdmin, ImportExportActionModelAdmin):
+class CostCentreAdmin(ModelAdmin, ImportExportActionModelAdmin):
     model = CostCentre
     export_form_class = SelectableFieldsExportForm
     import_form_class = ImportForm
@@ -43,7 +42,7 @@ class PositionInline(TabularInline):
 
 
 @admin.register(Position)
-class PositionAdmin(ModelAdmin, GuardedModelAdmin, ImportExportActionModelAdmin):
+class PositionAdmin(ModelAdmin, ImportExportActionModelAdmin):
     model = Position
     export_form_class = SelectableFieldsExportForm
     import_form_class = ImportForm
