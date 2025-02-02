@@ -111,7 +111,7 @@ class VacancyAdmin(ModelAdmin):
         return request.user.is_superuser or request.user.groups.filter(name="admin").exists()
 
     def has_delete_permission(self, request, obj=None):
-        if request.user.is_superuser or request.user.groups.filter(name="admin"):
+        if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
             return True
         return False
 
@@ -185,7 +185,7 @@ class ApplicationAdmin(ModelAdmin, ExportActionModelAdmin):
         "gender",
         "cv",
         "reviewed_by",
-        "reviewers",
+        "reviewers_list",
         "reviewed_at",
         "submitted_at",
     ]
@@ -204,21 +204,42 @@ class ApplicationAdmin(ModelAdmin, ExportActionModelAdmin):
     search_fields = ("first_name", "last_name", "email")
     inlines = [ApplicantResponseInline]
 
+    def reviewers_list(self, obj):
+        """Display the reviewers associated with the vacancy."""
+        return ", ".join([user.get_full_name() for user in obj.vacancy.reviewers.all()])
+
+    reviewers_list.short_description = "Reviewers"
+
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        if request.user.is_superuser or request.user.groups.filter(name="admin"):
-            return qs
+
+        # Allow superusers and users in the "admin" group to see all applications
+        if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
+            return qs.annotate(
+                status_order=Case(
+                    When(status="submitted", then=Value(0)),
+                    When(status="rejected", then=Value(1)),
+                    When(status="accepted", then=Value(2)),
+                    default=Value(3),
+                    output_field=IntegerField(),
+                )
+            ).order_by("status_order", "-submitted_at")
+
+        # Restrict access to only applications related to vacancies the user can review
         vacancies_user_can_review = Vacancy.objects.filter(reviewers=request.user)
-        qs = qs.filter(vacancy__in=vacancies_user_can_review)
-        return qs.annotate(
-            status_order=Case(
-                When(status="submitted", then=Value(0)),
-                When(status="rejected", then=Value(1)),
-                When(status="accepted", then=Value(2)),
-                default=Value(3),
-                output_field=IntegerField(),
+        return (
+            qs.filter(vacancy__in=vacancies_user_can_review)
+            .annotate(
+                status_order=Case(
+                    When(status="submitted", then=Value(0)),
+                    When(status="rejected", then=Value(1)),
+                    When(status="accepted", then=Value(2)),
+                    default=Value(3),
+                    output_field=IntegerField(),
+                )
             )
-        ).order_by("status_order", "-submitted_at")
+            .order_by("status_order", "-submitted_at")
+        )
 
     def has_view_permission(self, request, obj=None):
         if obj is None:
@@ -228,10 +249,14 @@ class ApplicationAdmin(ModelAdmin, ExportActionModelAdmin):
     def has_change_permission(self, request, obj=None):
         if obj is None:
             return True
-        return request.user.is_superuser or request.user in obj.vacancy.reviewers.all()
+        return (
+            request.user.is_superuser
+            or request.user.groups.filter(name="admin").exists()
+            or request.user in obj.vacancy.reviewers.all()
+        )
 
     def has_delete_permission(self, request, obj=None):
-        if request.user.is_superuser or request.user.groups.filter(name="admin"):
+        if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
             return True
         return False
 
@@ -307,7 +332,7 @@ class InterviewAdmin(ModelAdmin, ExportActionModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        if request.user.is_superuser or request.user.groups.filter(name="admin"):
+        if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
             return qs
 
         return qs.filter(application__vacancy__reviewers=request.user)
@@ -333,7 +358,7 @@ class InterviewAdmin(ModelAdmin, ExportActionModelAdmin):
         return request.user.is_superuser or request.user in obj.vacancy.reviewers.all()
 
     def has_delete_permission(self, request, obj=None):
-        if request.user.is_superuser or request.user.groups.filter(name="admin"):
+        if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
             return True
         return False
 
