@@ -1,12 +1,5 @@
 {% extends 'base.html' %}
 {% load static widget_tweaks crispy_forms_tags %}
-{% block head %}{{ form.media }}{% endblock head %}
-{% block extracss %}
-    <link rel="stylesheet" href="{% static 'css/tinymce.min.css' %}">
-{% endblock extracss %}
-{% block extrascripts %}
-    <script src="{% static 'js/tinymce.min.js' %}"></script>
-{% endblock extrascripts %}
 {% block title %}{{ vacancy.title }}{% endblock title %}
 {% block content %}
 
@@ -15,7 +8,7 @@
         <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-4">
             <div class="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-5">
             <!-- Vacancy Detail -->
-                <div class="lg:col-span-2 lg:py-2 h-screen overflow-y-auto">
+                <div class="lg:col-span-2 lg:py-2 h-screen lg:overflow-y-auto">
                     <div class="lg:inline-flex gap-x-6">
                         <c-h3 title="{{ vacancy.title }}" />
                         {% if vacancy.advert and vacancy.advert.url %}
@@ -36,7 +29,7 @@
                             </a>
                         {% endif %}
                     </div>
-                    <div class="mt-8">
+                    <div>
                         <time datetime="{{ vacancy.deadline }}" class="text-red-500">{{ vacancy.deadline }}</time>
                     </div>
                     <br>
@@ -93,8 +86,18 @@
                         </div>
 
                         <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
-                            <c-select id="gender-select" name="gender" label="Gender" :options="['female','male']"
-                                      required />
+                            <div>
+                                <label for="gender"
+                                       class="format dark:format-invert tracking-tight text-sky-900 dark:text-orange-500/90">Gender
+                                    <span style="color:red">*</span></label>
+
+                                <select name="gender" id="gender" required
+                                        class="capitalize pr-10 inline-flex w-full items-center justify-between gap-2 border border-neutral-200 rounded-md bg-white px-4 py-2 text-sm font-medium tracking-wide transition hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:border-neutral-700 dark:bg-gray-800 dark:text-neutral-300 dark:focus-visible:outline-white">
+                                    <option value="">Please select</option>
+                                    <option value="female">Female</option>
+                                    <option value="male">Male</option>
+                                </select>
+                            </div>
                             <c-input id="email" label="Email" placeholder="@Email" name="email"
                                      validationUrl="{% url 'email_validation' %}" required />
                             <c-input label="Date of Birth" id="date_of_irth" name="date_of_birth" type="date" required />
@@ -121,9 +124,8 @@
                                 {% for field in form %}
                                     {% if field.name|slice:":12" == "requirement_" %}
                                         {% if field.field.widget.input_type == 'checkbox' %}
-                                            <div>
-                                                <c-dcc-checkbox id="{{ field.id }}" label="{{ field.label }}"
-                                                                name="{{ field.html_name }}" />
+                                            <div class="col-span-2">
+                                                <c-checkbox id="{{ field.id }}" label="{{ field.label }}" name="{{ field.html_name }}" />
                                             </div>
                                         {% elif field.field.widget.input_type == 'text' %}
                                             <div class="col-span-2">
@@ -132,22 +134,32 @@
                                             </div>
 
                                         {% elif field.field.widget.input_type == 'date' %}
-                                            <div>
+                                            <div class="col-span-2">
                                                 <c-input id="{{ field.id }}" type="date" name="{{ field.html_name }}" />
                                             </div>
 
                                         {% elif field.field.is_select %}
-                                            <div>
-                                                <c-select id="{{ field.id }}" type="select" name="{{ field.html_name }}"
-                                                          label="{{ field.label }}"
-                                                          :options="[{% for value, label in field.field.choices %}'{{ label }}'{% if not forloop.last %},{% endif %}{% endfor %}]" />
+                        {#<div class="col-span-2">
+                            <c-select id="{{ field.id }}" type="select" name="{{ field.html_name }}"
+                                label="{{ field.label }}"
+                                :options="[{% for value, label in field.field.choices %}'{{ label }}'{% if not forloop.last %},{% endif %}{% endfor %}]" />
+                        </div>#}
+                                            <div class="col-span-2">
+                                                <label for="{{ field.id }}"
+                                                       class="format dark:format-invert tracking-tight text-sky-900 dark:text-orange-500/90">{{ field.label }}
+                                                    {% if required or field.field.required %} <span
+                                                        style="color:red">*</span>{% endif %}</label>
+
+                                                <select name="{{ field.html_name }}" id="{{ field.id }}" {% if field.field.required %}
+                                                            required {% endif %}
+                                                        class="capitalize pr-10 inline-flex w-full items-center justify-between gap-2 border border-neutral-200 rounded-md bg-white px-4 py-2 text-sm font-medium tracking-wide transition hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:border-neutral-700 dark:bg-gray-800 dark:text-neutral-300 dark:focus-visible:outline-white">
+                                                    <option value="" class="text-gray-200">Please select</option>
+                                                    {% for value, label in field.field.choices %}
+                                                        <option value="{{label}}" class="text-neutral-600">{{label}}</option>
+                                                    {% endfor %}
+                                                </select>
                                             </div>
-                                        {% elif field.field.is_multiselect %}
-                                            <div>
-                                                <label for="{{ field.id }}">{{ field.label }}</label>
-                                                <c-dcc-select-multiple id="{{ field.id }}" label="Choss" name="{{ field.html_name }}"
-                                                                       :options="[{% for value, label in field.field.choices %}'{{ label }}'{% if not forloop.last %},{% endif %}{% endfor %}]" />
-                                            </div>
+
                                         {% endif %}
                                     {% endif %}
                                 {% endfor %}

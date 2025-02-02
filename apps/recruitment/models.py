@@ -90,7 +90,7 @@ class MinimumRequirement(models.Model):
         BOOL = "bool"
         DATE = "date"
         SELECT = "select"
-        MULTISELECT = "multiselect"
+        # MULTISELECT = "multiselect"
 
     vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, related_name="requirements")
     title = models.CharField(max_length=255, verbose_name="Requirement")

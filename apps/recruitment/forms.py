@@ -131,14 +131,14 @@ class ApplicationForm(forms.ModelForm):
                 )
                 self.fields[f"requirement_{requirement.id}"].is_select = True
 
-            elif requirement.question_type == MinimumRequirement.QuestionType.MULTISELECT:
-                self.fields[f"requirement_{requirement.id}"] = forms.ChoiceField(
-                    label=requirement.title,
-                    choices=[(option.id, str(option.option)) for option in requirement.options.all()],
-                    widget=forms.SelectMultiple(),
-                    required=requirement.is_required,
-                )
-                self.fields[f"requirement_{requirement.id}"].is_multiselect = True
+            # elif requirement.question_type == MinimumRequirement.QuestionType.MULTISELECT:
+            #     self.fields[f"requirement_{requirement.id}"] = forms.ChoiceField(
+            #         label=requirement.title,
+            #         choices=[(option.id, str(option.option)) for option in requirement.options.all()],
+            #         widget=forms.SelectMultiple(),
+            #         required=requirement.is_required,
+            #     )
+            #     self.fields[f"requirement_{requirement.id}"].is_multiselect = True
 
     def clean_date_of_birth(self):
         dob = self.cleaned_data["date_of_birth"]
