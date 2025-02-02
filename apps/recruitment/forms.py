@@ -14,7 +14,6 @@ from .models import (
     MinimumRequirementAnswer,
     SelectQuestionTypeOptions,
     Vacancy,
-    VacancyType,
 )
 
 # **********************************************************************************************
