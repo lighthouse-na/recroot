@@ -26,14 +26,12 @@ THIRD_PARTY_APPS = [
     "crispy_tailwind",
     "tinymce",
     "widget_tweaks",
-    "debug_toolbar",
     "import_export",
     "django_cleanup.apps.CleanupConfig",
     "rest_framework",
     "django_recaptcha",
     "django_cotton",
     "django_cotton_components",
-    "django_browser_reload",
 ]
 INSTALLED_APPS = (
     [
@@ -67,8 +65,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",  # allauth
-    "debug_toolbar.middleware.DebugToolbarMiddleware",  # debug toolbar
-    "django_browser_reload.middleware.BrowserReloadMiddleware",  # browser reload
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -181,5 +177,6 @@ from .third_party.channels import *
 from .third_party.crispy_forms import *
 from .third_party.drf import *
 from .third_party.recaptcha import *
+
 from .third_party.tinymce import *
 from .third_party.unfold import *

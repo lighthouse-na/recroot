@@ -10,3 +10,9 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+
+MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
+MIDDLEWARE.append("django_browser_reload.middleware.BrowserReloadMiddleware")
+INSTALLED_APPS.append("debug_toolbar")
+INSTALLED_APPS.append("django_browser_reload")
