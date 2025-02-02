@@ -48,7 +48,7 @@
      x-init="options = allOptions">
 
     <label for="{{ id }}" class="format dark:format-invert tracking-tight text-sky-900 dark:text-orange-500/90">
-        {{ label }}{% if required %} <span style="color:red">*</span>{% endif %}
+        {{ label }}{% if required or field.field.required %} <span style="color:red">*</span>{% endif %}
     </label>
     <div class="relative flex">
 
@@ -73,7 +73,7 @@
 
         <!-- Hidden Input To Grab The Selected Value  -->
         <input id="{{ id }}" name="{{ name }}" x-ref="hiddenTextField" hidden value="{{ value }}" {{ attrs }}
-               {% if required %}required{% endif %} />
+               {% if required or field.field.required %} required {% endif %} />
         <div x-show="isOpen || openedWithKeyboard" id="{{ id }}List"
              class="absolute left-0 top-11 z-10 w-full overflow-hidden rounded-md border border-neutral-300 bg-neutral-50 dark:border-neutral-700 dark:bg-gray-900"
              role="listbox" aria-label="industries list" x-on:click.outside="isOpen = false, openedWithKeyboard = false"
