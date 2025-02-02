@@ -29,8 +29,8 @@ class MinimumRequirementsAddForm(forms.ModelForm):
 
 
 class VacancyForm(forms.ModelForm):
-    content = forms.CharField(label="Content", widget=TinyMCE)
-    remarks = forms.CharField(label="Remarks", widget=TinyMCE)
+    content = forms.CharField(label="Content", widget=TinyMCE())
+    remarks = forms.CharField(label="Remarks", widget=TinyMCE())
 
     class Meta:
         model = Vacancy
