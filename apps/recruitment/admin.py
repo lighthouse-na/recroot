@@ -51,6 +51,11 @@ class RequirementsAdmin(ModelAdmin):
     ]
     inlines = [SelectQuestionTypeOptionsInline]
 
+    def get_queryset(self, request):
+        """Filter to only show requirements with question_type='select'."""
+        qs = super().get_queryset(request)
+        return qs.filter(question_type="select")
+
     def has_add_permission(self, request):
         return False
 
