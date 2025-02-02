@@ -24,85 +24,34 @@ from apps.recruitment.models import (
 
 
 class VacancyListView(ListView):
-    """
-    A ListView for displaying a list of Vacancy instances.
-
-    Attributes:
-        model (Vacancy): The model associated with this view.
-        template_name (str): The path to the template used to render the view.
-        context_object_name (str): The name of the object list in the context.
-
-    Methods:
-        get_queryset (self): Returns a filtered queryset of Vacancy instances.
-
-    Returns:
-        A list of Vacancy instances that are public and have not passed their deadline, ordered by creation date in descending order.
-    """
-
     model = Vacancy
     template_name = "pages/index.html"
     context_object_name = "vacancies"
 
     def get_queryset(self):
-        """
-        Returns a filtered queryset of Vacancy instances.
-
-        Returns:
-            A queryset of Vacancy instances that are public and have not passed their deadline, ordered by creation date in descending order.
-
-        """
-        return Vacancy.objects.filter(is_public=True, deadline__gt=datetime.now()).order_by("-created_at")
+        print(f"Request is_intranet: {self.request.is_intranet}")
+        if self.request.is_intranet:
+            return Vacancy.objects.filter(is_public=False, is_published=True, deadline__gt=datetime.now()).order_by(
+                "-created_at"
+            )
+        return Vacancy.objects.filter(is_public=True, is_published=True, deadline__gt=datetime.now()).order_by(
+            "-created_at"
+        )
 
 
 class VacancyDetailView(DetailView):
-    """
-    A DetailView for displaying a single Vacancy instance.
-
-    Attributes:
-        model (Vacancy): The model associated with this view.
-        template_name (str): The path to the template used to render the view.
-        context_object_name (str): The name of the object in the context.
-
-
-    Methods:
-        get (request, *args, **kwargs): Handles GET requests and returns a response.
-
-    """
-
     model = Vacancy
     template_name = "recruitment/vacancy/detail.html"
     context_object_name = "vacancy"
 
 
 class ApplicationCreateView(CreateView):
-    """
-    View for creating a new application for a specific vacancy.
-
-    This view renders a form for users to apply for a job vacancy. It handles
-    saving the application along with associated minimum requirements answers
-    and user data. It also ensures that applications cannot be submitted after
-    the vacancy's deadline.
-    """
-
     model = Application
     form_class = ApplicationForm
     success_url = reverse_lazy("recruitment:application_success")
     template_name = "recruitment/vacancy/detail.html"  # Used the vacancy detail template
 
     def form_valid(self, form):
-        """
-        Handles the valid submission of the application form.
-
-        This method overrides the default `form_valid` to associate the application
-        with the selected vacancy and authenticated user, as well as save answers
-        to minimum requirements related to the vacancy.
-
-        Args:
-            form: The submitted form with valid data.
-
-        Returns:
-            HTTP response: A redirect to the `success_url` if the form is valid.
-        """
         slug = self.kwargs.get("slug")
         vacancy = get_object_or_404(Vacancy, slug=slug)  # Fetch the vacancy based on the slug
         try:
@@ -111,6 +60,7 @@ class ApplicationCreateView(CreateView):
                 # Create the application without saving to the database yet
                 application = form.save(commit=False)
                 application.vacancy = vacancy  # Associate with the correct vacancy
+                application.is_internal = self.request.is_intranet  # if applied via the intranet
                 application.save()  # Save the application to the database
 
                 # Save answers to minimum requirements if any
@@ -136,18 +86,6 @@ class ApplicationCreateView(CreateView):
         return super().form_valid(form)  # Proceed to the success URL
 
     def get_context_data(self, **kwargs):
-        """
-        Adds additional context to the template rendering.
-
-        This method ensures that the vacancy details are included in the context
-        and disables the application link if the current date is past the vacancy deadline.
-
-        Args:
-            kwargs: Any additional keyword arguments for context.
-
-        Returns:
-            dict: The context data to be passed to the template.
-        """
         context = super().get_context_data(**kwargs)
         slug = self.kwargs.get("slug")
         vacancy = get_object_or_404(Vacancy, slug=slug)
@@ -156,15 +94,6 @@ class ApplicationCreateView(CreateView):
         return context
 
     def get_form_kwargs(self):
-        """
-        Passes the vacancy to the form for further customization.
-
-        This method adds the vacancy to the form’s arguments so that it can be used
-        when creating the application instance and when saving minimum requirement answers.
-
-        Returns:
-            dict: The form keyword arguments, including the vacancy instance.
-        """
         kwargs = super().get_form_kwargs()
         slug = self.kwargs.get("slug")
         vacancy = get_object_or_404(Vacancy, slug=slug)

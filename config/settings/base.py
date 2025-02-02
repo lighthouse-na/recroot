@@ -24,7 +24,6 @@ THIRD_PARTY_APPS = [
     "phonenumber_field",
     "crispy_forms",
     "crispy_tailwind",
-    "guardian",
     "tinymce",
     "widget_tweaks",
     "debug_toolbar",
@@ -40,7 +39,6 @@ INSTALLED_APPS = (
     [
         "unfold",
         "unfold.contrib.import_export",
-        "unfold.contrib.guardian",
         "unfold.contrib.filters",
         "django.contrib.admin",
         "django.contrib.auth",
@@ -64,6 +62,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
+    "apps.recruitment.middleware.InternalAccessMiddleware",  # recruitment middleware
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -146,7 +145,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
-    "guardian.backends.ObjectPermissionBackend",
 )
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
@@ -166,7 +164,6 @@ INTERNAL_IPS = [
 SITE_ID = 1
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
-# ANONYMOUS_USER_NAME = None  # guardian
 
 UBLOCK_ORIGIN_EXCEPTIONS = [
     "http://localhost:8000/*",
@@ -175,6 +172,9 @@ UBLOCK_ORIGIN_EXCEPTIONS = [
 
 AUTH_USER_MODEL = "accounts.User"
 CELERY_BROKER_URL = env("BROKER_URL")
+
+INTRANET_IP_RANGES = env.list("INTRANET_IP_RANGES", default=["127.0.0.1"])
+
 
 from .third_party.allauth import *
 from .third_party.channels import *

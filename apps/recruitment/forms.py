@@ -95,6 +95,11 @@ class ApplicationForm(forms.ModelForm):
                 "title": requirement.title,
                 "required": requirement.is_required,
             }
+
+            # Only display requirements that are internal if the request is from the intranet
+            if requirement.is_internal and not self.request.is_intranet:
+                continue  # Skip this requirement if it's internal and the user is not on the intranet
+
             if requirement.question_type == MinimumRequirement.QuestionType.TEXT:
                 self.fields[f"requirement_{requirement.id}"] = forms.CharField(
                     label=requirement.title,
