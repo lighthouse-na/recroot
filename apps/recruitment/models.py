@@ -292,17 +292,3 @@ class Interview(models.Model):
         if self.schedule_datetime:
             self.response_deadline = self.schedule_datetime - timedelta(days=2)
         super().save(*args, **kwargs)
-
-
-# **********************************************************************************************
-#                                       SUBSCRIBER
-# **********************************************************************************************
-class Subscriber(models.Model):
-    email = models.EmailField(unique=True)
-    vacancy_types = models.ManyToManyField(VacancyType, related_name="subscribers")
-    subscribed = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    unsubscribed_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.email

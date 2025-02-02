@@ -46,7 +46,6 @@ urlpatterns = [
         views.InterviewResponseView.as_view(),
         name="interview_invitation",
     ),
-    path("subscribe/", views.SubscribeCreateView.as_view(), name="subscriber_create"),
     path("success/", views.application_success, name="application_success"),
     path(
         "interview_response_success/",

@@ -11,14 +11,12 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from apps.recruitment.forms import (
     ApplicationForm,
     InterviewInvitationResponseForm,
-    SubscriberForm,
 )
 from apps.recruitment.models import (
     Application,
     Interview,
     MinimumRequirement,
     MinimumRequirementAnswer,
-    Subscriber,
     Vacancy,
 )
 
@@ -49,7 +47,18 @@ class ApplicationCreateView(CreateView):
     model = Application
     form_class = ApplicationForm
     success_url = reverse_lazy("recruitment:application_success")
-    template_name = "recruitment/vacancy/detail.html"  # Used the vacancy detail template
+    template_name = "recruitment/vacancy/detail.html"
+
+    def get(self, request, *args, **kwargs):
+        slug = self.kwargs.get("slug")
+        vacancy = get_object_or_404(Vacancy, slug=slug)
+
+        # Check if the vacancy is internal and the user is not on the intranet
+        if vacancy.is_public is False and not request.is_intranet:
+            # Redirect to homepage if the user is not on the intranet
+            return redirect("home")  # Adjust "homepage" to your actual homepage URL name
+
+        return super().get(request, *args, **kwargs)
 
     def form_valid(self, form):
         slug = self.kwargs.get("slug")
@@ -66,10 +75,18 @@ class ApplicationCreateView(CreateView):
                 # Save answers to minimum requirements if any
                 requirements = MinimumRequirement.objects.filter(vacancy=vacancy)
                 for requirement in requirements:
-                    answer = form.cleaned_data[f"requirement_{requirement.id}"]
-                    MinimumRequirementAnswer.objects.create(
-                        application=application, requirement=requirement, answer=answer
-                    )
+                    # answer = form.cleaned_data[f"requirement_{requirement.id}"]
+                    # MinimumRequirementAnswer.objects.create(
+                    #     application=application, requirement=requirement, answer=answer
+                    # )
+
+                    field_name = f"requirement_{requirement.id}"
+                    # Check if the field is in the cleaned_data to avoid KeyError
+                    if field_name in form.cleaned_data:
+                        answer = form.cleaned_data[field_name]
+                        MinimumRequirementAnswer.objects.create(
+                            application=application, requirement=requirement, answer=answer
+                        )
 
                 # Save many-to-many relationships
                 form.save_m2m()
@@ -100,13 +117,6 @@ class ApplicationCreateView(CreateView):
         kwargs["vacancy"] = vacancy
         kwargs["request"] = self.request
         return kwargs
-
-
-class SubscribeCreateView(CreateView):
-    model = Subscriber
-    form_class = SubscriberForm
-    success_url = reverse_lazy("home")
-    template_name = "recruitment/subscribe/create.html"
 
 
 class InterviewResponseView(UpdateView):

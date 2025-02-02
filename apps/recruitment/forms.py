@@ -13,7 +13,6 @@ from .models import (
     MinimumRequirement,
     MinimumRequirementAnswer,
     SelectQuestionTypeOptions,
-    Subscriber,
     Vacancy,
     VacancyType,
 )
@@ -89,6 +88,9 @@ class ApplicationForm(forms.ModelForm):
         self.request = kwargs.pop("request", None)
         super().__init__(*args, **kwargs)
 
+        # We will keep track of the fields that are being added
+        fields_to_remove = []
+
         for requirement in self.requirements:
             field_info = {
                 "id": requirement.id,
@@ -98,6 +100,7 @@ class ApplicationForm(forms.ModelForm):
 
             # Only display requirements that are internal if the request is from the intranet
             if requirement.is_internal and not self.request.is_intranet:
+                fields_to_remove.append(f"requirement_{requirement.id}")
                 continue  # Skip this requirement if it's internal and the user is not on the intranet
 
             if requirement.question_type == MinimumRequirement.QuestionType.TEXT:
@@ -240,16 +243,3 @@ class InterviewInvitationResponseForm(forms.ModelForm):
     class Meta:
         model = Interview
         fields = ("status",)
-
-
-# **********************************************************************************************
-#                                       SUBSCRIBER
-# **********************************************************************************************
-class SubscriberForm(forms.ModelForm):
-    vacancy_types = forms.ModelMultipleChoiceField(
-        queryset=VacancyType.objects.all(), widget=forms.CheckboxSelectMultiple
-    )
-
-    class Meta:
-        model = Subscriber
-        fields = ("email", "vacancy_types")

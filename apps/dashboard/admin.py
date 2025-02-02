@@ -11,14 +11,12 @@ from apps.pages.models import FAQ, Announcement
 from apps.recruitment.admin import (
     ApplicationAdmin,
     InterviewAdmin,
-    SubscriberAdmin,
     VacancyAdmin,
 )
 from apps.recruitment.models import (
     Application,
     Interview,
     Location,
-    Subscriber,
     Vacancy,
     VacancyType,
 )
@@ -57,7 +55,6 @@ admin_dashboard_site.register(Vacancy, VacancyAdmin)
 admin_dashboard_site.register(Application, ApplicationAdmin)
 admin_dashboard_site.register(Interview, InterviewAdmin)
 admin_dashboard_site.register(VacancyType, ModelAdmin)
-admin_dashboard_site.register(Subscriber, SubscriberAdmin)
 admin_dashboard_site.register(Position, PositionAdmin)
 admin_dashboard_site.register(CostCentre, CostCentreAdmin)
 admin_dashboard_site.register(Announcement, ModelAdmin)

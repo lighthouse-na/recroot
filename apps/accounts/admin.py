@@ -26,14 +26,12 @@ from apps.recruitment.admin import (
     ApplicationAdmin,
     InterviewAdmin,
     RequirementsAdmin,
-    SubscriberAdmin,
     VacancyAdmin,
 )
 from apps.recruitment.models import (
     Application,
     Interview,
     MinimumRequirement,
-    Subscriber,
     Vacancy,
     VacancyType,
 )
@@ -183,7 +181,6 @@ superuser_dashboard_site.register(Vacancy, VacancyAdmin)
 superuser_dashboard_site.register(Application, ApplicationAdmin)
 superuser_dashboard_site.register(Interview, InterviewAdmin)
 superuser_dashboard_site.register(VacancyType, ModelAdmin)
-superuser_dashboard_site.register(Subscriber, SubscriberAdmin)
 superuser_dashboard_site.register(Position, PositionAdmin)
 superuser_dashboard_site.register(CostCentre, CostCentreAdmin)
 superuser_dashboard_site.register(Announcement, ModelAdmin)
