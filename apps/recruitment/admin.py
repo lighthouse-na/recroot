@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AnonymousUser
 from django.db.models import Case, IntegerField, Value, When
 from django.utils import timezone
 from django.utils.html import format_html
@@ -25,6 +26,8 @@ from .models import (
     Vacancy,
     VacancyType,
 )
+
+User = get_user_model()
 
 # **********************************************************************************************
 #                                       VACANCY
@@ -110,6 +113,14 @@ class VacancyAdmin(ModelAdmin):
             return True
         return False
 
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        """
+        Exclude superusers and anonymous users from the reviewers selection.
+        """
+        if db_field.name == "reviewers":
+            kwargs["queryset"] = User.objects.filter(is_superuser=False).exclude(email=AnonymousUser().username)
+        return super().formfield_for_manytomany(db_field, request, **kwargs)
+
 
 # **********************************************************************************************
 #                                       APPLICATION
@@ -177,7 +188,7 @@ class ApplicationAdmin(ModelAdmin, ExportActionModelAdmin):
             return qs
         vacancies_user_can_review = Vacancy.objects.filter(reviewers=request.user)
         qs = qs.filter(vacancy__in=vacancies_user_can_review)
-        qs = qs.annotate(
+        return qs.annotate(
             status_order=Case(
                 When(status="submitted", then=Value(0)),
                 When(status="rejected", then=Value(1)),
@@ -186,7 +197,6 @@ class ApplicationAdmin(ModelAdmin, ExportActionModelAdmin):
                 output_field=IntegerField(),
             )
         ).order_by("status_order", "-submitted_at")
-        return qs
 
     def has_view_permission(self, request, obj=None):
         if obj is None:
