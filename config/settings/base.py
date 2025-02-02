@@ -173,7 +173,7 @@ UBLOCK_ORIGIN_EXCEPTIONS = [
 AUTH_USER_MODEL = "accounts.User"
 CELERY_BROKER_URL = env("BROKER_URL")
 
-INTRANET_IP_RANGES = env.list("INTRANET_IP_RANGES", default=["127.0.0.1"])
+INTRANET_IP_RANGES = env.list("INTRANET_IP_RANGES", default=["127.0."])
 
 
 from .third_party.allauth import *
