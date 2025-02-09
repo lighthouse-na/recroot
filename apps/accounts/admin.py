@@ -6,6 +6,7 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
 from django.contrib.auth.models import Group
+from django.contrib.sites.models import Site
 from django.urls import URLPattern, path
 from import_export.admin import ExportActionModelAdmin
 from unfold.admin import ModelAdmin, TabularInline
@@ -172,6 +173,7 @@ class SuperuserDashboard(UnfoldAdminSite):
 superuser_dashboard_site = SuperuserDashboard(name="SuperUser")
 
 # Register models with the SuperuserDashboard instance.
+superuser_dashboard_site.register(Site, ModelAdmin)
 superuser_dashboard_site.register(User, UserAdmin)
 superuser_dashboard_site.register(Group, GroupAdmin)
 superuser_dashboard_site.register(EmailAddress, EmailAddressAdmin)
