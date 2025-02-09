@@ -14,6 +14,7 @@ class CustomUserCreationForm(forms.ModelForm):
             "is_active",
             "is_staff",
             "password",
+            "username",
         )
 
 
@@ -26,6 +27,7 @@ class CustomUserChangeForm(forms.ModelForm):
             "is_superuser",
             "is_staff",
             "password",
+            "username",
         )
 
 
