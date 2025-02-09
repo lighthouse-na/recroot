@@ -40,6 +40,10 @@ jobs:
         run: |
           uv run manage.py makemigrations
 
-      - name: Migrate
+      - name: Migrate to database
         run: |
           uv run manage.py migrate
+
+      - name: Run tests
+        run: |
+          uv run pytest
