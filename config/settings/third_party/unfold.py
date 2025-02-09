@@ -142,6 +142,19 @@ UNFOLD = {
                         "permission": lambda request: request.user.groups.filter(name="admin").exists()
                         and request.path.startswith("/dashboard/admin/"),
                     },
+                    {
+                        "title": _("Pages"),
+                        "icon": "note",
+                        "link": "/"
+                        + (
+                            "dashboard/admin/"
+                            if module == "config.settings.development"
+                            else "dashboard/telecom/administrator/"
+                        )
+                        + "pages/announcement/",
+                        "permission": lambda request: request.user.groups.filter(name="admin").exists()
+                        and request.path.startswith("/dashboard/admin/"),
+                    },
                     # -----------------------------------------------------------------------
                     # Staff Dashboard Urls
                     # -----------------------------------------------------------------------
@@ -368,7 +381,11 @@ UNFOLD = {
                 {
                     "title": _("Applications"),
                     "link": "/"
-                    + ("admin/" if module == "config.settings.development" else "oshimashakula/")
+                    + (
+                        "dashboard/admin/"
+                        if module == "config.settings.development"
+                        else "dashboard/telecom/administrator/"
+                    )
                     + "recruitment/application",
                     "permission": lambda request: request.user.groups.filter(name="admin").exists()
                     or request.user.has_perm("view_application"),
@@ -376,7 +393,11 @@ UNFOLD = {
                 {
                     "title": _("Vacancies"),
                     "link": "/"
-                    + ("admin/" if module == "config.settings.development" else "oshimashakula/")
+                    + (
+                        "dashboard/admin/"
+                        if module == "config.settings.development"
+                        else "dashboard/telecom/administrator/"
+                    )
                     + "recruitment/vacancy",
                     "permission": lambda request: request.user.groups.filter(name="admin").exists()
                     or request.user.has_perm("view_vacancy"),
@@ -384,10 +405,61 @@ UNFOLD = {
                 {
                     "title": _("Interviews"),
                     "link": "/"
-                    + ("admin/" if module == "config.settings.development" else "oshimashakula/")
+                    + (
+                        "dashboard/admin/"
+                        if module == "config.settings.development"
+                        else "dashboard/telecom/administrator/"
+                    )
                     + "recruitment/interview",
                     "permission": lambda request: request.user.groups.filter(name="admin").exists()
                     or request.user.has_perm("view_interview"),
+                },
+            ],
+        },
+        {
+            "models": [
+                "pages.announcement",
+                "pages.faq",
+            ],
+            "items": [
+                {
+                    "title": _("Announcements"),
+                    "link": "/"
+                    + ("admin/" if module == "config.settings.development" else "oshimashakula/")
+                    + "pages/announcement",
+                    "permission": lambda request: request.user.is_superuser
+                    or request.user.has_perm("view_announcement"),
+                },
+                {
+                    "title": _("FAQs"),
+                    "link": "/"
+                    + ("admin/" if module == "config.settings.development" else "oshimashakula/")
+                    + "pages/faq",
+                    "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_faq"),
+                },
+                {
+                    "title": _("Announcements"),
+                    "link": "/"
+                    + (
+                        "dashboard/admin/"
+                        if module == "config.settings.development"
+                        else "dashboard/telecom/administrator/"
+                    )
+                    + "pages/announcement",
+                    "permission": lambda request: request.user.groups.filter(name="admin").exists()
+                    or request.user.has_perm("view_announcement"),
+                },
+                {
+                    "title": _("FAQs"),
+                    "link": "/"
+                    + (
+                        "dashboard/admin/"
+                        if module == "config.settings.development"
+                        else "dashboard/telecom/administrator/"
+                    )
+                    + "pages/faq",
+                    "permission": lambda request: request.user.groups.filter(name="admin").exists()
+                    or request.user.has_perm("view_faq"),
                 },
             ],
         },
