@@ -27,6 +27,8 @@ class CustomUserManager(BaseUserManager):
 
 class User(AbstractUser):
     username = models.CharField(max_length=50, blank=True, null=True)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
     email = models.EmailField(unique=True)
     primary_contact = PhoneNumberField(
         region="NA",
@@ -38,8 +40,8 @@ class User(AbstractUser):
         help_text="Enter a valid Namibian phone number",
     )
 
-    USERNAME_FIELD = "email"  # Set email as the authentication field
-    REQUIRED_FIELDS = []  # No additional required fields
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
 
     objects = CustomUserManager()
 
