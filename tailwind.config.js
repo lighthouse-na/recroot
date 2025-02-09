@@ -1,10 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	content: [
-		"./templates/**/*.html",
-		"./static/js/*.js",
-		"config/settings/third_party/unfold.py",
-	],
+	content: ["./templates/**/*.html", "./static/js/*.js"],
 	theme: {
 		colors: {
 			primary: {
