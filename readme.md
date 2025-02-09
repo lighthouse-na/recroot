@@ -36,5 +36,6 @@ Unix: `sudo python3 setup.py`
 3. In your terminal run `uv sync`, this will install all dependencies and set up .venv for you.
 4. Make migrations, `uv run manage.py makemigrations`
 5. Migrate to database, `uv run manage.py migrate`, a sqlite database will be created.
-6. Create the superuser, `uv run manage.py createsuperuser`.
-7. Run the project, `uv run manage.py runserver`
+6. Collect static files, `uv run manage.py collectstatic --no-input`.
+7. Create the superuser, `uv run manage.py createsuperuser`.
+8. Run the project, `uv run manage.py runserver`
