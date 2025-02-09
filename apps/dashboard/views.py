@@ -12,7 +12,7 @@ class CustomLoginView(LoginView):
         if user.groups.filter(name="admin").exists():
             return reverse("Admin:index")
 
-        elif user.groups.filter(name="recruiter").exists():
+        if user.groups.filter(name="recruiter").exists():
             return reverse("Recruitment:index")
 
         return None

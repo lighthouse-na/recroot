@@ -14,7 +14,7 @@
                     {% if user|is_in_group:"admin" %}
                         <c-navbar.link url="{% url 'Admin:index' %}" label="Admin Dashboard" />
                     {% endif %}
-                    {% if user.is_authenticated %}
+                    {% if user|is_in_group:"recruiter" %}
                         <c-navbar.link url="{% url 'Recruitment:index' %}" label="Recruiter Dashboard" />
                     {% endif %}
                 {% else %}
