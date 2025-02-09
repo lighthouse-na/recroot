@@ -465,18 +465,6 @@ wheels = [
 ]
 
 [[package]]
-name = "django-guardian"
-version = "2.4.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "django" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/6f/4c/d1f6923a0ad7f16c403a54c09e94acb76ac6c3765e02523fb09b2b03e1a8/django-guardian-2.4.0.tar.gz", hash = "sha256:c58a68ae76922d33e6bdc0e69af1892097838de56e93e78a8361090bcd9f89a0", size = 159008 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/a2/25/869df12e544b51f583254aadbba6c1a95e11d2d08edeb9e58dd715112db5/django_guardian-2.4.0-py3-none-any.whl", hash = "sha256:440ca61358427e575323648b25f8384739e54c38b3d655c81d75e0cd0d61b697", size = 106107 },
-]
-
-[[package]]
 name = "django-import-export"
 version = "4.3.3"
 source = { registry = "https://pypi.org/simple" }
@@ -1195,7 +1183,6 @@ dependencies = [
     { name = "django-environ" },
     { name = "django-extensions" },
     { name = "django-filter" },
-    { name = "django-guardian" },
     { name = "django-import-export" },
     { name = "django-phonenumber-field" },
     { name = "django-recaptcha" },
@@ -1289,7 +1276,6 @@ requires-dist = [
     { name = "django-environ", specifier = "==0.11.2" },
     { name = "django-extensions", specifier = "==3.2.3" },
     { name = "django-filter", specifier = "==24.3" },
-    { name = "django-guardian", specifier = "==2.4.0" },
     { name = "django-import-export", specifier = "==4.3.3" },
     { name = "django-phonenumber-field", specifier = "==8.0.0" },
     { name = "django-recaptcha", specifier = "==4.0.0" },
