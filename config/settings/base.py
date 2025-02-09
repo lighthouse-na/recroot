@@ -2,6 +2,14 @@ import os
 
 from config.env import BASE_DIR, env
 
+from .third_party.allauth import *
+from .third_party.channels import *
+from .third_party.crispy_forms import *
+from .third_party.drf import *
+from .third_party.recaptcha import *
+from .third_party.tinymce import *
+from .third_party.unfold import *
+
 ADMINS = [("Sakaria Ndadi", "sakariandadi@gmail.com")]
 
 env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -170,12 +178,3 @@ AUTH_USER_MODEL = "accounts.User"
 CELERY_BROKER_URL = env("BROKER_URL")
 
 INTRANET_IP_RANGES = env.list("INTRANET_IP_RANGES", default=["127.0."])
-
-
-from .third_party.allauth import *
-from .third_party.channels import *
-from .third_party.crispy_forms import *
-from .third_party.drf import *
-from .third_party.recaptcha import *
-from .third_party.tinymce import *
-from .third_party.unfold import *

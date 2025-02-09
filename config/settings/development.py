@@ -1,3 +1,5 @@
+from config.env import BASE_DIR
+
 from .base import *
 
 DEBUG = True
@@ -11,8 +13,8 @@ DATABASES = {
     }
 }
 
-
-MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
-MIDDLEWARE.append("django_browser_reload.middleware.BrowserReloadMiddleware")
-INSTALLED_APPS.append("debug_toolbar")
-INSTALLED_APPS.append("django_browser_reload")
+MIDDLEWARE += [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
+]
+INSTALLED_APPS += ["debug_toolbar", "django_browser_reload"]

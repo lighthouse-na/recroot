@@ -145,8 +145,7 @@ class ApplicantResponseInline(TabularInline):
         return super().get_formset(request, obj, **kwargs)
 
     def has_module_permission(self, request):
-        if super().has_module_permission(request):
-            return False
+        return False
 
 
 class VacancyFilter(admin.SimpleListFilter):

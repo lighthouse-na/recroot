@@ -1,5 +1,5 @@
 from allauth.account.models import EmailAddress
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group
 from unfold.admin import ModelAdmin
 from unfold.sites import UnfoldAdminSite
 

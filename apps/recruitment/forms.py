@@ -91,12 +91,6 @@ class ApplicationForm(forms.ModelForm):
         fields_to_remove = []
 
         for requirement in self.requirements:
-            field_info = {
-                "id": requirement.id,
-                "title": requirement.title,
-                "required": requirement.is_required,
-            }
-
             # Only display requirements that are internal if the request is from the intranet
             if requirement.is_internal and not self.request.is_intranet:
                 fields_to_remove.append(f"requirement_{requirement.id}")

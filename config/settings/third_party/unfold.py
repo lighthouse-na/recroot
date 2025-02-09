@@ -150,7 +150,6 @@ UNFOLD = {
                         "title": _("Dashboard"),
                         "icon": "dashboard",
                         "link": reverse_lazy("Staff:index"),
-                        "permission": lambda request: request.path.startswith("/dashboard/staff/"),
                         "permission": lambda request: request.user.groups.filter(name="staff").exists()
                         and request.path.startswith("/dashboard/staff/"),
                     },

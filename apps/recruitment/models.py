@@ -21,7 +21,7 @@ from apps.utils.validators import FileValidator
 #                                       VACANCY
 # **********************************************************************************************
 class VacancyType(models.Model):
-    class VACANCY_TYPE(models.TextChoices):
+    class VacancyTypes(models.TextChoices):
         APPRENTICESHIP = "apprenticeship"
         INTERNSHIP = "internship"
         PERMANENT = "permanent"
@@ -30,7 +30,7 @@ class VacancyType(models.Model):
         GRADUATE = "graduate"
         VOLUNTEER = "volunteer"
 
-    type = models.CharField(max_length=50, choices=VACANCY_TYPE.choices, unique=True)
+    type = models.CharField(max_length=50, choices=VacancyTypes.choices, unique=True)
 
     def __str__(self):
         return self.type.upper()
@@ -231,7 +231,7 @@ class Interview(models.Model):
         REJECTED = "rejected"
         ACCEPTED = "accepted"
 
-    class INTERVIEW_TYPE(models.TextChoices): ...
+    class InterviewTypes(models.TextChoices): ...
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     application = models.ForeignKey(Application, on_delete=models.CASCADE, related_name="interviews")
@@ -286,7 +286,7 @@ class Interview(models.Model):
         #     )
 
     def update_no_response_status(self):
-        if self.response_deadline and self.response_deadline < datetime.now():
+        if self.response_deadline and self.response_deadline < timezone.now():
             self.status = "no_response"
             self.save()
 
