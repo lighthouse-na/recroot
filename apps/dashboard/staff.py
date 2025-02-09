@@ -1,6 +1,5 @@
-from datetime import datetime
-
 from django.http import HttpRequest
+from django.utils import timezone
 from unfold.admin import ModelAdmin
 from unfold.sites import UnfoldAdminSite
 
@@ -96,10 +95,10 @@ class StaffDashboard(UnfoldAdminSite):
 
     def index(self, request, extra_context=None):
         announcements = Announcement.objects.filter(
-            deadline__gt=datetime.now(),
+            deadline__gt=timezone.now(),
             is_visible=True,
         )
-        vacancies = Vacancy.objects.filter(is_published=True, deadline__gt=datetime.now()).order_by("-created_at")
+        vacancies = Vacancy.objects.filter(is_published=True, deadline__gt=timezone.now()).order_by("-created_at")
         extra_context = {
             **self.each_context(request),
             "announcements": announcements,

@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.contrib import messages
 from django.db import IntegrityError, transaction
 from django.http.response import HttpResponse as HttpResponse
@@ -29,10 +27,10 @@ class VacancyListView(ListView):
     def get_queryset(self):
         print(f"Request is_intranet: {self.request.is_intranet}")
         if self.request.is_intranet:
-            return Vacancy.objects.filter(is_public=False, is_published=True, deadline__gt=datetime.now()).order_by(
+            return Vacancy.objects.filter(is_public=False, is_published=True, deadline__gt=timezone.now()).order_by(
                 "-created_at"
             )
-        return Vacancy.objects.filter(is_public=True, is_published=True, deadline__gt=datetime.now()).order_by(
+        return Vacancy.objects.filter(is_public=True, is_published=True, deadline__gt=timezone.now()).order_by(
             "-created_at"
         )
 
