@@ -66,6 +66,7 @@ dependencies = [
     "pyasn1-modules==0.4.1",
     "pycparser==2.22",
     "pyopenssl==24.3.0",
+    "pytest-django>=4.9.0",
     "python-dateutil==2.9.0.post0",
     "pytz==2024.2",
     "rcssmin==1.2.0",
@@ -123,6 +124,7 @@ indent-width = 4
 
 [tool.ruff.lint]
 select = ["F","E","W","I","N","R"]
+extend-ignore = ["F403"]
 
 [dependency-groups]
 dev = [
@@ -130,3 +132,6 @@ dev = [
     "django-debug-toolbar>=5.0.1",
     "ruff>=0.9.5",
 ]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings.development"
