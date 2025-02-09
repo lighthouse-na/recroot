@@ -75,19 +75,6 @@ class UserAdmin(ModelAdmin, ExportActionModelAdmin):
     ]
 
     def get_queryset(self, request):
-        """
-        Customises the queryset for the User model.
-
-        Modifies the queryset to display:
-        - All users if the requester is a superuser or a member of the "admin" group.
-        - Only their own user record for other users.
-
-        Args:
-            request (HttpRequest): The HTTP request object.
-
-        Returns:
-            QuerySet: A filtered queryset of users.
-        """
         qs = super().get_queryset(request).exclude(is_superuser=True)
 
         if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
