@@ -95,25 +95,11 @@ class UserAdmin(ModelAdmin, ExportActionModelAdmin):
         return qs.filter(user=request.user)
 
     def has_add_permission(self, request):
-        """
-        Determines whether the user has permission to add new user records.
-
-        Returns:
-            bool: True if the requester is a superuser or in the "admin" group,
-                  otherwise False.
-        """
         if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
             return True
         return False
 
     def has_delete_permission(self, request, obj=None):
-        """
-        Determines whether the user has permission to delete user records.
-
-        Returns:
-            bool: True if the requester is a superuser or in the "admin" group,
-                  otherwise False.
-        """
         if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
             return True
         return False

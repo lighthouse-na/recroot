@@ -343,8 +343,6 @@ class InterviewAdmin(ModelAdmin, ExportActionModelAdmin):
         return request.user.is_superuser or obj.application.vacancy.reviewers.filter(id=request.user.id).exists()
 
     def has_add_permission(self, request):
-        """Allow superusers, admin group members, and reviewers of an application's vacancy to create an interview."""
-
         if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
             return True
 
