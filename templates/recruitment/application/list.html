@@ -1,8 +1,0 @@
-{% extends 'base.html' %}
-
-{% block title %}Applications{% endblock title %}
-
-{% block content %}
-    <c-dcc-table id="applications-table" :th="['vacancy','submitted_at','status']" :tr="applications" />
-    <script>console.log('{{ applications }}')</script>
-{% endblock content %}
