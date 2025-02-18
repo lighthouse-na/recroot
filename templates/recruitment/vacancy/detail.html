@@ -70,10 +70,10 @@
                         {% endfor %}
                     {% endif %}
 
-
+                <!-- Form Start -->
+                    <p class="text-sky-900">Required Fields = <span class="text-red-500">*</span></p>
                     <form method="post" enctype="multipart/form-data" class="space-y-4" id="qualificationForm">
                         {% csrf_token %}
-
 
                         <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
                             <c-input id="first_name" label="First Name" placeholder="First Name" name="first_name" required
@@ -113,13 +113,13 @@
                                      validationUrl="{% url 'recruitment:secondary_contact_validation' %}"="false" />
                         </div>
 
-
                         <c-input id="cv" label="Documents" name="cv" type="file" required />
 
                         {% if vacancy.requirements.all %}
                             <div class="inline-flex items-center justify-center w-full md:my-10 col-span-2">
                                 <c-h4 title="Requirements" />
                             </div>
+
                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
                                 {% for field in form %}
                                     {% if field.name|slice:":12" == "requirement_" %}
@@ -139,11 +139,6 @@
                                             </div>
 
                                         {% elif field.field.is_select %}
-                        {#<div class="col-span-2">
-                            <c-select id="{{ field.id }}" type="select" name="{{ field.html_name }}"
-                                label="{{ field.label }}"
-                                :options="[{% for value, label in field.field.choices %}'{{ label }}'{% if not forloop.last %},{% endif %}{% endfor %}]" />
-                        </div>#}
                                             <div class="col-span-2">
                                                 <label for="{{ field.id }}"
                                                        class="format dark:format-invert tracking-tight text-sky-900 dark:text-orange-500/90">{{ field.label }}
@@ -159,7 +154,6 @@
                                                     {% endfor %}
                                                 </select>
                                             </div>
-
                                         {% endif %}
                                     {% endif %}
                                 {% endfor %}
@@ -169,6 +163,7 @@
                             <c-button label="Apply" type="submit" primary />
                         </div>
                     </form>
+                <!-- Form End -->
 
                 </div>
             </div>
