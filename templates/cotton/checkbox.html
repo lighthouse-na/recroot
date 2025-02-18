@@ -1,6 +1,8 @@
-<div class="flex items-center ps-4 border border-gray-200 rounded-lg dark:border-gray-700">
-    <input id="{{ id }}" type="checkbox" value="" name="{{ name }}"
+<div
+    class="flex items-center ps-4 rounded-md border text-sm focus:border-orange-500 dark:bg-gray-800 dark:border-gray-700">
+    <input id="{{ id }}" type="checkbox" value="{{ value }}" name="{{ name }}"
            class="w-5 h-5 text-orange-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
     <label for="{{ id }}"
-           class="w-full py-2 ms-2 format dark:format-invert tracking-tight text-sky-900 dark:text-orange-500/90">{{ label }}</label>
+           class="w-full py-2 ms-2 format dark:format-invert tracking-tight text-sky-900 dark:text-orange-500/90">{{ label }}
+        {% if required or field.field.required %} <span style="color:red">*</span>{% endif %}</label>
 </div>
