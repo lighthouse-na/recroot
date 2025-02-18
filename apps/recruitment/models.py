@@ -22,18 +22,18 @@ from apps.utils.validators import FileValidator
 # **********************************************************************************************
 class VacancyType(models.Model):
     class VacancyTypes(models.TextChoices):
-        APPRENTICESHIP = "apprenticeship"
-        INTERNSHIP = "internship"
-        PERMANENT = "permanent"
-        PART_TIME = "part_time"
-        CONTRACT = "contract"
-        GRADUATE = "graduate"
-        VOLUNTEER = "volunteer"
+        APPRENTICESHIP = "apprenticeship", "Apprenticeship"
+        INTERNSHIP = "internship", "Internship"
+        PERMANENT = "permanent", "Permanent"
+        PART_TIME = "part_time", "Part Time"
+        CONTRACT = "contract", "Contract"
+        GRADUATE = "graduate", "Graduate"
+        VOLUNTEER = "volunteer", "Volunteer"
 
     type = models.CharField(max_length=50, choices=VacancyTypes.choices, unique=True)
 
-    def __str__(self):
-        return self.type.upper()
+    def __str__(self) -> str:
+        return self.type
 
 
 class Vacancy(models.Model):
