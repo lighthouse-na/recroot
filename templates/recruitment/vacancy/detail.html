@@ -123,11 +123,8 @@
                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
                                 {% for field in form %}
                                     {% if field.name|slice:":12" == "requirement_" %}
-                                        {% if field.field.widget.input_type == 'checkbox' %}
-                                            <div class="col-span-2">
-                                                <c-checkbox id="{{ field.id }}" label="{{ field.label }}" name="{{ field.html_name }}" />
-                                            </div>
-                                        {% elif field.field.widget.input_type == 'text' %}
+
+                                        {% if field.field.widget.input_type == 'text' %}
                                             <div class="col-span-2">
                                                 <c-input id="{{ field.id }}" label="{{ field.label }}" placeholder="{{ field.label }}"
                                                          name="{{ field.html_name }}" />
@@ -135,7 +132,8 @@
 
                                         {% elif field.field.widget.input_type == 'date' %}
                                             <div class="col-span-2">
-                                                <c-input id="{{ field.id }}" type="date" name="{{ field.html_name }}" />
+                                                <c-input id="{{ field.id }}" label="{{ field.label }}" type="date"
+                                                         name="{{ field.html_name }}" />
                                             </div>
 
                                         {% elif field.field.is_select %}

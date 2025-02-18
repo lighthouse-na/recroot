@@ -87,14 +87,14 @@ class Vacancy(models.Model):
 class MinimumRequirement(models.Model):
     class QuestionType(models.TextChoices):
         TEXT = "text"
-        BOOL = "bool"
+        # BOOL = "bool"
         DATE = "date"
         SELECT = "select"
         # MULTISELECT = "multiselect"
 
     vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, related_name="requirements")
     title = models.CharField(max_length=255, verbose_name="Requirement")
-    question_type = models.CharField(max_length=50, choices=QuestionType.choices, default=QuestionType.BOOL)
+    question_type = models.CharField(max_length=50, choices=QuestionType.choices, default=QuestionType.TEXT)
     is_internal = models.BooleanField(default=False)
     is_required = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

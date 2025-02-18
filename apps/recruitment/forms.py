@@ -102,12 +102,6 @@ class ApplicationForm(forms.ModelForm):
                     required=requirement.is_required,
                 )
 
-            elif requirement.question_type == MinimumRequirement.QuestionType.BOOL:
-                self.fields[f"requirement_{requirement.id}"] = forms.BooleanField(
-                    label=requirement.title,
-                    required=requirement.is_required,
-                )
-
             elif requirement.question_type == MinimumRequirement.QuestionType.DATE:
                 self.fields[f"requirement_{requirement.id}"] = forms.DateField(
                     label=requirement.title,
