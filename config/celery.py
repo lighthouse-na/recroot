@@ -3,7 +3,7 @@ import os
 from celery import Celery
 
 # Set the default Django settings module for the 'celery' program.
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.development")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
 
 # Create a Celery instance
 app = Celery("config")
@@ -13,3 +13,4 @@ app.config_from_object("config.settings.base", namespace="CELERY")
 
 # Automatically discover tasks in each app's 'tasks.py' file
 app.autodiscover_tasks()
+app.conf.broker_connection_retry_on_startup = True
