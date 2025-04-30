@@ -26,7 +26,7 @@ def send_vacancy_application_notification_text(instance, created):
     """
     if created and instance.status == "submitted":
         recipient = str(instance.primary_contact)
-        message_body = f"Thank you for submitting your application for the {instance.vacancy.title} opportunity at Telecom Namibia. We acknowledge receipt of your application and will carefully assess your qualifications. You will be notified once the review process has been completed.Thank you for your interest in joining Telecom Namibia."
+        message_body = f"Thank you for submitting your application for the {instance.vacancy.title} opportunity at Telecom Namibia. Application received. Thank you for applying!"
         http_req = (
             f"{my_uri}/api?action=sendmessage"
             f"&username={my_username}"
@@ -47,7 +47,7 @@ def send_vacancy_application_notification_text(instance, created):
 
     if not created and instance.status == "accepted":
         recipient = str(instance.primary_contact)
-        message_body = f"Thank you for submitting your application for the {instance.vacancy.title} opportunity at Telecom Namibia. Your application has successfully met the minimum criteria for further assessment. We will review your submission and inform you of the next steps in due course. We appreciate your interest in a career with Telecom Namibia."
+        message_body = f"Thank you for submitting your application for the {instance.vacancy.title} opportunity at Telecom Namibia. You have been shortlisted. We'll contact you shortly!"
         http_req = (
             f"{my_uri}/api?action=sendmessage"
             f"&username={my_username}"
@@ -68,7 +68,7 @@ def send_vacancy_application_notification_text(instance, created):
 
     if not created and instance.status == "rejected":
         recipient = str(instance.primary_contact)
-        message_body = f"Thank you for your application for the {instance.vacancy.title} opportunity at Telecom Namibia. After a thorough review, we regret to inform you that your application does not meet the minimum criteria. Reason: {instance.review_comments} We value your interest in Telecom Namibia and encourage you to apply for future opportunities. Wishing you success in your job search."
+        message_body = f"Thank you for your application for the {instance.vacancy.title} opportunity at Telecom Namibia. Regretfully, your application was not successful."
         http_req = (
             f"{my_uri}/api?action=sendmessage"
             f"&username={my_username}"
@@ -101,7 +101,7 @@ def send_vacancy_interview_notification_text(instance, created):
     """
     if created and instance.status == "scheduled":
         recipient = str(instance.primary_contact)
-        message_body = f"Telecom Namibia invites you for a {instance.application.vacancy.title} interview, please check your email inbox or spam folder for more information."
+        message_body = f"Telecom Namibia invites you for a {instance.application.vacancy.title} interview. Interview confirmed: { instance.location.address } on { instance.schedule_datetime }. See you there!"
         http_req = (
             f"{my_uri}/api?action=sendmessage"
             f"&username={my_username}"
