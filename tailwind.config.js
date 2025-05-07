@@ -31,8 +31,16 @@ module.exports = {
 				900: "#001D3E",
 				950: "#001833",
 			},
+            // Add your custom color here
+            "custom-f7f7fb": "#f7f7fb",
 		},
-		extend: {},
+		extend: {
+            // Add this block for gradient color stops
+            gradientColorStops: theme => ({
+              ...theme('colors'),
+              "custom-f7f7fb": "#f7f7fb",
+            }),
+          },
 	},
 	plugins: [
 		/**
