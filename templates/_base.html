@@ -2,9 +2,36 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
+ <head>
+
+        <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="1Ds8j2H10qGSrSR0Ta96hz8EdGWeNA4BxkalcKyQ">
+
+    {% comment %} <title>The Official Telecom Job Board - TelJobs</title> {% endcomment %}
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://use.typekit.net/tma7hiz.css">
+
+    <!-- Styles -->
+    <link rel="preload" as="style" href="https://larajobs.com/build/assets/app.c1bc17ca.css">
+    <link rel="preload" as="style" href="https://larajobs.com/build/assets/app.d542849e.css">
+    <link rel="modulepreload" href="https://larajobs.com/build/assets/app.cca62021.js">
+    <link rel="stylesheet" href="https://larajobs.com/build/assets/app.c1bc17ca.css">
+    <link rel="stylesheet" href="https://larajobs.com/build/assets/app.d542849e.css">
+    <script type="module" src="https://larajobs.com/build/assets/app.cca62021.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+
+
+    {% comment %}  {% endcomment %}
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       
         <title>Telecom Namibia -
             {% block title %}{% endblock title %}
         </title>
@@ -27,6 +54,7 @@
         <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon" />
 
         {% block head %}{% endblock head %}
+
     </head>
 
     <body class="bg-white dark:bg-gray-900 select-none" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
@@ -38,13 +66,229 @@
 
         {% block scripts %}{% endblock scripts %}
 
-    {# <script src="{% static 'js/flowbite.min.js' %}"></script> #}
+        {# <script src="{% static 'js/flowbite.min.js' %}"></script> #}
 
-    {#<script>
-        htmx.on('htmx:load', function (event) {
-            Alpine.initTree(event.target);
-        });
-    </script>#}
-    </body>
+        {#<script>
+            htmx.on('htmx:load', function (event) {
+                Alpine.initTree(event.target);
+            });
+        </script>#}
+    </body> 
+
+{% comment %} <head>
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="1Ds8j2H10qGSrSR0Ta96hz8EdGWeNA4BxkalcKyQ">
+
+    <title>The Official Telecom Job Board - TelJobs</title>
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://use.typekit.net/tma7hiz.css">
+
+    <!-- Styles -->
+    <link rel="preload" as="style" href="https://larajobs.com/build/assets/app.c1bc17ca.css">
+    <link rel="preload" as="style" href="https://larajobs.com/build/assets/app.d542849e.css">
+    <link rel="modulepreload" href="https://larajobs.com/build/assets/app.cca62021.js">
+    <link rel="stylesheet" href="https://larajobs.com/build/assets/app.c1bc17ca.css">
+    <link rel="stylesheet" href="https://larajobs.com/build/assets/app.d542849e.css">
+    <script type="module" src="https://larajobs.com/build/assets/app.cca62021.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+
+</head> {% endcomment %}
+
+{% comment %} <body class="font-sans antialiased flex flex-col min-h-screen">
+    <div class="max-w-8xl mx-auto"></div>
+
+
+    <div class="relative overflow-hidden px-3"
+        style="                background: linear-gradient(90deg, #ECEEF5 0.14%, rgba(236, 238, 245, 0.00) 99.87%);
+                                ">
+        <div class="relative pt-2 md:pt-14 pb-20">
+            <div x-data="{ open: false }">
+                <div class="max-w-6xl mx-auto w-full">
+                    <nav class="relative flex items-center justify-between sm:h-10" aria-label="Global">
+                        <div class=" flex justify-between mx-4 w-full">
+                            <a href=""
+                            class="block text-accent font-bold flex items-center justify-center"
+                            style="font-size:42px;">
+                                {pic}telecom
+                            </a>
+                            <div>
+                                words here for ish
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            {% if announcements %}
+                {% include 'pages/announcements.html' %}
+            {% endif %}
+
+            <!-- hero section -->
+            <main class="mt-16 mx-auto max-w-7xl px-4">
+                <div class="text-center">
+                    <h1 class="text-4xl tracking-tight font-extrabold  text-black sm:text-5xl md:text-6xl">
+                        <span class="block xl:inline">The official Telecom job board</span>
+                    </h1>
+                    <p class="mt-3 max-w-md mx-auto text-base  text-black sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+                    </p>
+                    <div class="max-w-2xl mx-auto font-medium">
+                        “As a leading ICT player and equal-opportunity employer, Telecom Namibia is committed to innovation
+                        and service excellence. We are at the forefront of cutting-edge technologies, driving 5G expansion,
+                        cloud transformation, and managed cybersecurity services to enhance connectivity across Namibia. Our
+                        competitive remuneration and investment in human capital empower our employees to thrive in a
+                        rapidly evolving digital economy.”
+                        — <span class="text-base">If you are a forward-thinking professional eager to shape the future of telecommunications, we invite applications for the following positions:
+                                </span>
+                    </div>
+                    <p></p>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+    <!-- Page Content -->
+    <main class="z-10">
+        <div class="py-12 bg-white">
+        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
+
+            <div class="flex flex-col sm:flex-row justify-between my-10">
+
+                <div class="w-full sm:pr-12">
+
+                    <div class="flex items-center justify-between flex-wrap">
+                        <div class="w-0 flex-1 flex items-center">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="">
+
+    {#            job card in here #}
+
+                {% if vacancies %}
+                    {% include 'recruitment/vacancy/list.html' %}
+                {% else %}
+                    <c-h3 title="No vacancies at the moment" />
+                {% endif %}
+
+
+                <a
+                        data-url="https://tinyurl.com/cognyx-sbed"
+                        href="/job/3607"
+                        class="job-link group block mb-6 px-6 md:px-0"
+                >
+                    <div class="relative rounded-lg lj-shadow px-2 md:px-6 py-5 flex items-center md:space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500" style="min-height:110px;">
+                        <div
+                                class="hidden sm:block flex-shrink-0 mb-2 md:mb-0 lg:absolute rounded-lg md:p-4 md:bg-white lj-shadow md:-left-9"
+                        >
+                            <img
+                                    src="https://larajobs.com/logos/9Fefyt1c6vJSKVszhosgKRROORBsrL5iroDcqSqQ.png"
+                                    class="h-12 w-12 rounded-lg object-contain"
+                            />
+                        </div>
+                        <div class="flex flex-col md:flex-row w-full">
+                            <div
+                                    class="flex-1 min-w-0 px-2 md:pl-6 mb-2 md:mb-0 w-full"
+                                    style="color:#2d3748;"
+                            >
+                                <span class="absolute inset-0" aria-hidden="true"></span>
+                                <p class="text-sm text-gray-500 truncate" style="color:#2d3748;">
+                                    Cognyx Software
+                                </p>
+                                <p
+                                        class="text-lg font-bold text-gray-900"
+                                        style="color:#2d3748;"
+                                >
+                                    Senior Backend Developer (PHP, Laravel, VueJS, Tailwind)
+                                </p>
+                                <p class="text-sm text-gray-500 truncate" style="color:#2d3748;">
+                                    Full Time
+                                    <span class="text-gray-500" style="color:#2d3748;">- 55-75k€</span>
+                                </p>
+                            </div>
+                            <div
+                                    class="flex-none md:flex flex-col md:justify-end text-sm text-gray-500 px-2"
+                                    style="color:#2d3748;"
+                            >
+                                <div class="flex-none md:flex sm:justify-end mb-4">
+                                    <div
+                                            class="flex items-center mr-4 mb-1 md:mb-0 text-sm text-gray-500 truncate"
+                                            style="color:#2d3748;"
+                                    >
+                                        <i
+                                                class="fa-solid fa-location-dot flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                                                aria-hidden="true"
+                                        ></i>
+                                        Paris France
+                                    </div>
+                                    <div class="flex items-center" style="color:#2d3748;">
+                                        <i
+                                                class="fa-regular fa-clock flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                                                aria-hidden="true"
+                                        ></i>
+                                        20h
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap gap-1 md:gap-2 md:justify-end mt-2">
+                                    <div
+                                            class="tag font-bold text-sm text-accent px-2 py-1 rounded-full self-center whitespace-no-wrap"
+                                    >
+                                        API
+                                    </div>
+                                    <div
+                                            class="tag font-bold text-sm text-accent px-2 py-1 rounded-full self-center whitespace-no-wrap"
+                                    >
+                                        Backend
+                                    </div>
+                                    <div
+                                            class="tag font-bold text-sm text-accent px-2 py-1 rounded-full self-center whitespace-no-wrap"
+                                    >
+                                        Full Time
+                                    </div>
+                                    <div
+                                            class="tag font-bold text-sm text-accent px-2 py-1 rounded-full self-center whitespace-no-wrap"
+                                    >
+                                        Laravel
+                                    </div>
+                                    <div
+                                            class="tag font-bold text-sm text-accent px-2 py-1 rounded-full self-center whitespace-no-wrap"
+                                    >
+                                        VueJS
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+
+            </div>
+        </div>
+        </div>
+    </main>
+
+    <footer class=" border-t bg-zinc-100  mt-auto">
+
+        <h3 class="text-2xl  text-zinc-500  mb-3 text-center mt-8">Trusted by leading Laravel shops worldwide</h3>
+
+
+    </footer>
+
+</body> {% endcomment %}
 
 </html>
+
