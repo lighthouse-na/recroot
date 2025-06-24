@@ -66,6 +66,8 @@ class ApplicationForm(forms.ModelForm):
     primary_contact = PhoneNumberField(region="NA")
     secondary_contact = PhoneNumberField(region="NA", required=False)
     date_of_birth = forms.DateField(widget=forms.DateInput())
+    trade_specialty = forms.CharField(required=False)
+    
 
     class Meta:
         model = Application
@@ -79,6 +81,10 @@ class ApplicationForm(forms.ModelForm):
             "date_of_birth",
             "gender",
             "cv",
+            "tertiary_institution",
+            "field_of_study",
+            "trade_specialty",
+            "NQF_level_or_level"
         )
 
     def __init__(self, vacancy, *args, **kwargs):
