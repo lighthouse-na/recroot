@@ -67,6 +67,11 @@ class ApplicationForm(forms.ModelForm):
     secondary_contact = PhoneNumberField(region="NA", required=False)
     date_of_birth = forms.DateField(widget=forms.DateInput())
     trade_specialty = forms.CharField(required=False)
+    tertiary_institution = forms.CharField(max_length=255)
+    field_of_study = forms.CharField(max_length=255)
+    trade_specialty = forms.CharField(max_length=255)
+    NQF_level_or_level = forms.CharField(max_length=255)
+
     
 
     class Meta:
