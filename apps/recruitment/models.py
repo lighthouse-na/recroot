@@ -154,10 +154,10 @@ class Application(models.Model):
         max_length=10,
         choices=(("male", "Male"), ("female", "Female")),
     )
-    tertiary_institution = models.CharField(max_length=255,help_text="Enter tertiary institution")
-    field_of_study = models.CharField(max_length=255,help_text="Enter field of study")
-    trade_specialty = models.CharField(max_length=255,help_text="Enter Specialty or Trade")
-    NQF_level_or_level= models.CharField(max_length=255,help_text="Enter NQF level or Trade level", default="NQF LEVEL")
+    tertiary_institution = models.CharField(max_length=255,help_text="Enter tertiary institution", default=" ")
+    field_of_study = models.CharField(max_length=255,help_text="Enter field of study",  default=" ")
+    trade_specialty = models.CharField(max_length=255,help_text="Enter Specialty or Trade", default=" ")
+    NQF_level_or_level= models.CharField(max_length=255,help_text="Enter NQF level or Trade level", default=" ")
     cv = models.FileField(
         upload_to="cv/",
         validators=[
