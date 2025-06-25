@@ -30,6 +30,27 @@ validation_urls = [
         validation.secondary_contact_validation,
         name="secondary_contact_validation",
     ),
+     path(
+        "tertiary_institution_validation",
+        validation.tertiary_institution_validation,
+        name="tertiary_institution_validation",
+    ),
+    path(
+        "field_of_study_validation",
+        validation.field_of_study_validation,
+        name="field_of_study_validation",
+    ),
+    path(
+        "trade_specialty_validation",
+        validation.trade_specialty_validation,
+        name="trade_specialty_validation",
+    ),
+    path(
+        "NQF_level_or_level_validation",
+        validation.NQF_level_or_level_validation,
+        name="NQF_level_or_level_validation",
+    ),
+    
 ]
 
 urlpatterns = [
