@@ -49,7 +49,7 @@ validation_urls = [
         "NQF_level_or_level_validation",
         validation.NQF_level_or_level_validation,
         name="NQF_level_or_level_validation",
-    ),
+    )
     
 ]
 
