@@ -41,9 +41,9 @@ validation_urls = [
         name="field_of_study_validation",
     ),
     path(
-        "trade_specialty_validation",
-        validation.trade_specialty_validation,
-        name="trade_specialty_validation",
+        "trade_speciality_validation",
+        validation.trade_speciality_validation,
+        name="trade_speciality_validation",
     ),
     path(
         "NQF_level_or_level_validation",

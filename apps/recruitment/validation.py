@@ -94,7 +94,7 @@ def field_of_study_validation(request) -> HttpResponse:
     """
     return validators.validate_name(request, "field_of_study")
 
-def trade_specialty_validation(request) -> HttpResponse:
+def trade_speciality_validation(request) -> HttpResponse:
     """
     Validates the 'trade_specialty' field in the request.
 
@@ -104,7 +104,7 @@ def trade_specialty_validation(request) -> HttpResponse:
     Returns:
         HttpResponse: A response indicating whether the validation was successful or failed.
     """
-    return validators.validate_name(request, "trade_specialty")
+    return validators.validate_name(request, "trade_speciality")
 
 
 def NQF_level_or_level_validation(request) -> HttpResponse:

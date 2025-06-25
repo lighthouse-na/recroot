@@ -69,7 +69,7 @@ class ApplicationForm(forms.ModelForm):
     trade_specialty = forms.CharField(required=False)
     tertiary_institution = forms.CharField(max_length=255)
     field_of_study = forms.CharField(max_length=255)
-    trade_specialty = forms.CharField(max_length=255)
+    trade_speciality = forms.CharField(max_length=255)
     NQF_level_or_level = forms.CharField(max_length=255)
 
     
@@ -88,7 +88,7 @@ class ApplicationForm(forms.ModelForm):
             "cv",
             "tertiary_institution",
             "field_of_study",
-            "trade_specialty",
+            "trade_speciality",
             "NQF_level_or_level"
         )
 
