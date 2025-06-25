@@ -107,7 +107,7 @@ def trade_specialty_validation(request) -> HttpResponse:
     return validators.validate_name(request, "trade_specialty")
 
 
-def NQF_level_or_level(request) -> HttpResponse:
+def NQF_level_or_level_validation(request) -> HttpResponse:
     """
     Validates the 'NQF_level_or_level' field in the request.
 
