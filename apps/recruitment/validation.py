@@ -68,3 +68,53 @@ def secondary_contact_validation(request) -> HttpResponse:
         HttpResponse: A response indicating whether the validation was successful or failed.
     """
     return validators.validate_contact(request, "secondary_contact")
+
+def tertiary_institution_validation(request) -> HttpResponse:
+    """
+    Validates the 'tertiary_institution' field in the request.
+
+    Args:
+        request (HttpRequest): The HTTP request containing the data to validate.
+
+    Returns:
+        HttpResponse: A response indicating whether the validation was successful or failed.
+    """
+    return validators.validate_name(request, "tertiary_institution")
+
+
+def field_of_study_validation(request) -> HttpResponse:
+    """
+    Validates the 'field_of_study' field in the request.
+
+    Args:
+        request (HttpRequest): The HTTP request containing the data to validate.
+
+    Returns:
+        HttpResponse: A response indicating whether the validation was successful or failed.
+    """
+    return validators.validate_name(request, "field_of_study")
+
+def trade_specialty_validation(request) -> HttpResponse:
+    """
+    Validates the 'trade_specialty' field in the request.
+
+    Args:
+        request (HttpRequest): The HTTP request containing the data to validate.
+
+    Returns:
+        HttpResponse: A response indicating whether the validation was successful or failed.
+    """
+    return validators.validate_name(request, "trade_specialty")
+
+
+def NQF_level_or_level(request) -> HttpResponse:
+    """
+    Validates the 'NQF_level_or_level' field in the request.
+
+    Args:
+        request (HttpRequest): The HTTP request containing the data to validate.
+
+    Returns:
+        HttpResponse: A response indicating whether the validation was successful or failed.
+    """
+    return validators.validate_name(request, "NQF_level_or_level")
