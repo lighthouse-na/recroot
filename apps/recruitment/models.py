@@ -128,6 +128,9 @@ class Application(models.Model):
         SUBMITTED = "submitted"
         ACCEPTED = "accepted"
         REJECTED = "rejected"
+        ACKNOWLEDGEMENT_WITH_TIMELINE = "acknowledgement_with_timeline"
+        ON_HOLD= "on_hold"
+
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     vacancy = models.ForeignKey(Vacancy, on_delete=models.PROTECT, related_name="applications")

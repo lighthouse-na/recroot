@@ -66,6 +66,48 @@ def send_vacancy_application_notification_text(instance, created):
             if ex.response is not None:
                 print("Error details: {}".format(ex.response.text))
 
+    if not created and instance.status == "acknowledgement_with_timeline":
+        recipient = str(instance.primary_contact)
+        message_body = f"Thank you for applying  for the {instance.vacancy.title} position at Telecom Namibia. We acknowledge receipt of your application. Should your profile meet our selection requirements, we will contact you regarding the next steps within the next (4) weeks"
+        http_req = (
+            f"{my_uri}/api?action=sendmessage"
+            f"&username={my_username}"
+            f"&password={my_password}"
+            f"&recipient={recipient}"
+            f"&messagetype=SMS:TEXT"
+            f"&messagedata={message_body}"
+        )
+        try:
+            response = requests.post(http_req)
+            response.raise_for_status()
+            print("Message sent")
+
+        except requests.exceptions.RequestException as ex:
+            print("An error occurred: {}".format(ex))
+            if ex.response is not None:
+                print("Error details: {}".format(ex.response.text))  
+                
+    if not created and instance.status == "on_hold":
+        recipient = str(instance.primary_contact)
+        message_body = f"Your application for the {instance.vacancy.title} opportunity at Telecom Namibia is currently on hold. Thank you for your patience."
+        http_req = (
+            f"{my_uri}/api?action=sendmessage"
+            f"&username={my_username}"
+            f"&password={my_password}"
+            f"&recipient={recipient}"
+            f"&messagetype=SMS:TEXT"
+            f"&messagedata={message_body}"
+        )
+        try:
+            response = requests.post(http_req)
+            response.raise_for_status()
+            print("Message sent")
+
+        except requests.exceptions.RequestException as ex:
+            print("An error occurred: {}".format(ex))
+            if ex.response is not None:
+                print("Error details: {}".format(ex.response.text))             
+
     if not created and instance.status == "rejected":
         recipient = str(instance.primary_contact)
         message_body = f"Thank you for your application for the {instance.vacancy.title} opportunity at Telecom Namibia. Regretfully, your application was not successful."

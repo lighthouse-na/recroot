@@ -70,6 +70,23 @@ def send_vacancy_application_notification_email(instance, created):
             recipient_name=recipient_name,
             recipient_list=recipient_list,
         )
+    elif not created and instance.status == "acknowledgement_with_timeline":
+        send_email_notification(
+            subject="Acknowlegement with timeline",
+            template_name="acknowledgement_with_timeline.html",
+            instance=instance,
+            recipient_name=recipient_name,
+            recipient_list=recipient_list,
+        )
+    elif not created and instance.status == "on_hold":
+        send_email_notification(
+            subject="Application on hold",
+            template_name="on_hold.html",
+            instance=instance,
+            recipient_name=recipient_name,
+            recipient_list=recipient_list,
+        )
+
 
 
 def send_interview_notification_email(instance, created):
