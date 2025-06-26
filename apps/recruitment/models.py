@@ -128,7 +128,7 @@ class Application(models.Model):
         SUBMITTED = "submitted"
         ACCEPTED = "accepted"
         REJECTED = "rejected"
-        ACKNOWLEDGEMENT_WITH_TIMELINE = "acknowledgement_with_timeline"
+        ACK_WITH_TIMELINE = "ACK_WITH_TIMELINE"
         ON_HOLD= "on_hold"
 
 

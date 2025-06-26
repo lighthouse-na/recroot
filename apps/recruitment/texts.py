@@ -66,7 +66,7 @@ def send_vacancy_application_notification_text(instance, created):
             if ex.response is not None:
                 print("Error details: {}".format(ex.response.text))
 
-    if not created and instance.status == "acknowledgement_with_timeline":
+    if not created and instance.status == "ACK_WITH_TIMELINE":
         recipient = str(instance.primary_contact)
         message_body = f"Thank you for applying  for the {instance.vacancy.title} position at Telecom Namibia. We acknowledge receipt of your application. Should your profile meet our selection requirements, we will contact you regarding the next steps within the next (4) weeks"
         http_req = (
