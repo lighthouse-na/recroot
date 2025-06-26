@@ -117,4 +117,4 @@ def NQF_level_or_level_validation(request) -> HttpResponse:
     Returns:
         HttpResponse: A response indicating whether the validation was successful or failed.
     """
-    return validators.validate_name(request, "NQF_level_or_level")
+    return validators.validate_number(request, "NQF_level_or_level")

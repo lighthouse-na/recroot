@@ -58,3 +58,17 @@ def validate_contact(request, field_name):
         return invalid_contact_response
 
     return HttpResponse("")
+
+def validate_number(request, field_name):
+    value = request.POST.get(field_name)
+
+    if not value:
+        return HttpResponse("")
+
+    # Check if the value is a valid integer
+    try:
+        int(value)
+    except ValueError:
+        return HttpResponse("Invalid number", status=400)
+
+    return HttpResponse("")
