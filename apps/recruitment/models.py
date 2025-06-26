@@ -15,9 +15,7 @@ from tinymce.models import HTMLField
 
 from apps.organisation.models import Location, Town
 from apps.utils.validators import FileValidator
-from django.core.validators import RegexValidator
 
-alphanumeric = RegexValidator(r'^[0-9a-zA-Z]*$', 'Only alphanumeric characters are allowed.')
 
 
 # **********************************************************************************************
