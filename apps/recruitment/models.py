@@ -168,7 +168,7 @@ class Application(models.Model):
         upload_to="cv/",
         validators=[
             FileExtensionValidator(allowed_extensions=["pdf", "docx"]),
-            FileValidator(max_size=10 * 1024 * 1024), s
+            FileValidator(max_size=10 * 1024 * 1024), 
         ],
         help_text="Please upload a PDF/DOCX file, maximum size 10MB.",
     )
