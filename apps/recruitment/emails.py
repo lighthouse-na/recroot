@@ -70,10 +70,10 @@ def send_vacancy_application_notification_email(instance, created):
             recipient_name=recipient_name,
             recipient_list=recipient_list,
         )
-    elif not created and instance.status == "acknowledgement_with_timeline":
+    elif not created and instance.status == "ACK_WITH_TIMELINE":
         send_email_notification(
-            subject="Acknowlegement with timeline",
-            template_name="acknowledgement_with_timeline.html",
+            subject="ACK_WITH_TIMELINE",
+            template_name="ACK_WITH_TIMELINE.html",
             instance=instance,
             recipient_name=recipient_name,
             recipient_list=recipient_list,
