@@ -15,6 +15,9 @@ from tinymce.models import HTMLField
 
 from apps.organisation.models import Location, Town
 from apps.utils.validators import FileValidator
+from django.core.validators import RegexValidator
+
+alphanumeric = RegexValidator(r'^[0-9a-zA-Z]*$', 'Only alphanumeric characters are allowed.')
 
 
 # **********************************************************************************************
@@ -160,12 +163,12 @@ class Application(models.Model):
     tertiary_institution = models.CharField(max_length=255,help_text="Enter tertiary institution", default=" ")
     field_of_study = models.CharField(max_length=255,help_text="Enter field of study",  default=" ")
     trade_speciality = models.CharField(max_length=255,help_text="Enter Speciality or Trade", default=" ")
-    NQF_level_or_level= models.CharField(max_length=255,help_text="Enter NQF level or Trade level", default=" ")
+    NQF_level_or_level = models.CharField(max_length=255,help_text="Enter NQF level or Trade level",default=" ",validators=[alphanumeric])
     cv = models.FileField(
         upload_to="cv/",
         validators=[
             FileExtensionValidator(allowed_extensions=["pdf", "docx"]),
-            FileValidator(max_size=10 * 1024 * 1024),
+            FileValidator(max_size=10 * 1024 * 1024), s
         ],
         help_text="Please upload a PDF/DOCX file, maximum size 10MB.",
     )
