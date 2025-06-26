@@ -76,7 +76,7 @@ class ApplicationForm(forms.ModelForm):
     tertiary_institution = forms.CharField(max_length=255)
     field_of_study = forms.CharField(max_length=255)
     trade_speciality = forms.CharField(max_length=255)
-    NQF_level_or_level = forms.IntegerField(max_length=255)
+    NQF_level_or_level = forms.IntegerField()
 
     
 
