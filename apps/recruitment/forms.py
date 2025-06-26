@@ -49,6 +49,8 @@ class ApplicationReviewForm(forms.ModelForm):
     STATUS_CHOICES = (
         ("accepted", "Accept"),
         ("rejected", "Reject"),
+        ("on_hold", "On Hold"),
+        ("ACK_WITH_TIMELINE", "Acknowledgment With Timeline")
     )
     status = forms.ChoiceField(choices=STATUS_CHOICES, widget=UnfoldAdminSelectWidget())
 
