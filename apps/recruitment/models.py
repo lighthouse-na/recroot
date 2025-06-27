@@ -266,6 +266,9 @@ class Interview(models.Model):
         related_name="interviews",
     )
     reschedule_date = models.DateField(blank=True, null=True)
+    vacancy_type = models.ForeignKey(VacancyType, on_delete=models.CASCADE, related_name="interviews")
+
+
 
     def __str__(self):
         return f"{self.application.vacancy.title} - {self.application.first_name} {self.application.last_name}"
@@ -303,3 +306,5 @@ class Interview(models.Model):
         if self.schedule_datetime:
             self.response_deadline = self.schedule_datetime - timedelta(days=2)
         super().save(*args, **kwargs)
+
+  
