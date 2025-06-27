@@ -266,7 +266,7 @@ class Interview(models.Model):
         related_name="interviews",
     )
     reschedule_date = models.DateField(blank=True, null=True)
-    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, related_name="interviews")
+    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, related_name="interviews",default=" ")
 
 
 
