@@ -56,7 +56,7 @@ class Vacancy(models.Model):
         help_text="Enter the functions and responsibilities of the vacancy.",
     )
     town = models.ManyToManyField(
-        Town,
+        'recruitment.Town',
         help_text="Select the town(s) where the vacancy is located.",
     )
     remarks = HTMLField(blank=True, help_text="Enter any additional remarks about the vacancy.")
