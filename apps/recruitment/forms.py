@@ -172,7 +172,7 @@ class MinimumRequirementAnswerForm(forms.ModelForm):
 class InterviewForm(forms.ModelForm):
     class Meta:
         model = Interview
-        fields = ("application", "schedule_datetime", "description", "location")
+        fields = ("application", "type","schedule_datetime", "description", "location")
 
     def clean_schedule_datetime(self):
         """

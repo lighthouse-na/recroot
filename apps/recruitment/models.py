@@ -13,6 +13,8 @@ from django_extensions.db.fields import AutoSlugField
 from phonenumber_field.modelfields import PhoneNumberField
 from tinymce.models import HTMLField
 
+from datetime import timedelta, datetime
+
 from apps.organisation.models import Location, Town
 from apps.utils.validators import FileValidator
 
@@ -304,6 +306,10 @@ class Interview(models.Model):
         null=True,
         blank=True
     )
+
+    timestamp = models.DateTimeField(blank=True, null=True)
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
         try:
