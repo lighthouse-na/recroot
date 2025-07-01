@@ -56,7 +56,7 @@ class Vacancy(models.Model):
         help_text="Enter the functions and responsibilities of the vacancy.",
     )
     town = models.ManyToManyField(
-        'recruitment.Town',
+        'organisation.Town',
         help_text="Select the town(s) where the vacancy is located.",
     )
     remarks = HTMLField(blank=True, help_text="Enter any additional remarks about the vacancy.")
@@ -288,7 +288,7 @@ class Interview(models.Model):
     response_date = models.DateTimeField(blank=True, null=True)
 
     location = models.ForeignKey(
-        'recruitment.Location',  # use app_label.ModelName if model is in another app
+        'organisation.Location',  # use app_label.ModelName if model is in another app
         blank=True,
         null=True,
         on_delete=models.SET_NULL,

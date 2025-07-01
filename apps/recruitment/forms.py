@@ -42,7 +42,7 @@ class VacancyForm(forms.ModelForm):
         def _init_(self, *args, **kwargs):
          super()._init_(*args, **kwargs)
         
-        Town = apps.get_model('recruitment', 'Town')
+        Town = apps.get_model('organisation', 'Town')
         self.fields['town'].queryset = Town.objects.all() 
 
 
