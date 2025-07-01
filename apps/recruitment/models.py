@@ -229,19 +229,28 @@ class MinimumRequirementAnswer(models.Model):
 # **********************************************************************************************
 
 
+from django.db import models
+from django.utils import timezone
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+from datetime import timedelta
+import uuid
+
 class Interview(models.Model):
     class STATUS(models.TextChoices):
-        RESCHEDULED = "rescheduled"
-        SCHEDULED = "scheduled"
-        DONE = "done"
-        CANCELED = "canceled"
-        WAITING = "Waiting"
-        REJECTED = "rejected"
-        ACCEPTED = "accepted"
+        RESCHEDULED = "rescheduled", "Rescheduled"
+        SCHEDULED = "scheduled", "Scheduled"
+        DONE = "done", "Done"
+        CANCELED = "canceled", "Canceled"
+        WAITING = "waiting", "Waiting"
+        REJECTED = "rejected", "Rejected"
+        ACCEPTED = "accepted", "Accepted"
 
     class InterviewTypes(models.TextChoices): 
         INDIVIDUAL = "individual", "Individual"
         GROUP = "group", "Group"
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     type = models.CharField(
         max_length=20,
@@ -253,37 +262,51 @@ class Interview(models.Model):
         max_length=20,
         choices=STATUS.choices,
         default=STATUS.SCHEDULED,
+        blank=True
     )
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    application = models.ForeignKey(Application, on_delete=models.CASCADE, related_name="interviews")
+    application = models.ForeignKey(
+        'Application', 
+        on_delete=models.CASCADE, 
+        related_name="interviews"
+    )
+
     schedule_datetime = models.DateTimeField(
         help_text=_("Please select a date and time at least one day in the future, excluding weekends."),
         blank=True,
+        null=True
     )
-    status = models.CharField(max_length=20, choices=STATUS.choices, blank=True)
+
     description = models.TextField(
         blank=True,
-        help_text=_("What do you want the interviewee to know before attending the interview?"),
         null=True,
+        help_text=_("What do you want the interviewee to know before attending the interview?")
     )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
     response = models.CharField(max_length=255, blank=True, null=True)
     response_deadline = models.DateTimeField(blank=True, null=True)
     response_date = models.DateTimeField(blank=True, null=True)
-    location = models.ForeignKey(
 
-       'recruitment.Location',
+    location = models.ForeignKey(
+        'Location',
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
-        related_name="interviews",
+        related_name="interviews"
     )
+
     reschedule_date = models.DateField(blank=True, null=True)
-    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, related_name="interviews",null= True,blank= True)
 
-
+    vacancy = models.ForeignKey(
+        'Vacancy', 
+        on_delete=models.CASCADE, 
+        related_name="interviews",
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return f"{self.application.vacancy.title} - {self.application.first_name} {self.application.last_name}"
@@ -301,15 +324,12 @@ class Interview(models.Model):
         if self.schedule_datetime.weekday() >= 5:  # 5 = Saturday, 6 = Sunday
             raise ValidationError("Scheduled datetime cannot be on weekends.")
 
+        # Uncomment and adjust these if needed
         # if self.schedule_datetime.date() - timezone.now().date() < timedelta(days=3):
-        #     raise ValidationError(
-        #         "Scheduled datetime must be at least three(3) days in the future."
-        #     )
+        #     raise ValidationError("Scheduled datetime must be at least three(3) days in the future.")
 
         # if self.application.vacancy.deadline < timezone.now():
-        #     raise ValidationError(
-        #         "Cannot schedule an interview before the vacancy deadline"
-        #     )
+        #     raise ValidationError("Cannot schedule an interview before the vacancy deadline")
 
     def update_no_response_status(self):
         if self.response_deadline and self.response_deadline < timezone.now():
@@ -321,5 +341,3 @@ class Interview(models.Model):
         if self.schedule_datetime:
             self.response_deadline = self.schedule_datetime - timedelta(days=2)
         super().save(*args, **kwargs)
-
-  
