@@ -13,7 +13,7 @@ from django_extensions.db.fields import AutoSlugField
 from phonenumber_field.modelfields import PhoneNumberField
 from tinymce.models import HTMLField
 
-#from apps.organisation.models import Location, Town
+from apps.organisation.models import Location, Town
 from apps.utils.validators import FileValidator
 
 
@@ -229,12 +229,9 @@ class MinimumRequirementAnswer(models.Model):
 # **********************************************************************************************
 
 
-from django.db import models
-from django.utils import timezone
-from django.core.exceptions import ValidationError
-from django.utils.translation import gettext_lazy as _
-from datetime import timedelta
-import uuid
+# apps/recruitment/models.py
+
+
 
 class Interview(models.Model):
     class STATUS(models.TextChoices):
@@ -266,7 +263,7 @@ class Interview(models.Model):
     )
 
     application = models.ForeignKey(
-        'Application', 
+        'recruitment.Application',  # use 'app_label.ModelName' if in another app
         on_delete=models.CASCADE, 
         related_name="interviews"
     )
@@ -291,7 +288,7 @@ class Interview(models.Model):
     response_date = models.DateTimeField(blank=True, null=True)
 
     location = models.ForeignKey(
-        'Location',
+        'recruitment.Location',  # use app_label.ModelName if model is in another app
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
@@ -301,7 +298,7 @@ class Interview(models.Model):
     reschedule_date = models.DateField(blank=True, null=True)
 
     vacancy = models.ForeignKey(
-        'Vacancy', 
+        'recruitment.Vacancy',  # use app_label.ModelName if model is in another app
         on_delete=models.CASCADE, 
         related_name="interviews",
         null=True,
@@ -309,31 +306,29 @@ class Interview(models.Model):
     )
 
     def __str__(self):
-        return f"{self.application.vacancy.title} - {self.application.first_name} {self.application.last_name}"
+        try:
+            return f"{self.application.vacancy.title} - {self.application.first_name} {self.application.last_name}"
+        except Exception:
+            return f"Interview {self.id}"
 
     def clean(self):
         if not self.schedule_datetime:
             raise ValidationError("Scheduled datetime cannot be empty.")
 
-        if self.schedule_datetime <= timezone.now():
+        now = timezone.localtime()
+
+        if self.schedule_datetime <= now:
             raise ValidationError("Scheduled datetime cannot be in the past.")
 
-        if self.schedule_datetime.date() == timezone.now().date():
+        if self.schedule_datetime.date() == now.date():
             raise ValidationError("Scheduled datetime cannot be on the same day.")
 
         if self.schedule_datetime.weekday() >= 5:  # 5 = Saturday, 6 = Sunday
             raise ValidationError("Scheduled datetime cannot be on weekends.")
 
-        # Uncomment and adjust these if needed
-        # if self.schedule_datetime.date() - timezone.now().date() < timedelta(days=3):
-        #     raise ValidationError("Scheduled datetime must be at least three(3) days in the future.")
-
-        # if self.application.vacancy.deadline < timezone.now():
-        #     raise ValidationError("Cannot schedule an interview before the vacancy deadline")
-
     def update_no_response_status(self):
         if self.response_deadline and self.response_deadline < timezone.now():
-            self.status = "no_response"
+            self.status = self.STATUS.WAITING  # or "no_response" if you add that to STATUS
             self.save()
 
     def save(self, *args, **kwargs):
