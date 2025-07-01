@@ -172,36 +172,70 @@ class MinimumRequirementAnswerForm(forms.ModelForm):
 class InterviewForm(forms.ModelForm):
     class Meta:
         model = Interview
-        fields = ("application", "type","schedule_datetime", "description", "location")
+        fields = (
+            "application", "type", "schedule_datetime", "timestamp",
+            "start_date", "end_date", "description", "location"
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Remove fields not needed for the selected type
+        interview_type = None
+
+        # Check initial data (when editing) or POST data (when submitting)
+        if "type" in self.data:
+            interview_type = self.data.get("type")
+        elif self.instance and self.instance.pk:
+            interview_type = self.instance.type
+
+        if interview_type == Interview.InterviewTypes.INDIVIDUAL:
+            self.fields["timestamp"].widget = forms.HiddenInput()
+            self.fields["start_date"].widget = forms.HiddenInput()
+            self.fields["end_date"].widget = forms.HiddenInput()
+        elif interview_type == Interview.InterviewTypes.GROUP:
+            self.fields["schedule_datetime"].widget = forms.HiddenInput()
+
+    def clean(self):
+        cleaned_data = super().clean()
+        interview_type = cleaned_data.get("type")
+
+        if interview_type == Interview.InterviewTypes.INDIVIDUAL:
+            schedule_datetime = cleaned_data.get("schedule_datetime")
+            if not schedule_datetime:
+                self.add_error("schedule_datetime", "This field is required for individual interviews.")
+        elif interview_type == Interview.InterviewTypes.GROUP:
+            timestamp = cleaned_data.get("timestamp")
+            start_date = cleaned_data.get("start_date")
+            end_date = cleaned_data.get("end_date")
+
+            if not timestamp:
+                self.add_error("timestamp", "Timestamp is required for group interviews.")
+            if not start_date:
+                self.add_error("start_date", "Start date is required for group interviews.")
+            if not end_date:
+                self.add_error("end_date", "End date is required for group interviews.")
+            if start_date and end_date and end_date < start_date:
+                self.add_error("end_date", "End date cannot be earlier than start date.")
+
+        return cleaned_data
 
     def clean_schedule_datetime(self):
-        """
-        Validates the 'schedule_datetime' field to ensure it meets the required conditions.
-        """
         schedule_datetime = self.cleaned_data.get("schedule_datetime")
 
         if not schedule_datetime:
-            raise forms.ValidationError("Scheduled datetime cannot be empty.")
+            return schedule_datetime  # Let `clean()` handle if necessary
 
         now = timezone.localtime()
 
-        # In the past
         if schedule_datetime <= now:
             raise forms.ValidationError("Scheduled datetime cannot be in the past.")
-
-        # Same day
         if schedule_datetime.date() == now.date():
             raise forms.ValidationError("Scheduled datetime cannot be on the same day.")
-
-        # Weekend
         if schedule_datetime.weekday() >= 5:
-            raise forms.ValidationError("Scheduled datetime cannot fall on a weekend (Saturday or Sunday).")
-
-        # Less than 1 day ahead
+            raise forms.ValidationError("Scheduled datetime cannot fall on a weekend.")
         if (schedule_datetime.date() - now.date()).days < 1:
             raise forms.ValidationError("Scheduled datetime must be at least one day in the future.")
-
-        # Time check (between 8:00 and 17:00)
         if not (8 <= schedule_datetime.hour < 17):
             raise forms.ValidationError("Scheduled time must be between 8:00 AM and 5:00 PM.")
 
