@@ -274,7 +274,7 @@ class Interview(models.Model):
     response_date = models.DateTimeField(blank=True, null=True)
     location = models.ForeignKey(
 
-        recruitment.Location,
+       'recruitment.Location',
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
