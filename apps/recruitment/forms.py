@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 
-from django import forms, apps
+from django import forms
+from django.apps import apps  
 from django.contrib import messages
 from django.utils import timezone
 from phonenumber_field.formfields import PhoneNumberField
@@ -29,6 +30,7 @@ class MinimumRequirementsAddForm(forms.ModelForm):
         fields = ["title", "question_type", "is_internal", "is_required"]
 
 
+
 class VacancyForm(forms.ModelForm):
     content = forms.CharField(label="Content", widget=TinyMCE())
     remarks = forms.CharField(label="Remarks", widget=TinyMCE())
@@ -39,8 +41,9 @@ class VacancyForm(forms.ModelForm):
 
         def _init_(self, *args, **kwargs):
          super()._init_(*args, **kwargs)
+        
         Town = apps.get_model('recruitment', 'Town')
-        self.fields['town'].queryset = Town.objects.all()
+        self.fields['town'].queryset = Town.objects.all() 
 
 
 class SelectQuestionTypeOptionsForm(forms.ModelForm):
