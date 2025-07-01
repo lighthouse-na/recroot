@@ -40,10 +40,9 @@ class VacancyForm(forms.ModelForm):
         exclude = ["slug", "created_at", "updated_at"]
 
         def _init_(self, *args, **kwargs):
-         super()._init_(*args, **kwargs)
-        
-        Town = apps.get_model('organisation', 'Town')
-        self.fields['town'].queryset = Town.objects.all() 
+            super()._init_(*args, **kwargs)
+            Town = apps.get_model('organisation', 'Town')
+            self.fields['town'].queryset = Town.objects.all() 
 
 
 class SelectQuestionTypeOptionsForm(forms.ModelForm):
