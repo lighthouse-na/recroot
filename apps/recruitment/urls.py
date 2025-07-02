@@ -78,11 +78,8 @@ urlpatterns = [
         views.ApplicationsListView.as_view(),
         name="applications_list",
     ),
-    path(
-    "interview/<slug:slug>/add/",
-    views.InterviewFormView.as_view(),
-    name="interview_create",
-    ),
+   path("<slug>/interview", views.InterviewFormView.as_view(), name="interview_form")
+    
 ]
 
 urlpatterns += validation_urls
