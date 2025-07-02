@@ -1,93 +1,53 @@
 {% extends 'base.html' %}
-{% load static widget_tweaks crispy_forms_tags %}
+{% load widget_tweaks %}
+{% block title %}Schedule Interview - {{ vacancy.title }}{% endblock %}
 
+{% block content %}
+<section class="bg-white dark:bg-gray-900 py-8">
+    <div class="max-w-5xl mx-auto px-4">
+        <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
+            Schedule Interview for {{ vacancy.title }}
+        </h2>
 
-
-<form method="post" enctype="multipart/form-data" class="space-y-6" id="InterviewForm"
-    x-data="{ interviewType: '{{ form.type.value|default:"" }}' }">
-    {% csrf_token %}
-
-    <!-- Interview Type Selection -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-            <label class="text-sky-900 dark:text-orange-500/80 font-medium" for="{{ form.type.id_for_label }}">
-                Interview Type <span class="text-red-500">*</span>
-            </label>
-            {{ form.type|add_class:"w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-700" }}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="mb-4 p-4 text-red-700 bg-red-100 rounded-lg">
+            {{ message }}
         </div>
+        {% endfor %}
+        {% endif %}
 
-        <div>
-            <label class="text-sky-900 dark:text-orange-500/80 font-medium" for="{{ form.application.id_for_label }}">
-                Application <span class="text-red-500">*</span>
-            </label>
-            {{ form.application|add_class:"w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-700" }}
-        </div>
-    </div>
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
 
-    <!-- Description and Location -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-            <label class="text-sky-900 dark:text-orange-500/80 font-medium" for="{{ form.description.id_for_label }}">
-                Description
-            </label>
-            {{ form.description|add_class:"w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-700" }}
-        </div>
-        <div>
-            <label class="text-sky-900 dark:text-orange-500/80 font-medium" for="{{ form.location.id_for_label }}">
-                Location
-            </label>
-            {{ form.location|add_class:"w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-700" }}
-        </div>
-    </div>
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                {{ form.application.label_tag }}{% render_field form.application class="w-full p-2 border rounded" %}
 
-    <!-- Conditional Fields -->
-    <template x-if="interviewType === '{{ Interview.InterviewTypes.INDIVIDUAL }}'">
-        <div>
-            <label class="text-sky-900 dark:text-orange-500/80 font-medium"
-                for="{{ form.schedule_datetime.id_for_label }}">
-                Schedule Datetime <span class="text-red-500">*</span>
-            </label>
-            {{ form.schedule_datetime|add_class:"w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-700" }}
-        </div>
-    </template>
+                {{ form.type.label_tag }}{% render_field form.type class="w-full p-2 border rounded" %}
 
-    <template x-if="interviewType === '{{ Interview.InterviewTypes.GROUP }}'">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-                <label class="text-sky-900 dark:text-orange-500/80 font-medium" for="{{ form.timestamp.id_for_label }}">
-                    Timestamp <span class="text-red-500">*</span>
-                </label>
-                {{ form.timestamp|add_class:"w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-700" }}
+                {{ form.schedule_datetime.label_tag }}{% render_field form.schedule_datetime class="w-full p-2 border
+                rounded" %}
+
+                {{ form.timestamp.label_tag }}{% render_field form.timestamp class="w-full p-2 border rounded" %}
+
+                {{ form.start_date.label_tag }}{% render_field form.start_date class="w-full p-2 border rounded" %}
+
+                {{ form.end_date.label_tag }}{% render_field form.end_date class="w-full p-2 border rounded" %}
+
+                {{ form.location.label_tag }}{% render_field form.location class="w-full p-2 border rounded" %}
             </div>
-            <div>
-                <label class="text-sky-900 dark:text-orange-500/80 font-medium"
-                    for="{{ form.start_date.id_for_label }}">
-                    Start Date <span class="text-red-500">*</span>
-                </label>
-                {{ form.start_date|add_class:"w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-700" }}
-            </div>
-            <div>
-                <label class="text-sky-900 dark:text-orange-500/80 font-medium" for="{{ form.end_date.id_for_label }}">
-                    End Date <span class="text-red-500">*</span>
-                </label>
-                {{ form.end_date|add_class:"w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-700" }}
-            </div>
-        </div>
-    </template>
 
-    <!-- Submit Button -->
-    <div class="pt-6 text-center">
-        <button type="submit"
-            class="inline-flex justify-center items-center px-6 py-3 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-sky-700 hover:bg-sky-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
-            Submit Interview
-        </button>
+            <div>
+                {{ form.description.label_tag }}<br>
+                {% render_field form.description rows="4" class="w-full p-2 border rounded" %}
+            </div>
+
+            <div class="flex justify-end">
+                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+                    Submit Interview
+                </button>
+            </div>
+        </form>
     </div>
-</form>
-
-<script>
-    document.addEventListener("alpine:init", () => {
-        Alpine.data("interviewForm", () => ({
-            interviewType: document.querySelector("[name='type']")?.value || "",
-        }));
-    });
-</script>
+</section>
+{% endblock %}
