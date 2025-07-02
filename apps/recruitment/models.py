@@ -290,7 +290,7 @@ class Interview(models.Model):
     response_date = models.DateTimeField(blank=True, null=True)
 
     location = models.ForeignKey(
-        'organisation.Location',  # use app_label.ModelName if model is in another app
+        'organisation.Town',  # use app_label.ModelName if model is in another app
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
