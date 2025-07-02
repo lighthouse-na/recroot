@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
-
-{% block title %}Schedule Interview- {{ vacancy.title }}{% endblock %}
+{% block title %}Schedule Interview - {{ vacancy.title }}{% endblock %}
 
 {% block content %}
 <section class="bg-white dark:bg-gray-900 py-8">
     <div class="max-w-5xl mx-auto px-4">
-        <h1 class="text-3xl font-bold mb-6">Schedule Interview for {{ vacancy.title }}</h1>
+        <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
+            Schedule Interview for {{ vacancy.title }}
+        </h2>
 
         {% if messages %}
         {% for message in messages %}
@@ -49,4 +50,43 @@
         </form>
     </div>
 </section>
+
+<!-- PLACE SCRIPT HERE -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        function toggleFields() {
+            const typeSelect = document.getElementById('id_type');
+            const interviewType = typeSelect.value;
+
+            const scheduleDatetimeRow = document.getElementById('id_schedule_datetime')?.closest('div');
+            const timestampRow = document.getElementById('id_timestamp')?.closest('div');
+            const startDateRow = document.getElementById('id_start_date')?.closest('div');
+            const endDateRow = document.getElementById('id_end_date')?.closest('div');
+
+            if (interviewType === 'INDIVIDUAL') {
+                if (scheduleDatetimeRow) scheduleDatetimeRow.style.display = '';
+                if (timestampRow) timestampRow.style.display = 'none';
+                if (startDateRow) startDateRow.style.display = 'none';
+                if (endDateRow) endDateRow.style.display = 'none';
+            } else if (interviewType === 'GROUP') {
+                if (scheduleDatetimeRow) scheduleDatetimeRow.style.display = 'none';
+                if (timestampRow) timestampRow.style.display = '';
+                if (startDateRow) startDateRow.style.display = '';
+                if (endDateRow) endDateRow.style.display = '';
+            } else {
+                if (scheduleDatetimeRow) scheduleDatetimeRow.style.display = '';
+                if (timestampRow) timestampRow.style.display = '';
+                if (startDateRow) startDateRow.style.display = '';
+                if (endDateRow) endDateRow.style.display = '';
+            }
+        }
+
+        toggleFields();
+
+        const typeSelect = document.getElementById('id_type');
+        if (typeSelect) {
+            typeSelect.addEventListener('change', toggleFields);
+        }
+    });
+</script>
 {% endblock %}
