@@ -40,10 +40,54 @@ class VacancyDetailView(DetailView):
     template_name = "recruitment/vacancy/detail.html"
     context_object_name = "vacancy"
 
-class InterviewFormView(CreateView):
+class InterviewFormView(DetailView):
     model = Interview
     template_name = "recruitment/interview/interviewForm.html"
     context_object_name = "interview"
+    success_url = reverse_lazy('recruitment:interview_success')
+
+class InterviewFormView(CreateView):
+    model = Interview
+    form_class = InterviewForm
+    template_name = "recruitment/interview/interviewForm.html"
+    success_url = reverse_lazy("recruitment:application_success")
+
+    def get(self, request, *args, **kwargs):
+        slug = self.kwargs.get("slug")
+        vacancy = get_object_or_404(Vacancy, slug=slug)
+
+        if vacancy.is_public is False and not request.is_intranet:
+            return redirect("home")
+
+        return super().get(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        slug = self.kwargs.get("slug")
+        vacancy = get_object_or_404(Vacancy, slug=slug)
+
+        try:
+            with transaction.atomic():
+                interview = form.save(commit=False)
+                interview.vacancy = vacancy
+                interview.save()
+                form.save_m2m()
+        except Exception as e:
+            messages.error(self.request, f"Error: {str(e)}")
+            return self.form_invalid(form)
+
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        slug = self.kwargs.get("slug")
+        context["vacancy"] = get_object_or_404(Vacancy, slug=slug)
+        return context
+
+class InterviewUpdateView(UpdateView):
+    model = Interview
+    form_class = InterviewForm
+    template_name = "recruitment/interview/interviewForm.html"
+    #success_url = reverse_lazy("recruitment:application_success")
 
 
 class ApplicationCreateView(CreateView):
