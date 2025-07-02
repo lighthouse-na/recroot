@@ -8,7 +8,7 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from apps.recruitment.forms import (
     ApplicationForm,
-    InterviewInvitationResponseForm,
+    InterviewInvitationResponseForm, InterviewForm
 )
 from apps.recruitment.models import (
     Application,
@@ -39,6 +39,11 @@ class VacancyDetailView(DetailView):
     model = Vacancy
     template_name = "recruitment/vacancy/detail.html"
     context_object_name = "vacancy"
+
+class InterviewFormView(CreateView):
+    model = Interview
+    template_name = "recruitment/interview/interviewForm.html"
+    context_object_name = "interview"
 
 
 class ApplicationCreateView(CreateView):
