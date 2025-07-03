@@ -49,7 +49,37 @@ validation_urls = [
         "NQF_level_or_level_validation",
         validation.NQF_level_or_level_validation,
         name="NQF_level_or_level_validation",
+    ),
+    path(
+        "applicable_role_validation",
+        validation.NQF_level_or_level_validation,
+        name="applicable_role_validation",
+    ),
+    path(
+        "applicable_experience_validation",
+        validation.NQF_level_or_level_validation,
+        name="applicable_experience_validation",
+    ),
+    
+    path(
+        "non_applicable_role_validation",
+        validation.NQF_level_or_level_validation,
+        name="non_applicable_role_validation",
+    ),
+    path(
+        "non_applicable_experience_validation",
+        validation.NQF_level_or_level_validation,
+        name="non_applicable_experience_validation",
+    ),
+     path(
+        "references_validation",
+        validation.NQF_level_or_level_validation,
+        name="references_validation",
     )
+
+    
+    
+    
     
 ]
 
