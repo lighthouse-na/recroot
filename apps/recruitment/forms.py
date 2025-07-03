@@ -82,9 +82,12 @@ class ApplicationForm(forms.ModelForm):
     field_of_study = forms.CharField(max_length=255)
     trade_speciality = forms.CharField(max_length=255)
     NQF_level_or_level = forms.IntegerField()
-    role_experience = forms.CharField(max_length=255)
-    applicable_Experience = forms.IntegerField()
+    applicable_role = forms.CharField(max_length=255)
+    applicable_experience = forms.IntegerField()
+    non_applicable_role =forms.CharField(max_length=255)
+    non_applicable_experience = forms.IntegerField()
     references = forms.CharField(max_length=255)
+
 
     
 
@@ -104,8 +107,10 @@ class ApplicationForm(forms.ModelForm):
             "field_of_study",
             "trade_speciality",
             "NQF_level_or_level",
-            "role_experience",
-            "applicable_Experience",
+            "applicable_role",
+            "applicable_experience",
+            "non_applicable_role" ,
+            "non_applicable_experience"
             "references")
         
     def __init__(self, vacancy, *args, **kwargs):
