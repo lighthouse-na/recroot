@@ -137,8 +137,20 @@
                             validationUrl="{% url 'recruitment:non_applicable_experience_validation' %}" />
 
 
-                        <c-input id="references" label="Applicable References" placeholder="employer information"
-                            name="references" validationUrl="{% url 'recruitment:references_validation' %}" />
+                        <c-input id="references_name" label="References Name" placeholder="Reference name"
+                            name="Reference Name" validationUrl="{% url 'recruitment:references_name_validation' %}" />
+
+
+                        <c-input id="references_position" label="Reference Postion" placeholder="Reference Postion"
+                            name="Reference Position"
+                            validationUrl="{% url 'recruitment:references_postion_validation' %}" />
+
+                        <c-input id="references_company" label="Company" placeholder="Company" name="Company"
+                            validationUrl="{% url 'recruitment:references_company_validation' %}" />
+
+                        <c-input id="references_email" label="Reference Email" placeholder="Reference Email"
+                            name="Email" validationUrl="{% url 'recruitment:references_email_validation' %}" />
+
 
                     </div>
 
