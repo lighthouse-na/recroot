@@ -202,7 +202,7 @@ class Application(models.Model):
         help_text="Enter References company",
         default=" "
     )
-    references_ = models.CharField(
+    references_email = models.CharField(
         max_length=255,
         help_text="Enter References email",
         default=" "
