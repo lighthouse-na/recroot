@@ -170,7 +170,7 @@ class Application(models.Model):
         default=" "
     )
     applicable_experience = models.IntegerField(
-        help_text="Enter applicable experience in years e.g. 1"
+        help_text="Enter applicable experience in years e.g. 1", default=0 
     )
     references = models.CharField(
         max_length=255,
