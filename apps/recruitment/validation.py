@@ -131,17 +131,7 @@ def applicable_Experience(request) -> HttpResponse:
     """
     return validators.validate_number(request, "applicable_Experience")
 
-def references(request) -> HttpResponse:
-    """
-    Validates the 'references' field in the request.
 
-    Args:
-        request (HttpRequest): The HTTP request containing the data to validate.
-
-    Returns:
-        HttpResponse: A response indicating whether the validation was successful or failed.
-    """
-    return validators.validate_name(request, "references")
 
 def references(request) -> HttpResponse:
     """
