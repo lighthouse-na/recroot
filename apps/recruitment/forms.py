@@ -109,7 +109,7 @@ class ApplicationForm(forms.ModelForm):
             "NQF_level_or_level",
             "applicable_role",
             "applicable_experience",
-            "non_applicable_role" ,
+            "non_applicable_role",
             "non_applicable_experience",
             "references")
         
