@@ -128,8 +128,8 @@
                             name="applicable_experience"
                             validationUrl="{% url 'recruitment:applicable_experience_validation' %}" />
 
-                        <c-input id="non_applicable_role" label="Non-Role Experience" placeholder="e.g Any other role."
-                            name="non_applicable_role"
+                        <c-input id="non_applicable_role" label="Non-Appicable Role Experience"
+                            placeholder="e.g Any other role." name="non_applicable_role"
                             validationUrl="{% url 'recruitment:non_applicable_role_validation' %}" />
 
                         <c-input id="non_applicable_experience" label="Non-Applicable Experience" placeholder="e.g 1"
@@ -142,16 +142,7 @@
                     <h3>Reference Check Information</h3>
 
                     <table id="references-table" border="1">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Company</th>
-                                <th>Email Address</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
+
                         <tbody id="reference-rows">
                             <tr>
                                 <td class="ref-no">1</td>
