@@ -243,21 +243,24 @@
 
 <script>
     function handleFormSubmit(event) {
-        // event.preventDefault();
+
+
         const form = document.getElementById('qualificationForm');
         const formData = new FormData(form);
+
         for (const [key, value] of formData.entries()) {
-            console.log(`${key}: ${value}`);
+            console.log(`${key}: ${value}`);  // Corrected template literal syntax
         }
-        //form.submit(); // Uncomment to allow submission
+
+        // form.submit(); // Uncomment to allow manual submission if event.preventDefault() is used
     }
+
     document.addEventListener("DOMContentLoaded", function () {
         const form = document.getElementById("qualificationForm");
         if (form) {
             form.addEventListener("submit", handleFormSubmit);
         }
     });
-
 </script>
 
 {% endblock content %}
