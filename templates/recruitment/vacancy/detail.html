@@ -136,10 +136,9 @@
                             name="non_applicable_experience"
                             validationUrl="{% url 'recruitment:non_applicable_experience_validation' %}" />
 
+                        <h3 class="text-lg font-semibold mb-2 mt-6">Reference Check Information</h3>
 
-                        <h3>Reference Check Information</h3>
-
-                        <table id="references-table" border="1">
+                        <table id="references-table" border="1" class="w-full border-collapse">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -184,27 +183,27 @@
                                 const newRow = tableBody.insertRow();
 
                                 newRow.innerHTML = `
-        <td class="ref-no">${rowCount + 1}</td>
-        <td>
-            <c-input name="references_name[]" label="Name" placeholder="Reference name"
-                validationUrl="{% url 'recruitment:references_name_validation' %}" />
-        </td>
-        <td>
-            <c-input name="references_position[]" label="Position" placeholder="Reference position"
-                validationUrl="{% url 'recruitment:references_position_validation' %}" />
-        </td>
-        <td>
-            <c-input name="references_company[]" label="Company" placeholder="Company"
-                validationUrl="{% url 'recruitment:references_company_validation' %}" />
-        </td>
-        <td>
-            <c-input name="references_email[]" label="Email" placeholder="Reference email"
-                validationUrl="{% url 'recruitment:references_email_validation' %}" />
-        </td>
-        <td>
-            <button type="button" onclick="removeReferenceRow(this)">–</button>
-        </td>
-    `;
+            <td class="ref-no">${rowCount + 1}</td>
+            <td>
+                <c-input name="references_name[]" label="Name" placeholder="Reference name"
+                    validationUrl="{% url 'recruitment:references_name_validation' %}" />
+            </td>
+            <td>
+                <c-input name="references_position[]" label="Position" placeholder="Reference position"
+                    validationUrl="{% url 'recruitment:references_position_validation' %}" />
+            </td>
+            <td>
+                <c-input name="references_company[]" label="Company" placeholder="Company"
+                    validationUrl="{% url 'recruitment:references_company_validation' %}" />
+            </td>
+            <td>
+                <c-input name="references_email[]" label="Email" placeholder="Reference email"
+                    validationUrl="{% url 'recruitment:references_email_validation' %}" />
+            </td>
+            <td>
+                <button type="button" onclick="removeReferenceRow(this)">–</button>
+            </td>
+        `;
                             }
 
                             function removeReferenceRow(button) {
@@ -218,6 +217,7 @@
                                 });
                             }
                         </script>
+
 
 
                         <c-input id="cv" label="Documents" name="cv" type="file" required />
