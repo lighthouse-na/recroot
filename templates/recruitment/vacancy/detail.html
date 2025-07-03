@@ -153,6 +153,58 @@
 
 
                     </div>
+                    <h3>Reference Check Information</h3>
+
+                    <table id="references-table" border="1">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Name</th>
+                                <th>Position</th>
+                                <th>Company</th>
+                                <th>Email Address</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reference-rows">
+                            <tr>
+                                <td class="ref-no">1</td>
+                                <td><c-input name="references_name[]" label="Name" placeholder="Name" /></td>
+                                <td><c-input name="references_position[]" label="Position" placeholder="Position" />
+                                </td>
+                                <td><c-input name="references_company[]" label="Company" placeholder="Company" /></td>
+                                <td><c-input name="references_email[]" label="Email" placeholder="Email" /></td>
+                                <td><button type="button" onclick="addReferenceRow()">+</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <script>
+                        function addReferenceRow() {
+                            const tableBody = document.getElementById("reference-rows");
+                            const rowCount = tableBody.rows.length;
+                            const newRow = tableBody.insertRow();
+
+                            newRow.innerHTML = `
+     <td class="ref-no">${rowCount + 1}</td>
+    <td><c-input name="references_name[]" label="Name" placeholder="Name" /></td>
+    <td><c-input name="references_position[]" label="Position" placeholder="Position" /></td>
+    <td><c-input name="references_company[]" label="Company" placeholder="Company" /></td>
+    <td><c-input name="references_email[]" label="Email" placeholder="Email" /></td>
+    <td><button type="button" onclick="removeReferenceRow(this)">–</button></td>
+  `;
+                        }
+
+                        function removeReferenceRow(button) {
+                            const row = button.closest("tr");
+                            row.remove();
+
+                            const rows = document.querySelectorAll("#reference-rows .ref-no");
+                            rows.forEach((cell, index) => {
+                                cell.textContent = index + 1;
+                            });
+                        }
+                    </script>
 
                     <c-input id="cv" label="Documents" name="cv" type="file" required />
 
