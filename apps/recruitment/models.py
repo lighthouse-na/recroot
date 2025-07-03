@@ -164,14 +164,29 @@ class Application(models.Model):
     field_of_study = models.CharField(max_length=255,help_text="Enter field of study",  default=" ")
     trade_speciality = models.CharField(max_length=255,help_text="Enter Speciality or Trade", default=" ")
     NQF_level_or_level = models.IntegerField(help_text="Enter NQF level or Trade level")
-    role_experience = models.CharField(
-        max_length=255,
-        help_text="Enter your job title at your previous organization",
-        default=" "
-    )
+
+    applicable_role = models.CharField(
+    max_length=255,
+    help_text="Enter the job title for roles in a similar environment.",
+    default=" "
+)
+
     applicable_experience = models.IntegerField(
-        help_text="Enter applicable experience in years e.g. 1", default=0 
-    )
+    help_text="Enter years of experience in a similar environment (e.g. 1).",
+    default=0
+)
+
+    non_applicable_role = models.CharField(
+    max_length=255,
+    help_text="Enter the job title for other relevant roles you've held.",
+    default=" "
+)
+
+    non_applicable_experience = models.IntegerField(
+    help_text="Enter years of experience in other relevant roles (e.g. 1).",
+    default=0
+)
+
     references = models.CharField(
         max_length=255,
         help_text="Enter references",
