@@ -86,10 +86,10 @@ class ApplicationForm(forms.ModelForm):
     applicable_experience = forms.IntegerField()
     non_applicable_role =forms.CharField(max_length=255)
     non_applicable_experience = forms.IntegerField()
-   # references_name = forms.CharField(max_length=255)
-   # references_position =forms.CharField(max_length=255)
-    #references_company =forms.CharField(max_length=255)
-   # references_email =forms.CharField(max_length=255)
+    references_name = forms.CharField(max_length=255)
+    references_position =forms.CharField(max_length=255)
+    references_company =forms.CharField(max_length=255)
+    references_email =forms.CharField(max_length=255)
 
 
 
@@ -113,8 +113,11 @@ class ApplicationForm(forms.ModelForm):
             "applicable_role",
             "applicable_experience",
             "non_applicable_role",
-            "non_applicable_experience")
-            #"references")
+            "non_applicable_experience",    
+            "references_name",
+            "references_position",
+            "references_company",
+            "references_email")
         
     def __init__(self, vacancy, *args, **kwargs):
         self.vacancy = vacancy
