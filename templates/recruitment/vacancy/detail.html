@@ -243,13 +243,13 @@
 
 <script>
     function handleFormSubmit(event) {
-        event.preventDefault();
+        // event.preventDefault();
         const form = document.getElementById('qualificationForm');
         const formData = new FormData(form);
         for (const [key, value] of formData.entries()) {
             console.log(`${key}: ${value}`);
         }
-        form.submit(); // Uncomment to allow submission
+        //form.submit(); // Uncomment to allow submission
     }
 </script>
 
