@@ -117,4 +117,55 @@ def NQF_level_or_level_validation(request) -> HttpResponse:
     Returns:
         HttpResponse: A response indicating whether the validation was successful or failed.
     """
-    return validators.validate_number(request, "NQF_level_or_level")
+    return validators.validate_number(request, "applicable_Experience")
+
+def applicable_Experience(request) -> HttpResponse:
+    """
+    Validates the 'applicable_Experience' field in the request.
+
+    Args:
+        request (HttpRequest): The HTTP request containing the data to validate.
+
+    Returns:
+        HttpResponse: A response indicating whether the validation was successful or failed.
+    """
+    return validators.validate_number(request, "applicable_Experience")
+
+def references(request) -> HttpResponse:
+    """
+    Validates the 'references' field in the request.
+
+    Args:
+        request (HttpRequest): The HTTP request containing the data to validate.
+
+    Returns:
+        HttpResponse: A response indicating whether the validation was successful or failed.
+    """
+    return validators.validate_name(request, "references")
+
+def references(request) -> HttpResponse:
+    """
+    Validates the 'references' field in the request.
+
+    Args:
+        request (HttpRequest): The HTTP request containing the data to validate.
+
+    Returns:
+        HttpResponse: A response indicating whether the validation was successful or failed.
+    """
+    return validators.validate_name(request, "references")
+
+
+
+def role_experience(request) -> HttpResponse:
+    """
+    Validates the 'role_experience' field in the request.
+
+    Args:
+        request (HttpRequest): The HTTP request containing the data to validate.
+
+    Returns:
+        HttpResponse: A response indicating whether the validation was successful or failed.
+    """
+    return validators.validate_name(request, "role_experience")
+
