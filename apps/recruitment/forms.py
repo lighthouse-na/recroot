@@ -110,7 +110,7 @@ class ApplicationForm(forms.ModelForm):
             "applicable_role",
             "applicable_experience",
             "non_applicable_role" ,
-            "non_applicable_experience"
+            "non_applicable_experience",
             "references")
         
     def __init__(self, vacancy, *args, **kwargs):
