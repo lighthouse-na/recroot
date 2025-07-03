@@ -117,11 +117,25 @@
                         <c-input id="NQF_level_or_level" label="NQF Level or Level" placeholder="e.g 7"
                             name="NQF_level_or_level"
                             validationUrl="{% url 'recruitment:NQF_level_or_level_validation' %}" required />
-                        <c-input id="role_experience" label="Role Experience" placeholder="e.g Software Intern"
-                            name="role_experience" validationUrl="{% url 'recruitment:role_experience' %}" />
-                        <c-input id="applicable_Experience" label="Applicable Experience" placeholder="e.g 1"
-                            name="applicable_Experience"
+
+
+                        <c-input id="applicable_role" label="Role Experience"
+                            placeholder="e.g Similar role as advertised." name="applicable_role"
+                            validationUrl="{% url 'recruitment:applicable_role' %}" />
+
+
+                        <c-input id="applicable_experience" label="Applicable Experience" placeholder="e.g 1"
+                            name="applicable_experience"
                             validationUrl="{% url 'recruitment:applicable_Experience' %}" />
+
+                        <c-input id="non_applicable_role" label="Non-Role Experience" placeholder="e.g Any other role."
+                            name="non_applicable_role" validationUrl="{% url 'recruitment:applicable_role' %}" />
+
+                        <c-input id="non_applicable_experience" label="Non-Applicable Experience" placeholder="e.g 1"
+                            name="non_applicable_experience"
+                            validationUrl="{% url 'recruitment:non_applicable_Experience' %}" />
+
+
                         <c-input id="references" label="Applicable References" placeholder="employer information"
                             name="references" validationUrl="{% url 'recruitment:references' %}" />
 
