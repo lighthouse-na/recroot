@@ -156,7 +156,7 @@ def applicable_experience_validation(request) -> HttpResponse:
     Returns:
         HttpResponse: A response indicating whether the validation was successful or failed.
     """
-    return validators.validate_name(request, "applicable_experience")
+    return validators.validate_number(request, "applicable_experience")
 
 
 def non_applicable_experience_validation(request) -> HttpResponse:
