@@ -251,6 +251,13 @@
         }
         //form.submit(); // Uncomment to allow submission
     }
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("qualificationForm");
+        if (form) {
+            form.addEventListener("submit", handleFormSubmit);
+        }
+    });
+
 </script>
 
 {% endblock content %}
