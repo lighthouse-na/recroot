@@ -136,135 +136,112 @@
                             name="non_applicable_experience"
                             validationUrl="{% url 'recruitment:non_applicable_experience_validation' %}" />
 
-                        <h3 class="text-lg font-semibold mb-2 mt-6">Reference Check Information</h3>
-
-                        <table id="references-table" border="1" class="w-full border-collapse">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Name</th>
-                                    <th>Position</th>
-                                    <th>Company</th>
-                                    <th>Email Address</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="reference-rows">
-                                <tr>
-                                    <td class="ref-no">1</td>
-                                    <td>
-                                        <c-input name="references_name[]" label="Name" placeholder="Reference name"
-                                            validationUrl="{% url 'recruitment:references_name_validation' %}" />
-                                    </td>
-                                    <td>
-                                        <c-input name="references_position[]" label="Position"
-                                            placeholder="Reference position"
-                                            validationUrl="{% url 'recruitment:references_position_validation' %}" />
-                                    </td>
-                                    <td>
-                                        <c-input name="references_company[]" label="Company" placeholder="Company"
-                                            validationUrl="{% url 'recruitment:references_company_validation' %}" />
-                                    </td>
-                                    <td>
-                                        <c-input name="references_email[]" label="Email" placeholder="Reference email"
-                                            validationUrl="{% url 'recruitment:references_email_validation' %}" />
-                                    </td>
-                                    <td>
-                                        <button type="button" onclick="addReferenceRow()">+</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <script>
-                            function addReferenceRow() {
-                                const tableBody = document.getElementById("reference-rows");
-                                const rowCount = tableBody.rows.length;
-                                const newRow = tableBody.insertRow();
-
-                                newRow.innerHTML = `
-            <td class="ref-no">${rowCount + 1}</td>
-            <td>
-                <c-input name="references_name[]" label="Name" placeholder="Reference name"
-                    validationUrl="{% url 'recruitment:references_name_validation' %}" />
-            </td>
-            <td>
-                <c-input name="references_position[]" label="Position" placeholder="Reference position"
-                    validationUrl="{% url 'recruitment:references_position_validation' %}" />
-            </td>
-            <td>
-                <c-input name="references_company[]" label="Company" placeholder="Company"
-                    validationUrl="{% url 'recruitment:references_company_validation' %}" />
-            </td>
-            <td>
-                <c-input name="references_email[]" label="Email" placeholder="Reference email"
-                    validationUrl="{% url 'recruitment:references_email_validation' %}" />
-            </td>
-            <td>
-                <button type="button" onclick="removeReferenceRow(this)">–</button>
-            </td>
-        `;
-                            }
-
-                            function removeReferenceRow(button) {
-                                const row = button.closest("tr");
-                                row.remove();
-
-                                // Renumber the No column
-                                const rows = document.querySelectorAll("#reference-rows .ref-no");
-                                rows.forEach((cell, index) => {
-                                    cell.textContent = index + 1;
-                                });
-                            }
-                        </script>
 
 
+                    </div>
+                    <h3>Reference Check Information</h3>
 
-                        <c-input id="cv" label="Documents" name="cv" type="file" required />
+                    <table id="references-table" border="1">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Name</th>
+                                <th>Position</th>
+                                <th>Company</th>
+                                <th>Email Address</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reference-rows">
+                            <tr>
+                                <td class="ref-no">1</td>
+                                <td><c-input name="references_name[]" label="Name" placeholder="Name"
+                                        validationUrl="{% url 'recruitment:references_name_validation' %}" /></td>
 
-                        {% if vacancy.requirements.all %}
-                        <div class="inline-flex items-center justify-center w-full md:my-10 col-span-2">
-                            <c-h4 title="Requirements" />
+                                <td><c-input name="references_position[]" label="Position" placeholder="Position"
+                                        validationUrl="{% url 'recruitment:references_position_validation' %}" />
+                                </td>
+                                <td><c-input name="references_company[]" label="Company" placeholder="Company"
+                                        validationUrl="{% url 'recruitment:references_company_validation' %}" /></td>
+                                <td><c-input name="references_email[]" label="Email" placeholder="Email"
+                                        validationUrl="{% url 'recruitment:references_email_validation' %}" /></td>
+                                <td><button type="button" onclick="addReferenceRow()">+</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <script>
+                        function addReferenceRow() {
+                            const tableBody = document.getElementById("reference-rows");
+                            const rowCount = tableBody.rows.length;
+                            const newRow = tableBody.insertRow();
+
+                            newRow.innerHTML = `
+     <td class="ref-no">${rowCount + 1}</td>
+    <td><c-input name="references_name[]" label="Name" placeholder="Name" /></td>
+    <td><c-input name="references_position[]" label="Position" placeholder="Position" /></td>
+    <td><c-input name="references_company[]" label="Company" placeholder="Company" /></td>
+    <td><c-input name="references_email[]" label="Email" placeholder="Email" /></td>
+    <td><button type="button" onclick="removeReferenceRow(this)">–</button></td>
+  `;
+                        }
+
+                        function removeReferenceRow(button) {
+                            const row = button.closest("tr");
+                            row.remove();
+
+                            const rows = document.querySelectorAll("#reference-rows .ref-no");
+                            rows.forEach((cell, index) => {
+                                cell.textContent = index + 1;
+                            });
+                        }
+                    </script>
+
+                    <c-input id="cv" label="Documents" name="cv" type="file" required />
+
+                    {% if vacancy.requirements.all %}
+                    <div class="inline-flex items-center justify-center w-full md:my-10 col-span-2">
+                        <c-h4 title="Requirements" />
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
+                        {% for field in form %}
+                        {% if field.name|slice:":12" == "requirement_" %}
+                        {% if field.field.widget.input_type == 'text' %}
+                        <div class="col-span-2">
+                            <c-input id="{{ field.id }}" label="{{ field.label }}" placeholder="{{ field.label }}"
+                                name="{{ field.html_name }}" />
                         </div>
-
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
-                            {% for field in form %}
-                            {% if field.name|slice:":12" == "requirement_" %}
-                            {% if field.field.widget.input_type == 'text' %}
-                            <div class="col-span-2">
-                                <c-input id="{{ field.id }}" label="{{ field.label }}" placeholder="{{ field.label }}"
-                                    name="{{ field.html_name }}" />
-                            </div>
-                            {% elif field.field.widget.input_type == 'date' %}
-                            <div class="col-span-2">
-                                <c-input id="{{ field.id }}" label="{{ field.label }}" type="date"
-                                    name="{{ field.html_name }}" />
-                            </div>
-                            {% elif field.field.is_select %}
-                            <div class="col-span-2">
-                                <label for="{{ field.id }}"
-                                    class="format dark:format-invert tracking-tight text-sky-900 dark:text-orange-500/90">
-                                    {{ field.label }}{% if required or field.field.required %} <span
-                                        style="color:red">*</span>{% endif %}
-                                </label>
-                                <select name="{{ field.html_name }}" id="{{ field.id }}" {% if field.field.required
-                                    %}required{% endif %}
-                                    class="capitalize pr-10 inline-flex w-full items-center justify-between gap-2 border border-neutral-200 rounded-md bg-white px-4 py-2 text-sm font-medium tracking-wide transition hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:border-neutral-700 dark:bg-gray-800 dark:text-neutral-300 dark:focus-visible:outline-white">
-                                    <option value="" class="text-gray-200">Please select</option>
-                                    {% for value, label in field.field.choices %}
-                                    <option value="{{label}}" class="text-neutral-600">{{label}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            {% endif %}
-                            {% endif %}
-                            {% endfor %}
+                        {% elif field.field.widget.input_type == 'date' %}
+                        <div class="col-span-2">
+                            <c-input id="{{ field.id }}" label="{{ field.label }}" type="date"
+                                name="{{ field.html_name }}" />
+                        </div>
+                        {% elif field.field.is_select %}
+                        <div class="col-span-2">
+                            <label for="{{ field.id }}"
+                                class="format dark:format-invert tracking-tight text-sky-900 dark:text-orange-500/90">
+                                {{ field.label }}{% if required or field.field.required %} <span
+                                    style="color:red">*</span>{% endif %}
+                            </label>
+                            <select name="{{ field.html_name }}" id="{{ field.id }}" {% if field.field.required
+                                %}required{% endif %}
+                                class="capitalize pr-10 inline-flex w-full items-center justify-between gap-2 border border-neutral-200 rounded-md bg-white px-4 py-2 text-sm font-medium tracking-wide transition hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:border-neutral-700 dark:bg-gray-800 dark:text-neutral-300 dark:focus-visible:outline-white">
+                                <option value="" class="text-gray-200">Please select</option>
+                                {% for value, label in field.field.choices %}
+                                <option value="{{label}}" class="text-neutral-600">{{label}}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                         {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
 
-                        <div class="flex justify-center">
-                            <c-button label="Apply" type="submit" primary />
-                        </div>
+                    <div class="flex justify-center">
+                        <c-button label="Apply" type="submit" primary />
+                    </div>
                 </form>
                 <!-- Form End -->
 
