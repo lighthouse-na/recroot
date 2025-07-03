@@ -187,11 +187,28 @@ class Application(models.Model):
     default=0
 )
 
-    references = models.CharField(
+    references_name = models.CharField(
         max_length=255,
-        help_text="Enter references",
+        help_text="Enter References name",
         default=" "
     )
+    references_position = models.CharField(
+        max_length=255,
+        help_text="Enter References position",
+        default=" "
+    )
+    references_company = models.CharField(
+        max_length=255,
+        help_text="Enter References company",
+        default=" "
+    )
+    references_ = models.CharField(
+        max_length=255,
+        help_text="Enter References email",
+        default=" "
+    )
+
+
     cv = models.FileField(
         upload_to="cv/",
         validators=[
