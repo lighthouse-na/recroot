@@ -164,6 +164,19 @@ class Application(models.Model):
     field_of_study = models.CharField(max_length=255,help_text="Enter field of study",  default=" ")
     trade_speciality = models.CharField(max_length=255,help_text="Enter Speciality or Trade", default=" ")
     NQF_level_or_level = models.IntegerField(help_text="Enter NQF level or Trade level")
+    role_experience = models.CharField(
+        max_length=255,
+        help_text="Enter your job title at your previous organization",
+        default=" "
+    )
+    applicable_experience = models.IntegerField(
+        help_text="Enter applicable experience in years e.g. 1"
+    )
+    references = models.CharField(
+        max_length=255,
+        help_text="Enter references",
+        default=" "
+    )
     cv = models.FileField(
         upload_to="cv/",
         validators=[
@@ -172,6 +185,7 @@ class Application(models.Model):
         ],
         help_text="Please upload a PDF/DOCX file, maximum size 10MB.",
     )
+    
     is_internal = models.BooleanField(default=False)
     user = models.ForeignKey(
         get_user_model(),
