@@ -139,6 +139,8 @@
 
 
                     </div>
+                    <!--
+                    
                     <h3>Reference Check Information</h3>
 
                     <table id="references-table" border="1">
@@ -168,15 +170,13 @@
                             const newRow = tableBody.insertRow();
 
                             newRow.innerHTML = `
-< td class="ref-no" > ${rowCount + 1}</td >
-  <td><input type="text" name="references_name[]" placeholder="Name" required /></td>
-  <td><input type="text" name="references_position[]" placeholder="Position" required /></td>
-  <td><input type="text" name="references_company[]" placeholder="Company" required /></td>
-  <td><input type="email" name="references_email[]" placeholder="Email" required /></td>
-                            `;
-
-
-
+     <td class="ref-no">${rowCount + 1}</td>
+    <td><c-input name="references_name[]" label="Name" placeholder="Name" /></td>
+    <td><c-input name="references_position[]" label="Position" placeholder="Position" /></td>
+    <td><c-input name="references_company[]" label="Company" placeholder="Company" /></td>
+    <td><c-input name="references_email[]" label="Email" placeholder="Email" /></td>
+    <td><button type="button" onclick="removeReferenceRow(this)">–</button></td>
+  `;
                         }
 
                         function removeReferenceRow(button) {
@@ -188,7 +188,7 @@
                                 cell.textContent = index + 1;
                             });
                         }
-                    </script>
+                    </script>-->
 
                     <c-input id="cv" label="Documents" name="cv" type="file" required />
 
