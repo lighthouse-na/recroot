@@ -8,11 +8,11 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from apps.recruitment.forms import (
     ApplicationForm,
-   # InterviewInvitationResponseForm, InterviewForm
+    InterviewInvitationResponseForm, InterviewForm
 )
 from apps.recruitment.models import (
     Application,
-    #Interview,
+    Interview,
     MinimumRequirement,
     MinimumRequirementAnswer,
     Vacancy,
@@ -40,55 +40,54 @@ class VacancyDetailView(DetailView):
     template_name = "recruitment/vacancy/detail.html"
     context_object_name = "vacancy"
 
-# class InterviewFormView(DetailView):
-#     model = Interview
-#     template_name = "recruitment/interview/interviewForm.html"
-#     context_object_name = "interview"
-#     success_url = reverse_lazy('recruitment:interview_success')
+class InterviewFormView(DetailView):
+    model = Interview
+    template_name = "recruitment/interview/interviewForm.html"
+    context_object_name = "interview"
+    success_url = reverse_lazy('recruitment:interview_success')
 
-# class InterviewFormView(CreateView):
-#     model = Interview
-#     form_class = InterviewForm
-#     template_name = "recruitment/interview/interviewForm.html"
-#     success_url = reverse_lazy("recruitment:application_success")
+class InterviewFormView(CreateView):
+    model = Interview
+    form_class = InterviewForm
+    template_name = "recruitment/interview/interviewForm.html"
+    success_url = reverse_lazy("recruitment:application_success")
 
-#     def get(self, request, *args, **kwargs):
-#         slug = self.kwargs.get("slug")
-#         vacancy = get_object_or_404(Vacancy, slug=slug)
+    def get(self, request, *args, **kwargs):
+        slug = self.kwargs.get("slug")
+        vacancy = get_object_or_404(Vacancy, slug=slug)
 
-#         if vacancy.is_public is False and not request.is_intranet:
-#             return redirect("home")
+        if vacancy.is_public is False and not request.is_intranet:
+            return redirect("home")
 
-#         return super().get(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
 
-#     def form_valid(self, form):
-#         slug = self.kwargs.get("slug")
-#         vacancy = get_object_or_404(Vacancy, slug=slug)
+    def form_valid(self, form):
+        slug = self.kwargs.get("slug")
+        vacancy = get_object_or_404(Vacancy, slug=slug)
 
-#         try:
-#             with transaction.atomic():
-#                 interview = form.save(commit=False)
-#                 interview.vacancy = vacancy
-#                 interview.save()
-#                 form.save_m2m()
-#         except Exception as e:
-#             messages.error(self.request, f"Error: {str(e)}")
-#             return self.form_invalid(form)
+        try:
+            with transaction.atomic():
+                interview = form.save(commit=False)
+                interview.vacancy = vacancy
+                interview.save()
+                form.save_m2m()
+        except Exception as e:
+            messages.error(self.request, f"Error: {str(e)}")
+            return self.form_invalid(form)
 
-#         return super().form_valid(form)
+        return super().form_valid(form)
 
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         slug = self.kwargs.get("slug")
-#         context["vacancy"] = get_object_or_404(Vacancy, slug=slug)
-#         return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        slug = self.kwargs.get("slug")
+        context["vacancy"] = get_object_or_404(Vacancy, slug=slug)
+        return context
 
-# class InterviewUpdateView(UpdateView):
-#     model = Interview
-#     form_class = InterviewForm
-#     template_name = "recruitment/interview/interviewForm.html"
-#     #success_url = reverse_lazy("recruitment:application_success")
-
+class InterviewUpdateView(UpdateView):
+    model = Interview
+    form_class = InterviewForm
+    template_name = "recruitment/interview/interviewForm.html"
+    #success_url = reverse_lazy("recruitment:application_success")
 
 
 class ApplicationCreateView(CreateView):
@@ -167,46 +166,46 @@ class ApplicationCreateView(CreateView):
         return kwargs
 
 
-# class InterviewResponseView(UpdateView):
-#     model = Interview
-#     form_class = InterviewInvitationResponseForm
-#     template_name = "recruitment/interview/invitation.html"
-#     success_url = reverse_lazy("recruitment:interview_response_success")
+class InterviewResponseView(UpdateView):
+    model = Interview
+    form_class = InterviewInvitationResponseForm
+    template_name = "recruitment/interview/invitation.html"
+    success_url = reverse_lazy("recruitment:interview_response_success")
 
-#     def form_valid(self, form):
-#         response = form.save(commit=False)
-#         response.response_date = timezone.now()
-#         # response.response_deadline = timezone.now()
-#         response.save()
-#         return super().form_valid(form)
+    def form_valid(self, form):
+        response = form.save(commit=False)
+        response.response_date = timezone.now()
+        # response.response_deadline = timezone.now()
+        response.save()
+        return super().form_valid(form)
 
-#     def get(self, request, *args, **kwargs):
-#         self.object = self.get_object()
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
 
-#         if self.object.response_date:
-#             return redirect("home")
-#         return super().get(request, *args, **kwargs)
+        if self.object.response_date:
+            return redirect("home")
+        return super().get(request, *args, **kwargs)
 
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         pk = self.kwargs.get("pk")
-#         interview = get_object_or_404(Interview, pk=pk)
-#         context["interview"] = interview
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs.get("pk")
+        interview = get_object_or_404(Interview, pk=pk)
+        context["interview"] = interview
 
-#         disabled_statuses = ["no_response", "accepted", "rescheduled", "rejected"]
-#         if interview.status in disabled_statuses:
-#             context["disable_link"] = True
-#         else:
-#             context["disable_link"] = False
-#         return context
+        disabled_statuses = ["no_response", "accepted", "rescheduled", "rejected"]
+        if interview.status in disabled_statuses:
+            context["disable_link"] = True
+        else:
+            context["disable_link"] = False
+        return context
 
 
 def application_success(request):
     return render(request, "recruitment/application/success.html")
 
 
-#def interview_response_success(request):
-   # return render(request, "recruitment/interview/success.html")
+def interview_response_success(request):
+    return render(request, "recruitment/interview/success.html")
 
 
 class ApplicationsListView(ListView):

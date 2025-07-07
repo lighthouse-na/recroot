@@ -10,12 +10,12 @@ from apps.organisation.models import CostCentre, Position, Region
 from apps.pages.models import FAQ, Announcement
 from apps.recruitment.admin import (
     ApplicationAdmin,
-    #InterviewAdmin,
+    InterviewAdmin,
     VacancyAdmin,
 )
 from apps.recruitment.models import (
     Application,
-    #Interview,
+    Interview,
     Location,
     Vacancy,
     VacancyType,
@@ -53,7 +53,7 @@ admin_dashboard_site.register(Region, RegionAdmin)
 admin_dashboard_site.register(Location, ModelAdmin)
 admin_dashboard_site.register(Vacancy, VacancyAdmin)
 admin_dashboard_site.register(Application, ApplicationAdmin)
-#admin_dashboard_site.register(Interview, InterviewAdmin)
+admin_dashboard_site.register(Interview, InterviewAdmin)
 admin_dashboard_site.register(VacancyType, ModelAdmin)
 admin_dashboard_site.register(Position, PositionAdmin)
 admin_dashboard_site.register(CostCentre, CostCentreAdmin)

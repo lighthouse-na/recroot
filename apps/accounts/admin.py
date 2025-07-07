@@ -25,13 +25,13 @@ from apps.organisation.models import (
 from apps.pages.models import FAQ, Announcement
 from apps.recruitment.admin import (
     ApplicationAdmin,
-    #InterviewAdmin,
+    InterviewAdmin,
     RequirementsAdmin,
     VacancyAdmin,
 )
 from apps.recruitment.models import (
     Application,
-    #Interview,
+    Interview,
     MinimumRequirement,
     Vacancy,
     VacancyType,
@@ -154,7 +154,7 @@ superuser_dashboard_site.register(Region, RegionAdmin)
 superuser_dashboard_site.register(Location, ModelAdmin)
 superuser_dashboard_site.register(Vacancy, VacancyAdmin)
 superuser_dashboard_site.register(Application, ApplicationAdmin)
-#superuser_dashboard_site.register(Interview, InterviewAdmin)
+superuser_dashboard_site.register(Interview, InterviewAdmin)
 superuser_dashboard_site.register(VacancyType, ModelAdmin)
 superuser_dashboard_site.register(Position, PositionAdmin)
 superuser_dashboard_site.register(CostCentre, CostCentreAdmin)

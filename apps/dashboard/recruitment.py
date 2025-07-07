@@ -2,10 +2,10 @@ from unfold.sites import UnfoldAdminSite
 
 from apps.recruitment.admin import (
     ApplicationAdmin,
-    #InterviewAdmin,
+    InterviewAdmin,
     VacancyAdmin,
 )
-#from apps.recruitment.models import Application, Interview, Vacancy
+from apps.recruitment.models import Application, Interview, Vacancy
 
 from .views import RecruiterLoginView
 
@@ -31,4 +31,4 @@ class RecruitmentAdminArea(UnfoldAdminSite):
 recruitment_admin_site = RecruitmentAdminArea(name="Recruitment")
 recruitment_admin_site.register(Application, ApplicationAdmin)
 recruitment_admin_site.register(Vacancy, VacancyAdmin)
-#recruitment_admin_site.register(Interview, InterviewAdmin)
+recruitment_admin_site.register(Interview, InterviewAdmin)

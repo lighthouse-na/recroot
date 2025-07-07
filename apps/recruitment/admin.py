@@ -12,14 +12,14 @@ from unfold.contrib.import_export.forms import SelectableFieldsExportForm
 
 from .forms import (
     ApplicationReviewForm,
-   # InterviewForm,
+    InterviewForm,
     MinimumRequirementsAddForm,
     SelectQuestionTypeOptionsForm,
     VacancyForm,
 )
 from .models import (
     Application,
-   # Interview,
+    Interview,
     Location,
     MinimumRequirement,
     MinimumRequirementAnswer,
@@ -307,71 +307,71 @@ class ApplicationAdmin(ModelAdmin, ExportActionModelAdmin):
 # **********************************************************************************************
 #                                       INTERVIEW
 # **********************************************************************************************
-# admin.site.register(Location, ModelAdmin)
+admin.site.register(Location, ModelAdmin)
 
 
-# @admin.register(Interview)
-# class InterviewAdmin(ModelAdmin, ExportActionModelAdmin):
-#     form = InterviewForm
-#     export_form_class = SelectableFieldsExportForm
-#     # readonly_fields = ["application"]
-#     list_display = ["application", "status", "schedule_datetime"]
-#     list_filter = ["status", ("schedule_datetime", RangeDateFilter)]
-#     list_filter_submit = True
-#     autocomplete_fields = ("application",)
+@admin.register(Interview)
+class InterviewAdmin(ModelAdmin, ExportActionModelAdmin):
+    form = InterviewForm
+    export_form_class = SelectableFieldsExportForm
+    # readonly_fields = ["application"]
+    list_display = ["application", "status", "schedule_datetime"]
+    list_filter = ["status", ("schedule_datetime", RangeDateFilter)]
+    list_filter_submit = True
+    autocomplete_fields = ("application",)
 
-#     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-#         if db_field.name == "application":
-#             user = request.user
-#             queryset = Application.objects.filter(vacancy__reviewers=user, status=Application.STATUS.ACCEPTED)
-#             # print(queryset)
-#             kwargs["queryset"] = queryset
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "application":
+            user = request.user
+            queryset = Application.objects.filter(vacancy__reviewers=user, status=Application.STATUS.ACCEPTED)
+            # print(queryset)
+            kwargs["queryset"] = queryset
 
-#         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-#     def get_queryset(self, request):
-#         qs = super().get_queryset(request)
-#         if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
-#             return qs
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
+            return qs
 
-#         return qs.filter(application__vacancy__reviewers=request.user)
+        return qs.filter(application__vacancy__reviewers=request.user)
 
-#     def has_view_permission(self, request, obj=None):
-#         if obj is None:
-#             return True
-#         return request.user.is_superuser or obj.application.vacancy.reviewers.filter(id=request.user.id).exists()
+    def has_view_permission(self, request, obj=None):
+        if obj is None:
+            return True
+        return request.user.is_superuser or obj.application.vacancy.reviewers.filter(id=request.user.id).exists()
 
-#     def has_add_permission(self, request):
-#         if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
-#             return True
+    def has_add_permission(self, request):
+        if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
+            return True
 
-#         # Check if the user is a reviewer for any vacancy
+        # Check if the user is a reviewer for any vacancy
 
-#         return Vacancy.objects.filter(reviewers=request.user).exists()
-#     def has_change_permission(self, request, obj=None):
-#         if obj is None:
-#           return True
-#         return (
-#         request.user.is_superuser
-#         or request.user.groups.filter(name="admin").exists()
-#         or request.user in obj.application.vacancy.reviewers.all()
-#     )
+        return Vacancy.objects.filter(reviewers=request.user).exists()
+    def has_change_permission(self, request, obj=None):
+        if obj is None:
+          return True
+        return (
+        request.user.is_superuser
+        or request.user.groups.filter(name="admin").exists()
+        or request.user in obj.application.vacancy.reviewers.all()
+    )
 
-#     def has_delete_permission(self, request, obj=None):
-#         if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
-#             return True
-#         return False  
+    def has_delete_permission(self, request, obj=None):
+        if request.user.is_superuser or request.user.groups.filter(name="admin").exists():
+            return True
+        return False
 
-   # def get_readonly_fields(self, request, obj=None):
-       # if obj is not None and obj.status in [
-           # Interview.STATUS.ACCEPTED,
-           # Interview.STATUS.REJECTED,
-        #]:
-            #return [field.name for field in self.model._meta.fields]
-        #return super().get_readonly_fields(request, obj)
+    def get_readonly_fields(self, request, obj=None):
+        if obj is not None and obj.status in [
+            Interview.STATUS.ACCEPTED,
+            Interview.STATUS.REJECTED,
+        ]:
+            return [field.name for field in self.model._meta.fields]
+        return super().get_readonly_fields(request, obj)
 
-    #def save_model(self, request, obj, form, change):
-       # if not obj.status:
-           # obj.clean()  # Run model validation
-            #obj.status = Interview.STATUS.SCHEDULED
-       # super().save_model(request, obj, form, change)
+    def save_model(self, request, obj, form, change):
+        if not obj.status:
+            obj.clean()  # Run model validation
+            obj.status = Interview.STATUS.SCHEDULED
+        super().save_model(request, obj, form, change)
