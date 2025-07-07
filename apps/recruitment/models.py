@@ -160,53 +160,53 @@ class Application(models.Model):
         max_length=10,
         choices=(("male", "Male"), ("female", "Female")),
     )
-    #tertiary_institution = models.CharField(max_length=255,help_text="Enter tertiary institution", default=" ")
-   # field_of_study = models.CharField(max_length=255,help_text="Enter field of study",  default=" ")
-    #trade_speciality = models.CharField(max_length=255,help_text="Enter Speciality or Trade", default=" ")
-   # NQF_level_or_level = models.IntegerField(help_text="Enter NQF level or Trade level")
+    tertiary_institution = models.CharField(max_length=255,help_text="Enter tertiary institution", default=" ")
+    field_of_study = models.CharField(max_length=255,help_text="Enter field of study",  default=" ")
+    trade_speciality = models.CharField(max_length=255,help_text="Enter Speciality or Trade", default=" ")
+    NQF_level_or_level = models.IntegerField(help_text="Enter NQF level or Trade level")
 
-# applicable_role = models.CharField(
-#     max_length=255,
-#     help_text="Enter the job title for roles in a similar environment.",
-#     default=" "
-# )
+    applicable_role = models.CharField(
+    max_length=255,
+    help_text="Enter the job title for roles in a similar environment.",
+    default=" "
+)
 
-# applicable_experience = models.IntegerField(
-#     help_text="Enter years of experience in a similar environment (e.g. 1).",
-#     default=0
-# )
+    applicable_experience = models.IntegerField(
+    help_text="Enter years of experience in a similar environment (e.g. 1).",
+    default=0
+)
 
-# non_applicable_role = models.CharField(
-#     max_length=255,
-#     help_text="Enter the job title for other relevant roles you've held.",
-#     default=" "
-# )
+    non_applicable_role = models.CharField(
+    max_length=255,
+    help_text="Enter the job title for other relevant roles you've held.",
+    default=" "
+)
 
-# non_applicable_experience = models.IntegerField(
-#     help_text="Enter years of experience in other relevant roles (e.g. 1).",
-#     default=0
-# )
+    non_applicable_experience = models.IntegerField(
+    help_text="Enter years of experience in other relevant roles (e.g. 1).",
+    default=0
+)
 
-# references_name = models.CharField(
-#     max_length=255,
-#     help_text="Enter References name",
-#     default=" "
-# )
-# references_position = models.CharField(
-#     max_length=255,
-#     help_text="Enter References position",
-#     default=" "
-# )
-# references_company = models.CharField(
-#     max_length=255,
-#     help_text="Enter References company",
-#     default=" "
-# )
-# references_email = models.CharField(
-#     max_length=255,
-#     help_text="Enter References email",
-#     default=" "
-# )
+    references_name = models.CharField(
+        max_length=255,
+        help_text="Enter References name",
+        default=" "
+    )
+    references_position = models.CharField(
+        max_length=255,
+        help_text="Enter References position",
+        default=" "
+    )
+    references_company = models.CharField(
+        max_length=255,
+        help_text="Enter References company",
+        default=" "
+    )
+    references_email = models.CharField(
+        max_length=255,
+        help_text="Enter References email",
+        default=" "
+    )
 
 
     cv = models.FileField(
@@ -279,110 +279,112 @@ class MinimumRequirementAnswer(models.Model):
 
 # apps/recruitment/models.py
 
-# class Interview(models.Model):
-#     class STATUS(models.TextChoices):
-#         RESCHEDULED = "rescheduled", "Rescheduled"
-#         SCHEDULED = "scheduled", "Scheduled"
-#         DONE = "done", "Done"
-#         CANCELED = "canceled", "Canceled"
-#         WAITING = "waiting", "Waiting"
-#         REJECTED = "rejected", "Rejected"
-#         ACCEPTED = "accepted", "Accepted"
 
-#     class InterviewTypes(models.TextChoices): 
-#         INDIVIDUAL = "individual", "Individual"
-#         GROUP = "group", "Group"
 
-#     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+class Interview(models.Model):
+    class STATUS(models.TextChoices):
+        RESCHEDULED = "rescheduled", "Rescheduled"
+        SCHEDULED = "scheduled", "Scheduled"
+        DONE = "done", "Done"
+        CANCELED = "canceled", "Canceled"
+        WAITING = "waiting", "Waiting"
+        REJECTED = "rejected", "Rejected"
+        ACCEPTED = "accepted", "Accepted"
 
-#     type = models.CharField(
-#         max_length=20,
-#         choices=InterviewTypes.choices,
-#         default=InterviewTypes.INDIVIDUAL,
-#     )
+    class InterviewTypes(models.TextChoices): 
+        INDIVIDUAL = "individual", "Individual"
+        GROUP = "group", "Group"
 
-#     status = models.CharField(
-#         max_length=20,
-#         choices=STATUS.choices,
-#         default=STATUS.SCHEDULED,
-#         blank=True
-#     )
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-#     application = models.ForeignKey(
-#         'recruitment.Application',  # use 'app_label.ModelName' if in another app
-#         on_delete=models.CASCADE, 
-#         related_name="interviews"
-#     )
+    type = models.CharField(
+        max_length=20,
+        choices=InterviewTypes.choices,
+        default=InterviewTypes.INDIVIDUAL,
+    )
 
-#     schedule_datetime = models.DateTimeField(
-#         help_text=_("Please select a date and time at least one day in the future, excluding weekends."),
-#         blank=True,
-#         null=True
-#     )
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS.choices,
+        default=STATUS.SCHEDULED,
+        blank=True
+    )
 
-#     description = models.TextField(
-#         blank=True,
-#         null=True,
-#         help_text=_("What do you want the interviewee to know before attending the interview?")
-#     )
+    application = models.ForeignKey(
+        'recruitment.Application',  # use 'app_label.ModelName' if in another app
+        on_delete=models.CASCADE, 
+        related_name="interviews"
+    )
 
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
+    schedule_datetime = models.DateTimeField(
+        help_text=_("Please select a date and time at least one day in the future, excluding weekends."),
+        blank=True,
+        null=True
+    )
 
-#     response = models.CharField(max_length=255, blank=True, null=True)
-#     response_deadline = models.DateTimeField(blank=True, null=True)
-#     response_date = models.DateTimeField(blank=True, null=True)
+    description = models.TextField(
+        blank=True,
+        null=True,
+        help_text=_("What do you want the interviewee to know before attending the interview?")
+    )
 
-#     location = models.ForeignKey(
-#         'organisation.Town',  # use app_label.ModelName if model is in another app
-#         blank=True,
-#         null=True,
-#         on_delete=models.SET_NULL,
-#         related_name="interviews"
-#     )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-#     reschedule_date = models.DateField(blank=True, null=True)
+    response = models.CharField(max_length=255, blank=True, null=True)
+    response_deadline = models.DateTimeField(blank=True, null=True)
+    response_date = models.DateTimeField(blank=True, null=True)
 
-#     vacancy = models.ForeignKey(
-#         'recruitment.Vacancy',  # use app_label.ModelName if model is in another app
-#         on_delete=models.CASCADE, 
-#         related_name="interviews",
-#         null=True,
-#         blank=True
-#     )
+    location = models.ForeignKey(
+        'organisation.Town',  # use app_label.ModelName if model is in another app
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="interviews"
+    )
 
-#     timestamp = models.DateTimeField(blank=True, null=True)
-#     start_date = models.DateField(blank=True, null=True)
-#     end_date = models.DateField(blank=True, null=True)
+    reschedule_date = models.DateField(blank=True, null=True)
 
-#     def __str__(self):
-#         try:
-#             return f"{self.application.vacancy.title} - {self.application.first_name} {self.application.last_name}"
-#         except Exception:
-#             return f"Interview {self.id}"
+    vacancy = models.ForeignKey(
+        'recruitment.Vacancy',  # use app_label.ModelName if model is in another app
+        on_delete=models.CASCADE, 
+        related_name="interviews",
+        null=True,
+        blank=True
+    )
 
-#     def clean(self):
-#         if not self.schedule_datetime:
-#             raise ValidationError("Scheduled datetime cannot be empty.")
+    timestamp = models.DateTimeField(blank=True, null=True)
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
 
-#         now = timezone.localtime()
+    def __str__(self):
+        try:
+            return f"{self.application.vacancy.title} - {self.application.first_name} {self.application.last_name}"
+        except Exception:
+            return f"Interview {self.id}"
 
-#         if self.schedule_datetime <= now:
-#             raise ValidationError("Scheduled datetime cannot be in the past.")
+    def clean(self):
+        if not self.schedule_datetime:
+            raise ValidationError("Scheduled datetime cannot be empty.")
 
-#         if self.schedule_datetime.date() == now.date():
-#             raise ValidationError("Scheduled datetime cannot be on the same day.")
+        now = timezone.localtime()
 
-#         if self.schedule_datetime.weekday() >= 5:  # 5 = Saturday, 6 = Sunday
-#             raise ValidationError("Scheduled datetime cannot be on weekends.")
+        if self.schedule_datetime <= now:
+            raise ValidationError("Scheduled datetime cannot be in the past.")
 
-#     def update_no_response_status(self):
-#         if self.response_deadline and self.response_deadline < timezone.now():
-#             self.status = self.STATUS.WAITING  # or "no_response" if you add that to STATUS
-#             self.save()
+        if self.schedule_datetime.date() == now.date():
+            raise ValidationError("Scheduled datetime cannot be on the same day.")
 
-#     def save(self, *args, **kwargs):
-#         self.clean()
-#         if self.schedule_datetime:
-#             self.response_deadline = self.schedule_datetime - timedelta(days=2)
-#         super().save(*args, **kwargs)
+        if self.schedule_datetime.weekday() >= 5:  # 5 = Saturday, 6 = Sunday
+            raise ValidationError("Scheduled datetime cannot be on weekends.")
+
+    def update_no_response_status(self):
+        if self.response_deadline and self.response_deadline < timezone.now():
+            self.status = self.STATUS.WAITING  # or "no_response" if you add that to STATUS
+            self.save()
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        if self.schedule_datetime:
+            self.response_deadline = self.schedule_datetime - timedelta(days=2)
+        super().save(*args, **kwargs)

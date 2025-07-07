@@ -12,7 +12,7 @@ from unfold.widgets import UnfoldAdminSelectWidget
 
 from .models import (
     Application,
-   # Interview,
+    Interview,
     MinimumRequirement,
     MinimumRequirementAnswer,
     SelectQuestionTypeOptions,
@@ -105,11 +105,11 @@ class ApplicationForm(forms.ModelForm):
             "secondary_contact",
             "date_of_birth",
             "gender",
-            "cv")
+            "cv",
            # "tertiary_institution",
-            #"field_of_study",
-            #"trade_speciality",
-            #"NQF_level_or_level")
+            "field_of_study",
+            "trade_speciality",
+            "NQF_level_or_level")
             #"applicable_role",
            # "applicable_experience",
             #"non_applicable_role",
@@ -185,95 +185,95 @@ class MinimumRequirementAnswerForm(forms.ModelForm):
 # **********************************************************************************************
 #                                       INTERVIEW
 # **********************************************************************************************
-# class InterviewForm(forms.ModelForm):
-#     class Meta:
-#         model = Interview
-#         fields = (
-#             "application", "type", "schedule_datetime", "timestamp",
-#             "start_date", "end_date", "description", "location"
-#         )
+class InterviewForm(forms.ModelForm):
+    class Meta:
+        model = Interview
+        fields = (
+            "application", "type", "schedule_datetime", "timestamp",
+            "start_date", "end_date", "description", "location"
+        )
 
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-#         # Remove fields not needed for the selected type
-#         interview_type = None
+        # Remove fields not needed for the selected type
+        interview_type = None
 
-#         # Check initial data (when editing) or POST data (when submitting)
-#         if "type" in self.data:
-#             interview_type = self.data.get("type")
-#         elif self.instance and self.instance.pk:
-#             interview_type = self.instance.type
+        # Check initial data (when editing) or POST data (when submitting)
+        if "type" in self.data:
+            interview_type = self.data.get("type")
+        elif self.instance and self.instance.pk:
+            interview_type = self.instance.type
 
-#         if interview_type == Interview.InterviewTypes.INDIVIDUAL:
-#             self.fields["timestamp"].widget = forms.HiddenInput()
-#             self.fields["start_date"].widget = forms.HiddenInput()
-#             self.fields["end_date"].widget = forms.HiddenInput()
-#         elif interview_type == Interview.InterviewTypes.GROUP:
-#             self.fields["schedule_datetime"].widget = forms.HiddenInput()
+        if interview_type == Interview.InterviewTypes.INDIVIDUAL:
+            self.fields["timestamp"].widget = forms.HiddenInput()
+            self.fields["start_date"].widget = forms.HiddenInput()
+            self.fields["end_date"].widget = forms.HiddenInput()
+        elif interview_type == Interview.InterviewTypes.GROUP:
+            self.fields["schedule_datetime"].widget = forms.HiddenInput()
 
-#     def clean(self):
-#         cleaned_data = super().clean()
-#         interview_type = cleaned_data.get("type")
+    def clean(self):
+        cleaned_data = super().clean()
+        interview_type = cleaned_data.get("type")
 
-#         if interview_type == Interview.InterviewTypes.INDIVIDUAL:
-#             schedule_datetime = cleaned_data.get("schedule_datetime")
-#             if not schedule_datetime:
-#                 self.add_error("schedule_datetime", "This field is required for individual interviews.")
-#         elif interview_type == Interview.InterviewTypes.GROUP:
-#             timestamp = cleaned_data.get("timestamp")
-#             start_date = cleaned_data.get("start_date")
-#             end_date = cleaned_data.get("end_date")
+        if interview_type == Interview.InterviewTypes.INDIVIDUAL:
+            schedule_datetime = cleaned_data.get("schedule_datetime")
+            if not schedule_datetime:
+                self.add_error("schedule_datetime", "This field is required for individual interviews.")
+        elif interview_type == Interview.InterviewTypes.GROUP:
+            timestamp = cleaned_data.get("timestamp")
+            start_date = cleaned_data.get("start_date")
+            end_date = cleaned_data.get("end_date")
 
-#             if not timestamp:
-#                 self.add_error("timestamp", "Timestamp is required for group interviews.")
-#             if not start_date:
-#                 self.add_error("start_date", "Start date is required for group interviews.")
-#             if not end_date:
-#                 self.add_error("end_date", "End date is required for group interviews.")
-#             if start_date and end_date and end_date < start_date:
-#                 self.add_error("end_date", "End date cannot be earlier than start date.")
+            if not timestamp:
+                self.add_error("timestamp", "Timestamp is required for group interviews.")
+            if not start_date:
+                self.add_error("start_date", "Start date is required for group interviews.")
+            if not end_date:
+                self.add_error("end_date", "End date is required for group interviews.")
+            if start_date and end_date and end_date < start_date:
+                self.add_error("end_date", "End date cannot be earlier than start date.")
 
-#         return cleaned_data
+        return cleaned_data
 
-#     def clean_schedule_datetime(self):
-#         schedule_datetime = self.cleaned_data.get("schedule_datetime")
+    def clean_schedule_datetime(self):
+        schedule_datetime = self.cleaned_data.get("schedule_datetime")
 
-#         if not schedule_datetime:
-#             return schedule_datetime  # Let `clean()` handle if necessary
+        if not schedule_datetime:
+            return schedule_datetime  # Let `clean()` handle if necessary
 
-#         now = timezone.localtime()
+        now = timezone.localtime()
 
-#         if schedule_datetime <= now:
-#             raise forms.ValidationError("Scheduled datetime cannot be in the past.")
-#         if schedule_datetime.date() == now.date():
-#             raise forms.ValidationError("Scheduled datetime cannot be on the same day.")
-#         if schedule_datetime.weekday() >= 5:
-#             raise forms.ValidationError("Scheduled datetime cannot fall on a weekend.")
-#         if (schedule_datetime.date() - now.date()).days < 1:
-#             raise forms.ValidationError("Scheduled datetime must be at least one day in the future.")
-#         if not (8 <= schedule_datetime.hour < 17):
-#             raise forms.ValidationError("Scheduled time must be between 8:00 AM and 5:00 PM.")
+        if schedule_datetime <= now:
+            raise forms.ValidationError("Scheduled datetime cannot be in the past.")
+        if schedule_datetime.date() == now.date():
+            raise forms.ValidationError("Scheduled datetime cannot be on the same day.")
+        if schedule_datetime.weekday() >= 5:
+            raise forms.ValidationError("Scheduled datetime cannot fall on a weekend.")
+        if (schedule_datetime.date() - now.date()).days < 1:
+            raise forms.ValidationError("Scheduled datetime must be at least one day in the future.")
+        if not (8 <= schedule_datetime.hour < 17):
+            raise forms.ValidationError("Scheduled time must be between 8:00 AM and 5:00 PM.")
 
-#         return schedule_datetime
+        return schedule_datetime
 
 
-# class InterviewInvitationResponseForm(forms.ModelForm):
-#     STATUS_CHOICES = (
-#         ("accepted", "Accept"),
-#         ("rejected", "Reject"),
-#         # ("reschedule", "Reschedule"),
-#     )
-#     # captcha = ReCaptchaField(
-#     #     public_key=env("RECAPTCHA_V2_PUBLIC_KEY"),
-#     #     private_key=env("RECAPTCHA_V2_PRIVATE_KEY"),
-#     #     widget=ReCaptchaV2Invisible,
-#     # )
-#     status = forms.ChoiceField(choices=STATUS_CHOICES)
-#     # reschedule_date = forms.DateField(
-#     #     widget=forms.DateInput(attrs={"type": "date"}), required=False
-#     # )
+class InterviewInvitationResponseForm(forms.ModelForm):
+    STATUS_CHOICES = (
+        ("accepted", "Accept"),
+        ("rejected", "Reject"),
+        # ("reschedule", "Reschedule"),
+    )
+    # captcha = ReCaptchaField(
+    #     public_key=env("RECAPTCHA_V2_PUBLIC_KEY"),
+    #     private_key=env("RECAPTCHA_V2_PRIVATE_KEY"),
+    #     widget=ReCaptchaV2Invisible,
+    # )
+    status = forms.ChoiceField(choices=STATUS_CHOICES)
+    # reschedule_date = forms.DateField(
+    #     widget=forms.DateInput(attrs={"type": "date"}), required=False
+    # )
 
-#     class Meta:
-#         model = Interview
-#         fields = ("status",)
+    class Meta:
+        model = Interview
+        fields = ("status",)
