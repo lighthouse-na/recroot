@@ -109,23 +109,23 @@ urlpatterns = [
     # ),
     # path("<slug>/apply", views.ApplicationCreateView.as_view(), name="apply"),
     path("<slug>/apply", views.ApplicationCreateView.as_view(), name="vacancy_detail"),
-    path(
-        "<str:pk>/invitation",
-        views.InterviewResponseView.as_view(),
-        name="interview_invitation",
-    ),
+    #path(
+       # "<str:pk>/invitation",
+       # views.InterviewResponseView.as_view(),
+       # name="interview_invitation",
+   # ),
     path("success/", views.application_success, name="application_success"),
-    path(
-        "interview_response_success/",
-        views.interview_response_success,
-        name="interview_response_success",
-    ),
+   # path(
+       # "interview_response_success/",
+        #views.interview_response_success,
+       # name="interview_response_success",
+   # ),
     path(
         "applications/",
         views.ApplicationsListView.as_view(),
         name="applications_list",
     ),
-   path("<slug>/interview", views.InterviewFormView.as_view(), name="interview_form")
+  # path("<slug>/interview", views.InterviewFormView.as_view(), name="interview_form")
     
 ]
 

@@ -279,112 +279,110 @@ class MinimumRequirementAnswer(models.Model):
 
 # apps/recruitment/models.py
 
+# class Interview(models.Model):
+#     class STATUS(models.TextChoices):
+#         RESCHEDULED = "rescheduled", "Rescheduled"
+#         SCHEDULED = "scheduled", "Scheduled"
+#         DONE = "done", "Done"
+#         CANCELED = "canceled", "Canceled"
+#         WAITING = "waiting", "Waiting"
+#         REJECTED = "rejected", "Rejected"
+#         ACCEPTED = "accepted", "Accepted"
 
+#     class InterviewTypes(models.TextChoices): 
+#         INDIVIDUAL = "individual", "Individual"
+#         GROUP = "group", "Group"
 
-class Interview(models.Model):
-    class STATUS(models.TextChoices):
-        RESCHEDULED = "rescheduled", "Rescheduled"
-        SCHEDULED = "scheduled", "Scheduled"
-        DONE = "done", "Done"
-        CANCELED = "canceled", "Canceled"
-        WAITING = "waiting", "Waiting"
-        REJECTED = "rejected", "Rejected"
-        ACCEPTED = "accepted", "Accepted"
+#     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    class InterviewTypes(models.TextChoices): 
-        INDIVIDUAL = "individual", "Individual"
-        GROUP = "group", "Group"
+#     type = models.CharField(
+#         max_length=20,
+#         choices=InterviewTypes.choices,
+#         default=InterviewTypes.INDIVIDUAL,
+#     )
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+#     status = models.CharField(
+#         max_length=20,
+#         choices=STATUS.choices,
+#         default=STATUS.SCHEDULED,
+#         blank=True
+#     )
 
-    type = models.CharField(
-        max_length=20,
-        choices=InterviewTypes.choices,
-        default=InterviewTypes.INDIVIDUAL,
-    )
+#     application = models.ForeignKey(
+#         'recruitment.Application',  # use 'app_label.ModelName' if in another app
+#         on_delete=models.CASCADE, 
+#         related_name="interviews"
+#     )
 
-    status = models.CharField(
-        max_length=20,
-        choices=STATUS.choices,
-        default=STATUS.SCHEDULED,
-        blank=True
-    )
+#     schedule_datetime = models.DateTimeField(
+#         help_text=_("Please select a date and time at least one day in the future, excluding weekends."),
+#         blank=True,
+#         null=True
+#     )
 
-    application = models.ForeignKey(
-        'recruitment.Application',  # use 'app_label.ModelName' if in another app
-        on_delete=models.CASCADE, 
-        related_name="interviews"
-    )
+#     description = models.TextField(
+#         blank=True,
+#         null=True,
+#         help_text=_("What do you want the interviewee to know before attending the interview?")
+#     )
 
-    schedule_datetime = models.DateTimeField(
-        help_text=_("Please select a date and time at least one day in the future, excluding weekends."),
-        blank=True,
-        null=True
-    )
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
 
-    description = models.TextField(
-        blank=True,
-        null=True,
-        help_text=_("What do you want the interviewee to know before attending the interview?")
-    )
+#     response = models.CharField(max_length=255, blank=True, null=True)
+#     response_deadline = models.DateTimeField(blank=True, null=True)
+#     response_date = models.DateTimeField(blank=True, null=True)
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+#     location = models.ForeignKey(
+#         'organisation.Town',  # use app_label.ModelName if model is in another app
+#         blank=True,
+#         null=True,
+#         on_delete=models.SET_NULL,
+#         related_name="interviews"
+#     )
 
-    response = models.CharField(max_length=255, blank=True, null=True)
-    response_deadline = models.DateTimeField(blank=True, null=True)
-    response_date = models.DateTimeField(blank=True, null=True)
+#     reschedule_date = models.DateField(blank=True, null=True)
 
-    location = models.ForeignKey(
-        'organisation.Town',  # use app_label.ModelName if model is in another app
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name="interviews"
-    )
+#     vacancy = models.ForeignKey(
+#         'recruitment.Vacancy',  # use app_label.ModelName if model is in another app
+#         on_delete=models.CASCADE, 
+#         related_name="interviews",
+#         null=True,
+#         blank=True
+#     )
 
-    reschedule_date = models.DateField(blank=True, null=True)
+#     timestamp = models.DateTimeField(blank=True, null=True)
+#     start_date = models.DateField(blank=True, null=True)
+#     end_date = models.DateField(blank=True, null=True)
 
-    vacancy = models.ForeignKey(
-        'recruitment.Vacancy',  # use app_label.ModelName if model is in another app
-        on_delete=models.CASCADE, 
-        related_name="interviews",
-        null=True,
-        blank=True
-    )
+#     def __str__(self):
+#         try:
+#             return f"{self.application.vacancy.title} - {self.application.first_name} {self.application.last_name}"
+#         except Exception:
+#             return f"Interview {self.id}"
 
-    timestamp = models.DateTimeField(blank=True, null=True)
-    start_date = models.DateField(blank=True, null=True)
-    end_date = models.DateField(blank=True, null=True)
+#     def clean(self):
+#         if not self.schedule_datetime:
+#             raise ValidationError("Scheduled datetime cannot be empty.")
 
-    def __str__(self):
-        try:
-            return f"{self.application.vacancy.title} - {self.application.first_name} {self.application.last_name}"
-        except Exception:
-            return f"Interview {self.id}"
+#         now = timezone.localtime()
 
-    def clean(self):
-        if not self.schedule_datetime:
-            raise ValidationError("Scheduled datetime cannot be empty.")
+#         if self.schedule_datetime <= now:
+#             raise ValidationError("Scheduled datetime cannot be in the past.")
 
-        now = timezone.localtime()
+#         if self.schedule_datetime.date() == now.date():
+#             raise ValidationError("Scheduled datetime cannot be on the same day.")
 
-        if self.schedule_datetime <= now:
-            raise ValidationError("Scheduled datetime cannot be in the past.")
+#         if self.schedule_datetime.weekday() >= 5:  # 5 = Saturday, 6 = Sunday
+#             raise ValidationError("Scheduled datetime cannot be on weekends.")
 
-        if self.schedule_datetime.date() == now.date():
-            raise ValidationError("Scheduled datetime cannot be on the same day.")
+#     def update_no_response_status(self):
+#         if self.response_deadline and self.response_deadline < timezone.now():
+#             self.status = self.STATUS.WAITING  # or "no_response" if you add that to STATUS
+#             self.save()
 
-        if self.schedule_datetime.weekday() >= 5:  # 5 = Saturday, 6 = Sunday
-            raise ValidationError("Scheduled datetime cannot be on weekends.")
-
-    def update_no_response_status(self):
-        if self.response_deadline and self.response_deadline < timezone.now():
-            self.status = self.STATUS.WAITING  # or "no_response" if you add that to STATUS
-            self.save()
-
-    def save(self, *args, **kwargs):
-        self.clean()
-        if self.schedule_datetime:
-            self.response_deadline = self.schedule_datetime - timedelta(days=2)
-        super().save(*args, **kwargs)
+#     def save(self, *args, **kwargs):
+#         self.clean()
+#         if self.schedule_datetime:
+#             self.response_deadline = self.schedule_datetime - timedelta(days=2)
+#         super().save(*args, **kwargs)
