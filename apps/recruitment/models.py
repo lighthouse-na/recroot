@@ -160,11 +160,11 @@ class Application(models.Model):
         max_length=10,
         choices=(("male", "Male"), ("female", "Female")),
     )
-    tertiary_institution = models.CharField(max_length=255,help_text="Enter tertiary institution", default=" ")
-    field_of_study = models.CharField(max_length=255,help_text="Enter field of study",  default=" ")
-    trade_speciality = models.CharField(max_length=255,help_text="Enter Speciality or Trade", default=" ")
-    NQF_level_or_level = models.IntegerField(help_text="Enter NQF level or Trade level")
-    
+    #tertiary_institution = models.CharField(max_length=255,help_text="Enter tertiary institution", default=" ")
+   # field_of_study = models.CharField(max_length=255,help_text="Enter field of study",  default=" ")
+    #trade_speciality = models.CharField(max_length=255,help_text="Enter Speciality or Trade", default=" ")
+   # NQF_level_or_level = models.IntegerField(help_text="Enter NQF level or Trade level")
+
 # applicable_role = models.CharField(
 #     max_length=255,
 #     help_text="Enter the job title for roles in a similar environment.",
