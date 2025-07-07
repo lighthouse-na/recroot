@@ -29,7 +29,7 @@ validation_urls = [
         "secondary_contact_validation",
         validation.secondary_contact_validation,
         name="secondary_contact_validation",
-    )
+    ),
     # path(
 #     "tertiary_institution_validation",
 #     validation.tertiary_institution_validation,
