@@ -104,20 +104,22 @@
                             validationUrl="{% url 'recruitment:secondary_contact_validation' %}"="false" />
                     </div>
 
-                    <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
-                        <c-input id="tertiary_institution" label="Tertiary Institution"
-                            placeholder="Tertiary Institution" name="tertiary_institution"
-                            validationUrl="{% url 'recruitment:tertiary_institution_validation' %}" required />
-                        <c-input id="field_of_study" label="Field of Study" placeholder="Field of Study"
-                            name="field_of_study" validationUrl="{% url 'recruitment:field_of_study_validation' %}"
-                            required />
-                        <c-input id="trade_specialty" label="Trade or Speciality" placeholder="Trade or Speciality"
-                            name="trade_speciality"
-                            validationUrl="{% url 'recruitment:trade_speciality_validation' %}" />
-                        <c-input id="NQF_level_or_level" label="NQF Level or Level" placeholder="e.g 7"
-                            name="NQF_level_or_level"
-                            validationUrl="{% url 'recruitment:NQF_level_or_level_validation' %}" required />
-                    </div>
+                    <!--
+<div class="grid grid-cols-1 gap-2 md:grid-cols-2">
+    <c-input id="tertiary_institution" label="Tertiary Institution"
+        placeholder="Tertiary Institution" name="tertiary_institution"
+        validationUrl="{% url 'recruitment:tertiary_institution_validation' %}" required />
+    <c-input id="field_of_study" label="Field of Study" placeholder="Field of Study"
+        name="field_of_study" validationUrl="{% url 'recruitment:field_of_study_validation' %}"
+        required />
+    <c-input id="trade_specialty" label="Trade or Speciality" placeholder="Trade or Speciality"
+        name="trade_speciality"
+        validationUrl="{% url 'recruitment:trade_speciality_validation' %}" />
+    <c-input id="NQF_level_or_level" label="NQF Level or Level" placeholder="e.g 7"
+        name="NQF_level_or_level"
+        validationUrl="{% url 'recruitment:NQF_level_or_level_validation' %}" required />
+</div>
+-->
 
                     <c-input id="cv" label="Documents" name="cv" type="file" required />
 

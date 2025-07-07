@@ -29,27 +29,28 @@ validation_urls = [
         "secondary_contact_validation",
         validation.secondary_contact_validation,
         name="secondary_contact_validation",
-    ),
-     path(
-        "tertiary_institution_validation",
-        validation.tertiary_institution_validation,
-        name="tertiary_institution_validation",
-    ),
-    path(
-        "field_of_study_validation",
-        validation.field_of_study_validation,
-        name="field_of_study_validation",
-    ),
-    path(
-        "trade_speciality_validation",
-        validation.trade_speciality_validation,
-        name="trade_speciality_validation",
-    ),
-    path(
-        "NQF_level_or_level_validation",
-        validation.NQF_level_or_level_validation,
-        name="NQF_level_or_level_validation",
-    ),
+    )
+    # path(
+#     "tertiary_institution_validation",
+#     validation.tertiary_institution_validation,
+#     name="tertiary_institution_validation",
+# ),
+# path(
+#     "field_of_study_validation",
+#     validation.field_of_study_validation,
+#     name="field_of_study_validation",
+# ),
+# path(
+#     "trade_speciality_validation",
+#     validation.trade_speciality_validation,
+#     name="trade_speciality_validation",
+# ),
+# path(
+#     "NQF_level_or_level_validation",
+#     validation.NQF_level_or_level_validation,
+#     name="NQF_level_or_level_validation",
+# ),
+
 
 # path(
 #     "applicable_role_validation",

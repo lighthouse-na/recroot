@@ -105,11 +105,11 @@ class ApplicationForm(forms.ModelForm):
             "secondary_contact",
             "date_of_birth",
             "gender",
-            "cv",
-            "tertiary_institution",
-            "field_of_study",
-            "trade_speciality",
-            "NQF_level_or_level")
+            "cv")
+           # "tertiary_institution",
+            #"field_of_study",
+            #"trade_speciality",
+            #"NQF_level_or_level")
             #"applicable_role",
            # "applicable_experience",
             #"non_applicable_role",
