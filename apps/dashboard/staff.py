@@ -4,7 +4,7 @@ from unfold.admin import ModelAdmin
 from unfold.sites import UnfoldAdminSite
 
 from apps.pages.models import Announcement
-from apps.recruitment.models import Application, Interview, Vacancy
+from apps.recruitment.models import Application,Vacancy #Interview
 
 from .views import StaffLoginView
 

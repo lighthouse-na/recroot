@@ -89,7 +89,7 @@ def send_vacancy_application_notification_email(instance, created):
 
 
 
-def send_interview_notification_email(instance, created):
+# def send_interview_notification_email(instance, created):
     """
     Sends an email notification for an interview invitation if the interview is scheduled.
 
@@ -97,31 +97,31 @@ def send_interview_notification_email(instance, created):
         instance (object): The interview instance to be used for rendering the email.
         created (bool): A flag indicating whether the interview was just created or updated.
     """
-    subject = f"{instance.application.vacancy} Application Interview"
-    from_email = email
+    # subject = f"{instance.application.vacancy} Application Interview"
+    # from_email = email
 
-    first_name = getattr(instance.application, "first_name", None)
-    last_name = getattr(instance.application, "last_name", None)
-    recipient_list = [instance.application.email]
+    # first_name = getattr(instance.application, "first_name", None)
+    # last_name = getattr(instance.application, "last_name", None)
+    # recipient_list = [instance.application.email]
 
-    recipient_name = f"{first_name} {last_name}" if first_name and last_name else "Applicant"
+    # recipient_name = f"{first_name} {last_name}" if first_name and last_name else "Applicant"
 
-    if not created and instance.status == "scheduled":
-        invitation_link = reverse("recruitment:interview_invitation", kwargs={"pk": instance.pk}).lstrip("/")
-        invitation_url = f"http://training.telecom.na/{invitation_link}"
+    # if not created and instance.status == "scheduled":
+       #  invitation_link = reverse("recruitment:interview_invitation", kwargs={"pk": instance.pk}).lstrip("/")
+       #  invitation_url = f"http://training.telecom.na/{invitation_link}"
 
-        template = env.get_template("interview.html")
+        # template = env.get_template("interview.html")
 
-        message = template.render(
-            instance=instance,
-            recipient_name=recipient_name,
-            invitation_url=invitation_url,
-        )
-        send_email = EmailMessage(
-            subject=subject,
-            body=message,
-            from_email=from_email,
-            to=recipient_list,
-        )
-        send_email.content_subtype = "html"
-        send_email.send()
+       #  message = template.render(
+            # instance=instance,
+            # recipient_name=recipient_name,
+           #  invitation_url=invitation_url,
+        # )
+        # send_email = EmailMessage(
+           #  subject=subject,
+            # body=message,
+            # from_email=from_email,
+            # to=recipient_list,
+        # )
+        # send_email.content_subtype = "html"
+        # send_email.send()
