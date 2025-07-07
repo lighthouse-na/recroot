@@ -164,49 +164,49 @@ class Application(models.Model):
     field_of_study = models.CharField(max_length=255,help_text="Enter field of study",  default=" ")
     trade_speciality = models.CharField(max_length=255,help_text="Enter Speciality or Trade", default=" ")
     NQF_level_or_level = models.IntegerField(help_text="Enter NQF level or Trade level")
+    
+# applicable_role = models.CharField(
+#     max_length=255,
+#     help_text="Enter the job title for roles in a similar environment.",
+#     default=" "
+# )
 
-    applicable_role = models.CharField(
-    max_length=255,
-    help_text="Enter the job title for roles in a similar environment.",
-    default=" "
-)
+# applicable_experience = models.IntegerField(
+#     help_text="Enter years of experience in a similar environment (e.g. 1).",
+#     default=0
+# )
 
-    applicable_experience = models.IntegerField(
-    help_text="Enter years of experience in a similar environment (e.g. 1).",
-    default=0
-)
+# non_applicable_role = models.CharField(
+#     max_length=255,
+#     help_text="Enter the job title for other relevant roles you've held.",
+#     default=" "
+# )
 
-    non_applicable_role = models.CharField(
-    max_length=255,
-    help_text="Enter the job title for other relevant roles you've held.",
-    default=" "
-)
+# non_applicable_experience = models.IntegerField(
+#     help_text="Enter years of experience in other relevant roles (e.g. 1).",
+#     default=0
+# )
 
-    non_applicable_experience = models.IntegerField(
-    help_text="Enter years of experience in other relevant roles (e.g. 1).",
-    default=0
-)
-
-    references_name = models.CharField(
-        max_length=255,
-        help_text="Enter References name",
-        default=" "
-    )
-    references_position = models.CharField(
-        max_length=255,
-        help_text="Enter References position",
-        default=" "
-    )
-    references_company = models.CharField(
-        max_length=255,
-        help_text="Enter References company",
-        default=" "
-    )
-    references_email = models.CharField(
-        max_length=255,
-        help_text="Enter References email",
-        default=" "
-    )
+# references_name = models.CharField(
+#     max_length=255,
+#     help_text="Enter References name",
+#     default=" "
+# )
+# references_position = models.CharField(
+#     max_length=255,
+#     help_text="Enter References position",
+#     default=" "
+# )
+# references_company = models.CharField(
+#     max_length=255,
+#     help_text="Enter References company",
+#     default=" "
+# )
+# references_email = models.CharField(
+#     max_length=255,
+#     help_text="Enter References email",
+#     default=" "
+# )
 
 
     cv = models.FileField(
