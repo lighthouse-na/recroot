@@ -117,78 +117,7 @@
                         <c-input id="NQF_level_or_level" label="NQF Level or Level" placeholder="e.g 7"
                             name="NQF_level_or_level"
                             validationUrl="{% url 'recruitment:NQF_level_or_level_validation' %}" required />
-
-
-                        <c-input id="applicable_role" label="Role Experience"
-                            placeholder="e.g. Similar role to the one advertised." name="applicable_role"
-                            validationUrl="{% url 'recruitment:applicable_role_validation' %}" />
-
-
-                        <c-input id="applicable_experience" label="Applicable Experience" placeholder="e.g 1"
-                            name="applicable_experience"
-                            validationUrl="{% url 'recruitment:applicable_experience_validation' %}" />
-
-                        <c-input id="non_applicable_role" label="Non-Appicable Role Experience"
-                            placeholder="e.g Any other role." name="non_applicable_role"
-                            validationUrl="{% url 'recruitment:non_applicable_role_validation' %}" />
-
-                        <c-input id="non_applicable_experience" label="Non-Applicable Experience" placeholder="e.g 1"
-                            name="non_applicable_experience"
-                            validationUrl="{% url 'recruitment:non_applicable_experience_validation' %}" />
-
-
-
                     </div>
-                    <h3>Reference Check Information</h3>
-
-                    <table id="references-table" border="1">
-
-                        <tbody id="reference-rows">
-                            <tr>
-                                <td class="ref-no">1</td>
-                                <td><c-input name="references_name[]" label="Name" placeholder="Name"
-                                        validationUrl="{% url 'recruitment:references_name_validation' %}" /></td>
-
-                                <td><c-input name="references_position[]" label="Position" placeholder="Position"
-                                        validationUrl="{% url 'recruitment:references_position_validation' %}" />
-                                </td>
-                                <td><c-input name="references_company[]" label="Company" placeholder="Company"
-                                        validationUrl="{% url 'recruitment:references_company_validation' %}" /></td>
-                                <td><c-input name="references_email[]" label="Email" placeholder="Email"
-                                        validationUrl="{% url 'recruitment:references_email_validation' %}" /></td>
-                                <td><button type="button" onclick="addReferenceRow()">+</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <script>
-                        function addReferenceRow() {
-                            const tableBody = document.getElementById("reference-rows");
-                            const rowCount = tableBody.rows.length;
-                            const newRow = tableBody.insertRow();
-
-                            newRow.innerHTML = `
-< td class="ref-no" > ${rowCount + 1}</td >
-  <td><input type="text" name="references_name[]" placeholder="Name" required /></td>
-  <td><input type="text" name="references_position[]" placeholder="Position" required /></td>
-  <td><input type="text" name="references_company[]" placeholder="Company" required /></td>
-  <td><input type="email" name="references_email[]" placeholder="Email" required /></td>
-                            `;
-
-
-
-                        }
-
-                        function removeReferenceRow(button) {
-                            const row = button.closest("tr");
-                            row.remove();
-
-                            const rows = document.querySelectorAll("#reference-rows .ref-no");
-                            rows.forEach((cell, index) => {
-                                cell.textContent = index + 1;
-                            });
-                        }
-                    </script>
 
                     <c-input id="cv" label="Documents" name="cv" type="file" required />
 
@@ -245,13 +174,13 @@
 
 <script>
     function handleFormSubmit(event) {
-        // event.preventDefault();
+        event.preventDefault();
         const form = document.getElementById('qualificationForm');
         const formData = new FormData(form);
         for (const [key, value] of formData.entries()) {
             console.log(`${key}: ${value}`);
         }
-        //form.submit(); // Uncomment to allow submission
+        form.submit(); // Uncomment to allow submission
     }
 </script>
 
