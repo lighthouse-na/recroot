@@ -5,10 +5,10 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 
-from .models import Application, Interview
+from .models import Application, #Interview
 from .tasks import (
-    send_interview_notification_email_task,
-    send_interview_notification_text_task,
+    #send_interview_notification_email_task,
+    #send_interview_notification_text_task,
     send_vacancy_application_notification_email_task,
     send_vacancy_application_notification_text_task,
 )

@@ -5,7 +5,7 @@ from apps.recruitment.admin import (
     #InterviewAdmin,
     VacancyAdmin,
 )
-from apps.recruitment.models import Application, Interview, Vacancy
+#from apps.recruitment.models import Application, Interview, Vacancy
 
 from .views import RecruiterLoginView
 
