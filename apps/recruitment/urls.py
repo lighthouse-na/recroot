@@ -50,48 +50,47 @@ validation_urls = [
         validation.NQF_level_or_level_validation,
         name="NQF_level_or_level_validation",
     ),
-    path(
-        "applicable_role_validation",
-        validation.applicable_role_validation,
-        name="applicable_role_validation",
-    ),
-    path(
-        "applicable_experience_validation",
-        validation.applicable_experience_validation,
-        name="applicable_experience_validation",
-    ),
-    
-    path(
-        "non_applicable_role_validation",
-        validation.non_applicable_role_validation,
-        name="non_applicable_role_validation",
-    ),
-    path(
-        "non_applicable_experience_validation",
-        validation.non_applicable_experience_validation,
-        name="non_applicable_experience_validation",
-    ),
-    
-     path(
-        "references_name_validation",
-        validation.references_name_validation,
-        name="references_name_validation",
-    ),
-     path(
-        "references_position_validation",
-        validation.references_position_validation,
-        name="references_position_validation",
-    ),
-    path(
-        "references_company_validation",
-        validation.references_company_validation,
-        name="references_company_validation",
-    ),
-    path(
-        "references_email_validation",
-        validation.references_email_validation,
-        name="references_email_validation",
-    )
+
+# path(
+#     "applicable_role_validation",
+#     validation.applicable_role_validation,
+#     name="applicable_role_validation",
+# ),
+# path(
+#     "applicable_experience_validation",
+#     validation.applicable_experience_validation,
+#     name="applicable_experience_validation",
+# ),
+# path(
+#     "non_applicable_role_validation",
+#     validation.non_applicable_role_validation,
+#     name="non_applicable_role_validation",
+# ),
+# path(
+#     "non_applicable_experience_validation",
+#     validation.non_applicable_experience_validation,
+#     name="non_applicable_experience_validation",
+# ),
+# path(
+#     "references_name_validation",
+#     validation.references_name_validation,
+#     name="references_name_validation",
+# ),
+# path(
+#     "references_position_validation",
+#     validation.references_position_validation,
+#     name="references_position_validation",
+# ),
+# path(
+#     "references_company_validation",
+#     validation.references_company_validation,
+#     name="references_company_validation",
+# ),
+# path(
+#     "references_email_validation",
+#     validation.references_email_validation,
+#     name="references_email_validation",
+# )
 
 
     
