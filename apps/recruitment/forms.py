@@ -12,7 +12,7 @@ from unfold.widgets import UnfoldAdminSelectWidget
 
 from .models import (
     Application,
-    Interview,
+   # Interview,
     MinimumRequirement,
     MinimumRequirementAnswer,
     SelectQuestionTypeOptions,

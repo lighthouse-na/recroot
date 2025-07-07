@@ -8,11 +8,11 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from apps.recruitment.forms import (
     ApplicationForm,
-    InterviewInvitationResponseForm, InterviewForm
+   # InterviewInvitationResponseForm, InterviewForm
 )
 from apps.recruitment.models import (
     Application,
-    Interview,
+    #Interview,
     MinimumRequirement,
     MinimumRequirementAnswer,
     Vacancy,
