@@ -10,12 +10,12 @@ from apps.organisation.models import CostCentre, Position, Region
 from apps.pages.models import FAQ, Announcement
 from apps.recruitment.admin import (
     ApplicationAdmin,
-    InterviewAdmin,
+    #InterviewAdmin,
     VacancyAdmin,
 )
 from apps.recruitment.models import (
     Application,
-    Interview,
+    #Interview,
     Location,
     Vacancy,
     VacancyType,
