@@ -63,22 +63,22 @@ class ApplicationAdmin(ModelAdmin):
 
 
 # @admin.register(Interview)
-class InterviewAdmin(ModelAdmin):
-    list_display = ["application", "status"]
-    list_filter = []
-    search_fields = []
-    ordering = []
+#class InterviewAdmin(ModelAdmin):
+    #list_display = ["application", "status"]
+    #list_filter = []
+    #search_fields = []
+    #ordering = []
 
-    def has_add_permission(self, request):
+    #def has_add_permission(self, request):
         return False
 
-    def has_change_permission(self, request, obj=None):
+    #def has_change_permission(self, request, obj=None):
         return False
 
-    def has_delete_permission(self, request, obj=None):
+    #def has_delete_permission(self, request, obj=None):
         return False
 
-    def has_view_permission(self, request, obj=None):
+   # def has_view_permission(self, request, obj=None):
         return super().has_view_permission(request, obj)
 
 
@@ -119,4 +119,4 @@ class StaffDashboard(UnfoldAdminSite):
 
 staff_dashboard_site = StaffDashboard(name="Staff")
 staff_dashboard_site.register(Application, ApplicationAdmin)
-staff_dashboard_site.register(Interview, InterviewAdmin)
+#staff_dashboard_site.register(Interview, InterviewAdmin)

@@ -25,13 +25,13 @@ from apps.organisation.models import (
 from apps.pages.models import FAQ, Announcement
 from apps.recruitment.admin import (
     ApplicationAdmin,
-    InterviewAdmin,
+    #InterviewAdmin,
     RequirementsAdmin,
     VacancyAdmin,
 )
 from apps.recruitment.models import (
     Application,
-    Interview,
+    #Interview,
     MinimumRequirement,
     Vacancy,
     VacancyType,
