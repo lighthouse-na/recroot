@@ -106,18 +106,18 @@ class ApplicationForm(forms.ModelForm):
             "date_of_birth",
             "gender",
             "cv",
-           # "tertiary_institution",
+           "tertiary_institution",
             "field_of_study",
             "trade_speciality",
-            "NQF_level_or_level")
-            #"applicable_role",
-           # "applicable_experience",
-            #"non_applicable_role",
-            #"non_applicable_experience",    
-            #"references_name",
-            #"references_position",
-           # "references_company",
-           # "references_email")
+            "NQF_level_or_level"
+            "applicable_role",
+           "applicable_experience",
+            "non_applicable_role",
+            "non_applicable_experience",    
+            "references_name",
+            "references_position",
+            "references_company",
+            "references_email")
         
     def __init__(self, vacancy, *args, **kwargs):
         self.vacancy = vacancy
