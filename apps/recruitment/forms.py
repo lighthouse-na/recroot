@@ -109,7 +109,7 @@ class ApplicationForm(forms.ModelForm):
            "tertiary_institution",
             "field_of_study",
             "trade_speciality",
-            "NQF_level_or_level"
+            "NQF_level_or_level",
             "applicable_role",
            "applicable_experience",
             "non_applicable_role",
