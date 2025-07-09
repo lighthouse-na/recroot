@@ -164,10 +164,10 @@ class Application(models.Model):
     field_of_study = models.CharField(max_length=255,help_text="Enter field of study",  default=" ")
     trade_speciality = models.CharField(max_length=255,help_text="Enter Speciality or Trade", default=" ")
     NQF_level_or_level = models.IntegerField(
-    null=True,
-    blank=True,
+    default=4,  # or another suitable level
     help_text="Enter NQF level or Trade level"
 )
+
 
 
     applicable_role = models.CharField(
