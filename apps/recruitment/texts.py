@@ -110,7 +110,7 @@ def send_vacancy_application_notification_text(instance, created):
 
     if not created and instance.status == "rejected":
         recipient = str(instance.primary_contact)
-        message_body = f"Thank you for your application for the {instance.vacancy.title} opportunity at Telecom Namibia. Regretfully, your application was not successful."
+        message_body = f"Thank you for your interest in the {{ instance.vacancy }} position at Telecom Namibia. After careful consideration, we regret to inform you that your application has not reached the interview stage of the process due to {{ instance.review_comments}}."
         http_req = (
             f"{my_uri}/api?action=sendmessage"
             f"&username={my_username}"
