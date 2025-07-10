@@ -65,7 +65,8 @@
 
                 <!-- Form Start -->
                 <p class="text-sky-900">Required Fields = <span class="text-red-500">*</span></p>
-                <form method="post" enctype="multipart/form-data" class="space-y-4" id="qualificationForm">
+                <form method="post" action="{% url 'recruitment:vacancy_detail' vacancy.slug %}"
+                    enctype="multipart/form-data" class="space-y-4" id="qualificationForm">
                     {% csrf_token %}
 
                     <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
