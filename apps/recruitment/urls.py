@@ -108,8 +108,8 @@ urlpatterns = [
     #     views.VacancyDetailView.as_view(),
     #     name="vacancy_detail",
     # ),
-    # path("<slug>/apply", views.ApplicationCreateView.as_view(), name="apply"),
-    path("<slug>/apply", views.ApplicationCreateView.as_view(), name="vacancy_apply"),
+    path("<slug>/apply", views.ApplicationCreateView.as_view(), name="apply"),
+    path("<slug>/apply", views.ApplicationCreateView.as_view(), name="vacancy_detail"),
     #path(
        # "<str:pk>/invitation",
        # views.InterviewResponseView.as_view(),
