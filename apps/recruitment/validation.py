@@ -143,7 +143,7 @@ def non_applicable_role_validation(request) -> HttpResponse:
     Returns:
         HttpResponse: A response indicating whether the validation was successful or failed.
     """
-    return validators.validate_number(request, "non_applicable_role")
+    return validators.validate_name(request, "non_applicable_role")
 
 
 def applicable_experience_validation(request) -> HttpResponse:
