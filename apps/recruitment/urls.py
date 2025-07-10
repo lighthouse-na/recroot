@@ -126,7 +126,7 @@ urlpatterns = [
         views.ApplicationsListView.as_view(),
         name="applications_list",
     ),
-  # path("<slug>/interview", views.InterviewFormView.as_view(), name="interview_form")
+   path("<slug>/interview", views.InterviewFormView.as_view(), name="interview_form")
     
 ]
 
