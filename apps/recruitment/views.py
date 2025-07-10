@@ -176,7 +176,6 @@ class InterviewResponseView(UpdateView):
         response = form.save(commit=False)
         response.response_date = timezone.now()
         # response.response_deadline = timezone.now()
-        print(form.errors)
         response.save()
         return super().form_valid(form)
 

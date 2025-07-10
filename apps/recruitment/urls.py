@@ -109,7 +109,7 @@ urlpatterns = [
     #     name="vacancy_detail",
     # ),
     path("<slug>/apply", views.ApplicationCreateView.as_view(), name="apply"),
-    #path("<slug>/apply", views.ApplicationCreateView.as_view(), name="vacancy_detail"),
+    path("<slug>/apply", views.ApplicationCreateView.as_view(), name="vacancy_detail"),
     #path(
        # "<str:pk>/invitation",
        # views.InterviewResponseView.as_view(),
@@ -126,7 +126,7 @@ urlpatterns = [
         views.ApplicationsListView.as_view(),
         name="applications_list",
     ),
-   path("<slug>/interview", views.InterviewFormView.as_view(), name="interview_form")
+  # path("<slug>/interview", views.InterviewFormView.as_view(), name="interview_form")
     
 ]
 
