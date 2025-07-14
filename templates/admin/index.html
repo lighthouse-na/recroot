@@ -1,5 +1,5 @@
 {% extends 'admin/base.html' %}
-{% load i18n static %} {# Load both i18n and static at the top #}
+{% load i18n static %}
 
 {% block breadcrumbs %}{% endblock %}
 
@@ -20,8 +20,7 @@
 <div class="flex flex-col lg:flex-row lg:gap-15">
 
     <div class="flex-grow rounded-xl shadow-md p-6 text-gray-800 dark:text-white"
-        style="background-image: url('{% static " img/background_image.png" %}'); background-size: cover;
-        background-position: center;">
+        style="background-image: url('{% static 'img/background_image.png' %}'); background-size: cover; background-position: center;">
 
         <div class="bg-white/90 dark:bg-gray-900/70 backdrop-blur-md p-6 rounded-lg space-y-6">
             {% include "unfold/helpers/app_list_default.html" %}
