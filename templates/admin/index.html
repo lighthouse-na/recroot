@@ -17,20 +17,29 @@
 {% endblock %}
 
 {% block content %}
-<div class="flex flex-col lg:flex-row lg:gap-15">
 
-    <!-- ✅ Background image section with curved bottom -->
-    <div class="flex-grow relative rounded-xl overflow-hidden shadow-md text-gray-800 dark:text-white" style="background-image: url('https://www.telecomreviewafrica.com/wp-content/uploads/2022/07/Telecom_Namibia.jpg');
-                background-size: cover;
-                background-position: center;
-                clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);">
-
-        <!-- ✅ Content on top of background with blur and white bg for readability -->
-        <div class="bg-white/80 dark:bg-gray-900/70 backdrop-blur-md p-6 m-6 rounded-lg space-y-6">
-            {% include "unfold/helpers/app_list_default.html" %}
-        </div>
-
+<!-- ✅ Background image outside the column -->
+<div class="relative">
+    <div class="w-full h-64" style="
+            background-image: url('https://www.telecomreviewafrica.com/wp-content/uploads/2022/07/Telecom_Namibia.jpg');
+            background-size: cover;
+            background-position: center;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+         ">
     </div>
 
+    <!-- ✅ Main content positioned on top of background -->
+    <div class="relative -mt-20 z-10 px-4">
+        <div class="flex flex-col lg:flex-row lg:gap-15">
+
+            <div class="flex-grow bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 text-gray-800 dark:text-white">
+                <div class="space-y-6">
+                    {% include "unfold/helpers/app_list_default.html" %}
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
+
 {% endblock %}
