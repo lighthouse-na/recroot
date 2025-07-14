@@ -1,22 +1,11 @@
 {% extends 'admin/base.html' %}
-{% load i18n static %}
 
-{# Add custom background color #}
-{% block extrahead %}
-<style>
-    body {
-        background-color: blue !important;
-        color: white;
-    }
-</style>
-{% endblock %}
+{% load i18n %}
 
 {% block breadcrumbs %}{% endblock %}
 
-{% block title %}
-{% if subtitle %}{{ subtitle }} | {% endif %}
-{{ title }} | {{ site_title|default:_('Django site admin') }}
-{% endblock %}
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} |
+{{ site_title|default:_('Django site admin') }}{% endblock %}
 
 {% block branding %}
 <h1 id="site-name">
@@ -32,7 +21,6 @@
         {% include "unfold/helpers/app_list_default.html" %}
     </div>
 
-    {# Optional history block #}
-    {# {% include "unfold/helpers/history.html" %} #}
+    <!-- {% include "unfold/helpers/history.html" %} -->
 </div>
 {% endblock %}
