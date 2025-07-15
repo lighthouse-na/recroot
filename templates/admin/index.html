@@ -18,17 +18,16 @@
 
 {% block content %}
 
-<!-- ✅ Background image outside the column -->
+<!-- curved background image -->
 <div class="relative">
     <div class="w-full h-64" style="
-            background-image: url('https://www.telecomreviewafrica.com/wp-content/uploads/2022/07/Telecom_Namibia.jpg');
-            background-size: cover;
-            background-position: center;
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
-         ">
+        background-image: url('https://www.telecomreviewafrica.com/wp-content/uploads/2022/07/Telecom_Namibia.jpg');
+        background-size: cover;
+        background-position: center;
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+    ">
     </div>
 
-    <!-- ✅ Main content positioned on top of background -->
     <div class="relative -mt-20 z-10 px-4">
         <div class="flex flex-col lg:flex-row lg:gap-15">
 
@@ -40,6 +39,13 @@
 
         </div>
     </div>
+
+    <!-- Bottom image -->
+    <!-- Bottom image -->
+    <div class="w-full h-64 mt-10 flex justify-center items-center">
+        <img src="{% static 'img/bottom.png' %}" class="h-20" alt="Telecom Namibia Logo" />
+    </div>
+
 </div>
 
 {% endblock %}
