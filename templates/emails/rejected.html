@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Telecom Namibia</title>
+        <style>
+            @media screen and (max-width: 600px) {
+                .content {
+                    width: 100% !important;
+                    display: block !important;
+                    padding: 10px !important;
+                }
+
+                .header,
+                .body,
+                .footer {
+                    padding: 20px !important;
+                }
+            }
+        </style>
+    </head>
+
+    <body style="font-family: 'Poppins', Arial, sans-serif">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0"></table>
+        <tr>
+            <td align="center" style="padding: 20px;">
+                <table class="content" width="600" border="0" cellspacing="0" cellpadding="0"
+                       style="border-collapse: collapse; border: 1px solid #cccccc;">
+                <!-- Header -->
+                    <tr>
+                        <td class="header"
+                            style="background-color: #345C72; padding: 40px; text-align: center; color: white; font-size: 24px;">
+                            Telecom Namibia
+                        </td>
+                    </tr>
+
+                <!-- Body -->
+                    <tr>
+                        <td class="body" style="padding: 40px; text-align: left; font-size: 16px; line-height: 1.6;">
+                            Dear {{ recipient_name }},
+                            <br><br>
+                            I hope this message finds you well. Thank you for your interest in the {{ instance.vacancy }}
+                            position at Telecom Namibia. We appreciate the time and effort you dedicated to the application
+                            process.
+
+                            After careful consideration, we regret to inform you that we have chosen not to move forward
+                            with your application at this time. We received a high volume of qualified applicants, and our
+                            decision-making process was challenging due to the exceptional calibre of candidates.
+
+                            We want to express our gratitude for your interest in joining our team. Your skills and
+                            experience are valued, and we encourage you to apply for future opportunities that align with
+                            your professional background.
+
+                            We understand that this news may be disappointing, and we wish you continued success in your job
+                            search. If you have any specific feedback or questions about your application, please feel free
+                            to reach out to us.
+
+                            Thank you once again for considering Telecom Namibia as a potential employer. We appreciate the
+                            opportunity to connect with you during this process.
+
+                            Wishing you all the best in your future endeavours.
+                            <br><br>
+                            Thank you for your interest in Telecom Namibia.
+                        </td>
+                    </tr>
+                <!-- Footer -->
+                    <tr>
+                        <td class="footer"
+                            style="background-color: #333333; padding: 40px; text-align: center; color: white; font-size: 14px;">
+                            Copyright &copy; 2024 | Telecom Namibia
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

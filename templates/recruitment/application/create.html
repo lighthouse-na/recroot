@@ -1,0 +1,403 @@
+{% extends 'pages/base.html' %}
+{% load static widget_tweaks crispy_forms_tags %}
+{% block title %}{{ vacancy.title }}{% endblock title %}
+{% block head %}
+<!-- Alpine Plugins -->
+    <script defer src="{% static 'js/alpine.focus.js' %}"></script>
+
+<!-- Alpine Core -->
+    <script defer src="{% static 'js/alpine.js' %}"></script>
+{% endblock head %}
+
+{% block content %}
+    {% if not disable_link %}
+        <div class="p-4 dark:text-gray-400">
+            <section class="p-6">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="relative p-4 rounded-lg shadow-xl sm:p-5">
+                        <div class="inline-flex items-center justify-center w-full">
+                            <hr class="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+                            <span
+                                class="absolute px-3 text-2xl font-semibold text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-gray-200 dark:bg-gray-900">Applicant
+                                Details</span>
+                        </div>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:dark:text-gray-200"
+                                     role="alert">{{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <div class="grid gap-4 mb-4 sm:grid-cols-3">
+                            {% if not user.is_authenticated %}
+                                <div>
+                                    {{ form.first_name.errors }}
+                                    <label for="{{ form.first_name.id_for_label }}"
+                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">First Name
+                                        <span class="text-orange-500">*</span></label>
+                                    {% render_field form.first_name type="text" placeholder="eg. Jane" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+
+                                    {% if form.first_name.errors %}
+                                        <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                                             role="alert">{{ form.first_name.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div>
+                                    <label for="{{ form.middle_name.id_for_label }}"
+                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Middle Name
+                                    </label>
+                                    {% render_field form.middle_name type="text" placeholder="eg. Jane" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+
+                                    {% if form.middle_name.errors %}
+                                        <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                                             role="alert">{{ form.middle_name.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div>
+                                    <label for="{{ form.last_name.id_for_label }}"
+                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Last Name
+                                        <span class="text-orange-500">*</span></label>
+                                    {% render_field form.last_name type="text" placeholder="eg. Doe" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" autocomplete="last_name" %}
+
+                                    {% if form.last_name.errors %}
+                                        <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                                             role="alert">{{ form.last_name.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div>
+                                    <label for="{{ form.email.id_for_label }}"
+                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Email
+                                        <span class="text-orange-500">*</span></label>
+                                    {% render_field form.email type="email" placeholder="eg. janedoe@email.com" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+
+                                    {% if form.email.errors %}
+                                        <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                                             role="alert">{{ form.email.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div>
+                                    <label for="{{ form.primary_contact.id_for_label }}"
+                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Primary Contact
+                                        Number
+                                        <span class="text-orange-500">*</span></label>
+                                    {% render_field form.primary_contact type="tel" placeholder="eg. 081 123 4567" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+
+                                    {% if form.primary_contact.errors %}
+                                        <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                                             role="alert">{{ form.primary_contact.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div>
+                                    <label for="{{ form.secondary_contact.id_for_label }}"
+                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Secondary Contact
+                                        Number
+                                    </label>
+                                    {% render_field form.secondary_contact type="tel" placeholder="eg. 083 765 4321" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+
+                                    {% if form.secondary_contact.errors %}
+                                        <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                                             role="alert">{{ form.secondary_contact.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div>
+                                    <label for="{{ form.date_of_birth.id_for_label }}"
+                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Date of Birth
+                                        <span class="text-orange-500">*</span></label>
+                                    {% render_field form.date_of_birth type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+
+                                    {% if form.date_of_birth.errors %}
+                                        <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                                             role="alert">{{ form.date_of_birth.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div>
+                                    <label for="{{ form.gender.id_for_label }}"
+                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Gender
+                                        <span class="text-orange-500">*</span></label>
+                                    {% render_field form.gender type="select" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+
+                                    {% if form.gender.errors %}
+                                        <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                                             role="alert">{{ form.gender.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                            {% endif %} <!-- End of is_authenticated -->
+
+                            <div>
+                                <label for="{{ form.cv.id_for_label }}"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">CV
+                                    <span class="text-orange-500">*</span></label>
+                                {% render_field form.cv type="file" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+
+                                {% if form.cv.errors %}
+                                    <div class="p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                                         role="alert">{{ form.cv.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+
+            <!-- Requirements -->
+                    {% if form.requirements %}
+                        <div class="relative p-4 rounded-lg shadow-xl sm:p-5">
+                            <div class="inline-flex items-center justify-center w-full">
+                                <hr class="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+                                <span
+                                    class="absolute px-3 text-2xl font-semibold text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-gray-200 dark:bg-gray-900">Minimum
+                                    Requirements</span>
+                            </div>
+                <!-- <div class="relative flex w-full max-w-xl flex-col gap-1 text-neutral-600 dark:text-neutral-300"> -->
+                            <div class="relative grid grid-cols-2 w-full flex-col gap-5 text-neutral-600 dark:text-neutral-300">
+                                {% for field in form %}
+                                    {% if field.name|slice:":12" == "requirement_" %}
+                                        <div>
+                                            {% if field.field.widget.input_type == 'checkbox' %}
+
+                                                <label for="{{ field.id_for_label }}"
+                                                       class="inline-flex min-w-[14rem] cursor-pointer items-center justify-between rounded-md gap-3 border border-neutral-300 bg-neutral-50 px-4 py-2 text-sm font-medium text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300 [&:has(input:checked)]:text-neutral-900 dark:[&:has(input:checked)]:text-white [&:has(input:disabled)]:opacity-75 [&:has(input:disabled)]:cursor-not-allowed">
+                                                    <span>{{ field.label_tag }}</span>{% if field.field.required %}<span
+                                                        class="text-orange-500">*</span>{% endif %}
+                                                    <div class="relative flex items-center">
+                                                        {% render_field field type="checkbox" class=" peer relative size-4 cursor-pointer appearance-none overflow-hidden rounded border border-neutral-300 bg-white before:absolute before:inset-0 checked:border-black checked:before:bg-black focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-neutral-800 checked:focus:outline-black active:outline-offset-0 disabled:cursor-not-allowed dark:border-neutral-700 dark:bg-neutral-950 dark:checked:border-white dark:checked:before:bg-white dark:focus:outline-neutral-300 dark:checked:focus:outline-white" %}
+
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"
+                                                             stroke="currentColor" fill="none" stroke-width="4"
+                                                             class="pointer-events-none invisible absolute left-1/2 top-1/2 size-3 -translate-x-1/2 -translate-y-1/2 text-neutral-100 peer-checked:visible dark:text-black">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                                        </svg>
+                                                    </div>
+                                                </label>
+
+                                            {% elif field.field.widget.input_type == 'text' %}
+                                                <div class="mb-4">
+                                                    {{ field.errors }}
+                                                    <label for="{{ field.id_for_label }}" class="w-fit pl-0.5 text-sm">{{ field.label_tag }}
+                                                        {% if field.field.required %}<span class="text-orange-500">*</span>{% endif %}
+                                                    </label>
+                                                    {% render_field field type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+                                                </div>
+                                            {% elif field.field.widget.input_type == 'date' %}
+                                                <div class="mb-4">
+                                                    {{ field.errors }}
+                                                    <label for="{{ field.id_for_label }}"
+                                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">{{ field.label_tag }}
+                                                        {% if field.field.is_required %}<span class="text-orange-500">*</span>{% endif %}
+                                                    </label>
+                                                    {% render_field field type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-orange-500 dark:focus:border-orange-500" %}
+                                                </div>
+
+
+
+
+                                            {% elif field.field.widget.input_type == 'select' %}
+                                                <div
+                                                    class="relative flex w-full max-w-xs flex-col gap-1 text-neutral-600 dark:text-neutral-300">
+                                                    <label for="{{ field.id_for_label }}" class="w-fit pl-0.5 text-sm">{{ field.label_tag }}
+                                                        {% if field.field.required %}<span class="text-orange-500">*</span>{% endif %}
+                                                    </label>
+                                                    <span class="flex-inline">
+                                                        {% if field.errors %}
+                                                            <div class="inline-block p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                                                                 role="alert">{{ field.errors }}
+                                                            </div>
+                                                        {% endif %}
+                                                    </span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                                         class="absolute pointer-events-none right-4 top-8 h-5 w-5">
+                                                        <path fill-rule="evenodd"
+                                                              d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                                                              clip-rule="evenodd" />
+                                                    </svg>
+                                                    <select id="{{ field.id }}" name="{{ field.html_name }}"
+                                                            class="w-full appearance-none rounded-md border border-neutral-300 bg-neutral-50 px-4 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black disabled:cursor-not-allowed disabled:opacity-75 dark:border-neutral-700 dark:bg-neutral-900/50 dark:focus-visible:outline-white">
+                                                        <option selected>Please Select</option>
+                                                        {% for value, label in field.field.choices %}
+                                                            <option value="{{ label }}" {% if field.value == label %}selected{% endif %}>
+                                                                {{ label }}
+                                                            </option>
+                                                        {% endfor %}
+                                                    </select>
+
+                            <!-- <div class="mb-4">
+                                <label for="{{ field.id_for_label }}"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">{{ field.label_tag }}
+                                    {% if field.field.required %}<span class="text-orange-500">*</span>{% endif %}
+                                </label>
+                                {% render_field field type="select" class="w-full appearance-none rounded-md border border-neutral-300 bg-neutral-50 px-4 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black disabled:cursor-not-allowed disabled:opacity-75 dark:border-neutral-700 dark:bg-neutral-900/50 dark:focus-visible:outline-white" %}
+                                <span class="flex-inline">
+                                    {% if field.errors %}
+                                    <div class="inline-block p-4 mb-4 text-sm text-orange-800 rounded-lg bg-orange-50 dark:bg-gray-800 dark:text-orange-400"
+                                        role="alert">{{ field.errors }}
+                                    </div>
+                                    {% endif %}
+                                </span>
+                            </div> -->
+                                                </div>
+
+                                            {% elif field.field.requirement.question_type == 'multiselect' %}
+
+                                                <div x-data="{
+                                                             options: [
+                                                             {% for value, label in field.field.choices %}
+                                                                 {
+                                                                 value: '{{ label }}',
+                                                                 label: '{{ label }}'
+                                                                 }
+                                                                 {% if not forloop.last %},{% endif %}
+                                                             {% endfor %}
+                                                             ],
+                                                             isOpen: false,
+                                                             openedWithKeyboard: false,
+                                                             selectedOptions: [],
+                                                             setLabelText() {
+                                                             const count = this.selectedOptions.length;
+
+                                                             // if there are no selected options
+                                                             if (count === 0) return 'Please Select';
+
+                                                             // join the selected options with a comma
+                                                             return this.selectedOptions.join(', ');
+                                                             },
+                                                             highlightFirstMatchingOption(pressedKey) {
+                                                             // if Enter pressed, do nothing
+                                                             if (pressedKey === 'Enter') return
+
+                                                             // find and focus the option that starts with the pressed key
+                                                             const option = this.options.find((item) =>
+                                                             item.label.toLowerCase().startsWith(pressedKey.toLowerCase()),
+                                                             )
+                                                             if (option) {
+                                                             const index = this.options.indexOf(option)
+                                                             const allOptions = document.querySelectorAll('.combobox-option')
+                                                             if (allOptions[index]) {
+                                                             allOptions[index].focus()
+                                                             }
+                                                             }
+                                                             },
+                                                             handleOptionToggle(option) {
+                                                             if (option.checked) {
+                                                             this.selectedOptions.push(option.value);
+                                                             } else {
+                                                             // remove the unchecked option from the selectedOptions array
+                                                             this.selectedOptions = this.selectedOptions.filter(
+                                                             (opt) => opt !== option.value,
+                                                             )
+                                                             }
+                                                             // set the value of the hidden field to the selectedOptions array
+                                                             this.$refs.hiddenTextField.value = this.selectedOptions
+                                                             },
+                                                             }" class="w-full max-w-xs flex flex-col gap-1"
+                                                     x-on:keydown="highlightFirstMatchingOption($event.key)"
+                                                     x-on:keydown.esc.window="isOpen = false, openedWithKeyboard = false">
+                                                    <label for="{{ field.id_for_label }}"
+                                                           class="w-fit pl-0.5 text-sm text-neutral-600 dark:text-neutral-300">{{ field.label_tag }}</label>
+                                                    <div class="relative">
+
+                                <!-- trigger button  -->
+                                                        <button type="button" role="combobox"
+                                                                class="inline-flex w-full items-center justify-between gap-2 whitespace-nowrap border-neutral-300 bg-neutral-50 px-4 py-2 text-sm font-medium capitalize tracking-wide text-neutral-600 transition hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:border-neutral-700 dark:bg-neutral-900/50 dark:text-neutral-300 dark:focus-visible:outline-white border rounded-md"
+                                                                aria-haspopup="listbox" aria-controls="{{ field.id }}-list"
+                                                                x-on:click="isOpen = ! isOpen" x-on:keydown.down.prevent="openedWithKeyboard = true"
+                                                                x-on:keydown.enter.prevent="openedWithKeyboard = true"
+                                                                x-on:keydown.space.prevent="openedWithKeyboard = true"
+                                                                x-bind:aria-label="setLabelText()"
+                                                                x-bind:aria-expanded="isOpen || openedWithKeyboard">
+                                                            <span
+                                                                class="text-sm w-full font-normal text-start overflow-hidden text-ellipsis  whitespace-nowrap"
+                                                                x-text="setLabelText()"></span>
+                                    <!-- Chevron  -->
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                                                 class="size-5">
+                                                                <path fill-rule="evenodd"
+                                                                      d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                                                                      clip-rule="evenodd" />
+                                                            </svg>
+                                                        </button>
+
+                                <!-- hidden input to grab the selected value  -->
+                                                        <input id="{{ field.id }}" name="{{ field.html_name }}" type="text"
+                                                               x-ref="hiddenTextField" hidden />
+                                                        <ul x-cloak x-show="isOpen || openedWithKeyboard" id="{{ field.id }}-list"
+                                                            class="absolute z-10 left-0 top-11 flex max-h-44 w-full flex-col overflow-hidden overflow-y-auto border-neutral-300 bg-neutral-50 py-1.5 dark:border-neutral-700 dark:bg-neutral-900 border rounded-md"
+                                                            role="listbox" x-on:click.outside="isOpen = false, openedWithKeyboard = false"
+                                                            x-on:keydown.down.prevent="$focus.wrap().next()"
+                                                            x-on:keydown.up.prevent="$focus.wrap().previous()" x-transition
+                                                            x-trap="openedWithKeyboard">
+                                                            <template x-for="(item, index) in options" x-bind:key="item.value">
+                                        <!-- option  -->
+                                                                <li role="option">
+                                                                    <label
+                                                                        class="flex cursor-pointer items-center gap-2 px-4 py-3 text-sm font-medium text-neutral-600 hover:bg-neutral-950/5 has-[:focus]:bg-neutral-950/5 dark:text-neutral-300 dark:hover:bg-white/5 dark:has-[:focus]:bg-white/5 [&:has(input:checked)]:text-neutral-900 dark:[&:has(input:checked)]:text-white [&:has(input:disabled)]:cursor-not-allowed [&:has(input:disabled)]:opacity-75"
+                                                                        x-bind:for="index">
+                                                                        <div class="relative flex items-center">
+                                                                            <input type="checkbox"
+                                                                                   class="combobox-option before:content[''] peer relative size-4 cursor-pointer appearance-none overflow-hidden border border-neutral-300 bg-neutral-50 before:absolute before:inset-0 checked:border-black checked:before:bg-black focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-neutral-800 checked:focus:outline-black active:outline-offset-0 disabled:cursor-not-allowed dark:border-neutral-700 rounded dark:bg-neutral-900 dark:checked:border-white dark:checked:before:bg-white dark:focus:outline-neutral-300 dark:checked:focus:outline-white"
+                                                                                   x-on:change="handleOptionToggle($el)"
+                                                                                   x-on:keydown.enter.prevent="$el.checked = ! $el.checked; handleOptionToggle($el)"
+                                                                                   x-bind:value="item.value" x-bind:id="item" />
+                                                    <!-- Checkmark  -->
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                                                 stroke="currentColor" fill="none" stroke-width="4"
+                                                                                 class="pointer-events-none invisible absolute left-1/2 top-1/2 size-3 -translate-x-1/2 -translate-y-1/2 text-neutral-100 peer-checked:visible dark:text-black"
+                                                                                 aria-hidden="true">
+                                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                                      d="M4.5 12.75l6 6 9-13.5" />
+                                                                            </svg>
+                                                                        </div>
+                                                                        <span x-text="item.label"></span>
+                                                                    </label>
+                                                                </li>
+                                                            </template>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+                                            {% endif %}
+
+                                        </div>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    {% endif %}
+            {% comment %}
+            <div class="block">{% render_field form.captcha %}</div>
+            {% endcomment %}
+
+                    <button type="submit"
+                            class="text-white inline-flex items-center bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">
+                        <svg class="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                        Apply
+                    </button>
+                </form>
+            </section>
+        </div>
+    {% endif %}
+{% endblock content %}

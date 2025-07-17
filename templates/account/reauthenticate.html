@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load allauth %}
+{% load i18n %}
+{% block title %}
+    {% trans "Confirm Access" %}
+{% endblock title %}
+{% block content %}
+    <section class="bg-gray-50 dark:bg-gray-900"></section>
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <div
+            class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-gray-200">
+                    {% element h1 %}
+                        {% trans "Confirm Access" %}
+                    {% endelement %}
+                </h1>
+
+                <p>
+                    {% blocktranslate %}To safeguard the security of your account, please enter your
+                        password:{% endblocktranslate %}
+                </p>
+                {% url 'account_reauthenticate' as action_url %}
+                {% element form form=form method="post" action=action_url %}
+                    {% slot body %}
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        {% if redirect_field_value %}
+                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                        {% endif %}
+                    {% endslot %}
+                    {% slot actions %}
+                        <button type="submit"
+                                class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Confirm</button>
+                    {% endslot %}
+                {% endelement %}
+            </div>
+        </div>
+    </div>
+    </section>
+{% endblock content %}

@@ -1,0 +1,53 @@
+{% extends "pages/base.html" %}
+{% load humanize %}
+{% load i18n static %}
+
+{% block title %}Homepage{% endblock title %}
+{% block content %}
+
+    <section>
+        <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+            <div class="max-w-screen-lg mb-8 lg:mb-16">
+                <c-h1 title="Vacancies" />
+                <p class="text-gray-500 sm:text-xl dark:text-gray-400">
+                    At Telecom Namibia, we pride ourselves on delivering exceptional service and staying ahead of global
+                    trends. As a leading company in the telecommunications industry, we are committed to nurturing talented
+                    individuals who align with our values and vision for the future.
+                    <br><br>
+                    Explore opportunities to join a dynamic team that values innovation, expertise, and meaningful
+                    contributions. The vacancies listed here span across all departments and offer you the chance to be part
+                    of our continued success.
+                </p>
+            </div>
+            {% if vacancies %}
+                {% include 'recruitment/vacancy/list.html' %}
+            {% else %}
+                <c-h3 title="No vacancies at the moment" />
+            {% endif %}
+        </div>
+    </section>
+    {% if faqs %}
+        <section>
+            <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+                <div class="max-w-screen-lg mb-8 lg:mb-16">
+                    <c-h2 title="Frequently Asked Questions" />
+            <!-- <p class="text-gray-500 sm:text-xl dark:text-gray-400">{% lorem %}</p> -->
+                </div>
+
+                {% include 'pages/faq.html' %}
+
+            </div>
+        </section>
+    {% endif %}
+
+{% comment %}
+<section>
+    <div id="subscribe-form" hx-get="{% url 'recruitment:subscriber_create' %}" hx-target="#subscribe-form"
+        hx-trigger="load">
+        {% include 'recruitment/subscribe/create.html' %}
+    </div>
+</section>
+{% endcomment %}
+
+    <br>
+{% endblock content %}
