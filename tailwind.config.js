@@ -31,7 +31,31 @@ module.exports = {
 				900: "#001D3E",
 				950: "#001833",
 			},
+<<<<<<< HEAD
 		},
 		extend: {},
 	},
+=======
+            // Add your custom color here
+            "custom-f7f7fb": "#f7f7fb",
+		},
+		extend: {
+            // Add this block for gradient color stops
+            gradientColorStops: theme => ({
+              ...theme('colors'),
+              "custom-f7f7fb": "#f7f7fb",
+            }),
+          },
+	},
+	plugins: [
+		/**
+		 * '@tailwindcss/forms' is the forms plugin that provides a minimal styling
+		 * for forms. If you don't like it or have own styling for forms,
+		 * comment the line below to disable '@tailwindcss/forms'.
+		 */
+		require("@tailwindcss/forms"),
+		require("@tailwindcss/typography"),
+		require("@tailwindcss/aspect-ratio"),
+	],
+>>>>>>> upstream/main
 };

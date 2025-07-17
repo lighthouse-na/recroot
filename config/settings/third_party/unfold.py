@@ -189,22 +189,34 @@ UNFOLD = {
                     "link": "/"
                     + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "accounts/user",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_user"),
+=======
+                    "permission": lambda request: request.user.is_superuser,
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("Groups"),
                     "link": "/"
                     + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "auth/group",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_group"),
+=======
+                    "permission": lambda request: request.user.is_superuser,
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("Emails"),
                     "link": "/"
                     + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "account/emailaddress",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_emailaddress"),
+=======
+                    "permission": lambda request: request.user.is_superuser,
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("Users"),
@@ -215,8 +227,12 @@ UNFOLD = {
                         else "dashboard/telecom/administrator/"
                     )
                     + "accounts/user",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.groups.filter(name="admin").exists()
                     or request.user.has_perm("view_user"),
+=======
+                    "permission": lambda request: request.user.groups.filter(name="admin").exists(),
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("Groups"),
@@ -227,8 +243,12 @@ UNFOLD = {
                         else "dashboard/telecom/administrator/"
                     )
                     + "auth/group",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.groups.filter(name="admin").exists()
                     or request.user.has_perm("view_group"),
+=======
+                    "permission": lambda request: request.user.groups.filter(name="admin").exists(),
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("Emails"),
@@ -239,8 +259,12 @@ UNFOLD = {
                         else "dashboard/telecom/administrator/"
                     )
                     + "account/emailaddress",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.groups.filter(name="admin").exists()
                     or request.user.has_perm("view_emailaddress"),
+=======
+                    "permission": lambda request: request.user.groups.filter(name="admin").exists(),
+>>>>>>> upstream/main
                 },
             ],
         },
@@ -258,35 +282,55 @@ UNFOLD = {
                     "link": "/"
                     + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "organisation/division",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_division"),
+=======
+                    "permission": lambda request: request.user.is_superuser,
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("Positions"),
                     "link": "/"
                     + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "organisation/position",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_position"),
+=======
+                    "permission": lambda request: request.user.is_superuser,
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("Locations"),
                     "link": "/"
                     + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "organisation/location",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_location"),
+=======
+                    "permission": lambda request: request.user.is_superuser,
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("Cost Centres"),
                     "link": "/"
                     + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "organisation/costcentre",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_costcentre"),
+=======
+                    "permission": lambda request: request.user.is_superuser,
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("Regions"),
                     "link": "/"
                     + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "organisation/region",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_region"),
+=======
+                    "permission": lambda request: request.user.is_superuser,
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("Divisions"),
@@ -297,8 +341,12 @@ UNFOLD = {
                         else "dashboard/telecom/administrator/"
                     )
                     + "organisation/division",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.groups.filter(name="admin").exists()
                     or request.user.has_perm("view_division"),
+=======
+                    "permission": lambda request: request.user.groups.filter(name="admin").exists(),
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("Positions"),
@@ -309,8 +357,12 @@ UNFOLD = {
                         else "dashboard/telecom/administrator/"
                     )
                     + "organisation/position",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.groups.filter(name="admin").exists()
                     or request.user.has_perm("view_position"),
+=======
+                    "permission": lambda request: request.user.groups.filter(name="admin").exists(),
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("Locations"),
@@ -321,8 +373,12 @@ UNFOLD = {
                         else "dashboard/telecom/administrator/"
                     )
                     + "organisation/location",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.groups.filter(name="admin").exists()
                     or request.user.has_perm("view_location"),
+=======
+                    "permission": lambda request: request.user.groups.filter(name="admin").exists(),
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("Cost Centres"),
@@ -333,8 +389,12 @@ UNFOLD = {
                         else "dashboard/telecom/administrator/"
                     )
                     + "organisation/costcentre",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.groups.filter(name="admin").exists()
                     or request.user.has_perm("view_costcentre"),
+=======
+                    "permission": lambda request: request.user.groups.filter(name="admin").exists(),
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("Regions"),
@@ -345,7 +405,11 @@ UNFOLD = {
                         else "dashboard/telecom/administrator/"
                     )
                     + "organisation/region",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_region"),
+=======
+                    "permission": lambda request: request.user.is_superuser,
+>>>>>>> upstream/main
                 },
             ],
         },
@@ -361,22 +425,34 @@ UNFOLD = {
                     "link": "/"
                     + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "recruitment/application",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_application"),
+=======
+                    "permission": lambda request: request.user.is_superuser,
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("Vacancies"),
                     "link": "/"
                     + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "recruitment/vacancy",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_vacancy"),
+=======
+                    "permission": lambda request: request.user.is_superuser,
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("Interviews"),
                     "link": "/"
                     + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "recruitment/interview",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_interview"),
+=======
+                    "permission": lambda request: request.user.is_superuser,
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("Applications"),
@@ -387,8 +463,12 @@ UNFOLD = {
                         else "dashboard/telecom/administrator/"
                     )
                     + "recruitment/application",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.groups.filter(name="admin").exists()
                     or request.user.has_perm("view_application"),
+=======
+                    "permission": lambda request: request.user.groups.filter(name="admin").exists(),
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("Vacancies"),
@@ -399,8 +479,12 @@ UNFOLD = {
                         else "dashboard/telecom/administrator/"
                     )
                     + "recruitment/vacancy",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.groups.filter(name="admin").exists()
                     or request.user.has_perm("view_vacancy"),
+=======
+                    "permission": lambda request: request.user.groups.filter(name="admin").exists(),
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("Interviews"),
@@ -411,8 +495,12 @@ UNFOLD = {
                         else "dashboard/telecom/administrator/"
                     )
                     + "recruitment/interview",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.groups.filter(name="admin").exists()
                     or request.user.has_perm("view_interview"),
+=======
+                    "permission": lambda request: request.user.groups.filter(name="admin").exists(),
+>>>>>>> upstream/main
                 },
             ],
         },
@@ -427,15 +515,23 @@ UNFOLD = {
                     "link": "/"
                     + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "pages/announcement",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.is_superuser
                     or request.user.has_perm("view_announcement"),
+=======
+                    "permission": lambda request: request.user.is_superuser,
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("FAQs"),
                     "link": "/"
                     + ("admin/" if module == "config.settings.development" else "oshimashakula/")
                     + "pages/faq",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.is_superuser or request.user.has_perm("view_faq"),
+=======
+                    "permission": lambda request: request.user.is_superuser,
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("Announcements"),
@@ -446,8 +542,12 @@ UNFOLD = {
                         else "dashboard/telecom/administrator/"
                     )
                     + "pages/announcement",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.groups.filter(name="admin").exists()
                     or request.user.has_perm("view_announcement"),
+=======
+                    "permission": lambda request: request.user.groups.filter(name="admin").exists(),
+>>>>>>> upstream/main
                 },
                 {
                     "title": _("FAQs"),
@@ -458,8 +558,12 @@ UNFOLD = {
                         else "dashboard/telecom/administrator/"
                     )
                     + "pages/faq",
+<<<<<<< HEAD
                     "permission": lambda request: request.user.groups.filter(name="admin").exists()
                     or request.user.has_perm("view_faq"),
+=======
+                    "permission": lambda request: request.user.groups.filter(name="admin").exists(),
+>>>>>>> upstream/main
                 },
             ],
         },

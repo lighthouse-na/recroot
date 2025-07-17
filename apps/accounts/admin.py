@@ -139,7 +139,11 @@ class SuperuserDashboard(UnfoldAdminSite):
         urlpatterns += [
             path("", admin.site.urls),  # Ensure the original admin site URLs are included
         ]
+<<<<<<< HEAD
         return urlpatterns
+=======
+        return urlpatterns 
+>>>>>>> upstream/main
 
 
 # Create an instance of the custom SuperuserDashboard

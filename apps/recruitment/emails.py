@@ -70,6 +70,26 @@ def send_vacancy_application_notification_email(instance, created):
             recipient_name=recipient_name,
             recipient_list=recipient_list,
         )
+<<<<<<< HEAD
+=======
+    elif not created and instance.status == "ACK_WITH_TIMELINE":
+        send_email_notification(
+            subject="ACK_WITH_TIMELINE",
+            template_name="ACK_WITH_TIMELINE.html",
+            instance=instance,
+            recipient_name=recipient_name,
+            recipient_list=recipient_list,
+        )
+    elif not created and instance.status == "on_hold":
+        send_email_notification(
+            subject="Application on hold",
+            template_name="on_hold.html",
+            instance=instance,
+            recipient_name=recipient_name,
+            recipient_list=recipient_list,
+        )
+
+>>>>>>> upstream/main
 
 
 def send_interview_notification_email(instance, created):

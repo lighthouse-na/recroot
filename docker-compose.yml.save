@@ -36,11 +36,7 @@ services:
   # Database service (Postgresql)
   db:
     container_name: database
-<<<<<<< HEAD
-    image: postgres:latest
-=======
-    image: postgres:16
->>>>>>> upstream/main
+    image: postgres: postgres:16
     networks:
       - my_network
     restart: always
@@ -110,22 +106,6 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-<<<<<<< HEAD
-=======
-  flower:
-    container_name: flower
-    build: .
-    networks:
-      - my_network
-    command: celery -A config flower --port=5555
-    ports:
-      - "5555:5555"
-    environment:
-      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
-      - BROKER_URL=${BROKER_URL}
-    depends_on:
-      - rabbitmq
->>>>>>> upstream/main
 
   # Celery worker service
   worker:

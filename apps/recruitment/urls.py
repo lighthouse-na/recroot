@@ -30,6 +30,78 @@ validation_urls = [
         validation.secondary_contact_validation,
         name="secondary_contact_validation",
     ),
+<<<<<<< HEAD
+=======
+     path(
+    "tertiary_institution_validation",
+     validation.tertiary_institution_validation,
+     name="tertiary_institution_validation",
+ ),
+ path(
+   "field_of_study_validation",
+
+     validation.field_of_study_validation,
+     name="field_of_study_validation",
+ ),
+ path(
+     "trade_speciality_validation",
+     validation.trade_speciality_validation,
+     name="trade_speciality_validation",
+ ),
+path(
+    "NQF_level_or_level_validation",
+     validation.NQF_level_or_level_validation,
+     name="NQF_level_or_level_validation",
+ ),
+
+
+ path(
+     "applicable_role_validation",
+     validation.applicable_role_validation,
+     name="applicable_role_validation",
+ ),
+ path(
+     "applicable_experience_validation",
+     validation.applicable_experience_validation,
+     name="applicable_experience_validation",
+ ),
+ path(
+     "non_applicable_role_validation",
+     validation.non_applicable_role_validation,
+     name="non_applicable_role_validation",
+ ),
+ path(
+    "non_applicable_experience_validation",
+     validation.non_applicable_experience_validation,
+     name="non_applicable_experience_validation",
+ ),
+ path(
+     "references_name_validation",
+     validation.references_name_validation,
+     name="references_name_validation",
+ ),
+ path(
+     "references_position_validation",
+     validation.references_position_validation,
+     name="references_position_validation",
+ ),
+ path(
+     "references_company_validation",
+     validation.references_company_validation,
+     name="references_company_validation",
+ ),
+ path(
+     "references_email_validation",
+     validation.references_email_validation,
+     name="references_email_validation",
+ )
+
+
+    
+    
+    
+    
+>>>>>>> upstream/main
 ]
 
 urlpatterns = [
@@ -39,6 +111,7 @@ urlpatterns = [
     #     views.VacancyDetailView.as_view(),
     #     name="vacancy_detail",
     # ),
+<<<<<<< HEAD
     # path("<slug>/apply", views.ApplicationCreateView.as_view(), name="apply"),
     path("<slug>/apply", views.ApplicationCreateView.as_view(), name="vacancy_detail"),
     path(
@@ -52,11 +125,31 @@ urlpatterns = [
         views.interview_response_success,
         name="interview_response_success",
     ),
+=======
+    path("<slug>/apply", views.ApplicationCreateView.as_view(), name="apply"),
+    path("<slug>/apply", views.ApplicationCreateView.as_view(), name="vacancy_detail"),
+    #path(
+       # "<str:pk>/invitation",
+       # views.InterviewResponseView.as_view(),
+       # name="interview_invitation",
+   # ),
+    path("success/", views.application_success, name="application_success"),
+   # path(
+       # "interview_response_success/",
+        #views.interview_response_success,
+       # name="interview_response_success",
+   # ),
+>>>>>>> upstream/main
     path(
         "applications/",
         views.ApplicationsListView.as_view(),
         name="applications_list",
     ),
+<<<<<<< HEAD
+=======
+  # path("<slug>/interview", views.InterviewFormView.as_view(), name="interview_form")
+    
+>>>>>>> upstream/main
 ]
 
 urlpatterns += validation_urls

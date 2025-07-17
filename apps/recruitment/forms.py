@@ -1,12 +1,21 @@
 from datetime import date, timedelta
 
 from django import forms
+<<<<<<< HEAD
+=======
+from django.apps import apps  
+>>>>>>> upstream/main
 from django.contrib import messages
 from django.utils import timezone
 from phonenumber_field.formfields import PhoneNumberField
 from tinymce.widgets import TinyMCE
 from unfold.widgets import UnfoldAdminSelectWidget
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> upstream/main
 from .models import (
     Application,
     Interview,
@@ -27,6 +36,10 @@ class MinimumRequirementsAddForm(forms.ModelForm):
         fields = ["title", "question_type", "is_internal", "is_required"]
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/main
 class VacancyForm(forms.ModelForm):
     content = forms.CharField(label="Content", widget=TinyMCE())
     remarks = forms.CharField(label="Remarks", widget=TinyMCE())
@@ -35,6 +48,14 @@ class VacancyForm(forms.ModelForm):
         model = Vacancy
         exclude = ["slug", "created_at", "updated_at"]
 
+<<<<<<< HEAD
+=======
+        def _init_(self, *args, **kwargs):
+            super()._init_(*args, **kwargs)
+            Town = apps.get_model('organisation', 'Town')
+            self.fields['town'].queryset = Town.objects.all() 
+
+>>>>>>> upstream/main
 
 class SelectQuestionTypeOptionsForm(forms.ModelForm):
     class Meta:
@@ -49,6 +70,11 @@ class ApplicationReviewForm(forms.ModelForm):
     STATUS_CHOICES = (
         ("accepted", "Accept"),
         ("rejected", "Reject"),
+<<<<<<< HEAD
+=======
+        ("on_hold", "On Hold"),
+        ("ACK_WITH_TIMELINE", "Acknowledgment With Timeline")
+>>>>>>> upstream/main
     )
     status = forms.ChoiceField(choices=STATUS_CHOICES, widget=UnfoldAdminSelectWidget())
 
@@ -66,6 +92,25 @@ class ApplicationForm(forms.ModelForm):
     primary_contact = PhoneNumberField(region="NA")
     secondary_contact = PhoneNumberField(region="NA", required=False)
     date_of_birth = forms.DateField(widget=forms.DateInput())
+<<<<<<< HEAD
+=======
+    trade_specialty = forms.CharField(required=False)
+    tertiary_institution = forms.CharField(max_length=255)
+    field_of_study = forms.CharField(max_length=255)
+    trade_speciality = forms.CharField(max_length=255)
+    NQF_level_or_level = forms.IntegerField()
+    applicable_role = forms.CharField(max_length=255)
+    applicable_experience = forms.IntegerField()
+    non_applicable_role =forms.CharField(max_length=255)
+    non_applicable_experience = forms.IntegerField()
+    references_name = forms.CharField(max_length=255)
+    references_position =forms.CharField(max_length=255)
+    references_company =forms.CharField(max_length=255)
+    references_email =forms.CharField(max_length=255)
+
+
+
+>>>>>>> upstream/main
 
     class Meta:
         model = Application
@@ -79,8 +124,24 @@ class ApplicationForm(forms.ModelForm):
             "date_of_birth",
             "gender",
             "cv",
+<<<<<<< HEAD
         )
 
+=======
+           "tertiary_institution",
+            "field_of_study",
+            "trade_speciality",
+            "NQF_level_or_level",
+            "applicable_role",
+           "applicable_experience",
+            "non_applicable_role",
+            "non_applicable_experience",    
+            "references_name",
+            "references_position",
+            "references_company",
+            "references_email")
+        
+>>>>>>> upstream/main
     def __init__(self, vacancy, *args, **kwargs):
         self.vacancy = vacancy
         self.requirements = MinimumRequirement.objects.filter(vacancy=vacancy)
@@ -102,12 +163,15 @@ class ApplicationForm(forms.ModelForm):
                     required=requirement.is_required,
                 )
 
+<<<<<<< HEAD
             elif requirement.question_type == MinimumRequirement.QuestionType.BOOL:
                 self.fields[f"requirement_{requirement.id}"] = forms.BooleanField(
                     label=requirement.title,
                     required=requirement.is_required,
                 )
 
+=======
+>>>>>>> upstream/main
             elif requirement.question_type == MinimumRequirement.QuestionType.DATE:
                 self.fields[f"requirement_{requirement.id}"] = forms.DateField(
                     label=requirement.title,
@@ -156,6 +220,7 @@ class MinimumRequirementAnswerForm(forms.ModelForm):
 class InterviewForm(forms.ModelForm):
     class Meta:
         model = Interview
+<<<<<<< HEAD
         fields = ("application", "schedule_datetime", "description", "location")
 
     def clean_schedule_datetime(self):
@@ -208,6 +273,74 @@ class InterviewForm(forms.ModelForm):
 
         if schedule_datetime.hour == 7:
             raise forms.ValidationError("Scheduled time cannot be earlier than 8am.")
+=======
+        fields = (
+            "application", "type", "schedule_datetime", "timestamp",
+            "start_date", "end_date", "description", "location"
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Remove fields not needed for the selected type
+        interview_type = None
+
+        # Check initial data (when editing) or POST data (when submitting)
+        if "type" in self.data:
+            interview_type = self.data.get("type")
+        elif self.instance and self.instance.pk:
+            interview_type = self.instance.type
+
+        if interview_type == Interview.InterviewTypes.INDIVIDUAL:
+            self.fields["timestamp"].widget = forms.HiddenInput()
+            self.fields["start_date"].widget = forms.HiddenInput()
+            self.fields["end_date"].widget = forms.HiddenInput()
+        elif interview_type == Interview.InterviewTypes.GROUP:
+            self.fields["schedule_datetime"].widget = forms.HiddenInput()
+
+    def clean(self):
+        cleaned_data = super().clean()
+        interview_type = cleaned_data.get("type")
+
+        if interview_type == Interview.InterviewTypes.INDIVIDUAL:
+            schedule_datetime = cleaned_data.get("schedule_datetime")
+            if not schedule_datetime:
+                self.add_error("schedule_datetime", "This field is required for individual interviews.")
+        elif interview_type == Interview.InterviewTypes.GROUP:
+            timestamp = cleaned_data.get("timestamp")
+            start_date = cleaned_data.get("start_date")
+            end_date = cleaned_data.get("end_date")
+
+            if not timestamp:
+                self.add_error("timestamp", "Timestamp is required for group interviews.")
+            if not start_date:
+                self.add_error("start_date", "Start date is required for group interviews.")
+            if not end_date:
+                self.add_error("end_date", "End date is required for group interviews.")
+            if start_date and end_date and end_date < start_date:
+                self.add_error("end_date", "End date cannot be earlier than start date.")
+
+        return cleaned_data
+
+    def clean_schedule_datetime(self):
+        schedule_datetime = self.cleaned_data.get("schedule_datetime")
+
+        if not schedule_datetime:
+            return schedule_datetime  # Let `clean()` handle if necessary
+
+        now = timezone.localtime()
+
+        if schedule_datetime <= now:
+            raise forms.ValidationError("Scheduled datetime cannot be in the past.")
+        if schedule_datetime.date() == now.date():
+            raise forms.ValidationError("Scheduled datetime cannot be on the same day.")
+        if schedule_datetime.weekday() >= 5:
+            raise forms.ValidationError("Scheduled datetime cannot fall on a weekend.")
+        if (schedule_datetime.date() - now.date()).days < 1:
+            raise forms.ValidationError("Scheduled datetime must be at least one day in the future.")
+        if not (8 <= schedule_datetime.hour < 17):
+            raise forms.ValidationError("Scheduled time must be between 8:00 AM and 5:00 PM.")
+>>>>>>> upstream/main
 
         return schedule_datetime
 

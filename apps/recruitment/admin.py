@@ -348,11 +348,22 @@ class InterviewAdmin(ModelAdmin, ExportActionModelAdmin):
         # Check if the user is a reviewer for any vacancy
 
         return Vacancy.objects.filter(reviewers=request.user).exists()
+<<<<<<< HEAD
 
     def has_change_permission(self, request, obj=None):
         if obj is None:
             return True
         return request.user.is_superuser or request.user in obj.vacancy.reviewers.all()
+=======
+    def has_change_permission(self, request, obj=None):
+        if obj is None:
+          return True
+        return (
+        request.user.is_superuser
+        or request.user.groups.filter(name="admin").exists()
+        or request.user in obj.application.vacancy.reviewers.all()
+    )
+>>>>>>> upstream/main
 
     def has_delete_permission(self, request, obj=None):
         if request.user.is_superuser or request.user.groups.filter(name="admin").exists():

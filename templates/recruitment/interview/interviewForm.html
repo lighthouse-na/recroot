@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %}Schedule Interview Rachel- {{ vacancy.title }}{% endblock %}
+
+{% block content %}
+<section class="bg-white dark:bg-gray-900 py-8">
+    <div class="max-w-5xl mx-auto px-4">
+        <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
+            Schedule Interview for {{ vacancy.title }}
+        </h2>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="mb-4 p-4 text-red-700 bg-red-100 rounded-lg">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                {{ form.application.label_tag }}{% render_field form.application class="w-full p-2 border rounded" %}
+
+                {{ form.type.label_tag }}{% render_field form.type class="w-full p-2 border rounded" %}
+
+                {{ form.schedule_datetime.label_tag }}{% render_field form.schedule_datetime class="w-full p-2 border
+                rounded" %}
+
+                {{ form.timestamp.label_tag }}{% render_field form.timestamp class="w-full p-2 border rounded" %}
+
+                {{ form.start_date.label_tag }}{% render_field form.start_date class="w-full p-2 border rounded" %}
+
+                {{ form.end_date.label_tag }}{% render_field form.end_date class="w-full p-2 border rounded" %}
+
+                {{ form.location.label_tag }}{% render_field form.location class="w-full p-2 border rounded" %}
+            </div>
+
+            <div>
+                {{ form.description.label_tag }}<br>
+                {% render_field form.description rows="4" class="w-full p-2 border rounded" %}
+            </div>
+
+            <div class="flex justify-end">
+                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+                    Submit Interview
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- PLACE SCRIPT HERE -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        function toggleFields() {
+            const typeSelect = document.getElementById('id_type');
+            const interviewType = typeSelect.value;
+
+            const scheduleDatetimeRow = document.getElementById('id_schedule_datetime')?.closest('div');
+            const timestampRow = document.getElementById('id_timestamp')?.closest('div');
+            const startDateRow = document.getElementById('id_start_date')?.closest('div');
+            const endDateRow = document.getElementById('id_end_date')?.closest('div');
+
+            if (interviewType === 'INDIVIDUAL') {
+                if (scheduleDatetimeRow) scheduleDatetimeRow.style.display = '';
+                if (timestampRow) timestampRow.style.display = 'none';
+                if (startDateRow) startDateRow.style.display = 'none';
+                if (endDateRow) endDateRow.style.display = 'none';
+            } else if (interviewType === 'GROUP') {
+                if (scheduleDatetimeRow) scheduleDatetimeRow.style.display = 'none';
+                if (timestampRow) timestampRow.style.display = '';
+                if (startDateRow) startDateRow.style.display = '';
+                if (endDateRow) endDateRow.style.display = '';
+            } else {
+                if (scheduleDatetimeRow) scheduleDatetimeRow.style.display = '';
+                if (timestampRow) timestampRow.style.display = '';
+                if (startDateRow) startDateRow.style.display = '';
+                if (endDateRow) endDateRow.style.display = '';
+            }
+        }
+
+        toggleFields();
+
+        const typeSelect = document.getElementById('id_type');
+        if (typeSelect) {
+            typeSelect.addEventListener('change', toggleFields);
+        }
+    });
+</script>
+{% endblock %}

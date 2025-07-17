@@ -465,6 +465,7 @@ wheels = [
 ]
 
 [[package]]
+<<<<<<< HEAD
 name = "django-guardian"
 version = "2.4.0"
 source = { registry = "https://pypi.org/simple" }
@@ -477,6 +478,8 @@ wheels = [
 ]
 
 [[package]]
+=======
+>>>>>>> upstream/main
 name = "django-import-export"
 version = "4.3.3"
 source = { registry = "https://pypi.org/simple" }
@@ -1195,7 +1198,10 @@ dependencies = [
     { name = "django-environ" },
     { name = "django-extensions" },
     { name = "django-filter" },
+<<<<<<< HEAD
     { name = "django-guardian" },
+=======
+>>>>>>> upstream/main
     { name = "django-import-export" },
     { name = "django-phonenumber-field" },
     { name = "django-recaptcha" },
@@ -1289,7 +1295,10 @@ requires-dist = [
     { name = "django-environ", specifier = "==0.11.2" },
     { name = "django-extensions", specifier = "==3.2.3" },
     { name = "django-filter", specifier = "==24.3" },
+<<<<<<< HEAD
     { name = "django-guardian", specifier = "==2.4.0" },
+=======
+>>>>>>> upstream/main
     { name = "django-import-export", specifier = "==4.3.3" },
     { name = "django-phonenumber-field", specifier = "==8.0.0" },
     { name = "django-recaptcha", specifier = "==4.0.0" },

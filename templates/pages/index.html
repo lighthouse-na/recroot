@@ -2,6 +2,7 @@
 {% load humanize %}
 {% load i18n static %}
 
+<<<<<<< HEAD
 {% block title %}Homepage{% endblock title %}
 {% block content %}
 
@@ -51,3 +52,148 @@
 
     <br>
 {% endblock content %}
+=======
+{% block title %}Recruitment Homepage{% endblock title %}
+{% block content %}
+
+<body class="font-sans antialiased flex flex-col min-h-screen">
+    <div class="max-w-8xl mx-auto"></div>
+    
+    
+    <div class="relative isolate overflow-hidden bg-gray-900 lg:pl-60 py-24 sm:py-32">
+        <!-- Background image -->
+        <img
+          src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&crop=focalpoint&fp-y=.8&w=2830&h=1500&q=80&blend=111827&sat=-100&exp=15&blend-mode=multiply"
+          alt=""
+          class="absolute inset-0 -z-10 size-full object-cover object-right md:object-center lg:object-center"
+        >
+      
+        <!-- Decorative elements (unchanged) -->
+        <div class="hidden sm:absolute sm:-top-10 sm:right-1/2 sm:-z-10 sm:mr-10 sm:block sm:transform-gpu sm:blur-3xl" aria-hidden="true">
+          <div class="aspect-1097/845 w-[68.5625rem] bg-linear-to-tr from-[#ff4694] to-[#776fff] opacity-20" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+        </div>
+        <div class="absolute -top-52 left-1/2 -z-10 -translate-x-1/2 transform-gpu blur-3xl sm:top-[-28rem] sm:ml-16 sm:translate-x-0 sm:transform-gpu" aria-hidden="true">
+          <div class="aspect-1097/845 w-[68.5625rem] bg-linear-to-tr from-[#ff4694] to-[#776fff] opacity-20" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+        </div>
+      
+        <!-- Content container with improved large screen layout -->
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+          <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-3xl xl:max-w-4xl">
+            <div class="flex items-center gap-3">
+              <img src="{% static 'img/logo.png' %}" class="h-10 w-auto rounded" alt="Telecom Namibia Logo" />
+              <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-gray-300">
+                Telecom Namibia
+              </h2>
+            </div>
+            <p class="mt-8 text-lg font-medium text-pretty text-gray-300 sm:text-xl/8 lg:text-xl/9 lg:max-w-4xl">
+              As a leading ICT player and equal-opportunity employer, Telecom Namibia is committed to innovation
+              and service excellence. We are at the forefront of cutting-edge technologies, driving 5G expansion,
+              cloud transformation, and managed cybersecurity services to enhance connectivity across Namibia. Our
+              competitive remuneration and investment in human capital empower our employees to thrive in a
+              rapidly evolving digital economy.
+            </p>
+          </div>
+      
+          <!-- Links section with improved large screen layout -->
+          <div class="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
+            {% comment %} <div class="grid grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold text-white sm:grid-cols-2 md:flex lg:gap-x-10 lg:text-lg">
+              <a href="#" class="transition hover:text-gray-300">Open roles <span aria-hidden="true">&rarr;</span></a>
+              <a href="#" class="transition hover:text-gray-300">Internship program <span aria-hidden="true">&rarr;</span></a>
+              <a href="https://www.telecom.na/who-we-are" class="transition hover:text-gray-300">Our values <span aria-hidden="true">&rarr;</span></a>
+              <a href="https://www.telecom.na/governance-structure" class="transition hover:text-gray-300">Meet our leadership <span aria-hidden="true">&rarr;</span></a>
+            </div> {% endcomment %}
+            {% comment %}
+            <!-- Stats section (commented out) -->
+            <dl class="mt-16 grid grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-16">
+              <div class="flex flex-col-reverse gap-1">
+                <dt class="text-base/7 text-gray-300 lg:text-lg">Offices worldwide</dt>
+                <dd class="text-4xl font-semibold tracking-tight text-white lg:text-5xl">12</dd>
+              </div>
+              <div class="flex flex-col-reverse gap-1">
+                <dt class="text-base/7 text-gray-300 lg:text-lg">Full-time colleagues</dt>
+                <dd class="text-4xl font-semibold tracking-tight text-white lg:text-5xl">300+</dd>
+              </div>
+              <div class="flex flex-col-reverse gap-1">
+                <dt class="text-base/7 text-gray-300 lg:text-lg">Hours per week</dt>
+                <dd class="text-4xl font-semibold tracking-tight text-white lg:text-5xl">40</dd>
+              </div>
+              <div class="flex flex-col-reverse gap-1">
+                <dt class="text-base/7 text-gray-300 lg:text-lg">Paid time off</dt>
+                <dd class="text-4xl font-semibold tracking-tight text-white lg:text-5xl">Unlimited</dd>
+              </div>
+            </dl>
+            {% endcomment %}
+          </div>
+        </div>
+      </div>
+      
+      
+
+    
+    
+      <!-- Page Content -->
+    <main class="z-10">
+        <div class="bg-white">
+            <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
+                <!-- Subscribe card stays here, but now with z-10 and relative -->
+                <div class="relative z-10 flex justify-center items-center">
+                    <div class="relative  rounded-lg bg-white border border-gray-200 px-4 py-6 sm:px-8 mx-4 md:mx-0 -mt-12 w-full text-center">
+                      <h2 class="text-2xl sm:text-3xl font-extrabold text-sky-800 dark:text-orange-500 tracking-tight">
+                        Work with us
+                      </h2>
+                      
+                      <p class="text-base sm:text-lg text-gray-700 font-medium leading-relaxed max-w-2xl mx-auto">
+                        If you are a forward-thinking professional eager to shape the future of telecommunications, we invite applications for the following positions:
+                      </p>
+                      {% comment %} <div class="mt-5 flex flex-wrap justify-center gap-3">
+                        <a href="#vacancies" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-[#F08D15] font-bold bg-[#F08D15] text-white hover:bg-white hover:text-[#F08D15] transition-colors whitespace-nowrap text-sm sm:text-base">
+                          View Open Roles
+                          <span aria-hidden="true">&rarr;</span>
+                        </a>
+                        <a href="#internships" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-[#F08D15] font-bold bg-white text-[#F08D15] hover:bg-[#F8C78C] hover:text-white transition-colors whitespace-nowrap text-sm sm:text-base">
+                          Internship Program
+                          <span aria-hidden="true">&rarr;</span>
+                        </a>
+                      </div> {% endcomment %}
+                      
+                    </div>
+                  </div>
+                  
+                  
+                <div class="flex flex-col sm:flex-row justify-between my-5">
+                    <div class="w-full sm:pr-12">
+                        <div class="flex items-center justify-between flex-wrap">
+                            <div class="w-0 flex-1 flex items-center">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="">
+                    {% if vacancies %}
+                        {% include 'recruitment/vacancy/list.html' %}
+                    {% else %}
+                        <c-h3 title="No vacancies at the moment" />
+                    {% endif %}
+
+                    {% if faqs %}
+                        <section class="faqs-section">
+                            <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+                                <div class="faq-header max-w-screen-lg mb-8 lg:mb-16">
+                                    <div class="faq-heading">
+                                        <c-h2 title="Frequently Asked Questions" />
+                                    </div>
+                                    <!-- <p class="text-gray-500 sm:text-xl dark:text-gray-400">{% lorem %}</p> -->
+                                </div>
+                                <div class="faq-content">
+                                    {% include 'pages/faq.html' %}
+                                </div>
+                            </div>
+                        </section>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+{% endblock content %}
+>>>>>>> upstream/main

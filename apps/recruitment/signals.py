@@ -60,6 +60,7 @@ def send_interview_notification_tasks(sender, instance, created, **kwargs):
     )
 
 
+<<<<<<< HEAD
 # ***************************************************************************************************
 #                                           PERMISSIONS
 # ***************************************************************************************************
@@ -179,6 +180,8 @@ def send_interview_notification_tasks(sender, instance, created, **kwargs):
 # ***************************************************************************************************
 
 
+=======
+>>>>>>> upstream/main
 @receiver(post_save, sender=Application)
 def create_interview(sender, instance, **kwargs):
     """

@@ -1,4 +1,5 @@
 {% extends 'admin/base.html' %}
+<<<<<<< HEAD
 
 {% load i18n %}
 
@@ -23,4 +24,55 @@
 
     <!-- {% include "unfold/helpers/history.html" %} -->
     </div>
+=======
+{% load i18n static %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block title %}
+{% if subtitle %}{{ subtitle }} | {% endif %}
+{{ title }} | {{ site_title|default:_('Django site admin') }}
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        {{ site_header|default:_('Django administration') }}
+    </a>
+</h1>
+{% endblock %}
+
+{% block content %}
+
+<!-- curved background image -->
+<div class="relative">
+    <div class="w-full h-64" style="
+        background-image: url('https://www.telecomreviewafrica.com/wp-content/uploads/2022/07/Telecom_Namibia.jpg');
+        background-size: cover;
+        background-position: center;
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+    ">
+    </div>
+
+    <div class="relative -mt-20 z-10 px-4">
+        <div class="flex flex-col lg:flex-row lg:gap-15">
+
+            <div class="flex-grow bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 text-gray-800 dark:text-white">
+                <div class="space-y-6">
+                    {% include "unfold/helpers/app_list_default.html" %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bottom image -->
+
+    <div class="w-full h-64 mt-10 flex justify-center items-center">
+        <img src="{% static 'img/bottom.png' %}" class="h-20" alt="Telecom Namibia Logo" />
+    </div>
+
+</div>
+
+>>>>>>> upstream/main
 {% endblock %}
