@@ -1,0 +1,6 @@
+<form action="{% url 'account_logout' %}" method="post" class="flex justify-center" hx-boost="true">
+    {% csrf_token %}
+    <div class="">
+        <c-button label="Yes" type="submit" danger />
+    </div>
+</form>

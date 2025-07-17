@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load allauth %}
+{% block title %}
+    {% trans "Verify Your Email Address" %}
+{% endblock title %}
+{% block content %}
+    <div class="flex justify-center p-8">
+        <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+
+            <p class="space-y-6">
+                {% blocktrans %}We have sent an email to you for verification. Follow the link provided to finalize the
+                    signup process. If you do not see the verification email in your main inbox, check your spam folder. Please
+                    contact us if you do not receive the verification email within a few minutes.{% endblocktrans %}
+            </p>
+        </div>
+    </div>
+{% endblock content %}

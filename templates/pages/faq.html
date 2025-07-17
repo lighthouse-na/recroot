@@ -1,0 +1,88 @@
+<<<<<<< HEAD
+<div id="accordion-flush" data-accordion="collapse"
+     data-active-classes="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200"
+     data-inactive-classes="text-gray-500 dark:text-gray-400">
+    <div class="w-full divide-y divide-neutral-300 text-neutral-600 dark:divide-neutral-700 dark:text-neutral-300">
+        {% for faq in faqs %}
+            <div x-data="{ isExpanded: false }">
+                <button id="controlsAccordionItemOne-{{ faq.pk }}" type="button"
+                        class="flex w-full items-center justify-between gap-4 py-4 text-left underline-offset-2 focus-visible:underline focus-visible:outline-hidden"
+                        aria-controls="accordionItemOne-{{ faq.pk }}" x-on:click="isExpanded = ! isExpanded"
+                        x-bind:class="isExpanded ? 'text-onSurfaceStrong dark:text-onSurfaceDarkStrong font-bold'  : 'text-onSurface dark:text-onSurfaceDark font-medium'"
+                        x-bind:aria-expanded="isExpanded ? 'true' : 'false'">
+                    {{ faq.question }}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"
+                         stroke="currentColor" class="size-5 shrink-0 transition" aria-hidden="true"
+                         x-bind:class="isExpanded  ?  'rotate-180'  :  ''">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </svg>
+                </button>
+                <div x-cloak x-show="isExpanded" id="accordionItemOne-{{ faq.pk }}" role="region"
+                     aria-labelledby="controlsAccordionItemOne-{{ faq.pk }}" x-collapse>
+                    <div class="pb-4 text-sm sm:text-base text-pretty">
+                        {{ faq.answer|safe }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+=======
+<div x-data="{ open: null }" class="space-y-2">
+    {% for faq in faqs %}
+      <div 
+        x-data="{
+          id: $id('faq-question'),
+          get expanded() {
+            return this.open === this.id
+          },
+          set expanded(value) {
+            this.open = value ? this.id : null
+          }
+        }"
+        role="region"
+        class="rounded-lg bg-white transition-all"
+      >
+        <button
+          class="group flex w-full items-center justify-between gap-4 p-4 text-left"
+          @click.prevent="expanded = !expanded"
+          :aria-expanded="expanded"
+        >
+          <!-- Question icon -->
+          <div class="flex items-center gap-4">
+            <div class="hidden sm:block flex-shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#F08D15" class="h-5 w-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+              </svg>
+            </div>
+            <span class="text-lg font-medium text-gray-700 group-hover:text-[#F08D15] transition-colors">{{ faq.question }}</span>
+          </div>
+          
+          <!-- Animated toggle icon -->
+          <span 
+            class="relative flex h-5 w-5 shrink-0 items-center justify-center transition-transform duration-200"
+            :class="{ 'rotate-180': expanded }"
+          >
+            <span class="absolute h-[2px] w-3 bg-[#F08D15] transition-all"></span>
+            <span 
+              class="absolute h-3 w-[2px] bg-[#F08D15] transition-all"
+              :class="{ 'scale-y-0': expanded }"
+            ></span>
+          </span>
+        </button>
+  
+        <!-- Answer content -->
+        <div 
+          x-show="expanded" 
+          x-collapse.duration.200ms
+          class="px-4 pb-4"
+        >
+          <div class="prose prose-sm max-w-none text-gray-600">
+            {{ faq.answer|safe }}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  
+>>>>>>> upstream/main

@@ -1,0 +1,99 @@
+{% load static crispy_forms_tags widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Telecom Namibia</title>
+
+    <!-- Favicons -->
+        <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon" />
+
+        <link href="{% static 'css/output.css' %}" rel="stylesheet">
+        <script src="{% static 'js/htmx.min.js' %}"></script>
+        <script src="{% static 'js/tailwind.min.js' %}"></script>
+    </head>
+
+    <body class="bg-gray-50 dark:bg-gray-900">
+        {% if not disable_link %}
+            <section>
+                <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+                    <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-gray-200">
+                        <img class="w-8 h-8 mr-2" src="{% static 'img/logo.png' %}" alt="logo">
+                        Telecom Namibia
+                    </a>
+                    <div
+                        class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                            <h1
+                                class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-gray-200">
+                                Interview RSVP
+                            </h1>
+                            <ul class="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
+                                <li class="flex items-center">
+                                    <svg class="w-4 h-4 me-2 text-orange-500 dark:text-orange-400 flex-shrink-0"
+                                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                         fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd"
+                                              d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
+                                              clip-rule="evenodd" />
+                                    </svg>
+
+                                    {{ interview.schedule_datetime }}
+                                </li>
+                                <li class="flex items-center">
+                                    <svg class="w-4 h-4 me-2 text-orange-500 dark:text-orange-400 flex-shrink-0"
+                                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                         fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd"
+                                              d="M11.906 1.994a8.002 8.002 0 0 1 8.09 8.421 7.996 7.996 0 0 1-1.297 3.957.996.996 0 0 1-.133.204l-.108.129c-.178.243-.37.477-.573.699l-5.112 6.224a1 1 0 0 1-1.545 0L5.982 15.26l-.002-.002a18.146 18.146 0 0 1-.309-.38l-.133-.163a.999.999 0 0 1-.13-.202 7.995 7.995 0 0 1 6.498-12.518ZM15 9.997a3 3 0 1 1-5.999 0 3 3 0 0 1 5.999 0Z"
+                                              clip-rule="evenodd" />
+                                    </svg>
+
+
+                                    {{ interview.location.address }}
+                                </li>
+                            </ul>
+                            <p class="text-gray-400 text-sm"><span class="text-red-500 font-extrabold text-xl">*</span> If you
+                                reschedule
+                                please give a
+                                reason
+                                why and select an
+                                optimal date</p>
+                            <form class="space-y-4 md:space-y-6" method="post">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <button type="submit"
+                                        class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Submit</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        {% else %}
+            <section>
+                <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+                    <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-gray-200">
+                        <img class="w-8 h-8 mr-2" src="{% static 'img/logo.png' %}" alt="logo">
+                        Telecom Namibia
+                    </a>
+                    <div
+                        class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                            <h1
+                                class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-gray-200">
+                                Interview RSVP
+                            </h1>
+                            <p class="space-y-4 md:space-y-6">
+                                No response was provided within the allocated time given
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+    </body>
+
+</html>

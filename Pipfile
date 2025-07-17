@@ -1,0 +1,36 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+django-unfold = "*"
+django-extensions = "*"
+django-environ = "*"
+django-allauth = "*"
+django-phonenumber-field = {extras = ["phonenumbers"], version = "*"}
+django-guardian = "*"
+django-import-export = "*"
+crispy-tailwind = "*"
+django-tinymce = "*"
+isort = "*"
+django-widget-tweaks = "*"
+pillow = "*"
+whitenoise = "*"
+django-debug-toolbar = "*"
+django-cleanup = "*"
+djhtml = "*"
+django-cors-headers = "*"
+channels = {extras = ["daphne"], version = "*"}
+requests = "*"
+djangorestframework = "*"
+markdown = "*"
+django-filter = "*"
+django-recaptcha = "*"
+gunicorn = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.12"

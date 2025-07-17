@@ -1,0 +1,146 @@
+networks:
+  my_network:
+    driver: bridge
+
+services:
+  web:
+    container_name: app
+    build: .
+    networks:
+      - my_network
+    command:
+      [
+        "gunicorn",
+        "config.wsgi:application",
+        "--bind",
+        "0.0.0.0:8000",
+        "--workers",
+        "4",
+      ]
+    restart: always
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+      - "5555:5555"
+    environment:
+      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+      - BROKER_URL=${BROKER_URL}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    depends_on:
+      - db
+      - cache
+
+  # Database service (Postgresql)
+  db:
+    container_name: database
+<<<<<<< HEAD
+    image: postgres:latest
+=======
+    image: postgres:16
+>>>>>>> upstream/main
+    networks:
+      - my_network
+    restart: always
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    expose:
+      - "5432:5432"
+
+  # PgAdmin To interact with database
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    networks:
+      - my_network
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "5050:80"
+
+  # Cache
+  cache:
+    container_name: cache
+    image: redis:latest
+    networks:
+      - my_network
+    restart: always
+    volumes:
+      - ./data/cache:/data
+
+  # Nginx service (reverse proxy)
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    networks:
+      - my_network
+    restart: always
+    volumes:
+      - ./config/nginx:/etc/nginx/templates
+      - .:/code
+    ports:
+      - "80:80"
+      - "443:443"
+
+  # RabbitMQ service (message broker)
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    networks:
+      - my_network
+    restart: always
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq/data
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+<<<<<<< HEAD
+=======
+  flower:
+    container_name: flower
+    build: .
+    networks:
+      - my_network
+    command: celery -A config flower --port=5555
+    ports:
+      - "5555:5555"
+    environment:
+      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+      - BROKER_URL=${BROKER_URL}
+    depends_on:
+      - rabbitmq
+>>>>>>> upstream/main
+
+  # Celery worker service
+  worker:
+    container_name: celery_worker
+    build: .
+    networks:
+      - my_network
+    command: celery -A config worker --concurrency=4 -l info
+    restart: always
+    volumes:
+      - .:/code
+    environment:
+      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+      - BROKER_URL=${BROKER_URL}
+      - CELERY_RESULT_BACKEND=rpc://
+    depends_on:
+      rabbitmq:
+        condition: service_healthy

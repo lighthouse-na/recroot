@@ -1,0 +1,86 @@
+{% extends 'admin_base.html' %}
+{% load humanize %}
+{% block title %}Staff Dashboard{% endblock title %}
+{% block branding %}
+<<<<<<< HEAD
+    <h1 id="site-name">
+        <a href="{% url 'admin:index' %}">
+            {{ site_header|default:_('Django administration') }}
+        </a>
+    </h1>
+{% endblock %}
+{% block content %}
+
+
+
+    {% if announcements %}
+        {% include 'pages/announcements.html' %}
+    {% endif %}
+
+    {% if vacancies %}
+        <div class="px-2">
+            <div class="mx-auto max-w-6xl">
+                {% include 'recruitment/vacancy/list.html' %}
+            </div>
+        </div>
+    {% endif %}
+
+    {% if financial_assistance_adverts %}
+        <div class="px-2 py-10">
+            <div class="mx-auto max-w-6xl">
+                <h1
+                    class="text-center mb-4 text-4xl font-extrabold leading-none tracking-tight text-primary-500 md:text-5xl lg:text-6xl dark:text-gray-200">
+                    Financial Aid</h1>
+                {% include 'recruitment/finaid/list.html' %}
+            </div>
+        </div>
+    {% endif %}
+
+
+{% comment %}{% include 'unfold/partials/apps.html' %}{% endcomment %}
+{% endblock content %}
+=======
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        {{ site_header|default:_('Django administration') }}
+    </a>
+</h1>
+{% endblock %}
+{% block content %}
+<div class="relative">
+    <div class="w-full h-64" style="
+                background-image: url('https://www.telecomreviewafrica.com/wp-content/uploads/2022/07/Telecom_Namibia.jpg');
+                background-size: cover;
+                background-position: center;
+                clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+            ">
+    </div>
+
+
+    {% if announcements %}
+    {% include 'pages/announcements.html' %}
+    {% endif %}
+
+    {% if vacancies %}
+    <div class="px-2">
+        <div class="mx-auto max-w-6xl">
+            {% include 'recruitment/vacancy/list.html' %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if financial_assistance_adverts %}
+    <div class="px-2 py-10">
+        <div class="mx-auto max-w-6xl">
+            <h1
+                class="text-center mb-4 text-4xl font-extrabold leading-none tracking-tight text-primary-500 md:text-5xl lg:text-6xl dark:text-gray-200">
+                Financial Aid</h1>
+            {% include 'recruitment/finaid/list.html' %}
+        </div>
+    </div>
+    {% endif %}
+
+
+    {% comment %}{% include 'unfold/partials/apps.html' %}{% endcomment %}
+    {% endblock content %}
+>>>>>>> upstream/main

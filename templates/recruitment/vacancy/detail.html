@@ -1,0 +1,454 @@
+{% extends 'base.html' %}
+{% load static widget_tweaks crispy_forms_tags %}
+{% block title %}{{ vacancy.title }}{% endblock title %}
+{% block content %}
+
+<<<<<<< HEAD
+
+    <section x-data="{submittable: false}" class="bg-gray-100 dark:bg-gray-900">
+        <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-4">
+            <div class="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-5">
+            <!-- Vacancy Detail -->
+                <div class="lg:col-span-2 lg:py-2 h-screen lg:overflow-y-auto">
+                    <div class="lg:inline-flex gap-x-6">
+                        <c-h3 title="{{ vacancy.title }}" />
+                        {% if vacancy.advert and vacancy.advert.url %}
+                            <a href="{{ vacancy.advert.url }}" target="_blank">
+                                <button type="button"
+                                        class="border border-gray-700 dark:border-gray-100 text-sky-800 dark:text-orange-500/80 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:hover:bg-gray-800 dark:focus:ring-gray-800 hover:bg-gray-300">
+
+                                    <svg class="w-4 h-4 me-2 animate-bounce duration-75" aria-hidden="true"
+                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                         viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                              stroke-width="2"
+                                              d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4" />
+                                    </svg>
+
+                                    Download Advert
+                                </button>
+                            </a>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <time datetime="{{ vacancy.deadline }}" class="text-red-500">{{ vacancy.deadline }}</time>
+                    </div>
+                    <br>
+                    <p class="text-gray-900 dark:text-gray-200">
+                        {{ vacancy.content|safe }}
+                    </p>
+                    <span class="relative flex justify-center">
+                        <div
+                            class="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-transparent bg-gradient-to-r from-transparent via-gray-500 to-transparent opacity-75">
+                        </div>
+
+                        <span class="relative z-10 bg-gray-100 px-6 mt-2 mb-2"><strong
+                            class="text-gray-500">Remarks:</strong></span>
+                    </span>
+
+                <!-- Remarks -->
+                    <p class="text-gray-900 dark:text-gray-200">
+
+                        {{ vacancy.remarks|safe }}
+                    </p>
+                </div>
+            <!-- VacancyDetail End -->
+
+                <div class="rounded-lg bg-white dark:bg-gray-800 p-8 shadow-lg lg:col-span-3 lg:p-12">
+
+                    {% if messages %}
+                        {% for message in messages %}
+                <!-- danger Alert -->
+                            <div class="relative w-full overflow-hidden rounded-md border border-red-500 bg-white text-neutral-600 dark:bg-neutral-950 dark:text-neutral-300"
+                                 role="alert">
+                                <div class="flex w-full items-center gap-2 bg-red-500/10 p-4">
+                                    <div class="ml-2">
+                                        <h3 class="text-sm font-semibold text-red-500">{{ message}}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        {% endfor %}
+                    {% endif %}
+
+
+                    <form method="post" enctype="multipart/form-data" class="space-y-4" id="qualificationForm">
+                        {% csrf_token %}
+
+
+                        <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
+                            <c-input id="first_name" label="First Name" placeholder="First Name" name="first_name" required
+                                     validationUrl="{% url 'recruitment:first_name_validation' %}" />
+                            <c-input id="middle_name" label="Middle Name" placeholder="Middle Name" name="middle_name"
+                                     validationUrl="{% url 'recruitment:middle_name_validation' %}"
+                                     class="w-full rounded-lg border border-gray-200 p-3 text-sm" />
+                            <c-input id="last_name" label="Last Name" placeholder="Last Name" name="last_name"
+                                     validationUrl="{% url 'recruitment:last_name_validation' %}" required />
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
+                            <div>
+                                <label for="gender"
+                                       class="format dark:format-invert tracking-tight text-sky-900 dark:text-orange-500/90">Gender
+                                    <span style="color:red">*</span></label>
+
+                                <select name="gender" id="gender" required
+                                        class="capitalize pr-10 inline-flex w-full items-center justify-between gap-2 border border-neutral-200 rounded-md bg-white px-4 py-2 text-sm font-medium tracking-wide transition hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:border-neutral-700 dark:bg-gray-800 dark:text-neutral-300 dark:focus-visible:outline-white">
+                                    <option value="">Please select</option>
+                                    <option value="female">Female</option>
+                                    <option value="male">Male</option>
+                                </select>
+                            </div>
+                            <c-input id="email" label="Email" placeholder="@Email" name="email"
+                                     validationUrl="{% url 'email_validation' %}" required />
+                            <c-input label="Date of Birth" id="date_of_irth" name="date_of_birth" type="date" required />
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
+                            <c-input id="primary_contact" label="Primary Contact Number" placeholder="+264 ... ...."
+                                     name="primary_contact" type="tel"
+                                     validationUrl="{% url 'recruitment:primary_contact_validation' %}"="false" required />
+
+                            <c-input id="secondary_contact" label="Secondary Contact Number" placeholder="Secondary Contact"
+                                     name="secondary_contact" type="tel"
+                                     validationUrl="{% url 'recruitment:secondary_contact_validation' %}"="false" />
+                        </div>
+
+
+                        <c-input id="cv" label="Documents" name="cv" type="file" required />
+
+                        {% if vacancy.requirements.all %}
+                            <div class="inline-flex items-center justify-center w-full md:my-10 col-span-2">
+                                <c-h4 title="Requirements" />
+                            </div>
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
+                                {% for field in form %}
+                                    {% if field.name|slice:":12" == "requirement_" %}
+                                        {% if field.field.widget.input_type == 'checkbox' %}
+                                            <div class="col-span-2">
+                                                <c-checkbox id="{{ field.id }}" label="{{ field.label }}" name="{{ field.html_name }}" />
+                                            </div>
+                                        {% elif field.field.widget.input_type == 'text' %}
+                                            <div class="col-span-2">
+                                                <c-input id="{{ field.id }}" label="{{ field.label }}" placeholder="{{ field.label }}"
+                                                         name="{{ field.html_name }}" />
+                                            </div>
+
+                                        {% elif field.field.widget.input_type == 'date' %}
+                                            <div class="col-span-2">
+                                                <c-input id="{{ field.id }}" type="date" name="{{ field.html_name }}" />
+                                            </div>
+
+                                        {% elif field.field.is_select %}
+                        {#<div class="col-span-2">
+                            <c-select id="{{ field.id }}" type="select" name="{{ field.html_name }}"
+                                label="{{ field.label }}"
+                                :options="[{% for value, label in field.field.choices %}'{{ label }}'{% if not forloop.last %},{% endif %}{% endfor %}]" />
+                        </div>#}
+                                            <div class="col-span-2">
+                                                <label for="{{ field.id }}"
+                                                       class="format dark:format-invert tracking-tight text-sky-900 dark:text-orange-500/90">{{ field.label }}
+                                                    {% if required or field.field.required %} <span
+                                                        style="color:red">*</span>{% endif %}</label>
+
+                                                <select name="{{ field.html_name }}" id="{{ field.id }}" {% if field.field.required %}
+                                                            required {% endif %}
+                                                        class="capitalize pr-10 inline-flex w-full items-center justify-between gap-2 border border-neutral-200 rounded-md bg-white px-4 py-2 text-sm font-medium tracking-wide transition hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:border-neutral-700 dark:bg-gray-800 dark:text-neutral-300 dark:focus-visible:outline-white">
+                                                    <option value="" class="text-gray-200">Please select</option>
+                                                    {% for value, label in field.field.choices %}
+                                                        <option value="{{label}}" class="text-neutral-600">{{label}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="flex justify-center">
+                            <c-button label="Apply" type="submit" primary />
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+        function handleFormSubmit(event) {
+        // Prevent the default form submission
+            event.preventDefault();
+
+        // Gather all form data
+            const form = document.getElementById('qualificationForm');
+            const formData = new FormData(form);
+
+        // Log each form entry to the console
+            for (const [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
+
+        // If you still want to submit the form after logging, uncomment the line below:
+        // form.submit();
+        }
+    </script>
+=======
+<section x-data="{submittable: false}" class="bg-gray-100 dark:bg-gray-900">
+    <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-4">
+        <div class="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-5">
+            <!-- Vacancy Detail -->
+            <div class="lg:col-span-2 lg:py-2 h-screen lg:overflow-y-auto">
+                <div class="lg:inline-flex gap-x-6">
+                    <c-h3 title="{{ vacancy.title }}" />
+                    {% if vacancy.advert and vacancy.advert.url %}
+                    <a href="{{ vacancy.advert.url }}" target="_blank">
+                        <button type="button"
+                            class="border border-gray-700 dark:border-gray-100 text-sky-800 dark:text-orange-500/80 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:hover:bg-gray-800 dark:focus:ring-gray-800 hover:bg-gray-300">
+                            <svg class="w-4 h-4 me-2 animate-bounce duration-75" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4" />
+                            </svg>
+                            Download Advert
+                        </button>
+                    </a>
+                    {% endif %}
+                </div>
+                <div>
+                    <time datetime="{{ vacancy.deadline }}" class="text-red-500">{{ vacancy.deadline }}</time>
+                </div>
+                <br>
+                <p class="text-gray-900 dark:text-gray-200">
+                    {{ vacancy.content|safe }}
+                </p>
+                <span class="relative flex justify-center">
+                    <div
+                        class="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-transparent bg-gradient-to-r from-transparent via-gray-500 to-transparent opacity-75">
+                    </div>
+                    <span class="relative z-10 bg-gray-100 px-6 mt-2 mb-2">
+                        <strong class="text-gray-500">Remarks:</strong>
+                    </span>
+                </span>
+                <p class="text-gray-900 dark:text-gray-200">
+                    {{ vacancy.remarks|safe }}
+                </p>
+            </div>
+            <!-- VacancyDetail End -->
+
+            <div class="rounded-lg bg-white dark:bg-gray-800 p-8 shadow-lg lg:col-span-3 lg:p-12">
+
+                {% if messages %}
+                {% for message in messages %}
+                <div class="relative w-full overflow-hidden rounded-md border border-red-500 bg-white text-neutral-600 dark:bg-neutral-950 dark:text-neutral-300"
+                    role="alert">
+                    <div class="flex w-full items-center gap-2 bg-red-500/10 p-4">
+                        <div class="ml-2">
+                            <h3 class="text-sm font-semibold text-red-500">{{ message }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                {% endfor %}
+                {% endif %}
+
+                <!-- Form Start -->
+                <p class="text-sky-900">Required Fields = <span class="text-red-500">*</span></p>
+                <form method="post" action="{% url 'recruitment:apply' vacancy.slug %}" enctype="multipart/form-data"
+                    class="space-y-4" id="qualificationForm">
+                    {% csrf_token %}
+
+                    <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
+                        <c-input id="first_name" label="First Name" placeholder="First Name" name="first_name" required
+                            validationUrl="{% url 'recruitment:first_name_validation' %}" />
+                        <c-input id="middle_name" label="Middle Name" placeholder="Middle Name" name="middle_name"
+                            validationUrl="{% url 'recruitment:middle_name_validation' %}"
+                            class="w-full rounded-lg border border-gray-200 p-3 text-sm" />
+                        <c-input id="last_name" label="Last Name" placeholder="Last Name" name="last_name"
+                            validationUrl="{% url 'recruitment:last_name_validation' %}" required />
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
+                        <div>
+                            <label for="gender"
+                                class="format dark:format-invert tracking-tight text-sky-900 dark:text-orange-500/90">Gender
+                                <span style="color:red">*</span></label>
+                            <select name="gender" id="gender" required
+                                class="capitalize pr-10 inline-flex w-full items-center justify-between gap-2 border focus:border-orange-500 p-2 dark:bg-gray-800 dark:border-gray-700  bg-white px-4 py-2 text-sm font-medium tracking-wide transition hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:bg-gray-800 dark:text-neutral-300 dark:focus-visible:outline-white">
+                                <option value="">Please select</option>
+                                <option value="female">Female</option>
+                                <option value="male">Male</option>
+                            </select>
+                        </div>
+                        <c-input id="email" label="Email" placeholder="@Email" name="email"
+                            validationUrl="{% url 'email_validation' %}" required />
+                        <c-input label="Date of Birth" id="date_of_irth" name="date_of_birth" type="date" required />
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
+                        <c-input id="primary_contact" label="Primary Contact Number" placeholder="+264 ... ...."
+                            name="primary_contact" type="tel"
+                            validationUrl="{% url 'recruitment:primary_contact_validation' %}"="false" required />
+                        <c-input id="secondary_contact" label="Secondary Contact Number" placeholder="Secondary Contact"
+                            name="secondary_contact" type="tel"
+                            validationUrl="{% url 'recruitment:secondary_contact_validation' %}"="false" />
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
+                        <c-input id="tertiary_institution" label="Tertiary Institution"
+                            placeholder="Tertiary Institution" name="tertiary_institution"
+                            validationUrl="{% url 'recruitment:tertiary_institution_validation' %}" required />
+                        <c-input id="field_of_study" label="Field of Study" placeholder="Field of Study"
+                            name="field_of_study" validationUrl="{% url 'recruitment:field_of_study_validation' %}"
+                            required />
+                        <c-input id="trade_specialty" label="Trade or Speciality" placeholder="Trade or Speciality"
+                            name="trade_speciality"
+                            validationUrl="{% url 'recruitment:trade_speciality_validation' %}" />
+                        <c-input id="NQF_level_or_level" label="NQF Level or Level" placeholder="e.g 7"
+                            name="NQF_level_or_level"
+                            validationUrl="{% url 'recruitment:NQF_level_or_level_validation' %}" required />
+
+
+                        <c-input id="applicable_role" label="Role Experience"
+                            placeholder="e.g. Similar role to the one advertised." name="applicable_role"
+                            validationUrl="{% url 'recruitment:applicable_role_validation' %}" />
+
+
+                        <c-input id="applicable_experience" label="Applicable Experience" placeholder="e.g 1"
+                            name="applicable_experience"
+                            validationUrl="{% url 'recruitment:applicable_experience_validation' %}" />
+
+                        <c-input id="non_applicable_role" label="Non-Appicable Role Experience"
+                            placeholder="e.g Any other role." name="non_applicable_role"
+                            validationUrl="{% url 'recruitment:non_applicable_role_validation' %}" />
+
+                        <c-input id="non_applicable_experience" label="Non-Applicable Experience" placeholder="e.g 1"
+                            name="non_applicable_experience"
+                            validationUrl="{% url 'recruitment:non_applicable_experience_validation' %}" />
+
+
+
+                    </div>
+
+
+                    <h3>Reference Check Information</h3>
+
+                    <table id="references-table" border="1">
+
+
+                        <tbody id="reference-rows">
+                            <tr>
+                                <td class="ref-no">1</td>
+                                <td><c-input name="references_name[]" label="Name" placeholder="Name"
+                                        validationUrl="{% url 'recruitment:references_name_validation' %}" /></td>
+
+                                <td><c-input name="references_position[]" label="Position" placeholder="Position"
+                                        validationUrl="{% url 'recruitment:references_position_validation' %}" />
+                                </td>
+                                <td><c-input name="references_company[]" label="Company" placeholder="Company"
+                                        validationUrl="{% url 'recruitment:references_company_validation' %}" /></td>
+                                <td><c-input name="references_email[]" label="Email" placeholder="Email"
+                                        validationUrl="{% url 'recruitment:references_email_validation' %}" /></td>
+                                <td><button type="button" onclick="addReferenceRow()">+</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <script>
+                        function addReferenceRow() {
+                            const tableBody = document.getElementById("reference-rows");
+                            const rowCount = tableBody.rows.length;
+                            const newRow = tableBody.insertRow();
+
+                            newRow.innerHTML = `
+     <td class="ref-no">${rowCount + 1}</td>
+    <td><c-input name="references_name[]" label="Name" placeholder="Name" /></td>
+    <td><c-input name="references_position[]" label="Position" placeholder="Position" /></td>
+    <td><c-input name="references_company[]" label="Company" placeholder="Company" /></td>
+    <td><c-input name="references_email[]" label="Email" placeholder="Email" /></td>
+    <td><button type="button" onclick="removeReferenceRow(this)">–</button></td>
+  `;
+                        }
+
+                        function removeReferenceRow(button) {
+                            const row = button.closest("tr");
+                            row.remove();
+
+                            const rows = document.querySelectorAll("#reference-rows .ref-no");
+                            rows.forEach((cell, index) => {
+                                cell.textContent = index + 1;
+                            });
+                        }
+                    </script>
+
+                    <c-input id="cv" label="Documents" name="cv" type="file" required />
+
+                    {% if vacancy.requirements.all %}
+                    <div class="inline-flex items-center justify-center w-full md:my-10 col-span-2">
+                        <c-h4 title="Requirements" />
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
+                        {% for field in form %}
+                        {% if field.name|slice:":12" == "requirement_" %}
+                        {% if field.field.widget.input_type == 'text' %}
+                        <div class="col-span-2">
+                            <c-input id="{{ field.id }}" label="{{ field.label }}" placeholder="{{ field.label }}"
+                                name="{{ field.html_name }}" />
+                        </div>
+                        {% elif field.field.widget.input_type == 'date' %}
+                        <div class="col-span-2">
+                            <c-input id="{{ field.id }}" label="{{ field.label }}" type="date"
+                                name="{{ field.html_name }}" />
+                        </div>
+                        {% elif field.field.is_select %}
+                        <div class="col-span-2">
+                            <label for="{{ field.id }}"
+                                class="format dark:format-invert tracking-tight text-sky-900 dark:text-orange-500/90">
+                                {{ field.label }}{% if required or field.field.required %} <span
+                                    style="color:red">*</span>{% endif %}
+                            </label>
+                            <select name="{{ field.html_name }}" id="{{ field.id }}" {% if field.field.required
+                                %}required{% endif %}
+                                class="capitalize pr-10 inline-flex w-full items-center justify-between gap-2 border border-neutral-200 rounded-md bg-white px-4 py-2 text-sm font-medium tracking-wide transition hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:border-neutral-700 dark:bg-gray-800 dark:text-neutral-300 dark:focus-visible:outline-white">
+                                <option value="" class="text-gray-200">Please select</option>
+                                {% for value, label in field.field.choices %}
+                                <option value="{{label}}" class="text-neutral-600">{{label}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <div class="flex justify-center">
+                        <c-button label="Apply" type="submit" primary />
+                    </div>
+                </form>
+                <!-- Form End -->
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function handleFormSubmit(event) {
+        // event.preventDefault();
+        const form = document.getElementById('qualificationForm');
+        const formData = new FormData(form);
+        for (const [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
+        }
+        //form.submit(); // Uncomment to allow submission
+    }
+</script>
+>>>>>>> upstream/main
+
+{% endblock content %}
