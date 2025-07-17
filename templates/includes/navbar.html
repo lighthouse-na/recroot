@@ -1,0 +1,79 @@
+{% load static group_filter %}
+<nav id="{{ id }}" x-data="{ mobileMenuIsOpen: false, modalIsOpen: false, disabled: true }"
+     @click.away="mobileMenuIsOpen = false" @dblclick="disabled = !disabled"
+     class="sticky bg-white dark:bg-gray-900 flex items-center justify-between px-6 py-4 z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600 select-none"
+     aria-label="navbar">
+    <!-- Brand Logo -->
+    <c-logo url="{% url 'home' %}" label="Telecom Namibia" />
+
+    <!-- Desktop Menu -->
+    <div>
+        <template x-if="disabled === {% if user.is_authenticated %}true{% else %}false{% endif %}">
+            <ul class="hidden items-center gap-4 sm:flex">
+                {% if user.is_authenticated %}
+                    {% if user|is_in_group:"admin" %}
+                        <c-navbar.link url="{% url 'Admin:index' %}" label="Admin Dashboard" />
+                    {% endif %}
+                    {% if user|is_in_group:"recruiter" %}
+                        <c-navbar.link url="{% url 'Recruitment:index' %}" label="Recruiter Dashboard" />
+                    {% endif %}
+                {% else %}
+                    <c-navbar.link url="{% url 'Admin:index' %}" label="Admin" />
+                    <c-navbar.link url="{% url 'Recruitment:index' %}" label="Recruiter" />
+                {% endif %}
+            </ul>
+        </template>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    {#<button @click="mobileMenuIsOpen = !mobileMenuIsOpen" :aria-expanded="mobileMenuIsOpen"
+            :class="mobileMenuIsOpen ? 'fixed top-6 right-6 z-20' : null" type="button"
+            class="flex text-neutral-600 dark:text-neutral-300 sm:hidden" aria-label="mobile menu"
+            aria-controls="mobileMenu">
+        <svg x-cloak x-show="!mobileMenuIsOpen" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true"
+             viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+        <svg x-cloak x-show="mobileMenuIsOpen" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true"
+             viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
+    </button>#}
+    <!-- Mobile Menu -->
+    {#<ul x-cloak x-show="mobileMenuIsOpen"
+        x-transition:enter="transition motion-reduce:transition-none ease-out duration-300"
+        x-transition:enter-start="-translate-y-full" x-transition:enter-end="translate-y-0"
+        x-transition:leave="transition motion-reduce:transition-none ease-out duration-300"
+        x-transition:leave-start="translate-y-0" x-transition:leave-end="-translate-y-full"
+        class="fixed max-h-svh overflow-y-auto inset-x-0 top-0 z-10 flex flex-col rounded-b-md border-b border-neutral-300 bg-neutral-50 px-8 pb-6 pt-10 dark:border-neutral-700 dark:bg-neutral-900 sm:hidden">
+        <li class="mb-4 border-none">
+            <div class="flex items-center gap-2 py-2">
+                <img src="https://penguinui.s3.amazonaws.com/component-assets/avatar-8.webp" alt="User Profile"
+                     class="size-12 rounded-full object-cover" />
+                <div>
+                    <span class="font-medium text-neutral-900 dark:text-gray-200">Alice Brown</span>
+                    <p class="text-sm text-neutral-600 dark:text-neutral-300">alice.brown@gmail.com</p>
+                </div>
+            </div>
+        </li>
+        <li class="p-2"><a href="#" class="w-full text-lg font-bold text-black focus:underline dark:text-gray-200"
+                           aria-current="page">Products</a></li>
+        <li class="p-2"><a href="#"
+                           class="w-full text-lg font-medium text-neutral-600 focus:underline dark:text-neutral-300">Pricing</a>
+        </li>
+        <li class="p-2"><a href="#"
+                           class="w-full text-lg font-medium text-neutral-600 focus:underline dark:text-neutral-300">Blog</a></li>
+        <hr role="none" class="my-2 border-outline dark:border-neutral-700">
+        <li class="p-2"><a href="#" class="w-full text-neutral-600 focus:underline dark:text-neutral-300">Dashboard</a>
+        </li>
+        <li class="p-2"><a href="#"
+                           class="w-full text-neutral-600 focus:underline dark:text-neutral-300">Subscription</a></li>
+        <li class="p-2"><a href="#" class="w-full text-neutral-600 focus:underline dark:text-neutral-300">Settings</a>
+        </li>
+        <!-- CTA Button -->
+        <li class="mt-4 w-full border-none"><a href="#"
+                                               class="rounded-md bg-black px-4 py-2 block text-center font-medium tracking-wide text-neutral-100 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:opacity-100 active:outline-offset-0 dark:bg-white dark:text-black dark:focus-visible:outline-white">Sign
+            Out</a></li>
+    </ul>#}
+</nav>
+<hr>
