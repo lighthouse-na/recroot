@@ -4,7 +4,7 @@
 #     "login": "apps.accounts.forms.CustomLoginForm",
 # }
 
-LOGIN_URL = "home"
+LOGIN_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = "/dashboard/staff/"
 ACCOUNT_ADAPTER = "apps.accounts.adapters.MyAccountAdapter"
 ACCOUNT_EMAIL_REQUIRED = True

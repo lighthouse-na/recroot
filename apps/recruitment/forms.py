@@ -6,6 +6,8 @@ from django.utils import timezone
 from phonenumber_field.formfields import PhoneNumberField
 from tinymce.widgets import TinyMCE
 from unfold.widgets import UnfoldAdminSelectWidget
+from import_export.forms import SelectableFieldsExportForm # Added this import
+
 
 from .models import (
     Application,
@@ -15,6 +17,23 @@ from .models import (
     SelectQuestionTypeOptions,
     Vacancy,
 )
+
+
+class ApplicationExportForm(SelectableFieldsExportForm):
+    year = forms.ChoiceField(
+        choices=[],
+        required=False,
+        label="Filter by Year",
+        help_text="Select a year to export applications from that year."
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Populate year choices dynamically
+        years = Application.objects.all().dates('submitted_at', 'year')
+        unique_years = sorted(list(set([year.year for year in years])), reverse=True)
+        self.fields['year'].choices = [('', 'All Years')] + [(str(year), str(year)) for year in unique_years]
+
 
 # **********************************************************************************************
 #                                       VACANCY

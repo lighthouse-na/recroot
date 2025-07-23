@@ -11,6 +11,7 @@ from unfold.contrib.filters.admin import RangeDateFilter
 from unfold.contrib.import_export.forms import SelectableFieldsExportForm
 
 from .forms import (
+    ApplicationExportForm, # Added this import
     ApplicationReviewForm,
     InterviewForm,
     MinimumRequirementsAddForm,
@@ -159,7 +160,7 @@ class VacancyFilter(admin.SimpleListFilter):
         else:
             vacancies = Vacancy.objects.filter(reviewers=request.user).distinct()  # Restricted for normal users
 
-        return [(vac.id, vac.title) for vac in vacancies]
+        return [(str(vac.id), vac.title) for vac in vacancies]
 
     def queryset(self, request, queryset):
         """Filter the queryset based on selected vacancy."""
@@ -168,10 +169,26 @@ class VacancyFilter(admin.SimpleListFilter):
         return queryset
 
 
+class ApplicationYearFilter(admin.SimpleListFilter):
+    title = _('Year')
+    parameter_name = 'application_year'
+
+    def lookups(self, request, model_admin):
+        # Get distinct years from submitted_at field
+        years = Application.objects.all().dates('submitted_at', 'year')
+        unique_years = sorted(list(set([year.year for year in years])), reverse=True)
+        return [(str(year), str(year)) for year in unique_years]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(submitted_at__year=self.value())
+        return queryset
+
+
 @admin.register(Application)
 class ApplicationAdmin(ModelAdmin, ExportActionModelAdmin):
     model = Application
-    export_form_class = SelectableFieldsExportForm
+    export_form_class = ApplicationExportForm # Changed to custom form
 
     readonly_fields = [
         "first_name",
@@ -199,7 +216,7 @@ class ApplicationAdmin(ModelAdmin, ExportActionModelAdmin):
         "is_internal",
         "submitted_at",
     ]
-    list_filter = (VacancyFilter, "status", "submitted_at")
+    list_filter = (VacancyFilter, ApplicationYearFilter, "status", "submitted_at")
     search_fields = ("first_name", "last_name", "email")
     inlines = [ApplicantResponseInline]
 
@@ -302,6 +319,20 @@ class ApplicationAdmin(ModelAdmin, ExportActionModelAdmin):
 
     # Adding description for the CV field link in the list display
     view_cv.short_description = "CV"
+
+    def get_export_queryset(self, request):
+        # Always start with the full queryset for applications, ignoring list view filters
+        queryset = self.model.objects.all()
+
+        # Get the year from the export form submission
+        form = self.export_form_class(self.get_export_formats(), data=request.POST or None, resources=self.get_export_resource_classes(request))
+
+        if form.is_valid():
+            year = form.cleaned_data.get('year')
+            if year: # If a specific year is selected (not 'All Years' which is '')
+                queryset = queryset.filter(submitted_at__year=year)
+        # If form is not valid, or year is empty, return the full queryset (unfiltered by year)
+        return queryset
 
 
 # **********************************************************************************************

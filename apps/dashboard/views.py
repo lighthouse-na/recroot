@@ -22,7 +22,8 @@ class AdminLoginView(CustomLoginView): ...
 
 
 class StaffLoginView(CustomLoginView):
-    success_url = "/dashboard/staff/"
+    def get_success_url(self):
+        return reverse("Staff:index")
 
 
 class RecruiterLoginView(CustomLoginView): ...
