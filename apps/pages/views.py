@@ -17,10 +17,15 @@ def index(request):
     announcements = Announcement.objects.filter(deadline__gt=timezone.now(), is_visible=True, is_external=True)
     faqs = FAQ.objects.filter(is_visible=True)
 
+    user_groups = []
+    if request.user.is_authenticated:
+        user_groups = [group.name for group in request.user.groups.all()]
+
     context = {
         "vacancies": vacancies,
         "announcements": announcements,
         "faqs": faqs,
+        "user_groups": user_groups,
     }
     return render(request, template_name, context)
 
