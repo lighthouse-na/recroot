@@ -53,6 +53,11 @@ urlpatterns = [
         name="interview_response_success",
     ),
     path(
+        "applications/<uuid:pk>/contact/edit/",
+        views.ApplicationContactUpdateView.as_view(),
+        name="application_contact_update",
+    ),
+    path(
         "applications/",
         views.ApplicationsListView.as_view(),
         name="applications_list",
