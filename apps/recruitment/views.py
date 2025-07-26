@@ -27,10 +27,30 @@ from apps.recruitment.models import (
 )
 
 
-class ApplicationContactUpdateView(UpdateView):
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
+from django.conf import settings
+
+
+class ApplicationContactUpdateView(LoginRequiredMixin, UpdateView):
     model = Application
     form_class = ApplicationContactForm
     template_name = "recruitment/application/contact_form.html"
+
+    def get_template_names(self):
+        if self.request.headers.get('HX-Request') == 'true':
+            return ["recruitment/application/contact_form.html"]
+        return [self.template_name]
+
+    def get_redirect_url(self):
+        if self.request.headers.get('HX-Request') == 'true':
+            return None  # Prevent redirect for HTMX requests
+        return super().get_redirect_url()
+
+    def handle_no_permission(self):
+        if self.request.headers.get('HX-Request') == 'true':
+            return HttpResponse(status=401, headers={'HX-Redirect': settings.LOGIN_URL})
+        return super().handle_no_permission()
 
     def get_success_url(self):
         return self.request.META.get("HTTP_REFERER", reverse_lazy("admin:recruitment_application_changelist"))
