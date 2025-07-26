@@ -76,6 +76,15 @@ class ApplicationReviewForm(forms.ModelForm):
         fields = ["status", "review_comments"]
 
 
+class ApplicationContactForm(forms.ModelForm):
+    primary_contact = PhoneNumberField(region="NA")
+    secondary_contact = PhoneNumberField(region="NA", required=False)
+
+    class Meta:
+        model = Application
+        fields = ["primary_contact", "secondary_contact"]
+
+
 class ApplicationForm(forms.ModelForm):
     # captcha = ReCaptchaField(
     #     public_key=env("RECAPTCHA_V2_PUBLIC_KEY"),

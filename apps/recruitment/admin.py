@@ -189,6 +189,7 @@ class ApplicationYearFilter(admin.SimpleListFilter):
 class ApplicationAdmin(ModelAdmin, ExportActionModelAdmin):
     model = Application
     export_form_class = ApplicationExportForm # Changed to custom form
+    change_form_template = 'admin/recruitment/application/change_form.html'
 
     readonly_fields = [
         "first_name",
